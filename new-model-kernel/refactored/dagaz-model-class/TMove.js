@@ -1,4 +1,4 @@
-class TMove {
+export class TMove {
     constructor(mode) {
       this.actions = [];
       this.mode    = mode;

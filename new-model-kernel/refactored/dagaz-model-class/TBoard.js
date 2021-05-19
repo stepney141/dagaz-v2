@@ -1,4 +1,7 @@
-class TBoard {
+import { TMove } from "./TMove.js";
+import { TMoveContext } from "./TMoveContext.js";
+
+export class TBoard {
     constructor(design) {
       this.design = design;
       this.pieces = [];

@@ -1,4 +1,6 @@
-class TMoveContext {
+import { TMove } from "./TMove.js";
+
+export class TMoveContext {
     constructor(design, board, pos, piece) {
       this.design  = design;
       this.board   = board;

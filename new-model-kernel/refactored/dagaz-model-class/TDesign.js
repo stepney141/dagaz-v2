@@ -1,4 +1,7 @@
-class TDesign {
+import { TPiece } from "./TPiece.js";
+import { TBoard } from "./TBoard.js";
+
+export class TDesign {
     constructor() {
       this.dirs          = [];
       this.players       = [];
