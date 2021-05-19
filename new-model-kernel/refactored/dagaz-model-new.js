@@ -1,22 +1,21 @@
-import { TDesign } from "./dagaz-model-class/TDesign";
+import { _ } from "underscore";
+import { TDesign } from "./dagaz-model-class/TDesign.js";
 
-(function () {
-  games = {
-    model: {
-      passTurn: false,
-      passPartial: false,
-      sharedPieces: false,
-      deferredCaptures: false
-    },
-    view:  []
-  };
+const games = {
+  model: {
+    passTurn: false,
+    passPartial: false,
+    sharedPieces: false,
+    deferredCaptures: false
+  },
+  view:  []
+};
 
-  games.model.getDesign = function() {
-    if (_.isUndefined(games.model.design)) {
-        games.model.design = new TDesign();
-    }
-    return games.model.design;
+games.model.getDesign = function() {
+  if (_.isUndefined(games.model.design)) {
+    games.model.design = new TDesign();
   }
+  return games.model.design;
+};
 
-  games.model.BuildDesign = function(design) {}
-})();
+games.model.BuildDesign = function (design) { };
