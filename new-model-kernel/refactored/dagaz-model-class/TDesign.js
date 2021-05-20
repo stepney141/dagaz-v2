@@ -1,4 +1,5 @@
 import { _ } from "underscore";
+import { games } from "../dagaz-model-object.js";
 import { TPiece } from "./TPiece.js";
 import { TBoard } from "./TBoard.js";
 
