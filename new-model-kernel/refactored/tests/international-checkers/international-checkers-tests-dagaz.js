@@ -1,4 +1,6 @@
-QUnit.test( "Man promotion", function( assert ) {
+import { games } from "../../../refactored/dagaz-model-new.js";
+
+QUnit.test("Man promotion", function (assert) {
   var design = games.model.getDesign();
   var board = design.getInitBoard().copy();
   assert.equal( board.player , 1, "White move");

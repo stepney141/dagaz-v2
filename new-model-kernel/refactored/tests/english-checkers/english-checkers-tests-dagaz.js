@@ -1,4 +1,6 @@
-QUnit.test( "Initial Board", function( assert ) {
+import { games } from "../../dagaz-model-new.js";
+
+QUnit.test("Initial Board", function (assert) {
   var design = games.model.getDesign();
   var board = design.getInitBoard();
   assert.equal( board.player , 1, "Black move");

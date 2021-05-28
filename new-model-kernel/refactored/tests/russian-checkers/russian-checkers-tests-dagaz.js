@@ -1,4 +1,7 @@
-QUnit.test( "King Moves", function( assert ) {
+import _ from "../../../../dependencies/underscore-esm-min.js";
+import { games } from "../../../refactored/dagaz-model-new.js";
+
+QUnit.test("King Moves", function (assert) {
   var design = games.model.getDesign();
   var board = design.getInitBoard().copy();
   assert.equal( board.player , 1, "White move");

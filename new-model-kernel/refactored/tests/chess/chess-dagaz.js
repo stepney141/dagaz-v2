@@ -1,110 +1,113 @@
-(function() {
+import _ from "../../../../dependencies/underscore-esm-min.js";
+import { games } from "../../dagaz-model-new.js";
 
-var step = function(ctx, params) {
+(function () {
+
+  var step = function(ctx, params) {
     if (ctx.go(params, 0) && !ctx.isFriend()) {
-        ctx.end();
+      ctx.end();
     }
-}
+  };
 
-var pawnShift = function(ctx, params) {
+  var pawnShift = function(ctx, params) {
     if (ctx.go(params, 0) && ctx.isEmpty()) {
-        if (ctx.inZone(0)) {
-            ctx.promote(4);
-        }    
-        ctx.end();
+      if (ctx.inZone(0)) {
+        ctx.promote(4);
+      }    
+      ctx.end();
     }
-}
+  };
 
-var pawnLeap = function(ctx, params) {
+  var pawnLeap = function(ctx, params) {
     if (ctx.go(params, 0) && ctx.isEnemy()) {
-        if (ctx.inZone(0)) {
-            ctx.promote(4);
-        }    
-        ctx.end();
+      if (ctx.inZone(0)) {
+        ctx.promote(4);
+      }    
+      ctx.end();
     }
-}
+  };
 
-var pawnJump = function(ctx, params) {
+  var pawnJump = function(ctx, params) {
     if (ctx.go(params, 0) && 
         ctx.isEmpty() && 
         ctx.inZone(1) && 
         ctx.go(params, 0) && 
         ctx.isEmpty()) {
-        ctx.end();
+      ctx.end();
     }
-}
+  };
 
-var enPassant = function(ctx, params) {
+  var enPassant = function(ctx, params) {
     if (ctx.go(params, 0) &&
         ctx.isEnemy() &&
         ctx.isPiece(0)) {
-        ctx.capture();
-        if (ctx.go(params, 1)) {
-            ctx.put();
-            if (ctx.go(params, 1) &&
+      ctx.capture();
+      if (ctx.go(params, 1)) {
+        ctx.put();
+        if (ctx.go(params, 1) &&
                 ctx.isLastFrom()) {
-                ctx.end();
-            }
+          ctx.end();
         }
+      }
     }
-}
+  };
 
-var jump = function(ctx, params) {
+  var jump = function(ctx, params) {
     if (ctx.go(params, 0) && 
         ctx.go(params, 1) && 
        !ctx.isFriend()) {
-        ctx.end();
+      ctx.end();
     }
-}
+  };
 
-var slide = function(ctx, params) {
+  var slide = function(ctx, params) {
     while (ctx.go(params, 0)) {
-        if (ctx.isFriend()) break;
-        ctx.end();
-        if (!ctx.isEmpty()) break;
+      if (ctx.isFriend()) break;
+      ctx.end();
+      if (!ctx.isEmpty()) break;
     }
-}
+  };
 
-var O_O = function(ctx, params) {
+  var O_O = function(ctx, params) {
     if (ctx.go(params, 0) &&
         ctx.isEmpty() &&
         ctx.go(params, 0) &&
         ctx.isEmpty()) {
-        ctx.put();
-        if (ctx.go(params, 0) &&
+      ctx.put();
+      if (ctx.go(params, 0) &&
             ctx.isFriend() &&
             ctx.isPiece(1)) {
-            ctx.take();
-            if (ctx.go(params, 1) &&
+        ctx.take();
+        if (ctx.go(params, 1) &&
                 ctx.go(params, 1)) {
-                ctx.end();
-            }
+          ctx.end();
         }
+      }
     }
-}
+  };
 
-var O_O_O = function(ctx, params) {
+  var O_O_O = function(ctx, params) {
     if (ctx.go(params, 0) &&
         ctx.isEmpty() &&
         ctx.go(params, 0) &&
         ctx.isEmpty()) {
-        ctx.put();
-        if (ctx.go(params, 0) &&
+      ctx.put();
+      if (ctx.go(params, 0) &&
             ctx.isEmpty() &&
             ctx.go(params, 0) &&
             ctx.isFriend() &&
             ctx.isPiece(1)) {
-            ctx.take();
-            if (ctx.go(params, 1) &&
+        ctx.take();
+        if (ctx.go(params, 1) &&
                 ctx.go(params, 1) &&
                 ctx.go(params, 1)) {
-                ctx.end();
-            }
+          ctx.end();
         }
+      }
     }
-}
+  };
 
-games.model.BuildDesign = function(design) {
+  games.model.BuildDesign = function(design) {
     design.checkVersion("smart-moves", "false");
 
     design.addDirection("w");  // 0
@@ -253,9 +256,9 @@ games.model.BuildDesign = function(design) {
     design.setup("Black", "Bishop", ["c8", "f8"]);
     design.setup("Black", "Queen", ["d8"]);
     design.setup("Black", "King", ["e8"]);
-}
+  };
 
-games.view.configure = function(view) {
+  games.view.configure = function(view) {
     view.defBoard("Board");
     view.defPiece("WhitePawn", "White Pawn");
     view.defPiece("BlackPawn", "Black Pawn");
@@ -334,6 +337,6 @@ games.view.configure = function(view) {
     view.defPosition("f1", 252, 352, 50, 50);
     view.defPosition("g1", 302, 352, 50, 50);
     view.defPosition("h1", 352, 352, 50, 50);
-}
+  };
 
 })();

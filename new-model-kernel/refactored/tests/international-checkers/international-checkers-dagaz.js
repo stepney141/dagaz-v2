@@ -1,52 +1,54 @@
-(function() {
+import { games } from "../../../refactored/dagaz-model-new.js";
 
-var shiftMan = function(ctx, params) {
+(function () {
+
+  var shiftMan = function(ctx, params) {
     if (ctx.go(params, 0) && ctx.isEmpty()) {
-        ctx.end();
+      ctx.end();
     }
-}
+  };
 
-var jumpMan = function(ctx, params) {
+  var jumpMan = function(ctx, params) {
     if (ctx.go(params, 0) && ctx.isEnemy()) {
-        ctx.capture();
-        if (ctx.go(params, 0) && ctx.isEmpty()) {
-            ctx.end(1);
-        }
+      ctx.capture();
+      if (ctx.go(params, 0) && ctx.isEmpty()) {
+        ctx.end(1);
+      }
     }
-}
+  };
 
-var shiftKing = function(ctx, params) {
+  var shiftKing = function(ctx, params) {
     while (ctx.go(params, 0) && ctx.isEmpty()) {
-        ctx.end();
+      ctx.end();
     }
-}
+  };
 
-var jumpKing = function(ctx, params) {
+  var jumpKing = function(ctx, params) {
     while (ctx.go(params, 0)) {
-        if (!ctx.isEmpty()) break;
+      if (!ctx.isEmpty()) break;
     }
     if (ctx.isEnemy()) {
-        ctx.capture();
-        while (ctx.go(params, 0) && ctx.isEmpty()) {
-            ctx.end(2);
-        }
+      ctx.capture();
+      while (ctx.go(params, 0) && ctx.isEmpty()) {
+        ctx.end(2);
+      }
     }
-}
+  };
 
-var contKing = function(ctx, params) {
+  var contKing = function(ctx, params) {
     while (ctx.go(params, 0)) {
-        if (!ctx.isEmpty()) break;
-        if (ctx.isLastFrom()) return;
+      if (!ctx.isEmpty()) break;
+      if (ctx.isLastFrom()) return;
     }
     if (ctx.isEnemy()) {
-        ctx.capture();
-        while (ctx.go(params, 0) && ctx.isEmpty()) {
-            ctx.end(2);
-        }
+      ctx.capture();
+      while (ctx.go(params, 0) && ctx.isEmpty()) {
+        ctx.end(2);
+      }
     }
-}
+  };
 
-games.model.BuildDesign = function(design) {
+  games.model.BuildDesign = function(design) {
     design.checkVersion("smart-moves", "true");
     design.checkVersion("maximal-captures", "true");
     design.checkVersion("deferred-captures", "true");
@@ -190,9 +192,9 @@ games.model.BuildDesign = function(design) {
 
     design.setup("White", "Man", ["a1", "c1", "e1", "g1", "i1", "b2", "d2", "f2", "h2", "j2", "a3", "c3", "e3", "g3", "i3", "b4", "d4", "f4", "h4", "j4"]);
     design.setup("Black", "Man", ["b10", "d10", "f10", "h10", "j10", "a9", "c9", "e9", "g9", "i9", "b8", "d8", "f8", "h8", "j8", "a7", "c7", "e7", "g7", "i7"]);
-}
+  };
 
-games.view.configure = function(view) {
+  games.view.configure = function(view) {
     view.defBoard("Board");
     view.defPiece("WhiteMan", "White Man");
     view.defPiece("BlackMan", "Black Man");
@@ -299,6 +301,6 @@ games.view.configure = function(view) {
     view.defPosition("h1", 352, 452, 50, 50);
     view.defPosition("i1", 402, 452, 50, 50);
     view.defPosition("j1", 452, 452, 50, 50);
-}
+  };
 
 })();

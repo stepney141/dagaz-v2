@@ -1,4 +1,4 @@
-import { _ } from "underscore";
+import _ from "../../dependencies/underscore-esm-min.js";
 import { games } from "./dagaz-model-object.js";
 import { TDesign } from "./dagaz-model-class/TDesign.js";
 
@@ -10,3 +10,5 @@ games.model.getDesign = function() {
 };
 
 games.model.BuildDesign = function (design) { };
+
+export { games };

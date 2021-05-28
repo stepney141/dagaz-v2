@@ -5,8 +5,5 @@
   "type": "module",
   "dependencies": {
     "underscore": "^1.13.1"
-  },
-  "devDependencies": {
-    "qunit": "^2.15.0"
   }
 }

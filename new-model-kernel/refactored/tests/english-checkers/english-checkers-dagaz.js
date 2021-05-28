@@ -1,44 +1,46 @@
-(function() {
+import { games } from "../../dagaz-model-new.js";
 
-var shiftMan = function(ctx, params) {
+(function () {
+
+  var shiftMan = function(ctx, params) {
     if (ctx.go(params, 0) && ctx.isEmpty()) {
+      if (ctx.inZone(0)) {
+        ctx.promote(1);
+      }    
+      ctx.end();
+    }
+  };
+
+  var shiftKing = function(ctx, params) {
+    if (ctx.go(params, 0) && ctx.isEmpty()) {
+      ctx.end();
+    }
+  };
+
+  var jumpMan = function(ctx, params) {
+    if (ctx.go(params, 0) && ctx.isEnemy()) {
+      ctx.capture();
+      if (ctx.go(params, 0) && ctx.isEmpty()) {
         if (ctx.inZone(0)) {
-            ctx.promote(1);
-        }    
-        ctx.end();
-    }
-}
-
-var shiftKing = function(ctx, params) {
-    if (ctx.go(params, 0) && ctx.isEmpty()) {
-        ctx.end();
-    }
-}
-
-var jumpMan = function(ctx, params) {
-    if (ctx.go(params, 0) && ctx.isEnemy()) {
-        ctx.capture();
-        if (ctx.go(params, 0) && ctx.isEmpty()) {
-            if (ctx.inZone(0)) {
-                ctx.promote(1);
-                ctx.end();
-            } else {
-                ctx.end(1);
-            }
+          ctx.promote(1);
+          ctx.end();
+        } else {
+          ctx.end(1);
         }
+      }
     }
-}
+  };
 
-var jumpKing = function(ctx, params) {
+  var jumpKing = function(ctx, params) {
     if (ctx.go(params, 0) && ctx.isEnemy()) {
-        ctx.capture();
-        if (ctx.go(params, 0) && ctx.isEmpty()) {
-            ctx.end(1);
-        }
+      ctx.capture();
+      if (ctx.go(params, 0) && ctx.isEmpty()) {
+        ctx.end(1);
+      }
     }
-}
+  };
 
-games.model.BuildDesign = function(design) {
+  games.model.BuildDesign = function(design) {
     design.checkVersion("smart-moves", "true");
 
     design.addDirection("ne"); // 0
@@ -138,9 +140,9 @@ games.model.BuildDesign = function(design) {
 
     design.setup("Black", "Man", ["a3", "c3", "e3", "g3", "b2", "d2", "f2", "h2", "a1", "c1", "e1", "g1"]);
     design.setup("White", "Man", ["b8", "d8", "f8", "h8", "a7", "c7", "e7", "g7", "b6", "d6", "f6", "h6"]);
-}
+  };
 
-games.view.configure = function(view) {
+  games.view.configure = function(view) {
     view.defBoard("Board");
     view.defPiece("WhiteMan", "White Man");
     view.defPiece("BlackMan", "Black Man");
@@ -211,6 +213,6 @@ games.view.configure = function(view) {
     view.defPosition("f1", 252, 352, 50, 50);
     view.defPosition("g1", 302, 352, 50, 50);
     view.defPosition("h1", 352, 352, 50, 50);
-}
+  };
 
 })();

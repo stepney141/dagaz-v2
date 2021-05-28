@@ -1,4 +1,4 @@
-import { _ } from "underscore";
+import _ from "../../../dependencies/underscore-esm-min.js";
 
 export class TMove {
   constructor(mode) {
