@@ -216,3 +216,5 @@ import { games } from "../../dagaz-model-new.js";
   };
 
 })();
+
+export { games };

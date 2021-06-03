@@ -239,3 +239,5 @@ import { games } from "../../../refactored/dagaz-model-new.js";
   };
 
 })();
+
+export { games };

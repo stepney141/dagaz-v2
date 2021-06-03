@@ -1,4 +1,4 @@
-import { games } from "../../../refactored/dagaz-model-new.js";
+import { games } from "./international-checkers-dagaz.js";
 
 QUnit.test("Man promotion", function (assert) {
   var design = games.model.getDesign();

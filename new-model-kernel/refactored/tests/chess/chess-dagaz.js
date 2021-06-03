@@ -1,5 +1,5 @@
 import _ from "../../../../dependencies/underscore-esm-min.js";
-import { games } from "../../dagaz-model-new.js";
+import { games } from "./chess-dagaz-invariant.js";
 
 (function () {
 
@@ -340,3 +340,5 @@ import { games } from "../../dagaz-model-new.js";
   };
 
 })();
+
+export { games };

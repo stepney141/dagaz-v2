@@ -1,5 +1,5 @@
 import _ from "../../../../dependencies/underscore-esm-min.js";
-import { games } from "../../../refactored/dagaz-model-new.js";
+import { games } from "./russian-checkers-dagaz.js";
 
 QUnit.test("King Moves", function (assert) {
   var design = games.model.getDesign();

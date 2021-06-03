@@ -1,4 +1,4 @@
-import { games } from "../../../refactored/dagaz-model-new.js";
+import { games } from "./international-checkers-dagaz-promotion.js";
 
 (function () {
 
@@ -304,3 +304,5 @@ import { games } from "../../../refactored/dagaz-model-new.js";
   };
 
 })();
+
+export { games };
