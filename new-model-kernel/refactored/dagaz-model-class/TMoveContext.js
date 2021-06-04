@@ -1,5 +1,5 @@
 import _ from "../../../dependencies/underscore-esm-min.js";
-import { games } from "../dagaz-model-object.js";
+import { games } from "../dagaz-model-new.js";
 import { TMove } from "./TMove.js";
 
 export class TMoveContext {

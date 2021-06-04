@@ -1,6 +1,15 @@
 import _ from "../../dependencies/underscore-esm-min.js";
-import { games } from "./dagaz-model-object.js";
 import { TDesign } from "./dagaz-model-class/TDesign.js";
+
+const games = {
+  model: {
+    passTurn: false,
+    passPartial: false,
+    sharedPieces: false,
+    deferredCaptures: false
+  },
+  view:  []
+};
 
 games.model.getDesign = function() {
   if (_.isUndefined(games.model.design)) {
