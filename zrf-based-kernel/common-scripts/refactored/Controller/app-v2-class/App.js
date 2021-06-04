@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { Dagaz } from '../../../dagaz.js';
+import { Dagaz } from '../../../../dagaz.js';
 
 export class App {
   constructor(canvas, params) {

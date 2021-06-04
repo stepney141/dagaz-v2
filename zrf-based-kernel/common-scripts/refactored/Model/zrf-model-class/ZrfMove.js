@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { Dagaz } from '../../../dagaz.js';
+import { Dagaz } from '../../../../old/dagaz.js';
 
 export class ZrfMove {
   constructor(mode, serial, sound) {
