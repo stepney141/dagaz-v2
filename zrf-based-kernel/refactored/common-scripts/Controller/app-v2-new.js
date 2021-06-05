@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { Dagaz } from '../../old/dagaz.js';
+import { Dagaz } from '../../old/dagaz.js.js';
 
 (function () {
   var STATE = {

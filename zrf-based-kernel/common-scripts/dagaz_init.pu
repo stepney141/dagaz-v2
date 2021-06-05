@@ -1,9 +1,0 @@
-@startuml
-title Dagaz initializing a new Game
-
-Dagaz.InitGame -> Dagaz.Model.getDesign: call
-
-Dagaz.Controller.createAppCanvas -> App: new App(Canvas)
-App --> Dagaz.Controller.App: return new App(Canvas)
-
-@enduml
