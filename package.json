@@ -2,8 +2,5 @@
   "name": "dagaz-new",
   "version": "1.0.0",
   "description": "",
-  "type": "module",
-  "dependencies": {
-    "underscore": "^1.13.1"
-  }
+  "type": "module"
 }
