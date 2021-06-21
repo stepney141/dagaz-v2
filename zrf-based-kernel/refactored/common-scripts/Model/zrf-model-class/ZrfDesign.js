@@ -1,5 +1,6 @@
 import _ from 'underscore';
 import { Dagaz } from '../../dagaz.js';
+import { ZrfGrid } from './ZrfGrid.js';
 
 export class ZrfDesign {
   constructor() {

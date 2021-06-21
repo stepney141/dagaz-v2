@@ -1,5 +1,5 @@
 import _ from 'underscore';
-import { Dagaz } from '../../../dagaz.js';
+import { Dagaz } from '../../dagaz.js';
 
 var addPositions = function(self, ix, name, point) {
   if (ix < 0) {
@@ -145,3 +145,5 @@ var isValidMove = function(move) {
     .max()
     .value();
 };
+
+export { addPositions, copyArray, isCaptured, addPrior, CompleteMove, cartesian, pushItem, isValidAction, isValidMove };

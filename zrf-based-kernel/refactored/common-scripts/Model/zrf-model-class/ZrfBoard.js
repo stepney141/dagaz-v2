@@ -1,5 +1,8 @@
 import _ from 'underscore';
-import { Dagaz } from '../../../dagaz.js';
+import { Dagaz } from '../../dagaz.js';
+import { addPrior, CompleteMove } from './utils.js';
+import { ZrfMove } from './ZrfMove.js';
+import { ZrfPiece } from 'ZrfPiece.js';
 
 export class ZrfBoard {
   constructor(game) {

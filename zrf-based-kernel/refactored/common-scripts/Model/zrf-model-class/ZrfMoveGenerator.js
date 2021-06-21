@@ -1,5 +1,7 @@
 import _ from 'underscore';
 import { Dagaz } from '../../dagaz.js';
+import { ZrfMove } from './ZrfMove.js';
+import { isCaptured, copyArray } from './utils.js';
 
 export class ZrfMoveGenerator {
   constructor(design, mode, serial, sound) {
