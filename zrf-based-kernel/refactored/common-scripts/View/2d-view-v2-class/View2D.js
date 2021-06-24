@@ -1,5 +1,5 @@
-import _ from 'underscore';
-import { Dagaz } from '../../../../dagaz.js';
+import _ from '../../../../../dependencies/underscore-esm-min.js';
+import { Dagaz } from '../../dagaz.js';
 
 export class View2D {
   constructor() {

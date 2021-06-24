@@ -1,6 +1,5 @@
-import _ from 'underscore';
-import { Dagaz } from '../../../../dagaz.js';
-
+import _ from '../../../../../dependencies/underscore-esm-min.js';
+import { Dagaz } from '../../dagaz.js';
 export class App {
   constructor(canvas, params) {
     this.design = Dagaz.Model.getDesign();
