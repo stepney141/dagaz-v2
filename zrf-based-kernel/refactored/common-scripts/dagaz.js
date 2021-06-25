@@ -1,5 +1,9 @@
 import _ from '../../dependencies/underscore-esm-min.js';
 
+/**
+ * a namespace of Dagaz
+ * @namespace Dagaz
+ */
 const Dagaz = {
   Model:      {},
   View:       {},

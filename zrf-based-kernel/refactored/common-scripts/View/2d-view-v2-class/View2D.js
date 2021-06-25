@@ -49,6 +49,15 @@ export class View2D {
     this.drops = [];
   }
 
+  /**
+   * set up screen coordinates of a position on the board
+   * @param {*} name 
+   * @param {*} x 
+   * @param {*} y 
+   * @param {*} dx 
+   * @param {*} dy 
+   * @param {*} selector  
+   */
   defPosition(name, x, y, dx, dy, selector) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getResourceSelector())) return;
     this.pos.push({
@@ -60,6 +69,14 @@ export class View2D {
     });
   }
 
+  /**
+   * set up graphic resources for the board
+   * @param {*} img 
+   * @param {*} x 
+   * @param {*} y 
+   * @param {*} selector 
+   * @param {*} turns 
+   */
   defBoard(img, x, y, selector, turns) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getResourceSelector())) return;
     var board = {
@@ -72,6 +89,13 @@ export class View2D {
     this.back.push(board);
   }
 
+  /**
+   * set up graphic resources for a piece
+   * @param {*} img 
+   * @param {*} name 
+   * @param {*} help 
+   * @param {*} glyph 
+   */
   defPiece(img, name, help, glyph) {
     var piece = {
       h:    document.getElementById(img),

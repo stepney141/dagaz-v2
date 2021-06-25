@@ -2,6 +2,9 @@ import _ from 'underscore';
 import { Dagaz } from '../../dagaz.js';
 import { ZrfGrid } from './ZrfGrid.js';
 
+/**
+ * Class representing a design of a game
+ */
 export class ZrfDesign {
   constructor() {
     this.playerNames    = [];
@@ -50,6 +53,13 @@ export class ZrfDesign {
     }
   }
 
+  /**
+   * define initial arrangements of a piece
+   * @param {*} player 
+   * @param {*} piece 
+   * @param {*} pos 
+   * @param {*} selector 
+   */
   setup(player, piece, pos, selector) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getSetupSelector())) {
       return;
@@ -109,11 +119,22 @@ export class ZrfDesign {
     return this.templates[ix];
   }
 
+  /**
+   * define a description of moves of pieces by the stackmachine commands
+   * @deprecated in future updates
+   * @param {*} ix 
+   * @param {*} name 
+   * @param {*} param 
+   */
   addCommand(ix, name, param) {
     var template = this.getTemplate(ix);
     template.addCommand(name, param);
   }
 
+  /**
+   * define priority on the mode of moves. For example, capture in checkers are kind of priority
+   * @param {*} mode 
+   */
   addPriority(mode) {
     this.modes.push(mode);
   }
@@ -135,11 +156,26 @@ export class ZrfDesign {
     return this.attrs[name][type];
   }
 
+  /**
+   * define a piece and its numerical value
+   * @param {*} name 
+   * @param {*} type 
+   * @param {*} price 
+   */
   addPiece(name, type, price) {
     this.pieceNames[type] = name;
     this.price[type] = price ? price : 1;
   }
 
+  /**
+   * define a possible movement of a piece
+   * @param {*} type 
+   * @param {*} template 
+   * @param {*} params 
+   * @param {*} mode 
+   * @param {*} sound 
+   * @param {*} selector 
+   */
   addMove(type, template, params, mode, sound, selector) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getSetupSelector())) {
       return;
@@ -176,6 +212,12 @@ export class ZrfDesign {
     }
   }
 
+  /**
+   * options modifying the game.
+   * @param {*} name 
+   * @param {*} value 
+   * @param {*} selector
+   */
   checkVersion(name, value, selector) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getSetupSelector())) {
       return;
@@ -205,10 +247,20 @@ export class ZrfDesign {
     return r;
   }
 
+  /**
+   * define a direction on the board.
+   * @param {*} name 
+   */
   addDirection(name) {
     this.dirs.push(name);
   }
 
+  /**
+   * define rules for conversion between players and direction
+   * @param {*} player 
+   * @param {*} symmetries 
+   * @param {*} selector 
+   */
   addPlayer(player, symmetries, selector) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getResourceSelector())) return;
     var ix = this.playerNames.length;
@@ -224,6 +276,12 @@ export class ZrfDesign {
     return this.playerNames.length - 1;
   }
 
+  /**
+   * define turn orders in the game
+   * @param {*} player 
+   * @param {*} modes 
+   * @param {*} selector 
+   */
   addTurn(player, modes, selector) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getResourceSelector())) return;
     if (_.isUndefined(this.turns)) {
@@ -329,6 +387,12 @@ export class ZrfDesign {
     return board.turn - 1;
   }
 
+  /**
+   * define positions on the board and offsets for directions between the positions
+   * @param {*} name 
+   * @param {*} links 
+   * @param {*} selector 
+   */
   addPosition(name, links, selector) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getSetupSelector())) {
       return;
@@ -448,6 +512,13 @@ export class ZrfDesign {
     return zone;
   }
 
+  /**
+   * define a special area on the board
+   * @param {*} name 
+   * @param {*} player 
+   * @param {*} positions 
+   * @param {*} selector 
+   */
   addZone(name, player, positions, selector) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getResourceSelector())) return;
     var zone = Dagaz.find(this.zoneNames, name);
