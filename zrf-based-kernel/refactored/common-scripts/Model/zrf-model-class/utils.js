@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from '../../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from '../../dagaz.js';
 
 var addPositions = function(self, ix, name, point) {

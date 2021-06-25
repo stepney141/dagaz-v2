@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from '../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from '../dagaz.js';
 
 import { ZrfBoard } from './zrf-model-class/ZrfBoard.js';
@@ -1036,3 +1036,5 @@ Dagaz.Model.getSetupSelector = function(val) {
 Dagaz.Model.getResourceSelector = function() {
   return Dagaz.Model.setupSelector;
 };
+
+export { Dagaz };

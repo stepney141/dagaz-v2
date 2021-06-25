@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from '../../../../../dependencies/underscore-esm-min.js';
 import { addPositions } from './utils.js';
 
 export class ZrfGrid {

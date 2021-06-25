@@ -1,4 +1,4 @@
-import _ from 'underscore';
+import _ from '../../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from '../../dagaz.js';
 import { addPrior, CompleteMove } from './utils.js';
 import { ZrfMove } from './ZrfMove.js';
