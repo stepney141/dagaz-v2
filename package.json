@@ -2,5 +2,12 @@
   "name": "dagaz-new",
   "version": "1.0.0",
   "description": "",
-  "type": "module"
+  "type": "module",
+  "devDependencies": {
+    "glob": "^7.1.7",
+    "node-qunit-puppeteer": "^2.1.0"
+  },
+  "scripts": {
+    "test": "node test-runner.js"
+  }
 }
