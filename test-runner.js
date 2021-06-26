@@ -4,7 +4,7 @@
 
 import glob from 'glob';
 import path from 'path';
-import { runQunitPuppeteer, printOutput } from 'node-qunit-puppeteer';
+import { runQunitPuppeteer, printOutput, printResultSummary, printFailedTests } from 'node-qunit-puppeteer';
 
 const sleep = async (seconds) => new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, seconds * 1000); });
 
@@ -14,23 +14,26 @@ const testFilesArray = glob.sync(`${dirname}/zrf-based-kernel/old/tests/**/**/*.
 
 const qunitArgsArray = testFilesArray.map(path => {
   return {
-    targetUrl: `file://${path}`,
-    redirectConsole: true
+    targetUrl: `file://${path}`
   }; 
 });
 
-for (const qunitArgs of qunitArgsArray) { // run the tests
-  runQunitPuppeteer(qunitArgs)
-    .then((result) => {
-    // Print the test result to the output
-      printOutput(result, console);
-      if (result.stats.failed > 0) {
-      // Handle the failed test run
-      // currently notghing to do.
-      }
-    })
-    .catch((ex) => {
-      console.error(ex);
-    });
-  sleep(1);
-}
+(async () => {
+  for (const qunitArgs of qunitArgsArray) { // run the tests
+    await runQunitPuppeteer(qunitArgs)
+      .then((result) => {
+        console.group(qunitArgs.targetUrl);
+
+        printResultSummary(result, console);
+        if (result.stats.failed > 0) {
+          printFailedTests(result, console);
+          // other action(s) on failed tests
+        }
+
+        console.groupEnd();
+      })
+      .catch((ex) => {
+        console.error(ex);
+      });
+  }
+})();
