@@ -1,4 +1,6 @@
-QUnit.test( "Move Generator", function( assert ) {
+import { Dagaz } from './turkish-dama.js';
+
+QUnit.test("Move Generator", function (assert) {
   Dagaz.Model.InitGame();
   var design = Dagaz.Model.getDesign();
   var board  = Dagaz.Model.getInitBoard();

@@ -1,4 +1,6 @@
-QUnit.test("Move list", function( assert ) {
+import { Dagaz } from './reversi.js';
+
+QUnit.test("Move list", function (assert) {
   Dagaz.Model.InitGame();
   var design = Dagaz.Model.getDesign();
   var board  = Dagaz.Model.getInitBoard();

@@ -1,4 +1,4 @@
-import { Dagaz } from '../../dagaz.js';
+import { Dagaz } from '../../Model/zrf-model.js';
 
 function Pattern(exec) {
   this.exec = exec;
@@ -111,3 +111,5 @@ Dagaz.Model.parseSgf = function(text) {
     return r.res;
   }
 };
+
+export { Dagaz };

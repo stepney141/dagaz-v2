@@ -1,4 +1,4 @@
-import _ from '../../dependencies/underscore-esm-min.js';
+import _ from '../../../dependencies/underscore-esm-min.js';
 
 /**
  * a namespace of Dagaz

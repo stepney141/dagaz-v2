@@ -1,4 +1,6 @@
-QUnit.test( "Model Bug", function( assert ) {
+import { Dagaz } from './fanorona.js';
+
+QUnit.test("Model Bug", function (assert) {
   Dagaz.Model.InitGame();
   var design = Dagaz.Model.getDesign();
   var board  = Dagaz.Model.getInitBoard();

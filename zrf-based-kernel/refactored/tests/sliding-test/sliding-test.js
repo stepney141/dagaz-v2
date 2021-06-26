@@ -1,4 +1,6 @@
-QUnit.test( "One tile", function( assert ) {
+import { Dagaz } from '../../common-scripts/Controller/ai/bruteforce-ai.js';
+
+QUnit.test("One tile", function (assert) {
   Dagaz.Model.InitGame();
   var design = Dagaz.Model.getDesign();
   var board  = Dagaz.Model.getInitBoard();
@@ -31,7 +33,7 @@ QUnit.test( "One piece", function( assert ) {
   var design = Dagaz.Model.getDesign();
   var board  = Dagaz.Model.getInitBoard();
   board.clear();
-  design.checkVersion("sliding-puzzle", "all")
+  design.checkVersion("sliding-puzzle", "all");
 
   design.setup("You", "B00009", Dagaz.Model.stringToPos("a3"));
   design.setup("You", "B00009", Dagaz.Model.stringToPos("a2"));
@@ -55,7 +57,7 @@ QUnit.test( "More pieces", function( assert ) {
   var design = Dagaz.Model.getDesign();
   var board  = Dagaz.Model.getInitBoard();
   board.clear();
-  design.checkVersion("sliding-puzzle", "distinct")
+  design.checkVersion("sliding-puzzle", "distinct");
 
   design.setup("You", "R01002", Dagaz.Model.stringToPos("d5"));
   design.setup("You", "R10102", Dagaz.Model.stringToPos("e5"));

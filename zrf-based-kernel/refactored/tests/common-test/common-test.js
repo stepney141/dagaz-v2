@@ -1,4 +1,6 @@
-QUnit.test( "Array", function( assert ) {
+import { Dagaz } from '../../common-scripts/Model/zobrist.js';
+
+QUnit.test("Array", function (assert) {
   Dagaz.Model.InitGame();
   var design = Dagaz.Model.getDesign();
   var board  = Dagaz.Model.getInitBoard();
