@@ -6,15 +6,14 @@ import glob from 'glob';
 import path from 'path';
 import { runQunitPuppeteer, printOutput, printResultSummary, printFailedTests } from 'node-qunit-puppeteer';
 
-const sleep = async (seconds) => new Promise((resolve, reject) => { setTimeout(() => { resolve(); }, seconds * 1000); });
+const [hostname, port] = ['localhost', 5501];
+const mode = process.argv[2];
 
 const dirname = path.dirname(new URL(import.meta.url).pathname); // get the root path of the repository
-
-const testFilesArray = glob.sync(`${dirname}/zrf-based-kernel/old/tests/**/**/*.htm`); // get a list of QUnit HTML files
-
+const testFilesArray = glob.sync(`${dirname}/zrf-based-kernel/${mode}/tests/**/**/*.htm`); // get a list of QUnit HTML files
 const qunitArgsArray = testFilesArray.map(path => {
   return {
-    targetUrl: `file://${path}`
+    targetUrl: `${path.replace(dirname, `http://${hostname}:${port}`)}`
   }; 
 });
 
@@ -31,6 +30,7 @@ const qunitArgsArray = testFilesArray.map(path => {
         }
 
         console.groupEnd();
+        console.log('\n');
       })
       .catch((ex) => {
         console.error(ex);

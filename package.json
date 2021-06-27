@@ -5,9 +5,11 @@
   "type": "module",
   "devDependencies": {
     "glob": "^7.1.7",
-    "node-qunit-puppeteer": "^2.1.0"
+    "node-qunit-puppeteer": "^2.1.0",
+    "qunitjs": "^1.23.1"
   },
   "scripts": {
-    "test": "node test-runner.js"
+    "test-old": "node test-runner.js old",
+    "test-refactored": "node test-runner.js refactored"
   }
 }
