@@ -1,7 +1,6 @@
-import _ from '../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from './maximal-captures.js';
 
-var ZRF = {
+const ZRF = {
   JUMP:          0,
   IF:            1,
   FORK:          2,
@@ -22,19 +21,15 @@ var ZRF = {
   VERIFY:        20
 };
 
-if (!_.isUndefined(Dagaz.Controller.addSound)) {
-  Dagaz.Controller.addSound(10, "../sounds/wind.wav");
-}
-
 Dagaz.Model.BuildDesign = function(design) {
   design.checkVersion("z2j", "2");
   design.checkVersion("zrf", "2.0");
   design.checkVersion("animate-captures", "false");
-  design.checkVersion("smart-moves", "false");
+  design.checkVersion("smart-moves", "true");
   design.checkVersion("show-hints", "false");
   design.checkVersion("show-blink", "true");
   design.checkVersion("maximal-captures", "true");
-  design.checkVersion("advisor-wait", "25");
+  design.checkVersion("advisor-wait", "5");
 
   design.addDirection("w");
   design.addDirection("e");

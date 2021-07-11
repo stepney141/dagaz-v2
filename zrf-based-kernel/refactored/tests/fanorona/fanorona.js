@@ -1,6 +1,6 @@
-import { Dagaz } from './fanorona-extension.js';
+import { Dagaz } from "./fanorona-extension.js";
 
-var ZRF = {
+const ZRF = {
   JUMP:          0,
   IF:            1,
   FORK:          2,

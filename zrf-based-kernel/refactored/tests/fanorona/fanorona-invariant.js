@@ -1,39 +1,43 @@
-import _ from '../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from '../../common-scripts/Model/zrf-model.js';
+import _ from '../../../../dependencies/underscore-esm-min.js';
 
-var checkVersion = Dagaz.Model.checkVersion;
+(function () {
 
-Dagaz.Model.checkVersion = function(design, name, value) {
-  if (name != "fanorona-invariant") {
-    checkVersion(design, name, value);
-  }
-};
+  var checkVersion = Dagaz.Model.checkVersion;
 
-var isMove = function(action) {
-  return (action[0] !== null) && (action[1] !== null);
-};
+  Dagaz.Model.checkVersion = function(design, name, value) {
+    if (name != "fanorona-invariant") {
+      checkVersion(design, name, value);
+    }
+  };
 
-var CheckInvariants = Dagaz.Model.CheckInvariants;
+  var isMove = function(action) {
+    return (action[0] !== null) && (action[1] !== null);
+  };
 
-Dagaz.Model.CheckInvariants = function(board) {
-  var design = Dagaz.Model.design;
-  _.each(board.moves, function(move) {
-    var positions = [];
-    _.chain(move.actions)
-      .filter(isMove)
-      .each(function(a) {
-        if (positions.length == 0) {
-          positions.push(a[0][0]);
-          positions.push(a[1][0]);
-        } else {
-          if (_.indexOf(positions, a[1][0]) >= 0) {
-            move.failed = true;
+  var CheckInvariants = Dagaz.Model.CheckInvariants;
+
+  Dagaz.Model.CheckInvariants = function(board) {
+    var design = Dagaz.Model.design;
+    _.each(board.moves, function(move) {
+      var positions = [];
+      _.chain(move.actions)
+        .filter(isMove)
+        .each(function(a) {
+          if (positions.length == 0) {
+            positions.push(a[0][0]);
+            positions.push(a[1][0]);
+          } else {
+            if (_.indexOf(positions, a[1][0]) >= 0) {
+              move.failed = true;
+            }
+            positions.push(a[1][0]);
           }
-          positions.push(a[1][0]);
-        }
-      });
-  });
-  CheckInvariants(board);
-};
+        });
+    });
+    CheckInvariants(board);
+  };
+
+})();
 
 export { Dagaz };

@@ -1,10 +1,9 @@
+import { Dagaz } from '../../common-scripts/Model/zrf-model.js';
 import _ from '../../../../dependencies/underscore-esm-min.js';
-import { Dagaz } from '../../common-scripts/Controller/utils/move-list-v2.js';
 
-Dagaz.AI.selector = true;
 Dagaz.Controller.persistense = "none";
 
-var ZRF = {
+const ZRF = {
   JUMP:          0,
   IF:            1,
   FORK:          2,
@@ -33,19 +32,16 @@ Dagaz.Model.BuildDesign = function(design) {
   design.checkVersion("show-hints", "false");
   design.checkVersion("show-drops", "true");
   design.checkVersion("show-captures", "false");
-  design.checkVersion("advisor-wait", "10");
-  design.checkVersion("go-extension", "true");
   design.checkVersion("animate-redo", "false");
-  design.checkVersion("atari-go-goal", "true");
 
   if (!_.isUndefined(Dagaz.Controller.addSound)) {
-    Dagaz.Controller.addSound(0, "../sounds/clack.wav");
+    Dagaz.Controller.addSound(0, "../../sounds/clack.wav", true);
   }
 
-  design.addDirection("w");
-  design.addDirection("e");
-  design.addDirection("s");
-  design.addDirection("n");
+  design.addDirection("w"); // 0
+  design.addDirection("e"); // 1
+  design.addDirection("s"); // 2
+  design.addDirection("n"); // 3
 
   design.addPlayer("Black", [1, 0, 3, 2]);
   design.addPlayer("White", [0, 1, 2, 3]);

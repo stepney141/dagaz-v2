@@ -1,6 +1,6 @@
 import { Dagaz } from './sliding-puzzle.js';
 
-var ZRF = {
+const ZRF = {
   JUMP:          0,
   IF:            1,
   FORK:          2,
