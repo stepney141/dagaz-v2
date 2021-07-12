@@ -3,6 +3,12 @@ import { Dagaz } from '../../dagaz.js';
 import { pushItem, isValidAction, isValidMove } from './utils.js';
 
 export class ZrfMove {
+  /**
+   * Create a move.
+   * @param {*} mode 
+   * @param {*} serial 
+   * @param {*} sound 
+   */
   constructor(mode, serial, sound) {
     this.actions  = [];
     this.serial   = serial;
@@ -108,6 +114,11 @@ export class ZrfMove {
     return r;
   }
 
+  /**
+   * Get a textual description (notation) of the move
+   * @param {*} part 
+   * @returns 
+   */
   toString(part) {
     return Dagaz.Model.moveToString(this, part ? part : 0 );
   }

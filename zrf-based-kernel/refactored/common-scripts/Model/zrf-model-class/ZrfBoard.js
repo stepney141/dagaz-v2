@@ -125,6 +125,12 @@ export class ZrfBoard {
     this.forks.push(gen);
   }
 
+  /**
+   * Get a piece at the specified position (numeric index is accepted).
+   * If this method returns null, it means the given position is empty.
+   * @param {*} pos 
+   * @returns 
+   */
   getPiece(pos) {
     if (_.isUndefined(this.pieces[pos])) {
       return null;
@@ -133,6 +139,11 @@ export class ZrfBoard {
     }
   }
 
+  /**
+   * place a piece on the board
+   * @param {*} pos 
+   * @param {*} piece 
+   */
   setPiece(pos, piece) {
     if (!_.isUndefined(this.pieces[pos])) {
       var op = this.pieces[pos];
@@ -260,6 +271,10 @@ export class ZrfBoard {
     }
   }
 
+  /**
+   * Generate a list of allowed moves
+   * @param {*} design 
+   */
   generate(design) {
     this.generateInternal(this, true);
   }
@@ -313,6 +328,11 @@ export class ZrfBoard {
     this.changed = [];
   }
 
+  /**
+   * Create a new game state from the old one by applying a move
+   * @param {*} move 
+   * @returns 
+   */
   apply(move) {
     if (!_.isUndefined(move.result)) return move.result;
     var design = Dagaz.Model.design;

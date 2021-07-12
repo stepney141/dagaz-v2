@@ -541,6 +541,13 @@ export class ZrfDesign {
     return [];
   }
 
+  /**
+   * Check if a given position is in a given zone
+   * @param {*} zone 
+   * @param {*} player 
+   * @param {*} pos 
+   * @returns 
+   */
   inZone(zone, player, pos) {
     if (!_.isUndefined(this.zones[zone])) {
       if (!_.isUndefined(this.zones[zone][player])) {

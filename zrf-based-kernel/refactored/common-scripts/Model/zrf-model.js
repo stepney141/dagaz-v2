@@ -671,6 +671,12 @@ if (!_.isUndefined(Int32Array)) {
   };
 }
 
+/**
+ * Convert a non-negative integer which represents a position of a piece into the position name strings
+ * @param {*} pos 
+ * @param {*} design 
+ * @returns 
+ */
 Dagaz.Model.posToString = function(pos, design) {
   if (_.isUndefined(design)) {
     design = Dagaz.Model.getDesign();
@@ -682,6 +688,12 @@ Dagaz.Model.posToString = function(pos, design) {
   }
 };
 
+/**
+ * Convert name strings of a piece position into a non-negative integer which represents the position 
+ * @param {*} name 
+ * @param {*} design 
+ * @returns 
+ */
 Dagaz.Model.stringToPos = function(name, design) {
   if (_.isUndefined(design)) {
     design = Dagaz.Model.getDesign();
@@ -809,6 +821,13 @@ Dagaz.Model.InitGame = function() {
   this.BuildDesign(design);
 };
 
+/**
+ * Check if a player win, lose, or draw.
+ * @param {*} design 
+ * @param {*} board 
+ * @param {*} player 
+ * @returns {(number|null)} The value that means the player win (1), lose (-1), or draw (0) the game. If the method returns null, it means the game is not finished.
+ */
 Dagaz.Model.checkGoals = function(design, board, player) {
   var r = null;
   _.each(_.keys(design.goals), function(p) {

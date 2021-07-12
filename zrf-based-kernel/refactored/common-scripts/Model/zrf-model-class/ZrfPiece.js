@@ -2,6 +2,11 @@ import _ from '../../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from '../../dagaz.js';
 
 export class ZrfPiece {
+  /**
+   * Create a piece
+   * @param {*} type - the type of the piece (a numeric value indexed from zero)
+   * @param {*} player - the owner of the piece
+   */
   constructor(type, player) {
     this.type   = type;
     this.player = player;
@@ -21,6 +26,12 @@ export class ZrfPiece {
     return design.playerNames[this.player];
   }
 
+  /**
+   * Get an attribute value by specifying an index.
+   * If the method returns null, it means no value is found.
+   * @param {*} name 
+   * @returns 
+   */
   getValue(name) {
     if (!_.isUndefined(this.values)) {
       if (!_.isUndefined(this.values[name])) {
