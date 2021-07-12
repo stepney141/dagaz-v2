@@ -76,7 +76,7 @@ var CompleteMove = function(board, gen, cover, serial) {
   if (!Dagaz.Model.passPartial) { var t = 2; } 
   else { var t = 1; }
   while (positions.length > 0) {
-    pos = positions.pop();
+    var pos = positions.pop();
     var piece = gen.getPieceInternal(pos);
     if (f && (piece === null) && (gen.parent !== null)) {
       piece = gen.parent.getPieceInternal(pos);
