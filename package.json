@@ -9,7 +9,10 @@
     "qunitjs": "^1.23.1"
   },
   "scripts": {
+    "prepare-test": "mkdir ./coverage && mkdir ./coverage/old && mkdir ./coverage/refactored",
     "test-old": "node test-runner.js old",
-    "test-refactored": "node test-runner.js refactored"
+    "test-refactored": "node test-runner.js refactored",
+    "test-old-100": "for i in `seq 100`; do npm run test-old; done | tee ./coverage/old/100_$(date -Iminutes).txt",
+    "test-refactored-100" : "for i in `seq 100`; do npm run test-refactored; done | tee ./coverage/refactored/100_$(date -Iminutes).txt"
   }
 }
