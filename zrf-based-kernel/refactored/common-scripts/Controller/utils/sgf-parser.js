@@ -1,4 +1,4 @@
-import { Dagaz } from '../../Model/zrf-model.js';
+import { Dagaz } from '../../dagaz.js';
 
 function Pattern(exec) {
   this.exec = exec;

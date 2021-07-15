@@ -1,4 +1,4 @@
-import { Dagaz } from './sliding-puzzle.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
 
 const ZRF = {
   JUMP:          0,

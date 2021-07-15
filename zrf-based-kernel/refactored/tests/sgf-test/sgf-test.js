@@ -1,4 +1,5 @@
-import { Dagaz } from '../../common-scripts/Controller/utils/sgf-parser.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
+import '../../common-scripts/Controller/utils/sgf-parser.js';
 
 QUnit.test("Parser", function (assert) {
   assert.deepEqual( Dagaz.Model.parseSgf("(;AW[aa][ab][ac]AB[ba][bb][bc])"), [

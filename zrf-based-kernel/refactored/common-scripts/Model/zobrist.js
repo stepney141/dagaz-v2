@@ -1,5 +1,5 @@
 import _ from '../../../../dependencies/underscore-esm-min.js';
-import { Dagaz } from './zrf-model.js';
+import { Dagaz } from '../dagaz.js';
 
 var getRandomByte = function() {
   return _.random(0, 255);

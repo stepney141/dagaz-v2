@@ -1,4 +1,4 @@
-import { Dagaz } from './maximal-captures.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
 
 const ZRF = {
   JUMP:          0,

@@ -1,4 +1,9 @@
-import { Dagaz } from './fanorona.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
+import '../../common-scripts/Model/zrf-model.js';
+
+import './fanorona-invariant.js';
+import './fanorona-extension.js';
+import './fanorona.js';
 
 QUnit.test("Model Bug", function (assert) {
   Dagaz.Model.InitGame();

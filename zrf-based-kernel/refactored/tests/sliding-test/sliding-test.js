@@ -1,4 +1,10 @@
-import { Dagaz } from '../../common-scripts/Controller/ai/bruteforce-ai.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
+import '../../common-scripts/Model/zrf-model.js';
+import '../../common-scripts/Model/zobrist.js';
+import '../../common-scripts/Controller/utils/simple-move-list.js';
+import './sliding-puzzle.js';
+import './mothers.js';
+import '../../common-scripts/Controller/ai/bruteforce-ai.js';
 
 QUnit.test("One tile", function (assert) {
   Dagaz.Model.InitGame();

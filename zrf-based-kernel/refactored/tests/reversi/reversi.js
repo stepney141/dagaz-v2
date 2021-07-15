@@ -1,4 +1,4 @@
-import { Dagaz } from './reversi-extension.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
 
 Dagaz.Controller.randomized = true;
 

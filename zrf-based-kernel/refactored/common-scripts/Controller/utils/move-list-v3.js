@@ -1,5 +1,5 @@
 import _ from '../../../../../dependencies/underscore-esm-min.js';
-import { Dagaz } from '../../Model/zrf-model.js';
+import { Dagaz } from '../../dagaz.js';
 
 class MoveList {
   constructor(board) {

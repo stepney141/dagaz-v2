@@ -1,4 +1,4 @@
-import { Dagaz } from '../../common-scripts/Model/zrf-model.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
 import _ from '../../../../dependencies/underscore-esm-min.js';
 
 (function () {

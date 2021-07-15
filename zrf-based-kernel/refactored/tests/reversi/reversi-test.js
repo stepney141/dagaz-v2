@@ -1,4 +1,8 @@
-import { Dagaz } from './reversi.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
+import '../../common-scripts/Model/zrf-model.js';
+import '../../common-scripts/Controller/utils/move-list-v3.js';
+import './reversi-extension.js';
+import './reversi.js';
 
 QUnit.test("Move list", function (assert) {
   Dagaz.Model.InitGame();

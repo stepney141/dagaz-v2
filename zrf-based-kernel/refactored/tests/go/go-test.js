@@ -1,4 +1,7 @@
-import { Dagaz } from './atari-go.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
+import '../../common-scripts/Model/zrf-model.js';
+import '../../common-scripts/Controller/utils/move-list-v2.js';
+import './atari-go.js';
 
 QUnit.test("Move list", function (assert) {
   Dagaz.Model.InitGame();

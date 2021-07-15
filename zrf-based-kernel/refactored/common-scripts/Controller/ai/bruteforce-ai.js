@@ -1,5 +1,5 @@
 import _ from '../../../../../dependencies/underscore-esm-min.js';
-import { Dagaz } from '../../../tests/sliding-test/mothers.js';
+import { Dagaz } from '../../dagaz.js';
 
 Dagaz.Model.checkVersion(Dagaz.Model.getDesign(), "distinct-moves", "true");
 

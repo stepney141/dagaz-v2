@@ -1,4 +1,4 @@
-import { Dagaz } from '../../common-scripts/Controller/utils/simple-move-list.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
 import _ from '../../../../dependencies/underscore-esm-min.js';
 
 (function () {

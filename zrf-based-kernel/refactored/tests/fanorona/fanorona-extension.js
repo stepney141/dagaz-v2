@@ -1,4 +1,4 @@
-import { Dagaz } from './fanorona-invariant.js';
+import { Dagaz } from '../../common-scripts/dagaz.js';
 import _ from '../../../../dependencies/underscore-esm-min.js';
 
 (function () {
