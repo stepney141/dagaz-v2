@@ -1,7 +1,7 @@
 import _ from '../../../dependencies/underscore-esm-min.js';
 
 /**
- * a namespace of Dagaz
+ * an universal namespace of Dagaz
  * @namespace Dagaz
  */
 const Dagaz = {

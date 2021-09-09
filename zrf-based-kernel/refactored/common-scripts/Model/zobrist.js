@@ -7,8 +7,10 @@ var getRandomByte = function() {
 
 class ZobristHash {
   constructor() {
-    this.lh = []; this.hh = [];
-    this.lp = []; this.hp = [];
+    this.lh = [];
+    this.hh = [];
+    this.lp = [];
+    this.hp = [];
   }
 
   getRandomValue() {
@@ -61,6 +63,10 @@ class ZobristHash {
   }
 }
 
+/**
+ * Create a new zobrist hash
+ * @returns {ZobristHash}
+ */
 Dagaz.Model.getZobristHash = function() {
   if (_.isUndefined(Dagaz.Model.zobrist)) {
     Dagaz.Model.zobrist = new ZobristHash();

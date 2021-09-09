@@ -265,7 +265,7 @@ Dagaz.Model.commands[Dagaz.Model.ZRF_SET_FLAG] = function(gen, param) {
   if (gen.stack.length == 0) {
     return null;
   }
-  value = gen.stack.pop();
+  var value = gen.stack.pop();
   gen.setValue(param, -1, value);
   return 0;
 };
@@ -285,7 +285,7 @@ Dagaz.Model.commands[Dagaz.Model.ZRF_SET_PFLAG] = function(gen, param) {
   if (gen.stack.length == 0) {
     return null;
   }
-  value = gen.stack.pop();
+  var value = gen.stack.pop();
   gen.setValue(param, gen.pos, value);
   return 0;
 };
@@ -649,27 +649,37 @@ Dagaz.Model.functions[Dagaz.Model.ZRF_POP] = function(gen) {
   return 0;
 };
 
-if (!_.isUndefined(Array.indexOf)) {
-  Dagaz.find = function(array, value) {
-    return Array.prototype.indexOf.call(array, value);
-  };
-} else {
-  Dagaz.find = function(array, value) {
-    return _.indexOf(array, value);
-  };
-}
+Dagaz.find = function(array, value) {
+  return Array.prototype.indexOf.call(array, value);
+};
 
-if (!_.isUndefined(Int32Array)) {
-  Dagaz.int32Array = function(array) {
-    var a = new Int32Array(array.length);
-    a.set(array);
-    return a;
-  };
-} else {
-  Dagaz.int32Array = function(array) {
-    return array;
-  };
-}
+// if (!_.isUndefined(Array.indexOf)) {
+//   Dagaz.find = function(array, value) {
+//     return Array.prototype.indexOf.call(array, value);
+//   };
+// } else {
+//   Dagaz.find = function(array, value) {
+//     return _.indexOf(array, value);
+//   };
+// }
+
+Dagaz.int32Array = function(array) {
+  var a = new Int32Array(array.length);
+  a.set(array);
+  return a;
+};
+
+// if (!_.isUndefined(Int32Array)) {
+//   Dagaz.int32Array = function(array) {
+//     var a = new Int32Array(array.length);
+//     a.set(array);
+//     return a;
+//   };
+// } else {
+//   Dagaz.int32Array = function(array) {
+//     return array;
+//   };
+// }
 
 /**
  * Convert a non-negative integer which represents a position of a piece into the position name strings
@@ -722,6 +732,10 @@ Dagaz.Model.hplayer = function(value, player) {
   return value;
 };
 
+/**
+ * Find and return a game design (ZrfDesign). If it doesn't exist, create one.
+ * @returns {ZrfDesign}
+ */
 Dagaz.Model.getDesign = function() {
   if (_.isUndefined(Dagaz.Model.design)) {
     Dagaz.Model.design = new ZrfDesign();
@@ -733,6 +747,10 @@ Dagaz.Model.getPieceTypes = function(piece) {
   return [ piece.type ];
 };
 
+/**
+ * Instantiate a ZrfMoveTemplate class
+ * @returns {ZrfMoveTemplate}
+ */
 Dagaz.Model.createTemplate = function() {
   return new ZrfMoveTemplate();
 };
@@ -810,23 +828,36 @@ Dagaz.Model.createPiece = function(type, player) {
   return Dagaz.Model.cachePiece[player][type];
 };
 
+/**
+ * 
+ * @param {ZrfPiece} piece 
+ * @returns {string}
+ */
 Dagaz.Model.pieceToString = function(piece) {
   return piece.getOwner() + " " + piece.getType();
 };
 
+/**
+ * Set up a game design.
+ * @param {ZrfDesign} design 
+ */
 Dagaz.Model.BuildDesign = function(design) {};
 
-Dagaz.Model.InitGame = function() {
+/**
+ * Start a game and create the first state of a game design.
+ */
+Dagaz.Model.InitGame = function () {
+  /** @type {ZrfDesign} */
   var design = Dagaz.Model.getDesign();
   this.BuildDesign(design);
 };
 
 /**
  * Check if a player win, lose, or draw.
- * @param {*} design 
- * @param {*} board 
+ * @param {ZrfDesign} design 
+ * @param {ZrfBoard} board 
  * @param {*} player 
- * @returns {(number|null)} The value that means the player win (1), lose (-1), or draw (0) the game. If the method returns null, it means the game is not finished.
+ * @returns {(number|null)} The value means the player win (1), lose (-1), or draw (0) the game. If the method returns null, it means the game is not finished.
  */
 Dagaz.Model.checkGoals = function(design, board, player) {
   var r = null;
@@ -860,9 +891,15 @@ Dagaz.Model.checkGoals = function(design, board, player) {
 
 Dagaz.Model.setup = function(board) {};
 
+/**
+ * Get an initial state of a board.
+ * @returns {ZrfBoard}
+ */
 Dagaz.Model.getInitBoard = function() {
   if (_.isUndefined(Dagaz.Model.board)) {
+    /** @type {ZrfDesign} */
     var design = Dagaz.Model.getDesign();
+    /** @type {ZrfBoard} */
     Dagaz.Model.board = new ZrfBoard(Dagaz.Model);
     Dagaz.Model.board.reserve = design.reserve;
   }
@@ -929,6 +966,12 @@ Dagaz.Model.noReserve = function(board, piece) {
 
 Dagaz.Model.Done = function(design, board) {};
 
+/**
+ * 
+ * @param {*} mode 
+ * @param {*} sound 
+ * @returns {ZrfMove}
+ */
 Dagaz.Model.createMove = function(mode, sound) {
   var r = new ZrfMove(mode);
   r.sound = sound;
@@ -947,6 +990,12 @@ _.mixin({
   }
 });
 
+/**
+ * 
+ * @param {ZrfMove} move 
+ * @param {*} part 
+ * @returns {string}
+ */
 Dagaz.Model.moveToString = function(move, part) {
   if (move.actions.length == 0) {
     return "Pass";
@@ -1034,9 +1083,15 @@ Dagaz.Model.continue = function(design, board, str, result) {
   return null;
 };
 
+/**
+ * @param {(number | undefined)} val 
+ * @returns {number}
+ */
 Dagaz.Model.getSetupSelector = function(val) {
   if (_.isUndefined(Dagaz.Model.setupSelector)) {
+    /** @type {string} */
     var str = window.location.search.toString();
+    /** @type {string[]} */
     var result = str.match(/[?&]selector=([^&]*)/);
     if (result) {
       Dagaz.Model.setupSelector = +result[1];
@@ -1052,6 +1107,9 @@ Dagaz.Model.getSetupSelector = function(val) {
   return Dagaz.Model.setupSelector;
 };
 
+/**
+ * @returns {(number | undefined)}
+ */
 Dagaz.Model.getResourceSelector = function() {
   return Dagaz.Model.setupSelector;
 };

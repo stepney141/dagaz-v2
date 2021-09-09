@@ -25,14 +25,23 @@ export class ZrfDesign {
     this.failed         = false;
   }
 
+  /**
+   * @returns {number[]}
+   */
   allPositions() {
     return _.range(this.positions.length);
   }
 
+  /**
+   * @returns {number[]}
+   */
   allDirections() {
     return _.range(this.dirs.length);
   }
 
+  /**
+   * @returns {number[]}
+   */
   allPlayers() {
     return _.range(1, this.playerNames.length);
   }
@@ -54,10 +63,10 @@ export class ZrfDesign {
   }
 
   /**
-   * define initial arrangements of a piece
-   * @param {*} player 
-   * @param {*} piece 
-   * @param {*} pos 
+   * Define initial arrangements of a piece
+   * @param {string} player - a player name
+   * @param {string} piece - a piece name
+   * @param {number} pos - a numerical id of a pisition
    * @param {*} selector 
    */
   setup(player, piece, pos, selector) {
@@ -80,6 +89,13 @@ export class ZrfDesign {
     }
   }
 
+  /**
+   * Define a goal of the game
+   * @param {number} n
+   * @param {string} player - a player name 
+   * @param {string} piece - a piece name
+   * @param {Array<number>} pos - position(s)
+   */
   goal(n, player, piece, pos) {
     var o = Dagaz.find(this.playerNames, player);
     if (_.isUndefined(this.goals[o])) {
@@ -120,7 +136,7 @@ export class ZrfDesign {
   }
 
   /**
-   * define a description of moves of pieces by the stackmachine commands
+   * Define a movement or an action of pieces with the stackmachine commands
    * @deprecated in future updates
    * @param {*} ix 
    * @param {*} name 
@@ -132,7 +148,7 @@ export class ZrfDesign {
   }
 
   /**
-   * define priority on the mode of moves. For example, capture in checkers are kind of priority
+   * Define priority on the mode of moves. For example, capture in checkers are kind of priority
    * @param {*} mode 
    */
   addPriority(mode) {
@@ -158,9 +174,9 @@ export class ZrfDesign {
 
   /**
    * define a piece and its numerical value
-   * @param {*} name 
-   * @param {*} type 
-   * @param {*} price 
+   * @param {string} name - a name of the piece
+   * @param {number} type - a numerical id of the piece
+   * @param {number} price - a numerical value of the piece
    */
   addPiece(name, type, price) {
     this.pieceNames[type] = name;
@@ -169,11 +185,11 @@ export class ZrfDesign {
 
   /**
    * define a possible movement of a piece
-   * @param {*} type 
-   * @param {*} template 
-   * @param {*} params 
-   * @param {*} mode 
-   * @param {*} sound 
+   * @param {number} type - a piece type id
+   * @param {number} template
+   * @param {Array<number>} params 
+   * @param {number} mode - a mode of a movement
+   * @param {number} sound 
    * @param {*} selector 
    */
   addMove(type, template, params, mode, sound, selector) {
@@ -213,9 +229,9 @@ export class ZrfDesign {
   }
 
   /**
-   * options modifying the game.
-   * @param {*} name 
-   * @param {*} value 
+   * Define options modifying the game.
+   * @param {string} name - a name of the option
+   * @param {string} value - a value of the option
    * @param {*} selector
    */
   checkVersion(name, value, selector) {
@@ -248,17 +264,17 @@ export class ZrfDesign {
   }
 
   /**
-   * define a direction on the board.
-   * @param {*} name 
+   * Define a direction on the board.
+   * @param {string} name - a direction name
    */
   addDirection(name) {
     this.dirs.push(name);
   }
 
   /**
-   * define rules for conversion between players and direction
-   * @param {*} player 
-   * @param {*} symmetries 
+   * Define rules for conversion between players and direction
+   * @param {string} player - a name of a player
+   * @param {Array<number>} symmetries 
    * @param {*} selector 
    */
   addPlayer(player, symmetries, selector) {
@@ -277,10 +293,10 @@ export class ZrfDesign {
   }
 
   /**
-   * define turn orders in the game
-   * @param {*} player 
-   * @param {*} modes 
-   * @param {*} selector 
+   * Define turn orders in the game
+   * @param {number} player 
+   * @param {(Array<number> | undefined)} modes 
+   * @param {(number | undefined)} selector 
    */
   addTurn(player, modes, selector) {
     if (!_.isUndefined(selector) && (selector != Dagaz.Model.getResourceSelector())) return;
@@ -388,9 +404,9 @@ export class ZrfDesign {
   }
 
   /**
-   * define positions on the board and offsets for directions between the positions
-   * @param {*} name 
-   * @param {*} links 
+   * Define a position on the board and offsets for directions between the positions
+   * @param {string} name - a name of a position
+   * @param {Array} links 
    * @param {*} selector 
    */
   addPosition(name, links, selector) {
@@ -477,6 +493,10 @@ export class ZrfDesign {
     }, this);
   }
 
+  /**
+   * Create a new grid
+   * @returns {ZrfGrid} a new ZrfGrid instance
+   */
   addGrid() {
     return new ZrfGrid(this);
   }
@@ -495,6 +515,13 @@ export class ZrfDesign {
     return this.players[player][dir];
   }
 
+  /**
+   * Navigate a piece from the previous position to the new one
+   * @param {number} player 
+   * @param {*} pos - the new position
+   * @param {*} dir 
+   * @returns 
+   */
   navigate(player, pos, dir) {
     if (!_.isUndefined(this.players[player])) {
       dir = this.players[player][dir];
@@ -513,10 +540,10 @@ export class ZrfDesign {
   }
 
   /**
-   * define a special area on the board
-   * @param {*} name 
-   * @param {*} player 
-   * @param {*} positions 
+   * Define a zone (a special area on the board)
+   * @param {string} name - a zone name
+   * @param {number} player 
+   * @param {Array<number>} positions 
    * @param {*} selector 
    */
   addZone(name, player, positions, selector) {

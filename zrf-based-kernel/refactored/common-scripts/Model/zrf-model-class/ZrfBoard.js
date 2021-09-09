@@ -4,7 +4,14 @@ import { addPrior, CompleteMove } from './utils.js';
 import { ZrfMove } from './ZrfMove.js';
 import { ZrfPiece } from './ZrfPiece.js';
 
+/**
+ * Class representing game states.
+ */
 export class ZrfBoard {
+  /**
+   * Create a game state.
+   * @param {*} game - Dagaz.Model
+   */
   constructor(game) {
     this.game     = game;
     this.pieces   = [];
@@ -126,10 +133,10 @@ export class ZrfBoard {
   }
 
   /**
-   * Get a piece at the specified position (numeric index is accepted).
+   * Get a piece on the specified position (numeric index is accepted).
    * If this method returns null, it means the given position is empty.
    * @param {*} pos 
-   * @returns 
+   * @returns {(|null)}
    */
   getPiece(pos) {
     if (_.isUndefined(this.pieces[pos])) {
@@ -140,9 +147,9 @@ export class ZrfBoard {
   }
 
   /**
-   * place a piece on the board
-   * @param {*} pos 
-   * @param {*} piece 
+   * Place a piece at the specified position on the board
+   * @param {*} pos - a position
+   * @param {*} piece - a piece
    */
   setPiece(pos, piece) {
     if (!_.isUndefined(this.pieces[pos])) {
@@ -329,7 +336,7 @@ export class ZrfBoard {
   }
 
   /**
-   * Create a new game state from the old one by applying a move
+   * Apply a move and create a new game state from the old one
    * @param {*} move 
    * @returns 
    */
