@@ -13,17 +13,36 @@ export class ZrfBoard {
    * @param {*} game - Dagaz.Model
    */
   constructor(game) {
-    this.game     = game;
-    this.pieces   = [];
-    this.forks    = [];
-    this.turn     = 0;
-    this.player   = Dagaz.Model.getDesign().currPlayer(this.turn);
+    this.game = game;
+    
+    /** @type {Array<ZrfPiece>} */
+    this.pieces = [];
+    
+    /** @type {Array} */
+    this.forks = [];
+    
+    /** @type {number} */
+    this.turn = 0;
+    
+    /** @type {number} */
+    this.player = Dagaz.Model.getDesign().currPlayer(this.turn);
+    
+    /** @type {Array} */
     this.changed  = [];
-    this.parent   = null;
-    this.values   = [];
-    this.zSign    = Dagaz.Model.zplayer(0, this.player);
-    this.hSign    = Dagaz.Model.hplayer(0, this.player);
-    this.level    = 0;
+    
+    this.parent = null;
+    
+    /** @type {Array} */
+    this.values = [];
+    
+    /** @type {number} */
+    this.zSign = Dagaz.Model.zplayer(0, this.player);
+    
+    /** @type {number} */
+    this.hSign = Dagaz.Model.hplayer(0, this.player);
+    
+    /** @type {number} */
+    this.level = 0;
   }
 
   assign(board) {

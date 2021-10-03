@@ -2,14 +2,23 @@ import _ from '../../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from '../../dagaz.js';
 import { ZrfMove } from './ZrfMove.js';
 import { isCaptured, copyArray } from './utils.js';
+import { ZrfDesign } from './ZrfDesign.js';
+import { ZrfMoveTemplate } from './ZrfMoveTemplate.js';
 
 export class ZrfMoveGenerator {
   constructor(design, mode, serial, sound) {
-    this.move     = new ZrfMove(mode, serial, sound);
+    /** @type {ZrfMove} */
+    this.move = new ZrfMove(mode, serial, sound);
+    
     this.start    = mode;
     this.moveType = 1;
+
+    /** @type {?ZrfMoveTemplate} */
     this.template = null;
-    this.params   = null;
+
+    /** @type {?Int32Array} */
+    this.params = null;
+    
     this.mode     = null;
     this.board    = null;
     this.pos      = null;
@@ -21,8 +30,11 @@ export class ZrfMoveGenerator {
     this.marks	= [];
     this.cmd      = 0;
     this.level    = 1;
-    this.serial   = serial;
-    this.design   = design;
+    this.serial = serial;
+
+    /** @type {ZrfDesign} */
+    this.design = design;
+    
     this.steps    = [];
   }
 

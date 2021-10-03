@@ -50,12 +50,12 @@ class View2D {
   }
 
   /**
-   * set up screen coordinates of a position on the board
-   * @param {*} name 
-   * @param {*} x 
-   * @param {*} y 
-   * @param {*} dx 
-   * @param {*} dy 
+   * Set up screen coordinates of a position on the board
+   * @param {string} name - a position name
+   * @param {number} x - x coordinate value
+   * @param {number} y - y coordinate value
+   * @param {number} dx - width along x axis of a square position
+   * @param {number} dy - height along y axis of a square position
    * @param {*} selector  
    */
   defPosition(name, x, y, dx, dy, selector) {
@@ -70,11 +70,11 @@ class View2D {
   }
 
   /**
-   * set up graphic resources for the board
-   * @param {*} img 
-   * @param {*} x 
-   * @param {*} y 
-   * @param {*} selector 
+   * Set up graphic resources for the board
+   * @param {string} img 
+   * @param {number} x 
+   * @param {number} y 
+   * @param {number} selector 
    * @param {*} turns 
    */
   defBoard(img, x, y, selector, turns) {
@@ -90,9 +90,9 @@ class View2D {
   }
 
   /**
-   * set up graphic resources for a piece
-   * @param {*} img 
-   * @param {*} name 
+   * Set up graphic resources for a piece
+   * @param {string} img 
+   * @param {string} name 
    * @param {*} help 
    * @param {*} glyph 
    */

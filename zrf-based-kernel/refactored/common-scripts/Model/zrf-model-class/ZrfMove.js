@@ -1,6 +1,7 @@
 import _ from '../../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from '../../dagaz.js';
 import { pushItem, isValidAction, isValidMove } from './utils.js';
+import { ZrfPiece } from './ZrfPiece.js';
 
 export class ZrfMove {
   /**
@@ -10,8 +11,12 @@ export class ZrfMove {
    * @param {*} sound 
    */
   constructor(mode, serial, sound) {
-    this.actions  = [];
-    this.serial   = serial;
+    /** @type {Array<Array<number|Array<number|ZrfPiece>>>} */
+    this.actions = [];
+    
+    /** @type {number} */
+    this.serial = serial;
+    
     if (!_.isUndefined(sound)) {
       this.sound = sound;
     }

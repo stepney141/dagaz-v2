@@ -1,13 +1,21 @@
 import _ from '../../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from '../../dagaz.js';
+import { ZrfBoard } from '../../Model/zrf-model-class/ZrfBoard.js';
+import { ZrfMove } from '../../Model/zrf-model-class/ZrfMove.js';
 
 class MoveList {
   constructor(board) {
-    this.board    = board;
-    this.moves    = board.moves;
-    this.level    = 0;
+    /** @type {ZrfBoard} */
+    this.board = board;
+
+    /** @type {Array<ZrfMove>} */
+    this.moves = board.moves;
+    
+    /** @type {number} */
+    this.level = 0;
+
     this.position = null;
-    this.stops    = null;
+    this.stops = null;
   }
 
   isPassForced() {

@@ -362,16 +362,20 @@ class App {
 
   exec() {
     this.view.configure();
+
     if (!_.isUndefined(Dagaz.Model.load) && (Dagaz.Controller.persistense == "session")) {
       var board = Dagaz.Model.getInitBoard();
       Dagaz.Model.load(board);
       delete Dagaz.Model.load;
     }
+    
     this.view.draw(this.canvas);
+
     if (this.state == STATE.STOP) {
       this.state = STATE.IDLE;
       return;
     }
+
     if (this.state == STATE.IDLE) {
       var ctx = this.getContext(this.getBoard().player);
       if (this.isRandom()) {
@@ -508,6 +512,7 @@ class App {
         }
       }
     }
+
     if (this.state == STATE.BUZY) {
       if (!_.isUndefined(Dagaz.Controller.delayTimestamp)) {
         if (Date.now() - Dagaz.Controller.delayTimestamp < Dagaz.Controller.AI_DELAY) return;
@@ -561,6 +566,7 @@ class App {
         }
       }
     }
+
     if (this.state == STATE.EXEC) {
       delete Dagaz.AI.advisorStamp;
       this.state = STATE.IDLE;

@@ -3,6 +3,7 @@ import { Dagaz } from '../../dagaz.js';
 
 export class ZrfMoveTemplate {
   constructor() {
+    /** @type {Array<function>} */
     this.commands = [];
   }
 

@@ -1,28 +1,60 @@
 import _ from '../../../../../dependencies/underscore-esm-min.js';
 import { Dagaz } from '../../dagaz.js';
 import { ZrfGrid } from './ZrfGrid.js';
+import { ZrfMoveTemplate } from './ZrfMoveTemplate.js';
 
 /**
  * Class representing a design of a game
  */
 export class ZrfDesign {
   constructor() {
-    this.playerNames    = [];
-    this.players        = [];
-    this.positionNames  = [];
-    this.positions      = [];
-    this.zoneNames      = [];
-    this.zones          = [];
-    this.pieceNames     = [];
-    this.pieces         = [];
-    this.attrs          = [];
-    this.dirs           = [];
-    this.templates      = [];
-    this.options        = [];
-    this.modes          = [];
-    this.price          = [];
-    this.goals          = [];
-    this.failed         = false;
+    /** @type {Array<string>} */
+    this.playerNames = [];
+    
+    /** @type {Array<Int32Array>} */
+    this.players = [];
+    
+    /** @type {Array<string>} */
+    this.positionNames = [];
+    
+    /** @type {Array<Int32Array>} */
+    this.positions = [];
+    
+    /** @type {Array<string>} */
+    this.zoneNames = [];
+
+    /** @type {Array<Array<Int32Array>>}} */
+    this.zones = [];
+    
+    /** @type {Array<string>} */
+    this.pieceNames = [];
+    
+    /** @type {Array<Array<Object>>} */
+    this.pieces = [];
+    
+    /** @type {Array} */
+    this.attrs = [];
+    
+    /** @type {Array<string>} */
+    this.dirs = [];
+    
+    /** @type {Array<ZrfMoveTemplate>} */
+    this.templates = [];
+    
+    /** @type {Array<string, string>} */
+    this.options = [];
+    
+    /** @type {Array} */
+    this.modes = [];
+    
+    /** @type {Array<number>} */
+    this.price = [];
+    
+    /** @type {Array} */
+    this.goals = [];
+    
+    /** @type {boolean} */
+    this.failed = false;
   }
 
   /**
@@ -138,7 +170,7 @@ export class ZrfDesign {
   /**
    * Define a movement or an action of pieces with the stackmachine commands
    * @deprecated in future updates
-   * @param {*} ix 
+   * @param {number} ix 
    * @param {*} name 
    * @param {*} param 
    */
@@ -406,7 +438,7 @@ export class ZrfDesign {
   /**
    * Define a position on the board and offsets for directions between the positions
    * @param {string} name - a name of a position
-   * @param {Array} links 
+   * @param {Array} links - positon data
    * @param {*} selector 
    */
   addPosition(name, links, selector) {
@@ -518,8 +550,8 @@ export class ZrfDesign {
   /**
    * Navigate a piece from the previous position to the new one
    * @param {number} player 
-   * @param {*} pos - the new position
-   * @param {*} dir 
+   * @param {number} pos - new position
+   * @param {number} dir 
    * @returns 
    */
   navigate(player, pos, dir) {
