@@ -98,7 +98,7 @@ export class ZrfDesign {
    * Define initial arrangements of a piece
    * @param {string} player - a player name
    * @param {string} piece - a piece name
-   * @param {number} pos - a numerical id of a pisition
+   * @param {number | Array<number>} pos - position id(s)
    * @param {*} selector 
    */
   setup(player, piece, pos, selector) {
