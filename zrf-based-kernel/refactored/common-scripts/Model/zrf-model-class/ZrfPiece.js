@@ -4,8 +4,8 @@ import { Dagaz } from '../../dagaz.js';
 export class ZrfPiece {
   /**
    * Create a piece
-   * @param {*} type - the type of the piece (a numeric value indexed from zero)
-   * @param {*} player - the owner of the piece
+   * @param {number} type - the type of the piece (a numeric value indexed from zero)
+   * @param {number} player - the owner of the piece
    */
   constructor(type, player) {
     this.type   = type;
@@ -61,6 +61,11 @@ export class ZrfPiece {
     return piece;
   }
 
+  /**
+   * Change statuses (piece type, piece owner, etc) of a specified piece.
+   * @param {*} type 
+   * @returns 
+   */
   promote(type) {
     return Dagaz.Model.createPiece(type, this.player);
   }

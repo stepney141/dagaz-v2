@@ -120,9 +120,9 @@ export class ZrfMove {
   }
 
   /**
-   * Get a textual description (notation) of the move
-   * @param {*} part 
-   * @returns 
+   * Get a text description (notation) of the move
+   * @param {*} part - a partial move
+   * @returns {string}
    */
   toString(part) {
     return Dagaz.Model.moveToString(this, part ? part : 0 );

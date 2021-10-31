@@ -10,7 +10,7 @@ import { ZrfPiece } from './ZrfPiece.js';
 export class ZrfBoard {
   /**
    * Create a game state.
-   * @param {*} game - Dagaz.Model
+   * @param {Object} game - Dagaz.Model
    */
   constructor(game) {
     this.game = game;
@@ -111,6 +111,10 @@ export class ZrfBoard {
     }, this);
   }
 
+  /**
+   * 
+   * @returns {ZrfBoard}
+   */
   copy() {
     var r = new ZrfBoard(this.game);
     r.parent  = this;
@@ -154,8 +158,8 @@ export class ZrfBoard {
   /**
    * Get a piece on the specified position (numeric index is accepted).
    * If this method returns null, it means the given position is empty.
-   * @param {*} pos 
-   * @returns {(|null)}
+   * @param {number} pos - a position on the board
+   * @returns {?ZrfPiece} a piece information. When there is no piece on the specified position, null will be returned.
    */
   getPiece(pos) {
     if (_.isUndefined(this.pieces[pos])) {
@@ -167,8 +171,8 @@ export class ZrfBoard {
 
   /**
    * Place a piece at the specified position on the board
-   * @param {*} pos - a position
-   * @param {*} piece - a piece
+   * @param {number} pos - a position on the board
+   * @param {?ZrfPiece} piece - a piece. When no piece will be put on the position, this need to be null.
    */
   setPiece(pos, piece) {
     if (!_.isUndefined(this.pieces[pos])) {
@@ -298,7 +302,7 @@ export class ZrfBoard {
   }
 
   /**
-   * Generate a list of allowed moves
+   * Generate an array of allowed moves from the current position
    * @param {*} design 
    */
   generate(design) {
@@ -313,6 +317,13 @@ export class ZrfBoard {
     return true;
   }
 
+  /**
+   * Transfer a piece to the specified position
+   * @param {*} move 
+   * @param {*} from 
+   * @param {*} to 
+   * @param {*} piece 
+   */
   movePiece(move, from, to, piece) {
     this.lastf = from;
     this.lastt = to;
@@ -330,6 +341,12 @@ export class ZrfBoard {
     this.changed.push(to);
   }
 
+  /**
+   * Add a piece to the specified position on the board
+   * @param {*} move 
+   * @param {number} pos 
+   * @param {ZrfPiece} piece 
+   */
   dropPiece(move, pos, piece) {
     this.lastt = pos;
     Dagaz.Model.decReserve(this, piece);
@@ -337,6 +354,11 @@ export class ZrfBoard {
     this.changed.push(pos);
   }
 
+  /**
+   * Capture a piece and remove it from the board
+   * @param {*} move 
+   * @param {*} pos 
+   */
   capturePiece(move, pos) {
     if (Dagaz.Model.recycleCaptures) {
       var piece = this.getPiece(pos);
@@ -355,9 +377,9 @@ export class ZrfBoard {
   }
 
   /**
-   * Apply a move and create a new game state from the old one
-   * @param {*} move 
-   * @returns 
+   * Make a move to the current position and update the current game state
+   * @param {*} move - a move which will be made in the current turn
+   * @returns {ZrfBoard} the new game state created
    */
   apply(move) {
     if (!_.isUndefined(move.result)) return move.result;

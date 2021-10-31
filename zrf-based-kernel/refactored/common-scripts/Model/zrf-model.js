@@ -683,8 +683,8 @@ Dagaz.int32Array = function(array) {
 
 /**
  * Convert a non-negative integer which represents a position of a piece into the position name strings
- * @param {*} pos 
- * @param {*} design 
+ * @param {number} pos 
+ * @param {ZrfDesign} design 
  * @returns 
  */
 Dagaz.Model.posToString = function(pos, design) {
@@ -700,8 +700,8 @@ Dagaz.Model.posToString = function(pos, design) {
 
 /**
  * Convert name strings of a piece position into a non-negative integer which represents the position 
- * @param {*} name 
- * @param {*} design 
+ * @param {number} name 
+ * @param {ZrfDesign} design 
  * @returns 
  */
 Dagaz.Model.stringToPos = function(name, design) {
