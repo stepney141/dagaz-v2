@@ -8,9 +8,10 @@ import { runQunitPuppeteer, printOutput, printResultSummary, printFailedTests } 
 
 const [hostname, port] = ['localhost', 5501];
 const mode = process.argv[2];
+const model_type = process.argv[3];
 
 const dirname = path.dirname(new URL(import.meta.url).pathname); // get the root path of the repository
-const testFilesArray = glob.sync(`${dirname}/zrf-based-kernel/${mode}/tests/**/**/*.htm`); // get a list of QUnit HTML files
+const testFilesArray = glob.sync(`${dirname}/${model_type}/${mode}/tests/**/**/*.htm`); // get a list of QUnit HTML files
 const qunitArgsArray = testFilesArray.map(path => {
   return {
     targetUrl: `${path.replace(dirname, `http://${hostname}:${port}`)}`
