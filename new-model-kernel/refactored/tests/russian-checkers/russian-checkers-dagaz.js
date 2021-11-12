@@ -1,4 +1,4 @@
-import { games } from "../../../refactored/dagaz-model-new.js";
+import { games } from "../../../refactored/dagaz-model.js";
 
 var shiftMan = function(ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {

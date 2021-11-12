@@ -1,5 +1,5 @@
 import _ from "../../../../dependencies/underscore-esm-min.js";
-import { games } from "../../dagaz-model-new.js";
+import { games } from "../../dagaz-model.js";
 
 var isRecursive = false;
 
