@@ -4,18 +4,17 @@
   "description": "",
   "type": "module",
   "devDependencies": {
+    "eslint": "^8.2.0",
     "glob": "^7.1.7",
     "node-qunit-puppeteer": "^2.1.0",
     "qunitjs": "^1.23.1"
   },
   "scripts": {
     "prepare-test": "mkdir ./coverage && mkdir ./coverage/old && mkdir ./coverage/refactored",
-
     "test-zrf-old": "node test-runner.js old zrf-based-kernel",
     "test-zrf-refactored": "node test-runner.js refactored zrf-based-kernel",
     "test-new-model-old": "node test-runner.js old new-model-kernel",
     "test-new-model-refactored": "node test-runner.js refactored new-model-kernel",
-    
     "test-zrf-old-100": "for i in `seq 100`; do npm run test-zrf-old; done | tee ./coverage/zrf/old/100_$(date -Iminutes).txt",
     "test-zrf-old-250": "for i in `seq 250`; do npm run test-zrf-old; done | tee ./coverage/zrf/old/250_$(date -Iminutes).txt",
     "test-zrf-refactored-100": "for i in `seq 100`; do npm run test-zrf-refactored; done | tee ./coverage/zrf/refactored/100_$(date -Iminutes).txt",
