@@ -1,11 +1,21 @@
 import _ from "../../../dependencies/underscore-esm-min.js";
+import { TBoard } from "./TBoard.js";
 
 export class TMove {
+  /**
+   * 
+   * @param {number} mode 
+   */
   constructor(mode) {
+    /** @type {Array<Array<(null | number)>>} */
     this.actions = [];
-    this.mode    = mode;
+    this.mode = mode;
   }
 
+  /**
+   * Copies a TMove instance
+   * @returns {TMove}
+   */
   copy() {
     var r = new TMove(this.mode);
     _.each(this.actions, function(a) {
@@ -14,6 +24,11 @@ export class TMove {
     return r;
   }
 
+  /**
+   * 
+   * @param {number} part 
+   * @returns {TMove}
+   */
   clone(part) {
     var r = new TMove(this.mode);
     _.each(this.actions, function(a) {
@@ -23,6 +38,11 @@ export class TMove {
     return r;
   }
 
+  /**
+   * 
+   * @param {*} design 
+   * @returns {string}
+   */
   toString(design) {
     var r = ""; var p = null;
     for (var i = 0; i < this.actions.length; i++) {
@@ -39,15 +59,27 @@ export class TMove {
     return r;
   }
 
+  /**
+   * 
+   * @returns {boolean}
+   */
   isPass() {
     return this.actions.length == 0;
   }
 
+  /**
+   * 
+   * @returns {boolean}
+   */
   isDropMove() {
     if (this.actions.length != 1) return false;
     return (this.actions[0][0] === null) && (this.actions[0][1] !== null) && (this.actions[0][2] !== null);
   }
 
+  /**
+   * 
+   * @returns {boolean}
+   */
   isSimpleMove() {
     if (this.actions.length != 1) return false;
     return (this.actions[0][0] !== null) && (this.actions[0][1] !== null);
@@ -68,6 +100,10 @@ export class TMove {
     this.actions.push([null, to, piece, part]);
   }
 
+  /**
+   * 
+   * @param {TBoard} obj 
+   */
   applyTo(obj) {
     _.each(this.actions, function(a) {
       if (a[0] !== null) {

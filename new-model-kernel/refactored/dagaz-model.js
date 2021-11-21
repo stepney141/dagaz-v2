@@ -6,18 +6,17 @@ const games = {
     passTurn: false,
     passPartial: false,
     sharedPieces: false,
-    deferredCaptures: false
+    deferredCaptures: false,
+
+    getDesign: () => {
+      if (_.isUndefined(games.model.design)) {
+        games.model.design = new TDesign();
+      }
+      return games.model.design;
+    },
+    BuildDesign: (design) => { }
   },
-  view:  []
+  view: {}
 };
-
-games.model.getDesign = function() {
-  if (_.isUndefined(games.model.design)) {
-    games.model.design = new TDesign();
-  }
-  return games.model.design;
-};
-
-games.model.BuildDesign = function (design) { };
 
 export { games };

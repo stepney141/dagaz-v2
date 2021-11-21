@@ -2,16 +2,48 @@ import _ from "../../../dependencies/underscore-esm-min.js";
 import { games } from "../dagaz-model.js";
 import { TMove } from "./TMove.js";
 import { TMoveContext } from "./TMoveContext.js";
+import { TPiece } from "./TPiece.js";
+import { TDesign } from "./TDesign.js";
 
 export class TBoard {
+  /**
+   * 
+   * @param {TDesign} design 
+   */
   constructor(design) {
     this.design = design;
+    
+    /**
+     * @type {Array<TPiece>}
+     * @description a list of pieces on the current board. a new piece will be pushed into the index corresponding to its position id.
+     */
     this.pieces = [];
-    this.turn   = 0;
+
+    /**
+     * @type {number}
+     * @description an id of the current turn. it corresponds to the player id.
+     */
+    this.turn = 0;
+    
+    /**
+     * @type {number}
+     * @description an id of a player who makes a move in the current turn
+     */
     this.player = design.currPlayer(this.turn);
-    this.z      = 0;
+    
+    this.z = 0;
+    
+    /**
+     * @type {Array<TMove> | undefined}
+     * @description a list of legal moves available in the current game state.
+     */
+    this.moves;
   }
 
+  /**
+   * Copies and returns the TBoard instance
+   * @returns {TBoard} a copied board instance
+   */
   copy() {
     var r = new TBoard(this.design);
     r.parent = this;
@@ -24,16 +56,28 @@ export class TBoard {
     return r;
   }
 
+  /**
+   * Clears the instance members
+   */
   clear() {
     this.pieces = [];
     this.z = 0;
     delete this.moves;
   }
 
+  /**
+   * 
+   * @param {*} pos 
+   */
   setLastFrom(pos) {
     this.lastFrom = pos; 
   }
 
+  /**
+   * 
+   * @param {*} pos 
+   * @returns {boolean}
+   */
   isLastFrom(pos) {
     if (!_.isUndefined(this.lastFrom)) {
       return this.lastFrom == pos;
@@ -41,6 +85,11 @@ export class TBoard {
     return false;
   }
 
+  /**
+   * Returns a piece on the given position
+   * @param {number} pos - a position id
+   * @returns {null | TPiece} a piece (null if no piece occupies the given position)
+   */
   getPiece(pos) {
     if (_.isUndefined(this.pieces[pos])) {
       return null;
@@ -49,6 +98,11 @@ export class TBoard {
     }
   }
 
+  /**
+   * Puts a given piece to a given position on the board instance
+   * @param {null | number} pos 
+   * @param {null | TPiece} piece 
+   */
   setPiece(pos, piece) {
     if (!_.isUndefined(games.model.zupdate) && !_.isUndefined(this.pieces[pos])) {
       this.z = games.model.zupdate(this.z, this.pieces[pos], pos);
@@ -63,6 +117,11 @@ export class TBoard {
     }
   }
 
+  /**
+   * 
+   * @param {TMoveContext} parent 
+   * @returns {boolean}
+   */
   completeMove(parent) {
     var r = false;
     _.each(this.design.moves, function(t) {
@@ -82,10 +141,14 @@ export class TBoard {
     return r;
   }
 
+  /**
+   * Generates a list of legal moves and store it in the board instance
+   */
   generate() {
     if (_.isUndefined(this.moves)) {
       this.forks = [];
       this.moves = [];
+
       var groups = _.groupBy(this.design.moves, function(t) {
         if (this.design.modes.length == 0) return 0;
         return _.indexOf(this.design.modes, t.m);
@@ -129,6 +192,11 @@ export class TBoard {
     }
   }
 
+  /**
+   * Makes a move and create a new game state
+   * @param {TMove} move 
+   * @returns {TBoard}
+   */
   apply(move) {
     var r = this.copy();
     r.turn = r.design.nextTurn(this);

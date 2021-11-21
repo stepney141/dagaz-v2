@@ -1,23 +1,50 @@
 import _ from "../../../dependencies/underscore-esm-min.js";
 import { games } from "../dagaz-model.js";
 import { TMove } from "./TMove.js";
+import { TDesign } from "./TDesign.js";
+import { TBoard } from "./TBoard.js";
+import { TPiece } from "./TPiece.js";
 
 export class TMoveContext {
+  /**
+   * 
+   * @param {TDesign} design 
+   * @param {TBoard} board 
+   * @param {number} pos 
+   * @param {null | number} piece 
+   */
   constructor(design, board, pos, piece) {
-    this.design  = design;
-    this.board   = board;
-    this.from    = pos;
-    this.pos     = pos;
-    this.mode    = null;
-    this.parent  = null;
-    this.part    = 1;
-    this.piece   = piece;
-    this.move    = new TMove(this.mode);
+    this.design = design;
+    this.board = board;
+    this.from = pos;
+    this.pos = pos;
+    this.mode = null;
+    
+    /** @type {null | TMoveContext} */
+    this.parent = null;
+    
+    /** @type {number} */
+    this.part = 1;
+    
+    /** @type {null | number} */
+    this.piece = piece;
+    
+    this.move = new TMove(this.mode);
     this.succeed = false;
+
+    /** @type {Array<{p: number, x: *}>} */
     this.changes = [];
-    this.marks   = [];
+
+    this.marks = [];
+    
+    /** @type {undefined | {start: number, piece: (null | TPiece)}} */
+    this.hand;
   }
 
+  /**
+   * 
+   * @returns {TMoveContext}
+   */
   copy() {
     var r = new TMoveContext(this.design, this.board, this.pos, this.piece);
     r.parent = this;
@@ -27,6 +54,11 @@ export class TMoveContext {
     return r;
   }
 
+  /**
+   * 
+   * @param {number} pos 
+   * @param {null | TPiece} piece 
+   */
   setPiece(pos, piece) {
     this.changes.push({
       p: pos,
@@ -34,6 +66,11 @@ export class TMoveContext {
     });
   }
 
+  /**
+   * 
+   * @param {*} pos 
+   * @returns {null | TPiece}
+   */
   getPiece(pos) {
     for (var i = 0; i < this.changes.length; i++) {
       if (this.changes[i].p == pos) return this.changes[i].x;
@@ -76,12 +113,24 @@ export class TMoveContext {
     }
   }
 
+  /**
+   * 
+   * @param {undefined | Array<*>} params 
+   * @param {*} ix 
+   * @returns {null | *}
+   */
   getParam(params, ix) {
     if (_.isUndefined(params)) return null;
     if (_.isArray(params)) return params[ix];
     return params;
   }
 
+  /**
+   * 
+   * @param {*} params 
+   * @param {number} ix 
+   * @returns {boolean}
+   */
   go(params, ix) {
     var dir = this.getParam(params, ix);
     if (dir === null) return false;
@@ -95,12 +144,24 @@ export class TMoveContext {
     return true;
   }
 
+  /**
+   * 
+   * @param {*} params 
+   * @param {*} ix 
+   * @returns {null | number}
+   */
   opposite(params, ix) {
     var dir = this.getParam(params, ix);
     if (dir === null) return null;
     return this.design.opposite(dir);
   }
 
+  /**
+   * 
+   * @param {*} params 
+   * @param {*} ix 
+   * @returns {boolean}
+   */
   isLastFrom(params, ix) {
     var pos = this.getParam(params, ix);
     if (pos === null) {
@@ -112,6 +173,10 @@ export class TMoveContext {
     return this.board.isLastFrom(pos);
   }
 
+  /**
+   * 
+   * @returns {boolean}
+   */
   isEmpty() {
     if (games.model.deferredCaptures) {
       for (var i = 0; i < this.move.actions.length; i++) {
@@ -122,18 +187,32 @@ export class TMoveContext {
     return this.getPiece(this.pos) === null;
   }
 
+  /**
+   * 
+   * @returns {boolean}
+   */
   isEnemy() {
     var piece = this.getPiece(this.pos);
     if (piece === null) return false;
     return piece.player != this.board.player;
   }
 
+  /**
+   * 
+   * @returns {boolean}
+   */
   isFriend() {
     var piece = this.getPiece(this.pos);
     if (piece === null) return false;
     return piece.player == this.board.player;
   }
 
+  /**
+   * 
+   * @param {*} params 
+   * @param {*} ix 
+   * @returns {boolean}
+   */
   isPiece(params, ix) {
     var t = this.getParam(params, ix);
     if (t === null) {
@@ -144,6 +223,12 @@ export class TMoveContext {
     return piece.type == t;
   }
 
+  /**
+   * 
+   * @param {*} params 
+   * @param {*} ix 
+   * @returns {null | boolean}
+   */
   inZone(params, ix) {
     var zone = this.getParam(params, ix);
     if (zone === null) return null;
@@ -154,6 +239,12 @@ export class TMoveContext {
     return this.design.inZone(player, this.pos, zone);
   }
 
+  /**
+   * piece promotions
+   * @param {*} params 
+   * @param {*} ix 
+   * @returns {boolean}
+   */
   promote(params, ix) {
     if (_.isUndefined(this.hand)) return false;
     var type = this.getParam(params, ix);
@@ -162,11 +253,19 @@ export class TMoveContext {
     return true;
   }
 
+  /**
+   * capturing pieces
+   */
   capture() {
     this.setPiece(this.pos, null);
     this.move.capturePiece(this.pos, this.part);
   }
 
+  /**
+   * ends a turn
+   * @param {*} params 
+   * @param {*} ix 
+   */
   end(params, ix) {
     var hand = this.hand;
     this.put();
