@@ -1,12 +1,10 @@
-import _ from "../../../dependencies/underscore-esm-min.js";
 import { TDesign } from "./TDesign.js";
 
 /**
- * A class representing a piece on the board
+ * A class representing each piece on the board.
  */
 export class TPiece {
   /**
-   * 
    * @param {number} type - a piece type id
    * @param {number} player - an id of a player who owns the piece
    */
@@ -30,8 +28,12 @@ export class TPiece {
    * @returns {null | number} the piece value
    */
   getValue(ix) {
-    if (_.isUndefined(this.values)) return null;
-    if (_.isUndefined(this.values[ix])) return null;
+    if (this.values === undefined) {
+      return null;
+    }
+    if (this.values[ix] === undefined) {
+      return null;
+    }
     return this.values[ix];
   }
 
@@ -42,23 +44,32 @@ export class TPiece {
    * @returns {TPiece}
    */
   setValue(ix, value) {
-    var v = this.getValue(ix);
-    if ((v === null) && (value === null)) return this;
-    if ((v !== null) && (value !== null) && (v == value)) return this;
-    var r = new TPiece(this.type, this.player);
-    if (_.isUndefined(r.values)) {
+    const v = this.getValue(ix);
+
+    if ((v === null) && (value === null)) {
+      return this;
+    }
+    if ((v !== null) && (value !== null) && (v == value)) {
+      return this;
+    }
+
+    const r = new TPiece(this.type, this.player);
+    
+    if (r.values === undefined) {
       r.values = [];
     }
-    if (!_.isUndefined(this.values)) {
-      _.each(_.keys(this.values), function(i) {
-        r.values[i] = this.values[i];
-      }, this);
+    if (this.values !== undefined) {
+      // _.each(_.keys(this.values), i => {
+      //   r.values[i] = this.values[i];
+      // });
+      r.values = [...this.values]; //shallow copying
     }
     if (value !== null) {
       r.values[ix] = value;
     } else {
       delete r.values[ix];
     }
+
     return r;
   }
 
@@ -68,7 +79,9 @@ export class TPiece {
    * @returns {TPiece}
    */
   promote(type) {
-    if (type == this.type) return this;
+    if (type == this.type) {
+      return this;
+    }
     return new TPiece(type, this.player);
   }
 
@@ -78,7 +91,9 @@ export class TPiece {
    * @returns {TPiece}
    */
   changeOwner(player) {
-    if (player == this.player) return this;
+    if (player == this.player) {
+      return this;
+    }
     return new TPiece(this.type, player);
   }
 }

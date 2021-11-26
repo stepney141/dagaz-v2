@@ -5,6 +5,10 @@ import { TMoveContext } from "./TMoveContext.js";
 import { TPiece } from "./TPiece.js";
 import { TDesign } from "./TDesign.js";
 
+/**
+ * A class representing each game state.
+ * This is newly instantiated every time a player makes a move and the game state gets updated.
+ */
 export class TBoard {
   /**
    * 
@@ -45,13 +49,14 @@ export class TBoard {
    * @returns {TBoard} a copied board instance
    */
   copy() {
-    var r = new TBoard(this.design);
+    const r = new TBoard(this.design);
     r.parent = this;
-    r.turn   = this.turn;
+    r.turn = this.turn;
     r.player = this.player;
-    _.each(_.keys(this.pieces), function(pos) {
-      r.pieces[pos] = this.pieces[pos];
-    }, this);
+    // _.each(_.keys(this.pieces), pos => {
+    //   r.pieces[pos] = this.pieces[pos];
+    // });
+    r.pieces = [...this.pieces]; //shallow copying
     r.z = this.z;
     return r;
   }
@@ -79,7 +84,7 @@ export class TBoard {
    * @returns {boolean}
    */
   isLastFrom(pos) {
-    if (!_.isUndefined(this.lastFrom)) {
+    if (this.lastFrom !== undefined) {
       return this.lastFrom == pos;
     }
     return false;
@@ -91,7 +96,7 @@ export class TBoard {
    * @returns {null | TPiece} a piece (null if no piece occupies the given position)
    */
   getPiece(pos) {
-    if (_.isUndefined(this.pieces[pos])) {
+    if (this.pieces[pos] === undefined) {
       return null;
     } else {
       return this.pieces[pos];
@@ -104,14 +109,14 @@ export class TBoard {
    * @param {null | TPiece} piece 
    */
   setPiece(pos, piece) {
-    if (!_.isUndefined(games.model.zupdate) && !_.isUndefined(this.pieces[pos])) {
+    if (games.model.zupdate !== undefined && this.pieces[pos] !== undefined) {
       this.z = games.model.zupdate(this.z, this.pieces[pos], pos);
     }
     if (piece === null) {
       delete this.pieces[pos];
     } else {
       this.pieces[pos] = piece;
-      if (!_.isUndefined(games.model.zupdate)) {
+      if (games.model.zupdate !== undefined) {
         this.z = games.model.zupdate(this.z, piece, pos);
       }
     }
@@ -123,11 +128,15 @@ export class TBoard {
    * @returns {boolean}
    */
   completeMove(parent) {
-    var r = false;
-    _.each(this.design.moves, function(t) {
-      if (t.t != parent.piece.type) return;
-      if (t.m != parent.mode) return;
-      var ctx = parent.copy();
+    let r = false;
+    this.design.moves.forEach(t => {
+      if (t.t != parent.piece.type) {
+        return;
+      }
+      if (t.m != parent.mode) {
+        return;
+      }
+      const ctx = parent.copy();
       ctx.hand = {
         start: parent.pos,
         piece: parent.piece
@@ -137,7 +146,7 @@ export class TBoard {
       if (ctx.succeed) {
         r = true;
       }
-    }, this);
+    });
     return r;
   }
 
@@ -145,45 +154,73 @@ export class TBoard {
    * Generates a list of legal moves and store it in the board instance
    */
   generate() {
-    if (_.isUndefined(this.moves)) {
+    if (this.moves === undefined) {
       this.forks = [];
       this.moves = [];
 
-      var groups = _.groupBy(this.design.moves, function(t) {
-        if (this.design.modes.length == 0) return 0;
-        return _.indexOf(this.design.modes, t.m);
-      }, this);
-      var cnt = this.design.modes.length;
-      if (cnt == 0) cnt = 1;
-      for (var i = 0; i < cnt; i++) {
-        var completed = false;
-        _.each(this.design.allPositions(), function(pos) {
-          var piece = this.getPiece(pos);
-          if (piece === null) return;
-          if (!games.model.sharedPieces && (piece.player != this.player)) return;
-          _.each(groups[i], function(t) {
-            if (t.t != piece.type) return;
-            var ctx = new TMoveContext(this.design, this, pos, piece);
+      /** 
+       * @typedef {Object} move 
+       * @property {number} t - move type
+       * @property {(ctx: TMoveContext, params: *) => *} f - function
+       * @property {Array<number>} p - params 
+       * @property {number} m - move mode 
+       * @property {*} s - sound 
+       */
+      /** @type {Object<number, Array<move>> }} */
+      const groups = _.groupBy(this.design.moves, t => {
+        if (this.design.modes.length == 0) {
+          return 0;
+        }
+        return this.design.modes.indexOf(t.m);
+      });
+
+      let cnt = this.design.modes.length;
+      if (cnt == 0) {
+        cnt = 1;
+      }
+
+      for (let i = 0; i < cnt; i++) {
+        let completed = false;
+        this.design.allPositions().forEach(pos => {
+          const piece = this.getPiece(pos);
+          if (piece === null) {
+            return;
+          }
+          if (!games.model.sharedPieces && (piece.player != this.player)) {
+            return;
+          }
+          groups[i].forEach(t => {
+            if (t.t != piece.type) {
+              return;
+            }
+            const ctx = new TMoveContext(this.design, this, pos, piece);
             ctx.move.mode = t.m;
-            ctx.take(); ctx.setPiece(pos, null);
+            ctx.take();
+            ctx.setPiece(pos, null);
             t.f(ctx, t.p);
             if (ctx.succeed) {
               completed = true;
             }
-          }, this);
-        }, this);
-        if (completed) break;
+          });
+        });
+        if (completed) {
+          break;
+        }
       }
-      for (var i = 0; i < this.forks.length; i++) {
-        var ctx = this.forks[i];
-        var f = true;
-        if (this.completeMove(ctx)) f = false;
+
+      for (const ctx of this.forks) {
+        let f = true;
+        if (this.completeMove(ctx)) {
+          f = false;
+        }
         if (games.model.passPartial || f) {
           this.moves.push(ctx.move);
         }
       }
+
       delete this.forks;
-      if (!_.isUndefined(games.model.extension)) {
+      
+      if (games.model.extension !== undefined) {
         games.model.extension(this);
       }
       if (games.model.passTurn && (this.moves.length == 0)) {
@@ -198,7 +235,7 @@ export class TBoard {
    * @returns {TBoard}
    */
   apply(move) {
-    var r = this.copy();
+    const r = this.copy();
     r.turn = r.design.nextTurn(this);
     r.player = r.design.currPlayer(r.turn);
     move.applyTo(r);

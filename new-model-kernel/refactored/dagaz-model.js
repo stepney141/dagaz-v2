@@ -1,4 +1,3 @@
-import _ from "../../dependencies/underscore-esm-min.js";
 import { TDesign } from "./dagaz-model-class/TDesign.js";
 
 const games = {
@@ -9,7 +8,7 @@ const games = {
     deferredCaptures: false,
 
     getDesign: () => {
-      if (_.isUndefined(games.model.design)) {
+      if (games.model.design === undefined) {
         games.model.design = new TDesign();
       }
       return games.model.design;

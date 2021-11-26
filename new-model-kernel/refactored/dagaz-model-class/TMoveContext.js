@@ -1,4 +1,3 @@
-import _ from "../../../dependencies/underscore-esm-min.js";
 import { games } from "../dagaz-model.js";
 import { TMove } from "./TMove.js";
 import { TDesign } from "./TDesign.js";
@@ -7,11 +6,10 @@ import { TPiece } from "./TPiece.js";
 
 export class TMoveContext {
   /**
-   * 
    * @param {TDesign} design 
    * @param {TBoard} board 
    * @param {number} pos 
-   * @param {null | number} piece 
+   * @param {null | TPiece} piece 
    */
   constructor(design, board, pos, piece) {
     this.design = design;
@@ -26,13 +24,13 @@ export class TMoveContext {
     /** @type {number} */
     this.part = 1;
     
-    /** @type {null | number} */
+    /** @type {null | TPiece} */
     this.piece = piece;
     
     this.move = new TMove(this.mode);
     this.succeed = false;
 
-    /** @type {Array<{p: number, x: *}>} */
+    /** @type {Array<{p: number, x: (null | TPiece)}>} */
     this.changes = [];
 
     this.marks = [];
@@ -46,7 +44,7 @@ export class TMoveContext {
    * @returns {TMoveContext}
    */
   copy() {
-    var r = new TMoveContext(this.design, this.board, this.pos, this.piece);
+    const r = new TMoveContext(this.design, this.board, this.pos, this.piece);
     r.parent = this;
     r.part   = this.part + 1;
     r.move   = this.move.copy();
@@ -68,12 +66,14 @@ export class TMoveContext {
 
   /**
    * 
-   * @param {*} pos 
+   * @param {number} pos 
    * @returns {null | TPiece}
    */
   getPiece(pos) {
-    for (var i = 0; i < this.changes.length; i++) {
-      if (this.changes[i].p == pos) return this.changes[i].x;
+    for (const elem of this.changes) {
+      if (elem.p == pos) {
+        return elem.x;
+      }
     }
     if (this.parent !== null) {
       return this.parent.getPiece(pos);
@@ -105,7 +105,7 @@ export class TMoveContext {
   }
 
   put() {
-    if (!_.isUndefined(this.hand)) {
+    if (this.hand !== undefined) {
       this.piece = this.hand.piece;
       this.move.movePiece(this.hand.start, this.pos, this.hand.piece, this.part);
       delete this.hand;
@@ -120,8 +120,12 @@ export class TMoveContext {
    * @returns {null | *}
    */
   getParam(params, ix) {
-    if (_.isUndefined(params)) return null;
-    if (_.isArray(params)) return params[ix];
+    if (params === undefined) {
+      return null;
+    }
+    if (Array.isArray(params)) {
+      return params[ix];
+    }
     return params;
   }
 
@@ -132,14 +136,18 @@ export class TMoveContext {
    * @returns {boolean}
    */
   go(params, ix) {
-    var dir = this.getParam(params, ix);
-    if (dir === null) return false;
-    var player = this.board.player;
-    if (!_.isUndefined(this.hand)) {
+    const dir = this.getParam(params, ix);
+    if (dir === null) {
+      return false;
+    }
+    let player = this.board.player;
+    if (this.hand !== undefined) {
       player = this.hand.piece.player;
     }
-    var p = this.design.navigate(player, this.pos, dir);
-    if (p === null) return false;
+    const p = this.design.navigate(player, this.pos, dir);
+    if (p === null) {
+      return false;
+    }
     this.pos = p;
     return true;
   }
@@ -151,8 +159,10 @@ export class TMoveContext {
    * @returns {null | number}
    */
   opposite(params, ix) {
-    var dir = this.getParam(params, ix);
-    if (dir === null) return null;
+    const dir = this.getParam(params, ix);
+    if (dir === null) {
+      return null;
+    }
     return this.design.opposite(dir);
   }
 
@@ -163,12 +173,14 @@ export class TMoveContext {
    * @returns {boolean}
    */
   isLastFrom(params, ix) {
-    var pos = this.getParam(params, ix);
+    let pos = this.getParam(params, ix);
     if (pos === null) {
       pos = this.pos;
     }
     if ((this.parent !== null) && (this.parent.parent !== null)) {
-      if (pos == this.parent.parent.from) return true;
+      if (pos == this.parent.parent.from) {
+        return true;
+      }
     }
     return this.board.isLastFrom(pos);
   }
@@ -179,9 +191,10 @@ export class TMoveContext {
    */
   isEmpty() {
     if (games.model.deferredCaptures) {
-      for (var i = 0; i < this.move.actions.length; i++) {
-        var a = this.move.actions[i];
-        if ((a[0] !== null) && (a[1] === null) && (a[0] == this.pos)) return false;
+      for (const a of this.move.actions) {
+        if ((a[0] !== null) && (a[1] === null) && (a[0] == this.pos)) {
+          return false;
+        }
       }
     }
     return this.getPiece(this.pos) === null;
@@ -192,8 +205,10 @@ export class TMoveContext {
    * @returns {boolean}
    */
   isEnemy() {
-    var piece = this.getPiece(this.pos);
-    if (piece === null) return false;
+    const piece = this.getPiece(this.pos);
+    if (piece === null) {
+      return false;
+    }
     return piece.player != this.board.player;
   }
 
@@ -202,8 +217,10 @@ export class TMoveContext {
    * @returns {boolean}
    */
   isFriend() {
-    var piece = this.getPiece(this.pos);
-    if (piece === null) return false;
+    const piece = this.getPiece(this.pos);
+    if (piece === null) {
+      return false;
+    }
     return piece.player == this.board.player;
   }
 
@@ -214,12 +231,14 @@ export class TMoveContext {
    * @returns {boolean}
    */
   isPiece(params, ix) {
-    var t = this.getParam(params, ix);
+    const t = this.getParam(params, ix);
     if (t === null) {
       return !this.isEmpty();
     }
-    var piece = this.getPiece(this.pos);
-    if (piece === null) return false;
+    const piece = this.getPiece(this.pos);
+    if (piece === null) {
+      return false;
+    }
     return piece.type == t;
   }
 
@@ -230,10 +249,12 @@ export class TMoveContext {
    * @returns {null | boolean}
    */
   inZone(params, ix) {
-    var zone = this.getParam(params, ix);
-    if (zone === null) return null;
-    var player = this.board.player;
-    if (!_.isUndefined(this.hand)) {
+    const zone = this.getParam(params, ix);
+    if (zone === null) {
+      return null;
+    }
+    let player = this.board.player;
+    if (this.hand !== undefined) {
       player = this.hand.piece.player;
     }
     return this.design.inZone(player, this.pos, zone);
@@ -246,9 +267,13 @@ export class TMoveContext {
    * @returns {boolean}
    */
   promote(params, ix) {
-    if (_.isUndefined(this.hand)) return false;
-    var type = this.getParam(params, ix);
-    if (type === null) return false;
+    if (this.hand === undefined) {
+      return false;
+    }
+    const type = this.getParam(params, ix);
+    if (type === null) {
+      return false;
+    }
     this.hand.piece = this.hand.piece.promote(type);
     return true;
   }
@@ -267,12 +292,12 @@ export class TMoveContext {
    * @param {*} ix 
    */
   end(params, ix) {
-    var hand = this.hand;
+    const hand = this.hand;
     this.put();
     this.mode = this.getParam(params, ix);
     if (this.succeed) {
       if (this.mode !== null) {
-        var ctx = this.copy();
+        const ctx = this.copy();
         this.board.forks.push(ctx);
       } else {
         this.board.moves.push(this.move);

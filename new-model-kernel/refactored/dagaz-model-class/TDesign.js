@@ -2,7 +2,12 @@ import _ from "../../../dependencies/underscore-esm-min.js";
 import { games } from "../dagaz-model.js";
 import { TPiece } from "./TPiece.js";
 import { TBoard } from "./TBoard.js";
+import { TMoveContext } from "./TMoveContext.js";
 
+/**
+ * A class representing general rules or information of the game.
+ * This will never be re-instantiated after it once gets instantiated.
+ */
 export class TDesign {
   constructor() {
     /**
@@ -101,7 +106,9 @@ export class TDesign {
    * @returns {string} a position name
    */
   posToString(pos) {
-    if (_.isUndefined(this.positionNames[pos])) return "?";
+    if (this.positionNames[pos] === undefined) {
+      return "?";
+    }
     return this.positionNames[pos];
   }
 
@@ -111,8 +118,10 @@ export class TDesign {
    * @returns {null | number} a position id
    */
   stringToPos(name) {
-    var pos = _.indexOf(this.positionNames, name);
-    if (pos < 0) return null;
+    const pos = this.positionNames.indexOf(name);
+    if (pos < 0) {
+      return null;
+    }
     return pos;
   }
 
@@ -130,7 +139,7 @@ export class TDesign {
    * @param {Array<number>} symmetry 
    */
   addPlayer(name, symmetry) {
-    var ix = this.playerNames.length;
+    const ix = this.playerNames.length;
     if (this.playerNames.length == 0) {
       this.playerNames.push("opposite");
     }
@@ -144,20 +153,20 @@ export class TDesign {
    * @param {*} modes 
    */
   addTurn(player, modes) {
-    if (_.isUndefined(this.turns)) {
+    if (this.turns === undefined) {
       this.turns = [];
     }
-    if (!_.isUndefined(modes) && !_.isArray(modes)) {
+    if (modes !== undefined && !Array.isArray(modes)) {
       modes = [modes];
     }
     this.turns.push({
-      p: player,
-      m: modes
+      player: player,
+      mode: modes
     });
   }
 
   repeatMark() {
-    if (_.isUndefined(this.turns)) {
+    if (this.turns === undefined) {
       this.turns = [];
     }
     this.repeat = this.turns.length;
@@ -171,7 +180,7 @@ export class TDesign {
   addPosition(name, dirs) {
     if ((this.positions.length == 0) && (name != "start")) {
       this.positionNames.push("start");
-      this.positions.push(_.map(_.range(dirs.length), function(n) {return 0;}));
+      this.positions.push(_.range(dirs.length).fill(0));
     }
     this.positionNames.push(name);
     this.positions.push(dirs);
@@ -184,17 +193,15 @@ export class TDesign {
    * @param {Array<string>} positions - positions which are in the zone
    */
   addZone(name, player, positions) {
-    var zone = _.indexOf(this.zoneNames, name);
+    let zone = this.zoneNames.indexOf(name);
     if (zone < 0) {
       zone = this.zoneNames.length;
       this.zoneNames.push(name);
     }
-    if (_.isUndefined(this.zones[zone])) {
+    if (this.zones[zone] === undefined) {
       this.zones[zone] = [];
     }
-    this.zones[zone][player] = _.map(positions, function(name) {
-      return this.stringToPos(name);
-    }, this);
+    this.zones[zone][player] = positions.map(name => this.stringToPos(name));
   }
 
   /**
@@ -209,10 +216,11 @@ export class TDesign {
    * Defines a piece
    * @param {string} name - a piece name
    * @param {number} type - an id of a piece type
-   * @param {number} price - a piece value
+   * @param {number=} [price=1] - a piece value
    */
+  addPiece(name, type, price = 1) {
     this.pieceNames[type] = name;
-    this.price[type] = price ? price : 1;
+    this.price[type] = price;
   }
 
   /**
@@ -221,8 +229,10 @@ export class TDesign {
    * @returns {null | number}
    */
   getPieceType(name) {
-    var r = _.indexOf(this.pieceNames, name);
-    if (r < 0) return null;
+    const r = this.pieceNames.indexOf(name);
+    if (r < 0) {
+      return null;
+    }
     return r;
   }
 
@@ -249,12 +259,12 @@ export class TDesign {
    * @returns {TBoard} an initial game state
    */
   getInitBoard() {
-    if (_.isUndefined(this.board)) {
+    if (this.board === undefined) {
       games.model.BuildDesign(this);
       this.board = new TBoard(this);
-      _.each(this.initial, function(s) {
+      this.initial.forEach(s => {
         this.board.setPiece(s.p, s.t);
-      }, this);
+      });
     }
     return this.board;
   }
@@ -266,23 +276,23 @@ export class TDesign {
    * @param {Array<string> | string} positions - names of cells which the piece occupies when the game starts
    */
   setup(player, type, positions) {
-    var t = _.indexOf(this.pieceNames, type);
-    var p = _.indexOf(this.playerNames, player);
-    if ((t < 0) || (p < 0)) return;
-    var piece = new TPiece(t, p);
-    if (!_.isArray(positions)) {
+    const t = this.pieceNames.indexOf(type);
+    const p = this.playerNames.indexOf(player);
+    if ((t < 0) || (p < 0)) {
+      return;
+    }
+    const piece = new TPiece(t, p);
+    if (!Array.isArray(positions)) {
       positions = [positions];
     }
-    _.chain(positions)
-      .map(function(name) {
-        return this.stringToPos(name);
-      }, this)
-      .each(function(pos) {
+    positions
+      .map(name => this.stringToPos(name))
+      .forEach(pos => {
         this.initial.push({
           p: pos,
           t: piece
         });
-      }, this);
+      });
   }
 
 
@@ -317,7 +327,7 @@ export class TDesign {
    * @returns {null | number} a direction id
    */
   getDirection(name) {
-    var dir = _.indexOf(this.dirs, name);
+    const dir = this.dirs.indexOf(name);
     if (dir < 0) {
       return null;
     }
@@ -332,7 +342,7 @@ export class TDesign {
    * @returns {null | number}
    */
   navigate(player, pos, dir) {
-    if (!_.isUndefined(this.players[player])) {
+    if (this.players[player] !== undefined) {
       dir = this.players[player][dir];
     }
     if (this.positions[pos][dir] != 0) {
@@ -342,10 +352,13 @@ export class TDesign {
     }
   }
 
-  opposite(dir, player) {
-    if (_.isUndefined(player)) {
-      player = 0;
-    }
+  /**
+   * 
+   * @param {*} dir 
+   * @param {number=} [player=0]
+   * @returns {number}
+   */
+  opposite(dir, player = 0) {
     return this.players[player][dir];
   }
 
@@ -355,8 +368,10 @@ export class TDesign {
    * @returns {null | number} a zone id
    */
   getZone(name) {
-    var zone = _.indexOf(this.zoneNames, name);
-    if (zone < 0) return null;
+    const zone = this.zoneNames.indexOf(name);
+    if (zone < 0) {
+      return null;
+    }
     return zone;
   }
 
@@ -368,9 +383,9 @@ export class TDesign {
    * @returns {boolean}
    */
   inZone(player, pos, zone) {
-    if (!_.isUndefined(this.zones[zone])) {
-      if (!_.isUndefined(this.zones[zone][player])) {
-        return _.indexOf(this.zones[zone][player], pos) >= 0;
+    if (this.zones[zone] !== undefined) {
+      if (this.zones[zone][player] !== undefined) {
+        return this.zones[zone][player].indexOf(pos) >= 0;
       }
     }
     return false;
@@ -395,18 +410,18 @@ export class TDesign {
    * @returns {number}
    */
   nextTurn(board) {
-    var turn = board.turn + 1;
-    if (_.isUndefined(this.turns)) {
+    let turn = board.turn + 1;
+    if (this.turns === undefined) {
       if (turn >= this.players.length - 1) {
         turn = 0;
-        if (!_.isUndefined(this.repeat)) {
+        if (this.repeat !== undefined) {
           turn += this.repeat;
         }
       }
     } else {
       if (turn >= this.turns.length) {
         turn = 0;
-        if (!_.isUndefined(this.repeat)) {
+        if (this.repeat !== undefined) {
           turn += this.repeat;
         }
       }
@@ -420,7 +435,7 @@ export class TDesign {
    * @returns {number} a player id
    */
   currPlayer(turn) {
-    if (_.isUndefined(this.turns)) {
+    if (this.turns === undefined) {
       return turn + 1;
     } else {
       return this.turns[turn].player;
