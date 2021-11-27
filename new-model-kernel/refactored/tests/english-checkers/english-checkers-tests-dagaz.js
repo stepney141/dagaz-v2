@@ -1,8 +1,8 @@
 import { games } from "./english-checkers-dagaz.js";
 
 QUnit.test("Initial Board", function (assert) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard();
+  const design = games.model.getDesign();
+  let board = design.getInitBoard();
   assert.equal( board.player , 1, "Black move");
   assert.equal( board.turn, 0, "board.turn == 0");
   assert.equal( board.player, 1, "board.player == 1");
@@ -175,14 +175,14 @@ QUnit.test("Initial Board", function (assert) {
 });
 
 QUnit.test( "Man Capturing", function( assert ) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard().copy();
+  const design = games.model.getDesign();
+  let board = design.getInitBoard().copy();
   assert.equal( board.player , 1, "Black move");
   board.clear();
-  var black = design.createPiece(0, 1);
+  const black = design.createPiece(0, 1);
   board.setPiece(design.stringToPos("a3"), black);
   board.setPiece(design.stringToPos("f2"), black);
-  var white = design.createPiece(0, 2);
+  const white = design.createPiece(0, 2);
   board.setPiece(design.stringToPos("c3"), white);
   board.setPiece(design.stringToPos("c5"), white);
   board.setPiece(design.stringToPos("c7"), white);
@@ -209,15 +209,15 @@ QUnit.test( "Man Capturing", function( assert ) {
 });
 
 QUnit.test( "King Capturing", function( assert ) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard().copy();
+  const design = games.model.getDesign();
+  let board = design.getInitBoard().copy();
   assert.equal( board.player , 1, "Black move");
   board.clear();
-  var black = design.createPiece(0, 1);
+  let black = design.createPiece(0, 1);
   board.setPiece(design.stringToPos("f2"), black);
   black = black.promote(1);
   board.setPiece(design.stringToPos("d4"), black);
-  var white = design.createPiece(0, 2);
+  const white = design.createPiece(0, 2);
   board.setPiece(design.stringToPos("c5"), white);
   board.setPiece(design.stringToPos("c7"), white);
   board.setPiece(design.stringToPos("e5"), white);

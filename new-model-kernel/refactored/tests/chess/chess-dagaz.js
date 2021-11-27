@@ -1,13 +1,12 @@
-import _ from "../../../../dependencies/underscore-esm-min.js";
 import { games } from "./chess-dagaz-invariant.js";
 
-var step = function(ctx, params) {
+const step = function(ctx, params) {
   if (ctx.go(params, 0) && !ctx.isFriend()) {
     ctx.end();
   }
 };
 
-var pawnShift = function(ctx, params) {
+const pawnShift = function(ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
     if (ctx.inZone(0)) {
       ctx.promote(4);
@@ -16,7 +15,7 @@ var pawnShift = function(ctx, params) {
   }
 };
 
-var pawnLeap = function(ctx, params) {
+const pawnLeap = function(ctx, params) {
   if (ctx.go(params, 0) && ctx.isEnemy()) {
     if (ctx.inZone(0)) {
       ctx.promote(4);
@@ -25,7 +24,7 @@ var pawnLeap = function(ctx, params) {
   }
 };
 
-var pawnJump = function(ctx, params) {
+const pawnJump = function(ctx, params) {
   if (ctx.go(params, 0) && 
         ctx.isEmpty() && 
         ctx.inZone(1) && 
@@ -35,7 +34,7 @@ var pawnJump = function(ctx, params) {
   }
 };
 
-var enPassant = function(ctx, params) {
+const enPassant = function(ctx, params) {
   if (ctx.go(params, 0) &&
         ctx.isEnemy() &&
         ctx.isPiece(0)) {
@@ -50,7 +49,7 @@ var enPassant = function(ctx, params) {
   }
 };
 
-var jump = function(ctx, params) {
+const jump = function(ctx, params) {
   if (ctx.go(params, 0) && 
         ctx.go(params, 1) && 
        !ctx.isFriend()) {
@@ -58,7 +57,7 @@ var jump = function(ctx, params) {
   }
 };
 
-var slide = function(ctx, params) {
+const slide = function(ctx, params) {
   while (ctx.go(params, 0)) {
     if (ctx.isFriend()) break;
     ctx.end();
@@ -66,7 +65,7 @@ var slide = function(ctx, params) {
   }
 };
 
-var O_O = function(ctx, params) {
+const O_O = function(ctx, params) {
   if (ctx.go(params, 0) &&
         ctx.isEmpty() &&
         ctx.go(params, 0) &&
@@ -84,7 +83,7 @@ var O_O = function(ctx, params) {
   }
 };
 
-var O_O_O = function(ctx, params) {
+const O_O_O = function(ctx, params) {
   if (ctx.go(params, 0) &&
         ctx.isEmpty() &&
         ctx.go(params, 0) &&

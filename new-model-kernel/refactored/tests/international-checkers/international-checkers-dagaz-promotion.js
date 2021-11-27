@@ -1,18 +1,25 @@
-import _ from "../../../../dependencies/underscore-esm-min.js";
 import { games } from "./maximal-captures-dagaz.js";
+import { TBoard } from "../../dagaz-model-class/TBoard.js";
 
-var extension = games.model.extension;
+const extension = games.model.extension;
 
+/**
+ * @param {TBoard} board 
+ */
 games.model.extension = function(board) {
-  var design = board.design;
-  _.each(board.moves, function(move) {
-    if (move.actions.length == 0) return;
-    var action = move.actions[move.actions.length - 1];
+  const design = board.design;
+
+  board.moves.forEach(move => {
+    if (move.actions.length == 0) {
+      return;
+    }
+    const action = move.actions[move.actions.length - 1];
     if ((action[1] !== null) && (action[2] !== null) && design.inZone(board.player, action[1], 0)) {
       action[2] = action[2].promote(1);
     }
   });
-  if (!_.isUndefined(extension)) {
+
+  if (extension !== undefined) {
     extension(board);
   }
 };

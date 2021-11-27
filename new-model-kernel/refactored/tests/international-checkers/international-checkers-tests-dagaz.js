@@ -1,13 +1,13 @@
 import { games } from "./international-checkers-dagaz.js";
 
 QUnit.test("Man promotion", function (assert) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard().copy();
+  const design = games.model.getDesign();
+  let board = design.getInitBoard().copy();
   assert.equal( board.player , 1, "White move");
   board.clear();
-  var white = design.createPiece(0, 1);
+  const white = design.createPiece(0, 1);
   board.setPiece(design.stringToPos("b8"), white);
-  var black = design.createPiece(0, 2);
+  const black = design.createPiece(0, 2);
   board.setPiece(design.stringToPos("b2"), black);
   board.setPiece(design.stringToPos("b4"), black);
   board.setPiece(design.stringToPos("c7"), black);
@@ -65,14 +65,14 @@ QUnit.test("Man promotion", function (assert) {
 });
 
 QUnit.test( "Check lastFrom", function( assert ) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard().copy();
+  const design = games.model.getDesign();
+  let board = design.getInitBoard().copy();
   assert.equal( board.player , 1, "White move");
   board.clear();
-  var white = design.createPiece(1, 1);
+  const white = design.createPiece(1, 1);
   board.setPiece(design.stringToPos("d4"), white);
   board.setPiece(design.stringToPos("e5"), white);
-  var black = design.createPiece(1, 2);
+  const black = design.createPiece(1, 2);
   board.setPiece(design.stringToPos("j10"), black);
   board.generate();
   assert.equal( board.moves.length, 21, "21 moves:");

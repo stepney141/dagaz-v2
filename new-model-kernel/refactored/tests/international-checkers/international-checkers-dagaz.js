@@ -1,12 +1,12 @@
 import { games } from "./international-checkers-dagaz-promotion.js";
 
-var shiftMan = function(ctx, params) {
+const shiftMan = function(ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
     ctx.end();
   }
 };
 
-var jumpMan = function(ctx, params) {
+const jumpMan = function(ctx, params) {
   if (ctx.go(params, 0) && ctx.isEnemy()) {
     ctx.capture();
     if (ctx.go(params, 0) && ctx.isEmpty()) {
@@ -15,13 +15,13 @@ var jumpMan = function(ctx, params) {
   }
 };
 
-var shiftKing = function(ctx, params) {
+const shiftKing = function(ctx, params) {
   while (ctx.go(params, 0) && ctx.isEmpty()) {
     ctx.end();
   }
 };
 
-var jumpKing = function(ctx, params) {
+const jumpKing = function(ctx, params) {
   while (ctx.go(params, 0)) {
     if (!ctx.isEmpty()) break;
   }
@@ -33,7 +33,7 @@ var jumpKing = function(ctx, params) {
   }
 };
 
-var contKing = function(ctx, params) {
+const contKing = function(ctx, params) {
   while (ctx.go(params, 0)) {
     if (!ctx.isEmpty()) break;
     if (ctx.isLastFrom()) return;

@@ -1,8 +1,8 @@
 import { games } from "./chess-dagaz.js";
 
 QUnit.test("Initial Board", function (assert) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard();
+  const design = games.model.getDesign();
+  const board = design.getInitBoard();
   assert.equal( board.player, 1, "White move");
   board.generate();
   assert.equal( board.moves.length , 20, "20 moves:");
@@ -29,15 +29,15 @@ QUnit.test("Initial Board", function (assert) {
 });
 
 QUnit.test( "En Passant", function( assert ) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard();
+  const design = games.model.getDesign();
+  let board = design.getInitBoard();
   board.clear();
   assert.equal( board.player, 1, "White move");
-  var white = design.createPiece(0, 1);
+  const white = design.createPiece(0, 1);
   board.setPiece(design.stringToPos("c4"), white);
   board.setPiece(design.stringToPos("e2"), white);
   board.setPiece(design.stringToPos("g2"), white);
-  var black = design.createPiece(0, 2);
+  const black = design.createPiece(0, 2);
   board.setPiece(design.stringToPos("d4"), black);
   board.setPiece(design.stringToPos("f4"), black);
   board.generate();
@@ -84,11 +84,11 @@ QUnit.test( "En Passant", function( assert ) {
 });
 
 QUnit.test( "Castling", function( assert ) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard();
+  const design = games.model.getDesign();
+  let board = design.getInitBoard();
   board.clear();
   assert.equal( board.player, 1, "White move");
-  var whitePawn = design.createPiece(0, 1);
+  const whitePawn = design.createPiece(0, 1);
   board.setPiece(design.stringToPos("a2"), whitePawn);
   board.setPiece(design.stringToPos("b2"), whitePawn);
   board.setPiece(design.stringToPos("c2"), whitePawn);
@@ -97,12 +97,12 @@ QUnit.test( "Castling", function( assert ) {
   board.setPiece(design.stringToPos("f2"), whitePawn);
   board.setPiece(design.stringToPos("g2"), whitePawn);
   board.setPiece(design.stringToPos("h2"), whitePawn);
-  var whiteKing = design.createPiece(5, 1);
+  const whiteKing = design.createPiece(5, 1);
   board.setPiece(design.stringToPos("e1"), whiteKing);
-  var whiteRook = design.createPiece(1, 1);
+  const whiteRook = design.createPiece(1, 1);
   board.setPiece(design.stringToPos("a1"), whiteRook);
   board.setPiece(design.stringToPos("h1"), whiteRook);
-  var blackPawn = design.createPiece(0, 2);
+  const blackPawn = design.createPiece(0, 2);
   board.setPiece(design.stringToPos("a7"), blackPawn);
   board.setPiece(design.stringToPos("b7"), blackPawn);
   board.setPiece(design.stringToPos("c7"), blackPawn);
@@ -111,9 +111,9 @@ QUnit.test( "Castling", function( assert ) {
   board.setPiece(design.stringToPos("f7"), blackPawn);
   board.setPiece(design.stringToPos("g7"), blackPawn);
   board.setPiece(design.stringToPos("h7"), blackPawn);
-  var blackKing = design.createPiece(5, 2);
+  const blackKing = design.createPiece(5, 2);
   board.setPiece(design.stringToPos("e8"), blackKing);
-  var blackRook = design.createPiece(1, 2);
+  const blackRook = design.createPiece(1, 2);
   board.setPiece(design.stringToPos("a8"), blackRook);
   board.setPiece(design.stringToPos("h8"), blackRook);
   board.generate();
@@ -185,15 +185,15 @@ QUnit.test( "Castling", function( assert ) {
 });
 
 QUnit.test( "Stalemate", function( assert ) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard();
+  const design = games.model.getDesign();
+  let board = design.getInitBoard();
   board.clear();
   assert.equal( board.player, 1, "White move");
-  var whiteKing = design.createPiece(5, 1);
+  const whiteKing = design.createPiece(5, 1);
   board.setPiece(design.stringToPos("e1"), whiteKing);
-  var whiteQueen = design.createPiece(4, 1);
+  const whiteQueen = design.createPiece(4, 1);
   board.setPiece(design.stringToPos("d1"), whiteQueen);
-  var blackKing = design.createPiece(5, 2);
+  const blackKing = design.createPiece(5, 2);
   board.setPiece(design.stringToPos("b8"), blackKing);
   assert.ok( games.model.getGoal(board, board.player) === null, "No goal");
   board.generate();
@@ -269,16 +269,16 @@ QUnit.test( "Stalemate", function( assert ) {
 });
 
 QUnit.test( "Checkmate", function( assert ) {
-  var design = games.model.getDesign();
-  var board = design.getInitBoard();
+  const design = games.model.getDesign();
+  let board = design.getInitBoard();
   board.clear();
   assert.equal( board.player, 1, "White move");
-  var whiteKing = design.createPiece(5, 1);
+  const whiteKing = design.createPiece(5, 1);
   board.setPiece(design.stringToPos("e1"), whiteKing);
-  var whiteRook = design.createPiece(1, 1);
+  const whiteRook = design.createPiece(1, 1);
   board.setPiece(design.stringToPos("a1"), whiteRook);
   board.setPiece(design.stringToPos("h1"), whiteRook);
-  var blackKing = design.createPiece(5, 2);
+  const blackKing = design.createPiece(5, 2);
   board.setPiece(design.stringToPos("e8"), blackKing);
   assert.ok( games.model.getGoal(board, board.player) === null, "No goal");
   board.generate();

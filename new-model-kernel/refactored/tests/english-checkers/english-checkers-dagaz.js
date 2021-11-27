@@ -1,6 +1,6 @@
 import { games } from "../../dagaz-model.js";
 
-var shiftMan = function(ctx, params) {
+const shiftMan = function(ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
     if (ctx.inZone(0)) {
       ctx.promote(1);
@@ -9,13 +9,13 @@ var shiftMan = function(ctx, params) {
   }
 };
 
-var shiftKing = function(ctx, params) {
+const shiftKing = function(ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
     ctx.end();
   }
 };
 
-var jumpMan = function(ctx, params) {
+const jumpMan = function(ctx, params) {
   if (ctx.go(params, 0) && ctx.isEnemy()) {
     ctx.capture();
     if (ctx.go(params, 0) && ctx.isEmpty()) {
@@ -29,7 +29,7 @@ var jumpMan = function(ctx, params) {
   }
 };
 
-var jumpKing = function(ctx, params) {
+const jumpKing = function(ctx, params) {
   if (ctx.go(params, 0) && ctx.isEnemy()) {
     ctx.capture();
     if (ctx.go(params, 0) && ctx.isEmpty()) {

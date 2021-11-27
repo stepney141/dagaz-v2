@@ -1,16 +1,17 @@
 import _ from "../../../../dependencies/underscore-esm-min.js";
 import { games } from "../../dagaz-model.js";
+import { TBoard } from "../../dagaz-model-class/TBoard.js";
 
-var extension = games.model.extension;
+const extension = games.model.extension;
 
+/**
+ * @param {TBoard} board 
+ */
 games.model.extension = function(board) {
-  var len = _.max(_.map(board.moves, function(move) {
-    return move.actions.length;
-  }));
-  board.moves = _.filter(board.moves, function(move) {
-    return move.actions.length == len;
-  });
-  if (!_.isUndefined(extension)) {
+  const len = _.max(board.moves.map(move =>  move.actions.length));
+  board.moves = board.moves.filter(move => move.actions.length == len);
+  
+  if (extension !== undefined) {
     extension(board);
   }
 };
