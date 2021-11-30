@@ -116,8 +116,8 @@ games.model.BuildDesign = function(design) {
   design.addDirection("sw"); // 6
   design.addDirection("nw"); // 7
 
-  design.addPlayer("White", [1, 0, 4, 6, 2, 7, 3, 5]);
-  design.addPlayer("Black", [0, 1, 4, 5, 2, 3, 7, 6]);
+  design.addPlayer("White", [1, 0, 4, 6, 2, 7, 3, 5]); // [e, w, n, sw, s, nw, ne, se]
+  design.addPlayer("Black", [0, 1, 4, 5, 2, 3, 7, 6]); // [w, e, n, se, s, ne, nw, sw]
 
   design.addPosition("a8", [0, 1, 8, 0, 0, 9, 0, 0]);
   design.addPosition("b8", [-1, 1, 8, 0, 0, 9, 7, 0]);

@@ -1,12 +1,19 @@
 import { TBoard } from "./TBoard.js";
+import { TDesign } from "./TDesign.js";
+import { TPiece } from "./TPiece.js";
 
 export class TMove {
   /**
-   * 
-   * @param {number} mode 
+   * @param {null | number} mode 
    */
   constructor(mode) {
-    /** @type {Array<Array<(null | number)>>} */
+    /**
+     * action[0] from - the cell where the move starts.  
+     * action[1] to - the cell where the move finishes. In a drop move, this parameter should be a cell where the piece is placed on.  
+     * action[2] piece - the piece object that a player moves.  
+     * action[3] part -   
+     * @type {Array<[(null | number), (null | number), (null | TPiece), (null | number)]>>}
+     */
     this.actions = [];
     this.mode = mode;
   }
@@ -40,8 +47,8 @@ export class TMove {
   }
 
   /**
-   * 
-   * @param {*} design 
+   * Converts the moves to human-readable strings
+   * @param {TDesign} design 
    * @returns {string}
    */
   toString(design) {
@@ -54,9 +61,9 @@ export class TMove {
           if (r != "") {
             r = r + " ";
           }
-          r = r + design.posToString(a[0]);
+          r = r + design.posToString(a[0]); //convert the start cell to strings
         }
-        r = r + "-" + design.posToString(a[1]);
+        r = r + "-" + design.posToString(a[1]); //convert the target cell to strings
         p = a[1];
       }
     }
@@ -73,7 +80,7 @@ export class TMove {
   }
 
   /**
-   * 
+   * Checks whether the move is a drop move or not.
    * @returns {boolean}
    */
   isDropMove() {
@@ -84,7 +91,8 @@ export class TMove {
   }
 
   /**
-   * 
+   * Checks whether the move is a "simple move" or not.
+   * When a player just moves his/her piece from a current cell to another one, the move is a simple move.
    * @returns {boolean}
    */
   isSimpleMove() {
@@ -95,7 +103,7 @@ export class TMove {
   }
 
   /**
-   * 
+   * Called when the move is a piece-transferring move.
    * @param {number} from 
    * @param {number} to 
    * @param {null | TPiece} piece 
@@ -106,7 +114,7 @@ export class TMove {
   }
 
   /**
-   * 
+   * Called when the move is a piece-capturing move.
    * @param {number} from 
    * @param {number=} [part=1]
    */
@@ -115,7 +123,7 @@ export class TMove {
   }
 
   /**
-   * 
+   * Called when the move is a piece-dropping move.
    * @param {*} to 
    * @param {*} piece 
    * @param {number=} [part=1]
@@ -125,16 +133,16 @@ export class TMove {
   }
 
   /**
-   * 
+   * Updates the current board state with the move.
    * @param {TBoard} obj 
    */
   applyTo(obj) {
     this.actions.forEach(a => {
       if (a[0] !== null) {
-        obj.setPiece(a[0], null);
+        obj.setPiece(a[0], null); //make empty the start cell
       }
       if ((a[1] !== null) && (a[2] !== null)) {
-        obj.setPiece(a[1], a[2]);
+        obj.setPiece(a[1], a[2]); //put a piece on the goal cell
       }
       if ((a[0] !== null) && (a[1] !== null) && (obj.setLastFrom !== undefined)) {
         obj.setLastFrom(a[0]);

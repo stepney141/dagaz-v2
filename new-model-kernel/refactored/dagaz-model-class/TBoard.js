@@ -11,35 +11,34 @@ import { TDesign } from "./TDesign.js";
  */
 export class TBoard {
   /**
-   * 
-   * @param {TDesign} design 
+   * @param {TDesign} design - a game design object
    */
   constructor(design) {
     this.design = design;
     
     /**
+     * A list of pieces on the current board. An index of this array corresponds to a position of the piece.
      * @type {Array<TPiece>}
-     * @description a list of pieces on the current board. a new piece will be pushed into the index corresponding to its position id.
      */
     this.pieces = [];
 
     /**
+     * An id of the current turn corresponding to the player id.
      * @type {number}
-     * @description an id of the current turn. it corresponds to the player id.
      */
     this.turn = 0;
     
     /**
+     * An id of a player who makes a move in the current turn
      * @type {number}
-     * @description an id of a player who makes a move in the current turn
      */
     this.player = design.currPlayer(this.turn);
     
     this.z = 0;
     
     /**
+     * A list of legal moves available in the current game state.
      * @type {Array<TMove> | undefined}
-     * @description a list of legal moves available in the current game state.
      */
     this.moves;
   }
@@ -62,7 +61,7 @@ export class TBoard {
   }
 
   /**
-   * Clears the instance members
+   * Clears the current board state
    */
   clear() {
     this.pieces = [];
@@ -72,14 +71,14 @@ export class TBoard {
 
   /**
    * 
-   * @param {*} pos 
+   * @param {number} pos 
    */
   setLastFrom(pos) {
     this.lastFrom = pos; 
   }
 
   /**
-   * 
+   *
    * @param {*} pos 
    * @returns {boolean}
    */
@@ -104,9 +103,9 @@ export class TBoard {
   }
 
   /**
-   * Puts a given piece to a given position on the board instance
-   * @param {null | number} pos 
-   * @param {null | TPiece} piece 
+   * Puts a given piece to a given position on the board
+   * @param {null | number} pos - a piece position id
+   * @param {null | TPiece} piece - a piece type id
    */
   setPiece(pos, piece) {
     if (games.model.zupdate !== undefined && this.pieces[pos] !== undefined) {
@@ -155,23 +154,24 @@ export class TBoard {
    */
   generate() {
     if (this.moves === undefined) {
+      /** @type {Array<TMoveContext>} */
       this.forks = [];
       this.moves = [];
 
       /** 
        * @typedef {Object} move 
-       * @property {number} t - move type
+       * @property {number} t - piece type id
        * @property {(ctx: TMoveContext, params: *) => *} f - function
        * @property {Array<number>} p - params 
        * @property {number} m - move mode 
        * @property {*} s - sound 
        */
       /** @type {Object<number, Array<move>> }} */
-      const groups = _.groupBy(this.design.moves, t => {
+      const groups = _.groupBy(this.design.moves, move => {
         if (this.design.modes.length == 0) {
           return 0;
         }
-        return this.design.modes.indexOf(t.m);
+        return this.design.modes.indexOf(move.m);
       });
 
       let cnt = this.design.modes.length;
@@ -189,15 +189,15 @@ export class TBoard {
           if (!games.model.sharedPieces && (piece.player != this.player)) {
             return;
           }
-          groups[i].forEach(t => {
-            if (t.t != piece.type) {
+          groups[i].forEach(move => {
+            if (move.t != piece.type) {
               return;
             }
             const ctx = new TMoveContext(this.design, this, pos, piece);
-            ctx.move.mode = t.m;
+            ctx.move.mode = move.m;
             ctx.take();
             ctx.setPiece(pos, null);
-            t.f(ctx, t.p);
+            move.f(ctx, move.p);
             if (ctx.succeed) {
               completed = true;
             }
@@ -230,12 +230,12 @@ export class TBoard {
   }
 
   /**
-   * Makes a move and create a new game state
+   * Makes a move and creates a new game state
    * @param {TMove} move 
    * @returns {TBoard}
    */
   apply(move) {
-    const r = this.copy();
+    const r = this.copy(); //create a new game state
     r.turn = r.design.nextTurn(this);
     r.player = r.design.currPlayer(r.turn);
     move.applyTo(r);

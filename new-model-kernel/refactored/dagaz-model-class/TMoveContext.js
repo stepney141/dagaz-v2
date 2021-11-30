@@ -4,11 +4,14 @@ import { TDesign } from "./TDesign.js";
 import { TBoard } from "./TBoard.js";
 import { TPiece } from "./TPiece.js";
 
+/**
+ * A class representing
+ */
 export class TMoveContext {
   /**
-   * @param {TDesign} design 
-   * @param {TBoard} board 
-   * @param {number} pos 
+   * @param {TDesign} design - a gane design object
+   * @param {TBoard} board - a game state object
+   * @param {number} pos
    * @param {null | TPiece} piece 
    */
   constructor(design, board, pos, piece) {
@@ -16,6 +19,8 @@ export class TMoveContext {
     this.board = board;
     this.from = pos;
     this.pos = pos;
+
+    /** @type {null | number} */
     this.mode = null;
     
     /** @type {null | TMoveContext} */
@@ -114,10 +119,10 @@ export class TMoveContext {
   }
 
   /**
-   * 
-   * @param {undefined | Array<*>} params 
-   * @param {*} ix 
-   * @returns {null | *}
+   * @template T
+   * @param {undefined | Array<T> | T} params 
+   * @param {number} ix 
+   * @returns {null | T}
    */
   getParam(params, ix) {
     if (params === undefined) {

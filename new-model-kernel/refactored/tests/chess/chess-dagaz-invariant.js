@@ -72,7 +72,7 @@ const extension = games.model.extension;
  */
 games.model.extension = function(board) {
   const design = board.design;
-  const king   = design.getPieceType("King");
+  const king = design.getPieceType("King");
   const rook = design.getPieceType("Rook");
   
   if (!isRecursive) {
