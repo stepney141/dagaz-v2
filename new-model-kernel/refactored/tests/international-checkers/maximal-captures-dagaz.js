@@ -1,6 +1,6 @@
 import _ from "../../../../dependencies/underscore-esm-min.js";
-import { games } from "../../dagaz-model.js";
-import { TBoard } from "../../dagaz-model-class/TBoard.js";
+import { games } from "../../core/dagaz-model.js";
+import { TBoard } from "../../core/TBoard.js";
 
 const extension = games.model.extension;
 

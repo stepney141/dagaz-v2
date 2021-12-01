@@ -1,4 +1,4 @@
-import { TDesign } from "./dagaz-model-class/TDesign.js";
+import { TDesign } from "./TDesign.js";
 
 const games = {
   model: {

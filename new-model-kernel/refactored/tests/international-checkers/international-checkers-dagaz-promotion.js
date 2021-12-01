@@ -1,5 +1,5 @@
 import { games } from "./maximal-captures-dagaz.js";
-import { TBoard } from "../../dagaz-model-class/TBoard.js";
+import { TBoard } from "../../core/TBoard.js";
 
 const extension = games.model.extension;
 
