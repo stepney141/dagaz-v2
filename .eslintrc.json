@@ -26,6 +26,11 @@
         "no-unused-vars": 1,
         "no-param-reassign": 1, // because of https://github.com/airbnb/javascript#functions--reassign-params
         "you-dont-need-lodash-underscore" : 1,
-        "no-var": 1
+        "no-var": 1,
+        "no-eq-null": 2,
+        "eqeqeq": [
+            1,
+            "smart"
+        ]
     }
 }
