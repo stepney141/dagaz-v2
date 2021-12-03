@@ -17,7 +17,8 @@ export class TBoard {
     this.design = design;
     
     /**
-     * A list of pieces on the current board. An index of this array corresponds to a position of the piece.
+     * A list of pieces on the current board.
+     * Each index of this array corresponds to an id of each cell where a piece occupies.
      * @type {Array<TPiece>}
      */
     this.pieces = [];
@@ -29,7 +30,7 @@ export class TBoard {
     this.turn = 0;
     
     /**
-     * An id of a player who makes a move in the current turn
+     * An id of a player who makes a move in the current turn.
      * @type {number}
      */
     this.player = design.currPlayer(this.turn);
@@ -44,7 +45,7 @@ export class TBoard {
   }
 
   /**
-   * Copies and returns the TBoard instance
+   * Copies and returns the TBoard instance.
    * @returns {TBoard} a copied board instance
    */
   copy() {
@@ -61,7 +62,7 @@ export class TBoard {
   }
 
   /**
-   * Clears the current board state
+   * Clears the current board state.
    */
   clear() {
     this.pieces = [];
@@ -90,7 +91,7 @@ export class TBoard {
   }
 
   /**
-   * Returns a piece on the given position
+   * Returns a piece on the given position.
    * @param {number} pos - a position id
    * @returns {null | TPiece} a piece (null if no piece occupies the given position)
    */
@@ -103,7 +104,7 @@ export class TBoard {
   }
 
   /**
-   * Puts a given piece to a given position on the board
+   * Puts a piece to a cell on the board.
    * @param {null | number} pos - a piece position id
    * @param {null | TPiece} piece - a piece type id
    */
@@ -150,7 +151,7 @@ export class TBoard {
   }
 
   /**
-   * Generates a list of legal moves and store it in the board instance
+   * Generates a list of legal moves and store it in the board instance.
    */
   generate() {
     if (this.moves === undefined) {
@@ -230,7 +231,7 @@ export class TBoard {
   }
 
   /**
-   * Makes a move and creates a new game state
+   * Makes a move and creates a new game state.
    * @param {TMove} move 
    * @returns {TBoard}
    */
@@ -238,7 +239,7 @@ export class TBoard {
     const r = this.copy(); //create a new game state
     r.turn = r.design.nextTurn(this);
     r.player = r.design.currPlayer(r.turn);
-    move.applyTo(r);
+    move.applyTo(r); // make a move
     r.move = move;
     return r;
   }

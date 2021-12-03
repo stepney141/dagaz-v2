@@ -19,7 +19,7 @@ export class TMove {
   }
 
   /**
-   * Copies a TMove instance
+   * Copies a TMove instance.
    * @returns {TMove}
    */
   copy() {
@@ -47,7 +47,7 @@ export class TMove {
   }
 
   /**
-   * Converts the moves to human-readable strings
+   * Converts the moves to human-readable strings.
    * @param {TDesign} design 
    * @returns {string}
    */
@@ -92,7 +92,7 @@ export class TMove {
 
   /**
    * Checks whether the move is a "simple move" or not.
-   * When a player just moves his/her piece from a current cell to another one, the move is a simple move.
+   * e.g. When a player just moves his/her piece from a current cell to another one, the move is a simple move.
    * @returns {boolean}
    */
   isSimpleMove() {

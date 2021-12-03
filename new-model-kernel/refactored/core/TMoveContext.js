@@ -5,7 +5,7 @@ import { TBoard } from "./TBoard.js";
 import { TPiece } from "./TPiece.js";
 
 /**
- * A class representing
+ * A class representing each partial context of one move
  */
 export class TMoveContext {
   /**

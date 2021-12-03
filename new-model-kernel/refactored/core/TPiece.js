@@ -6,26 +6,29 @@ import { TDesign } from "./TDesign.js";
 export class TPiece {
   /**
    * @param {number} type - a piece type id
-   * @param {number} player - an id of a player who owns the piece
+   * @param {number} player - a player id who owns the piece
    */
   constructor(type, player) {
     this.type = type;
     this.player = player;
+
+    /** @type {undefined | Array<number>} */
+    this.values;
   }
 
   /**
    * Serializes the piece information into string data
    * @param {TDesign} design - the object describing the game rules
-   * @returns {string} human-readable piece information
+   * @returns {string} human-readable piece details
    */
   toString(design) {
     return design.playerNames[this.player] + " " + design.pieceNames[this.type];
   }
 
   /**
-   * Returns a value of the given piece type, or null (if the specified piece do not exist)
+   * Returns a value of the given piece type
    * @param {number} ix - a piece id
-   * @returns {null | number} the piece value
+   * @returns {null | number} a piece value (null if the specified piece doesn't exist)
    */
   getValue(ix) {
     if (this.values === undefined) {
@@ -38,6 +41,7 @@ export class TPiece {
   }
 
   /**
+   * Sets a value of the piece
    * 
    * @param {number} ix 
    * @param {null | number} value 
@@ -74,9 +78,9 @@ export class TPiece {
   }
 
   /**
-   * Returns a piece instance promoted to another piece type
+   * Returns a piece instance promoted to another piece type.
    * @param {number} type - a new piece type id
-   * @returns {TPiece}
+   * @returns {TPiece} a new piece insatance
    */
   promote(type) {
     if (type == this.type) {
@@ -88,7 +92,7 @@ export class TPiece {
   /**
    * Returns a piece instance that got changed its owner.
    * @param {number} player - a new player id
-   * @returns {TPiece}
+   * @returns {TPiece} a new piece instance
    */
   changeOwner(player) {
     if (player == this.player) {
