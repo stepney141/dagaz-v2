@@ -42,18 +42,17 @@ export class TPiece {
 
   /**
    * Sets a value of the piece
-   * 
-   * @param {number} ix 
-   * @param {null | number} value 
+   * @param {number} ix - a piece id
+   * @param {null | number} new_value - a new value
    * @returns {TPiece}
    */
-  setValue(ix, value) {
-    const v = this.getValue(ix);
+  setValue(ix, new_value) {
+    const current_value = this.getValue(ix);
 
-    if ((v === null) && (value === null)) {
+    if ((current_value === null) && (new_value === null)) {
       return this;
     }
-    if ((v !== null) && (value !== null) && (v == value)) {
+    if ((current_value !== null) && (new_value !== null) && (current_value == new_value)) {
       return this;
     }
 
@@ -68,8 +67,8 @@ export class TPiece {
       // });
       r.values = [...this.values]; //shallow copying
     }
-    if (value !== null) {
-      r.values[ix] = value;
+    if (new_value !== null) {
+      r.values[ix] = new_value;
     } else {
       delete r.values[ix];
     }

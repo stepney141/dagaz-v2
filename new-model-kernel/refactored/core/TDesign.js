@@ -103,6 +103,13 @@ export class TDesign {
      * @type {TBoard | undefined}
      */
     this.board;
+
+    this.game_options = {
+      passTurn: false,
+      passPartial: false,
+      sharedPieces: false,
+      deferredCaptures: false,
+    };
   }
 
   /**
@@ -122,17 +129,17 @@ export class TDesign {
    * @param {"true" | "false"} value - flag name
    */
   checkVersion(name, value) {
-    if (name == "pass-turn") {
-      games.model.passTurn = (value == "true");
+    if (name === "pass-turn") {
+      this.game_options.passTurn = (value == "true");
     }
-    if (name == "pass-partial") {
-      games.model.passPartial = (value == "true");
+    if (name === "pass-partial") {
+      this.game_options.passPartial = (value == "true");
     }
-    if (name == "shared-pieces") {
-      games.model.sharedPieces = (value == "true");
+    if (name === "shared-pieces") {
+      this.game_options.sharedPieces = (value == "true");
     }
-    if (name == "deferred-captures") {
-      games.model.deferredCaptures = (value == "true");
+    if (name === "deferred-captures") {
+      this.game_options.deferredCaptures = (value == "true");
     }
   }
 
@@ -329,11 +336,11 @@ export class TDesign {
     if ((piece_type_id < 0) || (player_id < 0)) {
       return;
     }
+    
     const piece = new TPiece(piece_type_id, player_id); // create a piece
-    if (!Array.isArray(positions)) { //kind of type guard
-      positions = [positions];
-    }
-    positions
+    const position_array = (Array.isArray(positions)) ? positions : [positions]; //kind of type guard
+
+    position_array
       .map(name => this.stringToPos(name))
       .forEach(pos => {
         this.initial.push({ //store information of a piece position 
@@ -390,11 +397,13 @@ export class TDesign {
    * @returns {null | number} a new position
    */
   navigate(player, pos, dir) {
+    let target_dir = dir;
     if (this.players[player] !== undefined) {
-      dir = this.players[player][dir];
+      target_dir = this.players[player][dir];
     }
-    if (this.positions[pos][dir] != 0) {
-      return + pos + this.positions[pos][dir];
+
+    if (this.positions[pos][target_dir] != 0) {
+      return + pos + this.positions[pos][target_dir];
     } else {
       return null;
     }

@@ -52,23 +52,23 @@ export class TMove {
    * @returns {string}
    */
   toString(design) {
-    let r = "";
-    let p = null;
+    let str = "";
+    let cell = null;
 
     for (const a of this.actions) {
       if ((a[0] !== null) && (a[1] !== null)) {
-        if ((p === null) || (p != a[0])) {
-          if (r != "") {
-            r = r + " ";
+        if ((cell === null) || (cell != a[0])) {
+          if (str != "") {
+            str = str + " ";
           }
-          r = r + design.posToString(a[0]); //convert the start cell to strings
+          str = str + design.posToString(a[0]); //convert the start cell to strings
         }
-        r = r + "-" + design.posToString(a[1]); //convert the target cell to strings
-        p = a[1];
+        str = str + "-" + design.posToString(a[1]); //convert the target cell to strings
+        cell = a[1];
       }
     }
 
-    return r;
+    return str;
   }
 
   /**

@@ -1,4 +1,3 @@
-import { games } from "./dagaz-model.js";
 import { TMove } from "./TMove.js";
 import { TDesign } from "./TDesign.js";
 import { TBoard } from "./TBoard.js";
@@ -195,7 +194,7 @@ export class TMoveContext {
    * @returns {boolean}
    */
   isEmpty() {
-    if (games.model.deferredCaptures) {
+    if (this.design.game_options.deferredCaptures) {
       for (const a of this.move.actions) {
         if ((a[0] !== null) && (a[1] === null) && (a[0] == this.pos)) {
           return false;

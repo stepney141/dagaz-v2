@@ -187,7 +187,7 @@ export class TBoard {
           if (piece === null) {
             return;
           }
-          if (!games.model.sharedPieces && (piece.player != this.player)) {
+          if (!this.design.game_options.sharedPieces && (piece.player != this.player)) {
             return;
           }
           groups[i].forEach(move => {
@@ -214,7 +214,7 @@ export class TBoard {
         if (this.completeMove(ctx)) {
           f = false;
         }
-        if (games.model.passPartial || f) {
+        if (this.design.game_options.passPartial || f) {
           this.moves.push(ctx.move);
         }
       }
@@ -224,7 +224,7 @@ export class TBoard {
       if (games.model.extension !== undefined) {
         games.model.extension(this);
       }
-      if (games.model.passTurn && (this.moves.length == 0)) {
+      if (this.design.game_options.passTurn && (this.moves.length == 0)) {
         this.moves.push(new TMove(0));
       }
     }
