@@ -1,4 +1,4 @@
-import { games } from "./chess-dagaz-invariant.js";
+import { games } from "../../core/dagaz-model.js";
 
 const step = function(ctx, params) {
   if (ctx.go(params, 0) && !ctx.isFriend()) {

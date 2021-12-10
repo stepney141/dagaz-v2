@@ -1,4 +1,5 @@
-import { games } from "./english-checkers-dagaz.js";
+import { games } from "../../core/dagaz-model.js";
+import "./english-checkers-dagaz.js";
 
 QUnit.test("Initial Board", function (assert) {
   const design = games.model.getDesign();

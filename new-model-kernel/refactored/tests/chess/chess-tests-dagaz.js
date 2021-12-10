@@ -1,4 +1,6 @@
-import { games } from "./chess-dagaz.js";
+import { games } from "../../core/dagaz-model.js";
+import "./chess-dagaz.js";
+import "./chess-dagaz-invariant.js";
 
 QUnit.test("Initial Board", function (assert) {
   const design = games.model.getDesign();

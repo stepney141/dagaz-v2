@@ -1,4 +1,7 @@
-import { games } from "./international-checkers-dagaz.js";
+import { games } from "../../core/dagaz-model.js";
+import "./maximal-captures-dagaz.js";
+import "./international-checkers-dagaz-promotion.js";
+import "./international-checkers-dagaz.js";
 
 QUnit.test("Man promotion", function (assert) {
   const design = games.model.getDesign();

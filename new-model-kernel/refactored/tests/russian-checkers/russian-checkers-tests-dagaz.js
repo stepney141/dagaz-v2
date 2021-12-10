@@ -1,4 +1,5 @@
-import { games } from "./russian-checkers-dagaz.js";
+import { games } from "../../core/dagaz-model.js";
+import "./russian-checkers-dagaz.js";
 
 QUnit.test("King Moves", function (assert) {
   const design = games.model.getDesign();

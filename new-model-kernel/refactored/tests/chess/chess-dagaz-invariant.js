@@ -1,6 +1,6 @@
 import _ from "../../../../dependencies/underscore-esm-min.js";
-import { TBoard } from "../../core/TBoard.js";
 import { games } from "../../core/dagaz-model.js";
+import { TBoard } from "../../core/TBoard.js";
 
 let isRecursive = false;
 
