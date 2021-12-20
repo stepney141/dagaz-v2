@@ -244,7 +244,7 @@ export class TDesign {
    */
   addZone(name, player, positions) {
     let zone_id = this.zoneNames.indexOf(name);
-    if (zone_id < 0) { //when the zone list is empty
+    if (zone_id < 0) { //when the zone name is not found in the zone names list
       zone_id = this.zoneNames.length;
       this.zoneNames.push(name);
     }
