@@ -1,5 +1,30 @@
 # Dagaz-New
 
+## How to run tests
+
+This repository has unit tests based on [QUnit](https://qunitjs.com/) test suite. You can run them with Node.js.
+
+At first, make sure that you have installed dependencies:
+
+```bash
+$ git clone https://github.com/stepney141/dagaz-new
+$ cd dagaz-new
+$ npm
+$ npm run-script prepare-test # script to configure the test environment.
+```
+
+Next, open the port 5501 on your localhost.
+
+Then, run one of these commands on your shell:
+
+```bash
+$ npm run-script test-zrf-refactored # run unit tests for the refactored zrf-based kernel
+$ npm run-script test-new-model-refactored # run unit tests for the refactored new-model kernel
+$ npm run-script test-v2 # run unit tests for the dagaz v2 kernel
+```
+
+## Based files
+
 - zrf-based-kernel :
   - The common scripts are based on [GlukKazan/GlukKazan.github.io:fb084e8](https://github.com/GlukKazan/GlukKazan.github.io/blob/fb084e880915b0410b21f3190a3c9e2a86a79ce9/common-scripts)
   - The test scripts are from [GlukKazan/Dagaz:1ffac28](https://github.com/GlukKazan/Dagaz/tree/1ffac284ea075f68eb193187c1c88038cf89940f/tests)
