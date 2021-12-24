@@ -1,4 +1,4 @@
-import { TDesign } from "./TDesign.js";
+import { TDesign } from "./core/TDesign.js";
 
 const games = {
   model: {

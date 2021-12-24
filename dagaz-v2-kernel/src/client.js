@@ -1,4 +1,4 @@
-import { TDesign } from "../new-model-kernel/refactored/core/TDesign.js";
+import { TDesign } from "./core/TDesign.js";
 
 export class DagazClient {
   constructor() {

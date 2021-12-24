@@ -1,4 +1,4 @@
-import { games } from "../../core/dagaz-model.js";
+import { games } from "../../src/dagaz-model.js";
 import "./maximal-captures-dagaz.js";
 import "./international-checkers-dagaz-promotion.js";
 import "./international-checkers-dagaz.js";

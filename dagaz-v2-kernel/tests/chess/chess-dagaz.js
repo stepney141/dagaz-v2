@@ -1,4 +1,4 @@
-import { games } from "../../core/dagaz-model.js";
+import { games } from "../../src/dagaz-model.js";
 
 const step = function(ctx, params) {
   if (ctx.go(params, 0) && !ctx.isFriend()) {
