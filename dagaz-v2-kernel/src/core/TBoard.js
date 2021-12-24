@@ -4,6 +4,7 @@ import { TMove } from "./TMove.js";
 import { TMoveContext } from "./TMoveContext.js";
 import { TPiece } from "./TPiece.js";
 import { TDesign } from "./TDesign.js";
+import { zUpdate } from "../zobrist.js";
 
 /**
  * A class representing each game state.
@@ -109,16 +110,14 @@ export class TBoard {
    * @param {null | TPiece} piece - a piece type id
    */
   setPiece(pos, piece) {
-    if (games.model.zupdate !== undefined && this.pieces[pos] !== undefined) {
-      this.z = games.model.zupdate(this.z, this.pieces[pos], pos);
+    if (this.pieces[pos] !== undefined) {
+      this.z = zUpdate(this.z, this.pieces[pos], pos);
     }
     if (piece === null) {
       delete this.pieces[pos];
     } else {
       this.pieces[pos] = piece;
-      if (games.model.zupdate !== undefined) {
-        this.z = games.model.zupdate(this.z, piece, pos);
-      }
+      this.z = zUpdate(this.z, piece, pos);
     }
   }
 
