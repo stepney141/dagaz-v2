@@ -104,7 +104,7 @@ const O_O_O = function(ctx, params) {
   }
 };
 
-games.model.BuildDesign = function(design) {
+games.model.buildDesign = function(design) {
   design.checkVersion("smart-moves", "false");
 
   design.addDirection("w");  // 0

@@ -314,7 +314,7 @@ export class TDesign {
    */
   getInitBoard() {
     if (this.board === undefined) {
-      games.model.BuildDesign(this);
+      games.model.buildDesign(this);
       this.board = new TBoard(this);
       this.initial.forEach(s => { //place pieces on the specified cells
         this.board.setPiece(s.p, s.t);

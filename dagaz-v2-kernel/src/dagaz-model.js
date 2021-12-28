@@ -13,7 +13,7 @@ const games = {
       }
       return games.model.design;
     },
-    BuildDesign: (design) => { }
+    buildDesign: () => { }
   },
   view: {}
 };

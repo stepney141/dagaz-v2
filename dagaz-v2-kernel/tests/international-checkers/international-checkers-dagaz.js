@@ -46,7 +46,7 @@ const contKing = function(ctx, params) {
   }
 };
 
-games.model.BuildDesign = function(design) {
+games.model.buildDesign = function(design) {
   design.checkVersion("smart-moves", "true");
   design.checkVersion("maximal-captures", "true");
   design.checkVersion("deferred-captures", "true");
