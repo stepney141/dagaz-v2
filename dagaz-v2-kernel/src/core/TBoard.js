@@ -31,11 +31,17 @@ export class TBoard {
     this.turn = 0;
     
     /**
-     * An id of a player who makes a move in the current turn.
+     * An id of the current player (a player who makes a move in the current turn).
      * @type {number}
      */
     this.player = design.currPlayer(this.turn);
     
+    /**
+     * Zobrist hash of the current game state
+     * @link https://en.wikipedia.org/wiki/Zobrist_hashing
+     * @link https://www.chessprogramming.org/Zobrist_Hashing
+     * @type {number}
+     */
     this.z = 0;
     
     /**

@@ -84,7 +84,10 @@ export class TDesign {
      * @property {number} m - move mode 
      * @property {*} s - sound 
      */
-    /** @type {Array<move>} */
+    /**
+     * A list of movements or behavior of pieces
+     * @type {Array<move>}
+     */
     this.moves = [];
     
     /**
@@ -275,7 +278,7 @@ export class TDesign {
   }
 
   /**
-   * 
+   * Returns a piece type id that corresponds to the given piece name
    * @param {string} name - a piece name
    * @returns {null | number} a piece type id
    */

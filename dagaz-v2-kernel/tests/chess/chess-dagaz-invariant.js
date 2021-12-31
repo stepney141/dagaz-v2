@@ -7,9 +7,10 @@ let isRecursive = false;
 const getGoal = games.model.getGoal;
 
 /**
+ * Returns if a player wins, loses, or draws in the given game state.
  * @param {TBoard} board 
  * @param {number} player 
- * @returns {null | number}
+ * @returns {null | 1 | -1 | 0}
  */
 games.model.getGoal = function(board, player) {
   const design = board.design;
@@ -25,7 +26,7 @@ games.model.getGoal = function(board, player) {
         return;
       }
       if ((piece.type == king) && (piece.player == board.player)) {
-        safe = pos;
+        safe = pos; // there is a current player's king on the board
       }
     });
 
@@ -39,6 +40,8 @@ games.model.getGoal = function(board, player) {
       isRecursive = false;
       for (let i = 0; i < board.moves.length; i++) {
         for (let j = 0; j < board.moves[i].actions.length; j++) {
+          // checks if the other player will be able to make a move in the next turn
+          // by searching a target square of a move in the next turn by the other player
           if (safe == board.moves[i].actions[j][1]) {
             safe = null;
           }
@@ -50,19 +53,19 @@ games.model.getGoal = function(board, player) {
 
     if (safe === null) {
       if (p == player) {
-        return -1;
+        return -1; // the player loses
       } else {
-        return 1;
+        return 1; // the player wins
       }
     }
-    return 0;
+    return 0; // draw
   }
 
   if (getGoal !== undefined) {
     return getGoal(board);
   }
 
-  return null;
+  return null; // the game is not finished yet
 };
 
 const extension = games.model.extension;
