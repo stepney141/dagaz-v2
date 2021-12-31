@@ -1,18 +1,23 @@
 import _ from "../../dependencies/underscore-esm-min.js";
 import { TPiece } from "./core/TPiece.js";
 
+/**
+ * A transposition table
+ */
 let hash = null;
 
 /**
- * Returns a random integer between 0 and 255
+ * Returns a pseudo random integer between 0 and 255
  * @returns {number}
  */
 const getRandomByte = function() {
-  return _.random(0, 255);
+  const min = 0;
+  const max = 255;
+  return min + Math.floor(Math.random() * (max - min + 1));
 };
 
 /**
- * 
+ * Generates a pseudo random integer
  * @returns {number}
  */
 const getRandomValue = function() {
@@ -25,7 +30,7 @@ const getRandomValue = function() {
 };
 
 /**
- * 
+ * Returns a zobrist hash from a table
  * @param {number} type 
  * @param {number} player 
  * @param {number} pos 
@@ -48,12 +53,16 @@ const getValue = function(type, player, pos) {
 };
 
 /**
- * 
- * @param {number} value 
+ * Updates a zobrist hash
+ * @link https://en.wikipedia.org/wiki/Zobrist_hashing
+ * @link https://www.chessprogramming.org/Zobrist_Hashing
+ * @param {number} value - the current hash value
  * @param {TPiece} piece 
  * @param {number} pos 
  * @returns {number}
  */
-export const zUpdate = function(value, piece, pos) {
+const zUpdate = function(value, piece, pos) {
   return value ^ getValue(piece.type, piece.player, pos);
 };
+
+export { getRandomValue, zUpdate };
