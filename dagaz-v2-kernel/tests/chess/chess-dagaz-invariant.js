@@ -121,10 +121,10 @@ games.model.extension = function(board) {
           }
         }
 
-        for (let i = 0; i < move.actions.length; i++) {
-          const piece = move.actions[i][2];
-          if ((piece.type == rook) || (piece.type == king)) {
-            move.actions[i][2] = piece.setValue(0, 1);
+        for (let action of move.actions) {
+          const piece = action[2];
+          if ((piece?.type == rook) || (piece?.type == king)) {
+            action[2] = piece.setValue(0, 1);
           }
         }
       }

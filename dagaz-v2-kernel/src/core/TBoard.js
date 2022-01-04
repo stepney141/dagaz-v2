@@ -49,6 +49,12 @@ export class TBoard {
      * @type {Array<TMove> | undefined}
      */
     this.moves;
+
+    /**
+     * A previous game state
+     * @type {TBoard | null}
+     */
+    this.parent = null;
   }
 
   /**

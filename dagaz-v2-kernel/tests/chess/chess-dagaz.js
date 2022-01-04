@@ -65,6 +65,9 @@ const slide = function(ctx, params) {
   }
 };
 
+/**
+ * kingside castling
+ */
 const O_O = function(ctx, params) {
   if (ctx.go(params, 0) &&
         ctx.isEmpty() &&
@@ -83,6 +86,9 @@ const O_O = function(ctx, params) {
   }
 };
 
+/**
+ * queenside castling
+ */
 const O_O_O = function(ctx, params) {
   if (ctx.go(params, 0) &&
         ctx.isEmpty() &&
