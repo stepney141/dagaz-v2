@@ -2,11 +2,11 @@ import { TDesign } from "./core/TDesign.js";
 
 const games = {
   model: {
-    // passTurn: false,
-    // passPartial: false,
-    // sharedPieces: false,
-    // deferredCaptures: false,
-
+    resetDesign: () =>{
+      if (games.model.design !== undefined) {
+        delete games.model.design;
+      }
+    },
     getDesign: () => {
       if (games.model.design === undefined) {
         games.model.design = new TDesign();

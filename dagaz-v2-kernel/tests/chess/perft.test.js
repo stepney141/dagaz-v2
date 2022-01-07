@@ -30,6 +30,7 @@ const perft = function (board, depth) {
  * @param {number} depth - depth to search
  */
 const main = function (depth) {
+  games.model.resetDesign();
   const Design = games.model.getDesign();
   let Board = Design.getInitBoard();
 
@@ -44,11 +45,15 @@ const main = function (depth) {
 
 };
 
-for (let i = 1; i <= 5 ; i++) {
+//for (let j = 1; j <= 4; j++){
+
+for (let i = 1; i <= 4 ; i++) {
   main(i);
 }
 
-// main(6);
+console.log("==========");
+
+// }
 
 /* 
 output examples (when 1 <= depth <= 6)
