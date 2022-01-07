@@ -33,7 +33,7 @@ games.model.getGoal = function(board, player) {
     const p = board.player;
 
     if (safe !== null) {
-      delete board.moves;
+      board.moves = null;
       board.player = design.nextPlayer(board.player);
       isRecursive = true;
       board.generate();

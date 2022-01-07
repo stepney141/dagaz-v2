@@ -39,8 +39,8 @@ export class TMoveContext {
 
     this.marks = [];
     
-    /** @type {undefined | {start: number, piece: (null | TPiece)}} */
-    this.hand;
+    /** @type {null | {start: number, piece: (null | TPiece)}} */
+    this.hand = null;
   }
 
   /**
@@ -109,10 +109,10 @@ export class TMoveContext {
   }
 
   put() {
-    if (this.hand !== undefined) {
+    if (this.hand !== null) {
       this.piece = this.hand.piece;
       this.move.movePiece(this.hand.start, this.pos, this.hand.piece, this.part);
-      delete this.hand;
+      this.hand = null;
       this.succeed = true;
     }
   }
@@ -145,7 +145,7 @@ export class TMoveContext {
       return false;
     }
     let player = this.board.player;
-    if (this.hand !== undefined) {
+    if (this.hand !== null) {
       player = this.hand.piece.player;
     }
     const p = this.design.navigate(player, this.pos, dir);
@@ -258,7 +258,7 @@ export class TMoveContext {
       return null;
     }
     let player = this.board.player;
-    if (this.hand !== undefined) {
+    if (this.hand !== null) {
       player = this.hand.piece.player;
     }
     return this.design.inZone(player, this.pos, zone);
@@ -271,7 +271,7 @@ export class TMoveContext {
    * @returns {boolean}
    */
   promote(params, ix) {
-    if (this.hand === undefined) {
+    if (this.hand === null) {
       return false;
     }
     const type = this.getParam(params, ix);

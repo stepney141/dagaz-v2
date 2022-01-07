@@ -46,15 +46,21 @@ export class TBoard {
     
     /**
      * A list of legal moves available in the current game state.
-     * @type {Array<TMove> | undefined}
+     * @type {Array<TMove> | null}
      */
-    this.moves;
+    this.moves = null;
 
     /**
      * A previous game state
      * @type {TBoard | null}
      */
     this.parent = null;
+
+    /** @type {Array<TMoveContext> | null} */
+    this.forks = null;
+
+    /** @type {nulber | null} */
+    this.lastFrom = null;
   }
 
   /**
@@ -80,7 +86,7 @@ export class TBoard {
   clear() {
     this.pieces = [];
     this.z = 0;
-    delete this.moves;
+    this.moves = null;
   }
 
   /**
@@ -165,8 +171,7 @@ export class TBoard {
    * Generates a list of legal moves and store it in the board instance.
    */
   generate() {
-    if (this.moves === undefined) {
-      /** @type {Array<TMoveContext>} */
+    if (this.moves === null) {
       this.forks = [];
       this.moves = [];
 
@@ -230,7 +235,7 @@ export class TBoard {
         }
       }
 
-      delete this.forks;
+      this.forks = null;
       
       if (games.model.extension !== undefined) {
         games.model.extension(this);
