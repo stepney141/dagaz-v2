@@ -24,9 +24,9 @@ export class TMove {
    */
   copy() {
     const r = new TMove(this.mode);
-    this.actions.forEach(a => {
+    for (const a of this.actions) {
       r.actions.push(a);
-    });
+    }
     return r;
   }
 
@@ -37,12 +37,12 @@ export class TMove {
    */
   clone(part) {
     const r = new TMove(this.mode);
-    this.actions.forEach(a => {
-      if ((a[0] !== null) && (a[1] !== null) && (a[3] == part)) {
-        return;
-      }
-      r.actions.push(a);
+    const filtered_actions = this.actions.filter(a => {
+      return (a[0] === null) || (a[1] === null) || (a[3] !== part);
     });
+    for (const a of filtered_actions){
+      r.actions.push(a);
+    }
     return r;
   }
 
@@ -137,7 +137,7 @@ export class TMove {
    * @param {TBoard} obj 
    */
   applyTo(obj) {
-    this.actions.forEach(a => {
+    for (const a of this.actions) {
       if (a[0] !== null) {
         obj.setPiece(a[0], null); //make empty the start cell
       }
@@ -147,6 +147,6 @@ export class TMove {
       if ((a[0] !== null) && (a[1] !== null) && (obj.setLastFrom !== undefined)) {
         obj.setLastFrom(a[0]);
       }
-    });
+    }
   }
 }

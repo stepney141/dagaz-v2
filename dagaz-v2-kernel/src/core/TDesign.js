@@ -269,7 +269,7 @@ export class TDesign {
    * Defines a piece.
    * @public
    * @param {string} name - a piece name
-   * @param {number} type - an id of a piece type
+   * @param {number} type - a piece type id
    * @param {number=} [price=1] - a piece value
    */
   addPiece(name, type, price = 1) {

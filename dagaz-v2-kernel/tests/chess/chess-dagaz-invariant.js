@@ -88,8 +88,9 @@ games.model.extension = function(board) {
         const a = move.actions[0][0];
         const b = move.actions[1][0];
         safe = _.range(Math.min(a, b), Math.max(a, b) + 1);
-        for (let i = 0; i < move.actions.length; i++) {
-          const piece = move.actions[i][2];
+        
+        for (const action of move.actions) {
+          const piece = action[2];
           if (piece.getValue(0) !== null) {
             return;
           }
@@ -113,9 +114,9 @@ games.model.extension = function(board) {
         b.generate();
         isRecursive = false;
 
-        for (let i = 0; i < b.moves.length; i++) {
-          for (let j = 0; j < b.moves[i].actions.length; j++) {
-            if (safe.indexOf(b.moves[i].actions[j][1]) >= 0) {
+        for (const Move of b.moves) {
+          for (const action of Move.actions) {
+            if (safe.includes(action[1])) {
               return;
             }
           }
