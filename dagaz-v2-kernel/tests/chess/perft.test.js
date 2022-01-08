@@ -12,14 +12,15 @@ import "./chess-dagaz-invariant.js";
  */
 const perft = function (board, depth) {
   let nodes = 0;
+  let b = board;
 
-  board.generate();
+  b.generate();
 
-  for (let m of board.moves) {
+  for (let m of b.moves) {
     // console.log(m.toString(board.design));
-    board = board.apply(m); //make a move
-    nodes += (depth > 1) ? perft(board, depth - 1) : 1;
-    board = board.parent; //undo a move
+    b = b.apply(m); //make a move
+    nodes += (depth > 1) ? perft(b, depth - 1) : 1;
+    b = b.parent; //undo a move
   }
 
   return nodes;

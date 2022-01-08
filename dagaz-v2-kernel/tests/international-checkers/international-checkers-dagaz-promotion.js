@@ -4,6 +4,7 @@ import { TBoard } from "../../src/core/TBoard.js";
 const extension = games.model.extension;
 
 /**
+ * promotion of a man to a king
  * @param {TBoard} board 
  */
 games.model.extension = function(board) {
