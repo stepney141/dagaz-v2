@@ -1,8 +1,6 @@
 import _ from "../../../dependencies/underscore-esm-min.js";
 import { games } from "../dagaz-model.js";
-import { TPiece } from "./TPiece.js";
-import { TBoard } from "./TBoard.js";
-import { TMoveContext } from "./TMoveContext.js";
+import { TPiece, TBoard, TMoveContext } from "./index.js";
 
 /**
  * A class representing general rules or information of the game.

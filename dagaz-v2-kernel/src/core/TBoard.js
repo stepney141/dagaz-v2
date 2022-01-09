@@ -1,9 +1,6 @@
 import _ from "../../../dependencies/underscore-esm-min.js";
 import { games } from "../dagaz-model.js";
-import { TMove } from "./TMove.js";
-import { TMoveContext } from "./TMoveContext.js";
-import { TPiece } from "./TPiece.js";
-import { TDesign } from "./TDesign.js";
+import { TMove, TMoveContext, TPiece, TDesign } from "./index.js";
 import { zUpdate } from "../zobrist.js";
 
 /**

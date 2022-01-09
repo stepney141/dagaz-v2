@@ -1,5 +1,4 @@
-import _ from "../../dependencies/underscore-esm-min.js";
-import { TPiece } from "./core/TPiece.js";
+import { TPiece } from "./core/index.js";
 
 /**
  * A transposition table
