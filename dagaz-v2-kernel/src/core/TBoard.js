@@ -167,51 +167,37 @@ export class TBoard {
    * Generates a list of the legal moves from the current game state
    */
   generate() {
-    // this.design.counts++;
-    if (this.moves === null) {
+    if (this.moves === null && this.design.grouped_movement !== null) {
       this.forks = [];
       this.moves = [];
 
-      /** 
-       * @typedef {Object} move 
-       * @property {number} t - piece type id
-       * @property {(ctx: TMoveContext, params: *) => *} f - function
-       * @property {Array<number>} p - params 
-       * @property {number} m - move mode 
-       * @property {*} s - sound 
-       */
-      // classify piece movement according to a move mode
-      /** @type {Object<number, Array<move>> }} */
-      const groups = _.groupBy(this.design.moves, move => {
-        if (this.design.modes.length == 0) {
-          return 0;
-        }
-        return this.design.modes.indexOf(move.m);
-      });
-
-      for (const Moves of Object.values(groups)) {
+      for (const Movements of Object.values(this.design.grouped_movement)) {
         let completed = false;
         
         this.design.allPositions().forEach(pos => {
           const piece = this.getPiece(pos);
           if (piece === null) {
-            return;
+            return; // checks the piece existence
           }
           if (!this.design.game_options.sharedPieces && (piece.player != this.player)) {
-            return;
+            return; // checks if the current player can move the piece
           }
 
-          for (const move of Moves.filter(move => move.t == piece.type)){
+          Movements.forEach(movement => {
+            if (movement.t != piece.type) {
+              return; // searches the movement defined for the piece
+            }
+
             const ctx = new TMoveContext(this.design, this, pos, piece);
-            ctx.move.mode = move.m;
+            ctx.move.mode = movement.m;
             ctx.take();
             ctx.setPiece(pos, null);
-            move.f(ctx, move.p); // executes a method descripting moves
+            movement.f(ctx, movement.p); // executes a method descripting moves
             if (ctx.succeed) {
-              completed = true;
+              completed = true; // finishes the execution
             }
-          }
           });
+        });
 
         if (completed) {
           break;

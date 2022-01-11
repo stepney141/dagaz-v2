@@ -87,6 +87,9 @@ export class TDesign {
      * @type {Array<movement>}
      */
     this.movement = [];
+
+    /** @type {Object<number, Array<movement>> | null} */
+    this.grouped_movement = null;
     
     /**
      * A list of initial piece positions and piece objects.
@@ -302,7 +305,7 @@ export class TDesign {
    * @param {*} sound 
    */
   addMove(type, fun, params, mode, sound) {
-    this.moves.push({
+    this.movement.push({
       t: type,
       f: fun,
       p: params,
@@ -320,6 +323,7 @@ export class TDesign {
   getInitBoard() {
     if (this.board === undefined) {
       games.model.buildDesign(this);
+      this.configureMovement();
       this.board = new TBoard(this);
       this.initial.forEach(s => { //place pieces on the specified cells
         this.board.setPiece(s.p, s.t);
@@ -502,5 +506,17 @@ export class TDesign {
     } else {
       return this.turns[turn].player;
     }
+  }
+
+  /**
+   * classify piece movement according to a move mode
+   */
+  configureMovement() {
+    this.grouped_movement = _.groupBy(this.movement, movement => {
+      if (this.modes.length == 0) {
+        return 0;
+      }
+      return this.modes.indexOf(movement.m);
+    });
   }
 }
