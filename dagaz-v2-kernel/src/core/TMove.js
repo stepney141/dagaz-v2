@@ -89,11 +89,13 @@ export class TMove {
   }
 
   /**
-   * Checks whether the move is a "simple move" or not.
-   * e.g. When a player just moves his/her piece from a current cell to another one, the move is a simple move.
+   * Checks whether the move is a "quiet move" or not;
+   * when a player just moves his/her piece without attacking or capturing an enemy piece, the move is a quiet move.
+   * @link https://www.chessprogramming.org/Quiet_Moves
+   * @link https://en.wikipedia.org/wiki/Glossary_of_chess#quiet_move
    * @returns {boolean}
    */
-  isSimpleMove() {
+  isQuietMove() {
     if (this.actions.length != 1) {
       return false;
     }
