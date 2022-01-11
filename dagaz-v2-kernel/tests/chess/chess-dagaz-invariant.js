@@ -71,7 +71,7 @@ games.model.getGoal = function(board, player) {
 const extension = games.model.extension;
 
 /**
- * @param {TBoard} board 
+ * @param {TBoard} board - depth 0 (the current game state)
  */
 games.model.extension = function(board) {
   const design = board.design;
@@ -79,9 +79,12 @@ games.model.extension = function(board) {
   const rook = design.getPieceType("Rook");
   
   if (!isRecursive) {
+    /** @type {Array<TMove>} */
     let Moves = [];
 
+    // filters the pre-generated moves
     board.moves.forEach(move => {
+      /** @type {Array<number>} */
       let safe = [];
 
       if (move.mode == 1) {
@@ -97,35 +100,41 @@ games.model.extension = function(board) {
         }
       }
 
+      // depth 1
       const b = board.apply(move);
 
-      design.allPositions().forEach(pos =>{
+      // searches in depth 1
+      design.allPositions().forEach(pos => {
         const piece = b.getPiece(pos);
         if (piece === null) {
           return;
         }
         if ((piece.type == king) && (piece.player == board.player)) {
-          safe.push(pos);
+          safe.push(pos); // get the place where the next player's king occupies
         }
       });
 
       if (safe.length > 0) {
         isRecursive = true;
-        b.generate();
+        b.generate(); // depth 2
         isRecursive = false;
 
+        // searches in depth 2
         for (const Move of b.moves) {
           for (const action of Move.actions) {
             if (safe.includes(action[1])) {
+              // checks if the next player's king can be captured in the depth 2
+              // if so, skips processing the current move
               return;
             }
           }
         }
 
+        // searches in depth 1
         for (let action of move.actions) {
           const piece = action[2];
           if ((piece?.type == rook) || (piece?.type == king)) {
-            action[2] = piece.setValue(0, 1);
+            action[2] = piece.setValue(0, 1); // updates the pieces' value
           }
         }
       }

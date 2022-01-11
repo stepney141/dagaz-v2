@@ -6,10 +6,10 @@ export class TMove {
    */
   constructor(mode) {
     /**
-     * action[0] from - origin square (the cell where the move starts)  
-     * action[1] to - target square (the cell where the move finishes); In a drop move, this parameter should be a cell where the piece is placed on.  
+     * action[0] from - origin square id (the cell where the move starts); null for drop moves.
+     * action[1] to - target square id (the cell where the move finishes); null for capture moves.
      * action[2] piece - the piece object that a player moves.  
-     * action[3] part -   
+     * action[3] part - the number of partial moves; this is used in checkers-like games
      * @type {Array<[(null | number), (null | number), (null | TPiece), (null | number)]>>}
      */
     this.actions = [];

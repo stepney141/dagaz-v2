@@ -7,8 +7,8 @@ export class TMoveContext {
   /**
    * @param {TDesign} design - a gane design object
    * @param {TBoard} board - a game state object
-   * @param {number} pos
-   * @param {null | TPiece} piece 
+   * @param {number} pos - origin square
+   * @param {null | TPiece} piece - a piece that moves on this turn
    */
   constructor(design, board, pos, piece) {
     this.design = design;
@@ -98,6 +98,9 @@ export class TMoveContext {
     }
   }
 
+  /**
+   * Configures the move of the piece from the origin square.
+   */
   take() {
     this.hand = {
       start: this.pos,
