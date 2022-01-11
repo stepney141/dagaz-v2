@@ -1,5 +1,5 @@
 import { games } from "../../src/dagaz-model.js";
-import { TBoard } from "../../src/core/TBoard.js";
+import { TBoard } from "../../src/core/index.js";
 
 const extension = games.model.extension;
 

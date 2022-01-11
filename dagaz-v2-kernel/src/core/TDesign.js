@@ -75,18 +75,18 @@ export class TDesign {
     this.price = [];
     
     /** 
-     * @typedef {Object} move 
+     * @typedef {Object} movement
      * @property {number} t - piece type id
-     * @property {(ctx: TMoveContext, params: *) => *} f - function
+     * @property {(ctx: TMoveContext, params: *) => *} f - movement descripting function
      * @property {Array<number>} p - params 
      * @property {number} m - move mode 
      * @property {*} s - sound 
      */
     /**
      * A list of movements or behavior of pieces
-     * @type {Array<move>}
+     * @type {Array<movement>}
      */
-    this.moves = [];
+    this.movement = [];
     
     /**
      * A list of initial piece positions and piece objects.
@@ -105,12 +105,16 @@ export class TDesign {
      */
     this.board;
 
+    /** @type {Object<string, boolean>} */
     this.game_options = {
       passTurn: false,
       passPartial: false,
       sharedPieces: false,
       deferredCaptures: false,
     };
+
+    /** @type {number | null} */
+    this.repeat = null;
   }
 
   /**
@@ -472,14 +476,14 @@ export class TDesign {
     if (this.turns === undefined) {
       if (turn >= this.players.length - 1) {
         turn = 0;
-        if (this.repeat !== undefined) {
+        if (this.repeat !== null) {
           turn += this.repeat;
         }
       }
     } else {
       if (turn >= this.turns.length) {
         turn = 0;
-        if (this.repeat !== undefined) {
+        if (this.repeat !== null) {
           turn += this.repeat;
         }
       }

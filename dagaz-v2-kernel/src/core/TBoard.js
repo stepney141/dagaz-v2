@@ -56,7 +56,7 @@ export class TBoard {
     /** @type {Array<TMoveContext> | null} */
     this.forks = null;
 
-    /** @type {nulber | null} */
+    /** @type {number | null} */
     this.lastFrom = null;
   }
 
@@ -69,9 +69,6 @@ export class TBoard {
     r.parent = this;
     r.turn = this.turn;
     r.player = this.player;
-    // _.each(_.keys(this.pieces), pos => {
-    //   r.pieces[pos] = this.pieces[pos];
-    // });
     r.pieces = [...this.pieces]; //shallow copying
     r.z = this.z;
     return r;
@@ -122,7 +119,7 @@ export class TBoard {
   /**
    * Puts a piece to a cell on the board.
    * @param {null | number} pos - a piece position id
-   * @param {null | TPiece} piece - a piece type id
+   * @param {null | TPiece} piece - a piece
    */
   setPiece(pos, piece) {
     if (this.pieces[pos] !== undefined) {
@@ -143,11 +140,12 @@ export class TBoard {
    */
   completeMove(parent) {
     let r = false;
-    this.design.moves.forEach(t => {
-      if (t.t != parent.piece.type) {
+
+    this.design.movement.forEach(movement => {
+      if (movement.t != parent.piece.type) {
         return;
       }
-      if (t.m != parent.mode) {
+      if (movement.m != parent.mode) {
         return;
       }
       const ctx = parent.copy();
@@ -156,11 +154,12 @@ export class TBoard {
         piece: parent.piece
       };
       ctx.mode = null;
-      t.f(ctx, t.p);
+      movement.f(ctx, movement.p);
       if (ctx.succeed) {
         r = true;
       }
     });
+
     return r;
   }
 
@@ -246,7 +245,7 @@ export class TBoard {
    * @returns {TBoard}
    */
   apply(move) {
-    const r = this.copy(); //create a new game state
+    const r = this.copy(); // create a new game state
     r.turn = r.design.nextTurn(this);
     r.player = r.design.currPlayer(r.turn);
     move.applyTo(r); // make a move

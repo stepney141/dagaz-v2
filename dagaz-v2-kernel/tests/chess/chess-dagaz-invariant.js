@@ -1,6 +1,6 @@
 import _ from "../../../dependencies/underscore-esm-min.js";
 import { games } from "../../src/dagaz-model.js";
-import { TBoard } from "../../src/core/TBoard.js";
+import { TBoard } from "../../src/core/index.js";
 
 let isRecursive = false;
 
@@ -79,7 +79,7 @@ games.model.extension = function(board) {
   const rook = design.getPieceType("Rook");
   
   if (!isRecursive) {
-    let moves = [];
+    let Moves = [];
 
     board.moves.forEach(move => {
       let safe = [];
@@ -130,10 +130,11 @@ games.model.extension = function(board) {
         }
       }
 
-      moves.push(move);
+      Moves.push(move);
     });
 
-    board.moves = moves;
+    board.moves = Moves; // updates the move list with the fixed legal moves
+
     if (extension !== undefined) {
       extension(board);
     }

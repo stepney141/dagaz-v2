@@ -142,7 +142,7 @@ export class TMove {
       if ((a[1] !== null) && (a[2] !== null)) {
         obj.setPiece(a[1], a[2]); //put a piece on the goal cell
       }
-      if ((a[0] !== null) && (a[1] !== null) && (obj.setLastFrom !== undefined)) {
+      if ((a[0] !== null) && (a[1] !== null)) {
         obj.setLastFrom(a[0]);
       }
     }

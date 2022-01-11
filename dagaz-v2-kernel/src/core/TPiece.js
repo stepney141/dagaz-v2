@@ -12,8 +12,8 @@ export class TPiece {
     this.type = type;
     this.player = player;
 
-    /** @type {undefined | Array<number>} */
-    this.values;
+    /** @type {null | Array<number>} */
+    this.values = null;
   }
 
   /**
@@ -31,7 +31,7 @@ export class TPiece {
    * @returns {null | number} a piece value (null if the specified piece doesn't exist)
    */
   getValue(ix) {
-    if (this.values === undefined) {
+    if (this.values === null) {
       return null;
     }
     if (this.values[ix] === undefined) {
@@ -58,13 +58,10 @@ export class TPiece {
 
     const r = new TPiece(this.type, this.player);
     
-    if (r.values === undefined) {
+    if (r.values === null) {
       r.values = [];
     }
-    if (this.values !== undefined) {
-      // _.each(_.keys(this.values), i => {
-      //   r.values[i] = this.values[i];
-      // });
+    if (this.values !== null) {
       r.values = [...this.values]; //shallow copying
     }
     if (new_value !== null) {

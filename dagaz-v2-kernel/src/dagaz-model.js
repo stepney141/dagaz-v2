@@ -1,19 +1,20 @@
-import { TDesign } from "./core/TDesign.js";
+import { TDesign } from "./core/index.js";
 
 const games = {
   model: {
     resetDesign: () =>{
-      if (games.model.design !== undefined) {
-        delete games.model.design;
+      if (games.model.design !== null) {
+        games.model.design = null;
       }
     },
     getDesign: () => {
-      if (games.model.design === undefined) {
+      if (games.model.design === null) {
         games.model.design = new TDesign();
       }
       return games.model.design;
     },
-    buildDesign: () => { }
+    buildDesign: () => { },
+    design: null
   },
   view: {}
 };
