@@ -1,6 +1,6 @@
 import _ from "../../../dependencies/underscore-esm-min.js";
 import { games } from "../dagaz-model.js";
-import { TPiece, TBoard, TMoveContext } from "./index.js";
+import { TPiece, TBoard, TMoveContext, TGrid } from "./index.js";
 
 /**
  * A class representing general rules or information of the game.
@@ -518,5 +518,13 @@ export class TDesign {
       }
       return this.modes.indexOf(movement.m);
     });
+  }
+
+  /**
+   * Create a new grid
+   * @returns {ZrfGrid} a new ZrfGrid instance
+   */
+  addGrid() {
+    return new TGrid(this);
   }
 }
