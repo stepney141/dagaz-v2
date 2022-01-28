@@ -14,15 +14,10 @@
   },
   "scripts": {
     "prepare-test": "mkdir ./coverage && mkdir ./coverage/old && mkdir ./coverage/refactored",
-    "test-zrf-old": "node test-runner.js old zrf-based-kernel",
-    "test-zrf-refactored": "node test-runner.js refactored zrf-based-kernel",
-    "test-new-model-old": "node test-runner.js old new-model-kernel",
-    "test-new-model-refactored": "node test-runner.js refactored new-model-kernel",
-    "test-v2": "node test-runner.js dagaz-v2-kernel",
-    "test-zrf-old-100": "for i in `seq 100`; do npm run test-zrf-old; done | tee ./coverage/zrf/old/100_$(date -Iminutes).txt",
-    "test-zrf-old-250": "for i in `seq 250`; do npm run test-zrf-old; done | tee ./coverage/zrf/old/250_$(date -Iminutes).txt",
-    "test-zrf-refactored-100": "for i in `seq 100`; do npm run test-zrf-refactored; done | tee ./coverage/zrf/refactored/100_$(date -Iminutes).txt",
-    "test-zrf-refactored-250": "for i in `seq 250`; do npm run test-zrf-refactored; done | tee ./coverage/zrf/refactored/250_$(date -Iminutes).txt",
-    "test-new-model-refactored-250": "for i in `seq 250`; do npm run test-new-model-refactored; done | tee ./coverage/new-model/refactored/250_$(date -Iminutes).txt"
+    "test-zrf-old": "node test-runner.js zrf-based-kernel old",
+    "test-zrf-refactored": "node test-runner.js zrf-based-kernel refactored",
+    "test-new-model-old": "node test-runner.js new-model-kernel old",
+    "test-new-model-refactored": "node test-runner.js new-model-kernel refactored",
+    "test-v2": "node test-runner.js v2"
   }
 }
