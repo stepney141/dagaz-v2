@@ -1,7 +1,8 @@
 {
-  "name": "dagaz-new",
-  "version": "1.0.0",
+  "name": "dagaz-game",
+  "version": "2.0.0-alpha",
   "description": "",
+  "license": "MIT License",
   "type": "module",
   "devDependencies": {
     "benny": "^3.7.1",

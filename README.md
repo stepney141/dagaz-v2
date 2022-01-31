@@ -1,5 +1,8 @@
 # Dagaz-New
 
+![MIT_License](https://img.shields.io/github/license/stepney141/dagaz-new?color=blue)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/stepney141/dagaz-new?color=brightgreen)
+
 ## How to run tests
 
 This repository has unit tests based on [QUnit](https://qunitjs.com/) test suite. You can run them with Node.js.
