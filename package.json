@@ -5,7 +5,6 @@
   "license": "MIT License",
   "type": "module",
   "devDependencies": {
-    "@babel/plugin-transform-modules-commonjs": "^7.16.8",
     "benny": "^3.7.1",
     "eslint": "^7.32.0",
     "eslint-plugin-jest": "^26.0.0",
@@ -23,7 +22,7 @@
     "test-new-model-old": "node qunit-test-runner.js new-model-kernel old",
     "test-new-model-refactored": "node qunit-test-runner.js new-model-kernel refactored",
     "test-v2": "node qunit-test-runner.js v2",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
   },
   "dependencies": {
     "underscore": "^1.13.2"

@@ -125,7 +125,7 @@ export class TBoard {
       this.z = zUpdate(this.z, this.pieces[pos], pos);
     }
     if (piece === null) {
-      delete this.pieces[pos];
+      this.pieces[pos] = undefined;
     } else {
       this.pieces[pos] = piece;
       this.z = zUpdate(this.z, piece, pos);
