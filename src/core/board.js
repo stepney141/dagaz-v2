@@ -1,4 +1,3 @@
-import _ from "../../../dependencies/underscore-esm-min.js";
 import { games } from "../dagaz-model.js";
 import { TMove, TMoveContext, TPiece, TDesign } from "./index.js";
 import { zUpdate } from "../zobrist.js";
@@ -126,7 +125,7 @@ export class TBoard {
       this.z = zUpdate(this.z, this.pieces[pos], pos);
     }
     if (piece === null) {
-      delete this.pieces[pos];
+      this.pieces[pos] = undefined;
     } else {
       this.pieces[pos] = piece;
       this.z = zUpdate(this.z, piece, pos);
@@ -205,10 +204,7 @@ export class TBoard {
       }
 
       for (const ctx of this.forks) {
-        let f = true;
-        if (this.completeMove(ctx)) {
-          f = false;
-        }
+        let f = this.completeMove(ctx) ? false : true;
         if (this.design.game_options.passPartial || f) {
           this.moves.push(ctx.move);
         }

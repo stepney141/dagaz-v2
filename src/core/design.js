@@ -1,4 +1,4 @@
-import _ from "../../../dependencies/underscore-esm-min.js";
+import _ from "../../dependencies/underscore-esm-min.js";
 import { games } from "../dagaz-model.js";
 import { TPiece, TBoard, TMoveContext, TGrid } from "./index.js";
 

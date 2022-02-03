@@ -7,18 +7,24 @@
   "devDependencies": {
     "benny": "^3.7.1",
     "eslint": "^7.32.0",
+    "eslint-plugin-jest": "^26.0.0",
     "eslint-plugin-you-dont-need-lodash-underscore": "^6.12.0",
     "fs": "*",
     "glob": "^7.1.7",
+    "jest": "^27.4.7",
     "node-qunit-puppeteer": "^2.1.0",
     "qunitjs": "^1.23.1"
   },
   "scripts": {
     "prepare-test": "mkdir ./coverage && mkdir ./coverage/old && mkdir ./coverage/refactored",
-    "test-zrf-old": "node test-runner.js zrf-based-kernel old",
-    "test-zrf-refactored": "node test-runner.js zrf-based-kernel refactored",
-    "test-new-model-old": "node test-runner.js new-model-kernel old",
-    "test-new-model-refactored": "node test-runner.js new-model-kernel refactored",
-    "test-v2": "node test-runner.js v2"
+    "test-zrf-old": "node qunit-test-runner.js zrf-based-kernel old",
+    "test-zrf-refactored": "node qunit-test-runner.js zrf-based-kernel refactored",
+    "test-new-model-old": "node qunit-test-runner.js new-model-kernel old",
+    "test-new-model-refactored": "node qunit-test-runner.js new-model-kernel refactored",
+    "test-v2": "node qunit-test-runner.js v2",
+    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
+  },
+  "dependencies": {
+    "underscore": "^1.13.2"
   }
 }

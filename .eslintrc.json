@@ -2,7 +2,8 @@
     "env": {
         "node": true,
         "browser": true,
-        "es2021": true
+        "es2021": true,
+        "jest/globals": true
     },
     "extends": [
         "eslint:recommended",
@@ -12,6 +13,9 @@
         "ecmaVersion": 12,
         "sourceType": "module"
     },
+    "plugins": [
+        "jest"
+    ],
     "rules": {
         "indent": [
             "error",
@@ -27,6 +31,10 @@
         "no-param-reassign": 1, // because of https://github.com/airbnb/javascript#functions--reassign-params
         "you-dont-need-lodash-underscore" : 1,
         "no-var": 1,
-        "no-eq-null": 2
+        "no-eq-null": 2,
+        "eol-last": [
+            "error",
+            "always"
+        ]
     }
 }
