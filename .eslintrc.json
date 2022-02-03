@@ -7,7 +7,7 @@
     },
     "extends": [
         "eslint:recommended",
-        "plugin:you-dont-need-lodash-underscore/compatible" //ref: http://you-dont-need.github.io/You-Dont-Need-Lodash-Underscore/
+        "plugin:you-dont-need-lodash-underscore/compatible"
     ],
     "parserOptions": {
         "ecmaVersion": 12,

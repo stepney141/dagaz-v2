@@ -2,6 +2,7 @@
 
 ![MIT_License](https://img.shields.io/github/license/stepney141/dagaz-new?color=blue)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/stepney141/dagaz-new?color=brightgreen)
+[![Tests with Jest](https://github.com/stepney141/dagaz-new/actions/workflows/coverage.yml/badge.svg)](https://github.com/stepney141/dagaz-new/actions/workflows/coverage.yml)
 
 This is the next version of [Dagaz Project](https://github.com/GlukKazan/Dagaz), a general boardgame creating/playing engine using Javascript.
 
@@ -18,5 +19,5 @@ $ npm install
 This repository has unit tests based on [Jest](https://jestjs.io/) test suite. You can run them with Node.js `v14`.
 
 ```bash
-$ npm test
+$ npm run test
 ```
