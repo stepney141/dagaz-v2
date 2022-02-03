@@ -1,13 +1,14 @@
 # action name
 name: Tests with Jest
 
-# when to fire
+# when to fire the action
 on:
   pull_request:
     branches: [ master ]
   push:
-    branches: [ master, modernizing-devenvs ]
+    branches: [ master ]
 
+# what to do
 jobs:
   coverage:
     runs-on: ubuntu-latest
