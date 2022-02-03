@@ -1,7 +1,9 @@
-# Dagaz-New
+# Dagaz
 
 ![MIT_License](https://img.shields.io/github/license/stepney141/dagaz-new?color=blue)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/stepney141/dagaz-new?color=brightgreen)
+
+This is the next version of [Dagaz Project](https://github.com/GlukKazan/Dagaz), a general boardgame creating/playing engine using Javascript.
 
 ## Setting up the dev environment
 
