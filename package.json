@@ -22,7 +22,9 @@
     "test-new-model-old": "node qunit-test-runner.js new-model-kernel old",
     "test-new-model-refactored": "node qunit-test-runner.js new-model-kernel refactored",
     "test-v2": "node qunit-test-runner.js v2",
-    "test": "node --experimental-vm-modules node_modules/.bin/jest --coverage"
+    "test": "node --experimental-vm-modules node_modules/.bin/jest",
+    "test:coverage": "npm run test -- --coverage",
+    "lint": "eslint ."
   },
   "dependencies": {
     "underscore": "^1.13.2"
