@@ -1,13 +1,10 @@
-import { games } from "../../src/dagaz-model.js";
 import { TBoard } from "../../src/core/index.js";
-
-const extension = games.model.extension;
 
 /**
  * promotion of a man to a king
  * @param {TBoard} board 
  */
-games.model.extension = function(board) {
+const promotion = function(board) {
   const design = board.design;
 
   for (const move of board.moves.filter(move => move.actions.length != 0)) {
@@ -16,10 +13,6 @@ games.model.extension = function(board) {
       action[2] = action[2].promote(1);
     }
   }
-
-  if (extension !== undefined) {
-    extension(board);
-  }
 };
 
-export { games };
+export { promotion };

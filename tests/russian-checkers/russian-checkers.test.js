@@ -1,8 +1,9 @@
-import { games } from "../../src/dagaz-model.js";
-import "./russian-checkers-dagaz.js";
+import { RussianCheckerClient } from"./russian-checkers-dagaz.js";
+
+const app = new RussianCheckerClient();
 
 test("King Moves", function() {
-  const design = games.model.getDesign();
+  const design = app.getGameDesign();
   let board = design.getInitBoard().copy();
 
   expect(board.player).toEqual(1); // White turn
@@ -31,7 +32,7 @@ test("King Moves", function() {
 });
 
 test( "King Capturing", function() {
-  const design = games.model.getDesign();
+  const design = app.getGameDesign();
   let board = design.getInitBoard().copy();
 
   expect(board.player).toEqual(1); // White turn
@@ -61,7 +62,7 @@ test( "King Capturing", function() {
 });
 
 test( "Man Capturing", function() {
-  const design = games.model.getDesign();
+  const design = app.getGameDesign();
   let board = design.getInitBoard().copy();
 
   expect(board.player).toEqual(1); // White turn

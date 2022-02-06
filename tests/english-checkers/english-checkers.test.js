@@ -1,8 +1,9 @@
-import { games } from "../../src/dagaz-model.js";
-import "./english-checkers-dagaz.js";
+import { EnglishCheckerClient } from "./english-checkers-dagaz.js";
+
+const app = new EnglishCheckerClient();
 
 test("Initial Board", function() {
-  const design = games.model.getDesign();
+  const design = app.getGameDesign();
   let board = design.getInitBoard();
   
   expect(board.player).toEqual(1); // Black turn 
@@ -185,7 +186,7 @@ test("Initial Board", function() {
 });
 
 test( "Man Capturing", function() {
-  const design = games.model.getDesign();
+  const design = app.getGameDesign();
   let board = design.getInitBoard().copy();
   
   expect(board.player).toEqual(1); // Black turn
@@ -224,7 +225,7 @@ test( "Man Capturing", function() {
 });
 
 test( "King Capturing", function() {
-  const design = games.model.getDesign();
+  const design = app.getGameDesign();
   let board = design.getInitBoard().copy();
   
   expect(board.player).toEqual(1); // Black turn
