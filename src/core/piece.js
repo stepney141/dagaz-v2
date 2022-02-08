@@ -1,4 +1,4 @@
-import { TDesign } from "./index.js";
+import { TDesign } from "./design.js";
 
 /**
  * A class representing each piece on the board.

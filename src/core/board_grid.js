@@ -1,5 +1,5 @@
-import _ from "../../dependencies/underscore-esm-min.js";
-import { TDesign } from "./index.js";
+import _ from "underscore";
+import { TDesign } from "./design.js";
 
 /**
  * 

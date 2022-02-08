@@ -1,6 +1,9 @@
-import _ from "../../dependencies/underscore-esm-min.js";
+import _ from "underscore";
 import { games } from "../dagaz-model.js";
-import { TPiece, TBoard, TMoveContext, TGrid } from "./index.js";
+import { TBoard } from "./board.js";
+import { TGrid } from "./board_grid.js";
+import { TMoveContext } from "./move_context.js";
+import { TPiece } from "./piece.js";
 
 /**
  * A class representing general rules or information of the game.
@@ -132,7 +135,6 @@ export class TDesign {
 
   /**
    * Defines some flags for game rules and store them into the global namespace
-   * @public
    * @param {string} name - flag name
    * @param {"true" | "false"} value - flag name
    */
@@ -178,7 +180,6 @@ export class TDesign {
 
   /**
    * Defines a new direction
-   * @public
    * @param {string} name - a direction name
    */
   addDirection(name) {
@@ -189,7 +190,6 @@ export class TDesign {
    * Defines a player with his/her rotationally symmetric move-directions;  
    * e.g. When a chess player moves a pawn one square toward north, the other player recognizes the pawn moves "one square toward south."  
    * This is an example of the move-direction symmetry.
-   * @public
    * @param {string} name - a player name
    * @param {Array<number>} symmetry - a list of direction ids that are rotationally symmetric in each player
    */
@@ -204,7 +204,6 @@ export class TDesign {
 
   /**
    * Defines a turn.
-   * @public
    * @param {*} player - a player id
    * @param {*} modes 
    */
@@ -230,7 +229,6 @@ export class TDesign {
 
   /**
    * Defines a cell on the game board.
-   * @public
    * @param {string} name - a position name
    * @param {Array<number>} dirs - an offset of each cell indicated by numeric direction ids
    */
@@ -245,7 +243,6 @@ export class TDesign {
 
   /**
    * Defines a special zone on the game board.
-   * @public
    * @param {string} name - a zone name
    * @param {number} player - an ID of a player who can use the zone
    * @param {Array<string>} positions - a list of position-names which are in the zone
@@ -272,7 +269,6 @@ export class TDesign {
 
   /**
    * Defines a piece.
-   * @public
    * @param {string} name - a piece name
    * @param {number} type - a piece type id
    * @param {number=} [price=1] - a piece value
@@ -297,7 +293,6 @@ export class TDesign {
 
   /**
    * Defines how a piece moves or works (e.g. how it moves to another cell, how it captures other pieces, etc.)
-   * @public
    * @param {number} type - piece type id
    * @param {(ctx: TMoveContext, params: *) => *} fun 
    * @param {Array<number>} params 
@@ -317,7 +312,6 @@ export class TDesign {
   /**
    * Returns a game board at the time when the game started.  
    * Or creates the initial board from the game design if it does not exist.
-   * @public
    * @returns {TBoard} an initial game state
    */
   getInitBoard() {
@@ -334,7 +328,6 @@ export class TDesign {
 
   /**
    * Defines a initial setup of pieces.
-   * @public
    * @param {string} player - a name of a player who owns the pieces
    * @param {string} type - a piece type
    * @param {Array<string> | string} positions - names of cells where the piece occupies when the game starts
@@ -522,7 +515,7 @@ export class TDesign {
 
   /**
    * Create a new grid
-   * @returns {ZrfGrid} a new ZrfGrid instance
+   * @returns {TGrid} a new TGrid instance
    */
   addGrid() {
     return new TGrid(this);

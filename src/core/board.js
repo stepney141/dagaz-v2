@@ -1,6 +1,9 @@
 import { games } from "../dagaz-model.js";
-import { TMove, TMoveContext, TPiece, TDesign } from "./index.js";
 import { zUpdate } from "../zobrist.js";
+import { TDesign } from "./design.js";
+import { TMove } from "./move.js";
+import { TMoveContext } from "./move_context.js";
+import { TPiece } from "./piece.js";
 
 /**
  * A class representing each game state.

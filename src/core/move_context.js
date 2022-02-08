@@ -1,4 +1,7 @@
-import { TMove, TDesign, TBoard, TPiece } from "./index.js";
+import { TBoard } from "./board.js";
+import { TDesign } from "./design.js";
+import { TMove } from "./move.js";
+import { TPiece } from "./piece.js";
 
 /**
  * A class representing each partial context of one move

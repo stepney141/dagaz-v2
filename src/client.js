@@ -18,12 +18,3 @@ export class DagazClient {
 
   buildDesign () { }
 }
-
-const game_rules = {
-  /** @type {string} */
-  name: "",
-
-  setup: () => {},
-  pieces: {
-  }
-};

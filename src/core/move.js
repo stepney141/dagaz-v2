@@ -1,4 +1,6 @@
-import { TBoard, TDesign, TPiece } from "./index.js";
+import { TBoard } from "./board.js";
+import { TPiece } from "./piece.js";
+import { TDesign } from "./design.js";
 
 export class TMove {
   /**
