@@ -6,21 +6,19 @@ import "./chess-dagaz-invariant.js";
  * Search the game tree starting from the initial positiion, 
  * and counts all the leaf nodes of a certain depth
  * @link https://www.chessprogramming.org/Perft
- * @param {TBoard} board - initial board state
- * @param {number} depth - depth to search
+ * @param {number} depth - depth to search (>= 1)
+ * @param {TBoard} b - initial board state
  * @returns {number} 
  */
-const perft = function (board, depth) {
+const perft = function (depth, b) {
   let nodes = 0;
-  let b = board;
 
   b.generate();
 
   for (let m of b.moves) {
     // console.log(m.toString(board.design));
-    b = b.apply(m); //make a move
-    nodes += (depth > 1) ? perft(b, depth - 1) : 1;
-    b = b.parent; //undo a move
+    let next_b = b.apply(m); //make a move
+    nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
   }
 
   return nodes;
@@ -30,31 +28,25 @@ const perft = function (board, depth) {
  * main process
  * @param {number} depth - depth to search
  */
-const main = function (depth) {
-  games.model.resetDesign();
-  const Design = games.model.getDesign();
-  let Board = Design.getInitBoard();
+const main = function (depth, design = games.model.getDesign()) {
+  const board = design.getInitBoard();
 
   console.log(`Enumerate Nodes, depth = ${depth}`);
 
   console.time(`perft ${depth}`);
 
-  const results = perft(Board, depth);
+  const results = perft(depth, board);
   console.log('result: ', results);
 
   console.timeEnd(`perft ${depth}`);
 
 };
 
-//for (let j = 1; j <= 4; j++){
-
-for (let i = 1; i <= 4 ; i++) {
+for (let i = 1; i <= 4; i++){
   main(i);
 }
 
 console.log("==========");
-
-// }
 
 /* 
 output examples (when 1 <= depth <= 6)
