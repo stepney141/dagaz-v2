@@ -24,9 +24,7 @@ export class TMove {
    */
   copy() {
     const r = new TMove(this.mode);
-    for (const a of this.actions) {
-      r.actions.push(a);
-    }
+    r.actions = [...this.actions]; //shallow copying
     return r;
   }
 
@@ -40,9 +38,7 @@ export class TMove {
     const filtered_actions = this.actions.filter(a => {
       return (a[0] === null) || (a[1] === null) || (a[3] !== part);
     });
-    for (const a of filtered_actions){
-      r.actions.push(a);
-    }
+    r.actions = [...filtered_actions]; //shallow copying
     return r;
   }
 

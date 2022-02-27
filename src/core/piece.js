@@ -67,7 +67,7 @@ export class TPiece {
     if (new_value !== null) {
       r.values[ix] = new_value;
     } else {
-      delete r.values[ix];
+      r.values[ix] = undefined;
     }
 
     return r;

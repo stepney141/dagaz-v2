@@ -58,7 +58,11 @@ export class TBoard {
     /** @type {Array<TMoveContext> | null} */
     this.forks = null;
 
-    /** @type {number | null} */
+    /**
+     * origin square id
+     * @link https://www.chessprogramming.org/Origin_Square
+     * @type {number | null}
+     */
     this.lastFrom = null;
   }
 
@@ -72,6 +76,12 @@ export class TBoard {
     r.turn = this.turn;
     r.player = this.player;
     r.pieces = [...this.pieces]; //shallow copying
+    // for (const p of this.pieces) { // deep copying
+    //   const clone = (p === undefined)
+    //     ? undefined
+    //     : Object.assign(Object.create(Object.getPrototypeOf(p)), p);
+    //   r.pieces.push(clone);
+    // }
     r.z = this.z;
     return r;
   }
