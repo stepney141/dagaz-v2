@@ -1,5 +1,7 @@
 # Dagaz
 
+![](./logo_transparent.png)
+
 ![MIT_License](https://img.shields.io/github/license/stepney141/dagaz-new?color=blue)
 ![GitHub package.json version](https://img.shields.io/github/package-json/v/stepney141/dagaz-new?color=brightgreen)
 [![Tests with Jest](https://github.com/stepney141/dagaz-new/actions/workflows/coverage.yml/badge.svg)](https://github.com/stepney141/dagaz-new/actions/workflows/coverage.yml)
