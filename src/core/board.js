@@ -153,7 +153,7 @@ export class TBoard {
   completeMove(parent) {
     let r = false;
 
-    this.design.movement.forEach(movement => {
+    this.design.movements.forEach(movement => {
       if (movement.t != parent.piece.type) {
         return;
       }
@@ -179,11 +179,11 @@ export class TBoard {
    * Generates a list of the legal moves from the current game state
    */
   generate() {
-    if (this.moves === null && this.design.grouped_movement !== null) {
+    if (this.moves === null && this.design.movements_grouped !== null) {
       this.forks = [];
       this.moves = [];
 
-      for (const Movements of Object.values(this.design.grouped_movement)) {
+      for (const Movements of Object.values(this.design.movements_grouped)) {
         let completed = false;
         
         this.design.allPositions().forEach(pos => {
@@ -197,14 +197,14 @@ export class TBoard {
 
           Movements.forEach(movement => {
             if (movement.t != piece.type) {
-              return; // searches the movement defined for the piece
+              return; // searches the movement of a specific piece from the group of the same mode moves
             }
 
             const ctx = new TMoveContext(this.design, this, pos, piece);
             ctx.move.mode = movement.m;
             ctx.take();
             ctx.setPiece(pos, null);
-            movement.f(ctx, movement.p); // executes a method descripting moves
+            movement.f(ctx, movement.p); // executes a method that describes moves
             if (ctx.succeed) {
               completed = true; // finishes the execution
             }

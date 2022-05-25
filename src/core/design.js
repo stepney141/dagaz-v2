@@ -89,10 +89,10 @@ export class TDesign {
      * A list of movements or behavior of pieces
      * @type {Array<movement>}
      */
-    this.movement = [];
+    this.movements = [];
 
     /** @type {Object<number, Array<movement>> | null} */
-    this.grouped_movement = null;
+    this.movements_grouped = null;
     
     /**
      * A list of initial piece positions and piece objects.
@@ -293,16 +293,16 @@ export class TDesign {
 
   /**
    * Defines how a piece moves or works (e.g. how it moves to another cell, how it captures other pieces, etc.)
-   * @param {number} type - piece type id
-   * @param {(ctx: TMoveContext, params: *) => *} fun 
+   * @param {number} piece_type - piece type id
+   * @param {(ctx: TMoveContext, params: *) => *} func - callback function to define a move in internal DSL
    * @param {Array<number>} params 
    * @param {number} mode - move mode
    * @param {*} sound 
    */
-  addMove(type, fun, params, mode, sound) {
-    this.movement.push({
-      t: type,
-      f: fun,
+  addMove(piece_type, func, params, mode, sound) {
+    this.movements.push({
+      t: piece_type,
+      f: func,
       p: params,
       m: mode,
       s: sound
@@ -395,8 +395,8 @@ export class TDesign {
    * Returns a new piece position after a player makes a move from a current position toward a given direction
    * @param {number} player - player id
    * @param {number} pos - current position of the piece
-   * @param {number} dir - id of the direction that the player is going to make a move toward
-   * @returns {null | number} a new position
+   * @param {number} dir - id of the direction toward which the player is going to make a move
+   * @returns {null | number} a new position (null if the new position is not found)
    */
   navigate(player, pos, dir) {
     let target_dir = dir;
@@ -505,7 +505,7 @@ export class TDesign {
    * classify piece movement according to a move mode
    */
   configureMovement() {
-    this.grouped_movement = _.groupBy(this.movement, movement => {
+    this.movements_grouped = _.groupBy(this.movements, movement => {
       if (this.modes.length == 0) {
         return 0;
       }

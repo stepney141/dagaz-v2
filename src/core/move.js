@@ -132,18 +132,18 @@ export class TMove {
 
   /**
    * Updates the current board state with the move.
-   * @param {TBoard} obj 
+   * @param {TBoard} board
    */
-  applyTo(obj) {
+  applyTo(board) {
     for (const a of this.actions) {
       if (a[0] !== null) {
-        obj.setPiece(a[0], null); //make empty the start cell
+        board.setPiece(a[0], null); //make empty the start cell
       }
       if ((a[1] !== null) && (a[2] !== null)) {
-        obj.setPiece(a[1], a[2]); //put a piece on the goal cell
+        board.setPiece(a[1], a[2]); //put a piece on the goal cell
       }
       if ((a[0] !== null) && (a[1] !== null)) {
-        obj.setLastFrom(a[0]);
+        board.setLastFrom(a[0]);
       }
     }
   }

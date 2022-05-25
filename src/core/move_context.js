@@ -102,7 +102,7 @@ export class TMoveContext {
   }
 
   /**
-   * Configures the move of the piece from the origin square.
+   * Saves the location of the origin square of the move and the piece.
    */
   take() {
     this.hand = {
@@ -122,8 +122,8 @@ export class TMoveContext {
 
   /**
    * @template T
-   * @param {undefined | Array<T> | T} params 
-   * @param {number} ix 
+   * @param {undefined | Array<T> | T} params
+   * @param {number} ix - index indicating the location of an element to be retrieved from the params array
    * @returns {null | T}
    */
   getParam(params, ix) {
@@ -138,9 +138,9 @@ export class TMoveContext {
 
   /**
    * 
-   * @param {*} params 
-   * @param {number} ix 
-   * @returns {boolean}
+   * @param {Array<number>} params - list of the directions toward which the piece moves
+   * @param {number} ix - index indicating the location of an direction to be retrieved from the params array
+   * @returns {boolean} whether the piece can go toward the given direction from the current location
    */
   go(params, ix) {
     const dir = this.getParam(params, ix);
@@ -151,11 +151,11 @@ export class TMoveContext {
     if (this.hand !== null) {
       player = this.hand.piece.player;
     }
-    const p = this.design.navigate(player, this.pos, dir);
-    if (p === null) {
+    const new_p = this.design.navigate(player, this.pos, dir);
+    if (new_p === null) {
       return false;
     }
-    this.pos = p;
+    this.pos = new_p; // updates the piece location
     return true;
   }
 
