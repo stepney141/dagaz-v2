@@ -9,6 +9,7 @@ const games = {
     },
     getDesign: () => {
       if (games.model.design === null) {
+        // @ts-expect-error ts-migrate(2322) FIXME: Type 'TDesign' is not assignable to type 'null'.
         games.model.design = new TDesign();
       }
       return games.model.design;

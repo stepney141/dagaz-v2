@@ -4,11 +4,14 @@ import { TDesign } from "./design.js";
  * A class representing each piece on the board.
  */
 export class TPiece {
+  player: any;
+  type: any;
+  values: any;
   /**
    * @param {number} type - a piece type id
    * @param {number} player - a player id who owns the piece
    */
-  constructor(type, player) {
+  constructor(type: any, player: any) {
     this.type = type;
     this.player = player;
 
@@ -21,7 +24,7 @@ export class TPiece {
    * @param {TDesign} design - the object describing the game rules
    * @returns {string} human-readable piece details
    */
-  toString(design) {
+  toString(design: any) {
     return design.playerNames[this.player] + " " + design.pieceNames[this.type];
   }
 
@@ -30,7 +33,7 @@ export class TPiece {
    * @param {number} ix - a piece id
    * @returns {null | number} a piece value (null if the specified piece doesn't exist)
    */
-  getValue(ix) {
+  getValue(ix: any) {
     if (this.values === null) {
       return null;
     }
@@ -46,7 +49,7 @@ export class TPiece {
    * @param {null | number} new_value - a new value
    * @returns {TPiece}
    */
-  setValue(ix, new_value) {
+  setValue(ix: any, new_value: any) {
     const current_value = this.getValue(ix);
 
     if ((current_value === null) && (new_value === null)) {
@@ -78,7 +81,7 @@ export class TPiece {
    * @param {number} type - a new piece type id
    * @returns {TPiece} a new piece insatance
    */
-  promote(type) {
+  promote(type: any) {
     if (type == this.type) {
       return this;
     }
@@ -90,7 +93,7 @@ export class TPiece {
    * @param {number} player - a new player id
    * @returns {TPiece} a new piece instance
    */
-  changeOwner(player) {
+  changeOwner(player: any) {
     if (player == this.player) {
       return this;
     }

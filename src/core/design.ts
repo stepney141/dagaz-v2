@@ -10,6 +10,23 @@ import { TPiece } from "./piece.js";
  * This will never be re-instantiated after it once gets instantiated.
  */
 export class TDesign {
+  board: any;
+  dirs: any;
+  game_options: any;
+  initial: any;
+  modes: any;
+  movements: any;
+  movements_grouped: any;
+  pieceNames: any;
+  playerNames: any;
+  players: any;
+  positionNames: any;
+  positions: any;
+  price: any;
+  repeat: any;
+  turns: any;
+  zoneNames: any;
+  zones: any;
   constructor() {
     /**
      * A list of direction names.
@@ -129,7 +146,7 @@ export class TDesign {
    * @param {number} player - an id of a player who owns the piece
    * @returns {TPiece}
    */
-  createPiece(type, player) {
+  createPiece(type: any, player: any) {
     return new TPiece(type, player);
   }
 
@@ -138,7 +155,7 @@ export class TDesign {
    * @param {string} name - flag name
    * @param {"true" | "false"} value - flag name
    */
-  checkVersion(name, value) {
+  checkVersion(name: any, value: any) {
     if (name === "pass-turn") {
       this.game_options.passTurn = (value == "true");
     }
@@ -158,7 +175,7 @@ export class TDesign {
    * @param {number} pos - a position id
    * @returns {string} a position name
    */
-  posToString(pos) {
+  posToString(pos: any) {
     if (this.positionNames[pos] === undefined) {
       return "?";
     }
@@ -170,7 +187,7 @@ export class TDesign {
    * @param {string} name - a position name
    * @returns {null | number} a position id
    */
-  stringToPos(name) {
+  stringToPos(name: any) {
     const pos = this.positionNames.indexOf(name);
     if (pos < 0) {
       return null;
@@ -182,7 +199,7 @@ export class TDesign {
    * Defines a new direction
    * @param {string} name - a direction name
    */
-  addDirection(name) {
+  addDirection(name: any) {
     this.dirs.push(name);
   }
 
@@ -193,7 +210,7 @@ export class TDesign {
    * @param {string} name - a player name
    * @param {Array<number>} symmetry - a list of direction ids that are rotationally symmetric in each player
    */
-  addPlayer(name, symmetry) {
+  addPlayer(name: any, symmetry: any) {
     const ix = this.playerNames.length;
     if (this.playerNames.length == 0) {
       this.playerNames.push("opposite");
@@ -207,7 +224,7 @@ export class TDesign {
    * @param {*} player - a player id
    * @param {*} modes 
    */
-  addTurn(player, modes) {
+  addTurn(player: any, modes: any) {
     if (this.turns === undefined) {
       this.turns = [];
     }
@@ -232,7 +249,7 @@ export class TDesign {
    * @param {string} name - a position name
    * @param {Array<number>} dirs - an offset of each cell indicated by numeric direction ids
    */
-  addPosition(name, dirs) {
+  addPosition(name: any, dirs: any) {
     if ((this.positions.length == 0) && (name != "start")) { //when the positions list is empty, defines the origin of the coordinates 
       this.positionNames.push("start");
       this.positions.push(_.range(dirs.length).fill(0));
@@ -247,7 +264,7 @@ export class TDesign {
    * @param {number} player - an ID of a player who can use the zone
    * @param {Array<string>} positions - a list of position-names which are in the zone
    */
-  addZone(name, player, positions) {
+  addZone(name: any, player: any, positions: any) {
     let zone_id = this.zoneNames.indexOf(name);
     if (zone_id < 0) { //when the zone name is not found in the zone names list
       zone_id = this.zoneNames.length;
@@ -256,14 +273,14 @@ export class TDesign {
     if (this.zones[zone_id] === undefined) {
       this.zones[zone_id] = [];
     }
-    this.zones[zone_id][player] = positions.map(name => this.stringToPos(name));
+    this.zones[zone_id][player] = positions.map((name: any) => this.stringToPos(name));
   }
 
   /**
    * Defines a priority on the mode of moves.
    * @param {number} mode 
    */
-  addPriority(mode) {
+  addPriority(mode: any) {
     this.modes.push(mode);
   }
 
@@ -273,7 +290,7 @@ export class TDesign {
    * @param {number} type - a piece type id
    * @param {number=} [price=1] - a piece value
    */
-  addPiece(name, type, price = 1) {
+  addPiece(name: any, type: any, price = 1) {
     this.pieceNames[type] = name;
     this.price[type] = price;
   }
@@ -283,7 +300,7 @@ export class TDesign {
    * @param {string} name - a piece name
    * @returns {null | number} a piece type id
    */
-  getPieceType(name) {
+  getPieceType(name: any) {
     const r = this.pieceNames.indexOf(name);
     if (r < 0) {
       return null;
@@ -299,7 +316,7 @@ export class TDesign {
    * @param {number} mode - move mode
    * @param {*} sound 
    */
-  addMove(piece_type, func, params, mode, sound) {
+  addMove(piece_type: any, func: any, params: any, mode: any, sound: any) {
     this.movements.push({
       t: piece_type,
       f: func,
@@ -316,10 +333,11 @@ export class TDesign {
    */
   getInitBoard() {
     if (this.board === undefined) {
+      // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
       games.model.buildDesign(this);
       this.configureMovement();
       this.board = new TBoard(this);
-      this.initial.forEach(s => { //place pieces on the specified cells
+      this.initial.forEach((s: any) => { //place pieces on the specified cells
         this.board.setPiece(s.p, s.t);
       });
     }
@@ -332,7 +350,7 @@ export class TDesign {
    * @param {string} type - a piece type
    * @param {Array<string> | string} positions - names of cells where the piece occupies when the game starts
    */
-  setup(player, type, positions) {
+  setup(player: any, type: any, positions: any) {
     const piece_type_id = this.pieceNames.indexOf(type);
     const player_id = this.playerNames.indexOf(player);
     if ((piece_type_id < 0) || (player_id < 0)) {
@@ -383,7 +401,7 @@ export class TDesign {
    * @param {string} name - a direction name
    * @returns {null | number} a direction id
    */
-  getDirection(name) {
+  getDirection(name: any) {
     const dir = this.dirs.indexOf(name);
     if (dir < 0) {
       return null;
@@ -398,7 +416,7 @@ export class TDesign {
    * @param {number} dir - id of the direction toward which the player is going to make a move
    * @returns {null | number} a new position (null if the new position is not found)
    */
-  navigate(player, pos, dir) {
+  navigate(player: any, pos: any, dir: any) {
     let target_dir = dir;
     if (this.players[player] !== undefined) {
       target_dir = this.players[player][dir];
@@ -417,7 +435,7 @@ export class TDesign {
    * @param {number=} [player=0]
    * @returns {number}
    */
-  opposite(dir, player = 0) {
+  opposite(dir: any, player = 0) {
     return this.players[player][dir];
   }
 
@@ -426,7 +444,7 @@ export class TDesign {
    * @param {string} name - a zone name
    * @returns {null | number} a zone id
    */
-  getZone(name) {
+  getZone(name: any) {
     const zone = this.zoneNames.indexOf(name);
     if (zone < 0) {
       return null;
@@ -441,7 +459,7 @@ export class TDesign {
    * @param {number} zone - zone id
    * @returns {boolean}
    */
-  inZone(player, pos, zone) {
+  inZone(player: any, pos: any, zone: any) {
     if (this.zones[zone] !== undefined) {
       if (this.zones[zone][player] !== undefined) {
         return this.zones[zone][player].indexOf(pos) >= 0;
@@ -455,7 +473,7 @@ export class TDesign {
    * @param {number} player - current player id
    * @returns {number} next player id
    */
-  nextPlayer(player) {
+  nextPlayer(player: any) {
     if (player + 1 >= this.playerNames.length) {
       return 1;
     } else {
@@ -468,7 +486,7 @@ export class TDesign {
    * @param {TBoard} board 
    * @returns {number}
    */
-  nextTurn(board) {
+  nextTurn(board: any) {
     let turn = board.turn + 1;
     if (this.turns === undefined) {
       if (turn >= this.players.length - 1) {
@@ -493,7 +511,7 @@ export class TDesign {
    * @param {number} turn 
    * @returns {number} current player id
    */
-  currPlayer(turn) {
+  currPlayer(turn: any) {
     if (this.turns === undefined) {
       return turn + 1;
     } else {

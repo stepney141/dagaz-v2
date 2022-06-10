@@ -10,10 +10,19 @@ import { TPiece } from "./piece.js";
  * This is newly instantiated every time a player makes a move and the game state gets updated.
  */
 export class TBoard {
+  design: any;
+  forks: any;
+  lastFrom: any;
+  moves: any;
+  parent: any;
+  pieces: any;
+  player: any;
+  turn: any;
+  z: any;
   /**
    * @param {TDesign} design - a game design object
    */
-  constructor(design) {
+  constructor(design: any) {
     this.design = design;
     
     /**
@@ -99,7 +108,7 @@ export class TBoard {
    * 
    * @param {number} pos 
    */
-  setLastFrom(pos) {
+  setLastFrom(pos: any) {
     this.lastFrom = pos; 
   }
 
@@ -108,7 +117,7 @@ export class TBoard {
    * @param {*} pos 
    * @returns {boolean}
    */
-  isLastFrom(pos) {
+  isLastFrom(pos: any) {
     if (this.lastFrom !== undefined) {
       return this.lastFrom == pos;
     }
@@ -120,7 +129,7 @@ export class TBoard {
    * @param {number} pos - a position id
    * @returns {null | TPiece} a piece (null if no piece occupies the given position)
    */
-  getPiece(pos) {
+  getPiece(pos: any) {
     if (this.pieces[pos] === undefined) {
       return null;
     } else {
@@ -133,7 +142,7 @@ export class TBoard {
    * @param {null | number} pos - a piece position id
    * @param {null | TPiece} piece - a piece
    */
-  setPiece(pos, piece) {
+  setPiece(pos: any, piece: any) {
     if (this.pieces[pos] !== undefined) {
       this.z = zUpdate(this.z, this.pieces[pos], pos);
     }
@@ -150,10 +159,10 @@ export class TBoard {
    * @param {TMoveContext} parent 
    * @returns {boolean}
    */
-  completeMove(parent) {
+  completeMove(parent: any) {
     let r = false;
 
-    this.design.movements.forEach(movement => {
+    this.design.movements.forEach((movement: any) => {
       if (movement.t != parent.piece.type) {
         return;
       }
@@ -183,10 +192,11 @@ export class TBoard {
       this.forks = [];
       this.moves = [];
 
+      // @ts-expect-error ts-migrate(2550) FIXME: Property 'values' does not exist on type 'ObjectCo... Remove this comment to see the full error message
       for (const Movements of Object.values(this.design.movements_grouped)) {
         let completed = false;
         
-        this.design.allPositions().forEach(pos => {
+        this.design.allPositions().forEach((pos: any) => {
           const piece = this.getPiece(pos);
           if (piece === null) {
             return; // checks the piece existence
@@ -195,7 +205,7 @@ export class TBoard {
             return; // checks if the current player can move the piece
           }
 
-          Movements.forEach(movement => {
+          Movements.forEach((movement: any) => {
             if (movement.t != piece.type) {
               return; // searches the movement of a specific piece from the group of the same mode moves
             }
@@ -217,7 +227,7 @@ export class TBoard {
       }
 
       for (const ctx of this.forks) {
-        let f = this.completeMove(ctx) ? false : true;
+        const f = this.completeMove(ctx) ? false : true;
         if (this.design.game_options.passPartial || f) {
           this.moves.push(ctx.move);
         }
@@ -225,8 +235,8 @@ export class TBoard {
 
       this.forks = null;
       
-      if (games.model.extension !== undefined) {
-        games.model.extension(this);
+      if ((games.model as any).extension !== undefined) {
+        (games.model as any).extension(this);
       }
       if (this.design.game_options.passTurn && (this.moves.length == 0)) {
         this.moves.push(new TMove(0));
@@ -239,11 +249,12 @@ export class TBoard {
    * @param {TMove} move 
    * @returns {TBoard}
    */
-  apply(move) {
+  apply(move: any) {
     const r = this.copy(); // create a new game state
     r.turn = r.design.nextTurn(this);
     r.player = r.design.currPlayer(r.turn);
     move.applyTo(r); // make a move
+    // @ts-expect-error ts-migrate(2551) FIXME: Property 'move' does not exist on type 'TBoard'. D... Remove this comment to see the full error message
     r.move = move;
     return r;
   }

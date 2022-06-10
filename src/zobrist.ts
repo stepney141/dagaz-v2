@@ -3,7 +3,7 @@ import { TPiece } from "./core/index.js";
 /**
  * A transposition table
  */
-let hash = null;
+let hash: any = null;
 
 /**
  * Returns a pseudo random integer between 0 and 255
@@ -35,7 +35,7 @@ const getRandomValue = function() {
  * @param {number} pos 
  * @returns {number}
  */
-const getValue = function(type, player, pos) {
+const getValue = function(type: any, player: any, pos: any) {
   if (hash === null) {
     hash = [];
   }
@@ -60,7 +60,7 @@ const getValue = function(type, player, pos) {
  * @param {number} pos 
  * @returns {number}
  */
-const zUpdate = function(value, piece, pos) {
+const zUpdate = function(value: any, piece: any, pos: any) {
   return value ^ getValue(piece.type, piece.player, pos);
 };
 

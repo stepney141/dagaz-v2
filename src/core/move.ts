@@ -3,10 +3,12 @@ import { TPiece } from "./piece.js";
 import { TDesign } from "./design.js";
 
 export class TMove {
+  actions: any;
+  mode: any;
   /**
    * @param {null | number} mode 
    */
-  constructor(mode) {
+  constructor(mode: any) {
     /**
      * action[0] from - origin square id (the cell where the move starts); null for drop moves.
      * action[1] to - target square id (the cell where the move finishes); null for capture moves.
@@ -33,9 +35,9 @@ export class TMove {
    * @param {number} part 
    * @returns {TMove}
    */
-  clone(part) {
+  clone(part: any) {
     const r = new TMove(this.mode);
-    const filtered_actions = this.actions.filter(a => {
+    const filtered_actions = this.actions.filter((a: any) => {
       return (a[0] === null) || (a[1] === null) || (a[3] !== part);
     });
     r.actions = [...filtered_actions]; //shallow copying
@@ -47,7 +49,7 @@ export class TMove {
    * @param {TDesign} design 
    * @returns {string}
    */
-  toString(design) {
+  toString(design: any) {
     let str = "";
     let cell = null;
 
@@ -107,7 +109,7 @@ export class TMove {
    * @param {null | TPiece} piece 
    * @param {number=} [part=1]
    */
-  movePiece(from, to, piece, part = 1) {
+  movePiece(from: any, to: any, piece: any, part = 1) {
     this.actions.push([from, to, piece, part]);
   }
 
@@ -116,7 +118,7 @@ export class TMove {
    * @param {number} from 
    * @param {number=} [part=1]
    */
-  capturePiece(from, part = 1) {
+  capturePiece(from: any, part = 1) {
     this.actions.push([from, null, null, part]);
   }
 
@@ -126,7 +128,7 @@ export class TMove {
    * @param {*} piece 
    * @param {number=} [part=1]
    */
-  dropPiece(to, piece, part = 1) {
+  dropPiece(to: any, piece: any, part = 1) {
     this.actions.push([null, to, piece, part]);
   }
 
@@ -134,7 +136,7 @@ export class TMove {
    * Updates the current board state with the move.
    * @param {TBoard} board
    */
-  applyTo(board) {
+  applyTo(board: any) {
     for (const a of this.actions) {
       if (a[0] !== null) {
         board.setPiece(a[0], null); //make empty the start cell

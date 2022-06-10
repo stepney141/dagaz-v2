@@ -1,6 +1,8 @@
 import { TDesign } from "./core/index.js";
 
 export class DagazClient {
+  design: any;
+  model: any;
   constructor() {
     /** @type {TDesign | null} */
     this.design = new TDesign();

@@ -8,19 +8,19 @@ import { TDesign } from "./design.js";
  * @param {string} name 
  * @param {Array<*>} point 
  */
-const addPositions = function(grid, ix, name, point) {
+const addPositions = function(grid: any, ix: any, name: any, point: any) {
   if (ix < 0) {
     /** @type {Array<number>} */
     const offsets = _.range(grid.dirs.length).fill(0);
 
-    grid.dirs.forEach(dir => {
+    grid.dirs.forEach((dir: any) => {
       let o = 0;
       for (let c = grid.scales.length - 1; c >= 0; c--) {
         if (c < grid.scales.length - 1) {
           o = o * grid.scales[c].length;
         }
-        let v = grid.dirs[dir][c];
-        let x = point[c] + v;
+        const v = grid.dirs[dir][c];
+        const x = point[c] + v;
         if (x < 0) {
           return;
         }
@@ -44,10 +44,13 @@ const addPositions = function(grid, ix, name, point) {
 };
 
 export class TGrid {
+  design: any;
+  dirs: any;
+  scales: any;
   /**
    * @param {TDesign} design 
    */
-  constructor(design) {
+  constructor(design: any) {
     this.design = design;
 
     /** @type {Array<Array<string>>} */
@@ -56,7 +59,7 @@ export class TGrid {
     /** @type {Array<Array<number>>} */
     this.dirs   = [];
   }
-  
+
   /**
    * Define a rank / a file on the board.
    * @param {string} scale - a scale of a rank/file
@@ -65,10 +68,10 @@ export class TGrid {
    * g.addScale("A/B/C/D/E/F/G/H");
    * g.addScale("8/7/6/5/4/3/2/1");
    */
-  addScale(scale) {
+  addScale(scale: any) {
     this.scales.push(scale.split('/'));
   }
-  
+
   /**
    * Define a direction on the board.
    * @param {string} name - direction name
@@ -80,16 +83,16 @@ export class TGrid {
    * g.addDirection("w", [-1,  0 ]);
    * g.addDirection("s", [ 0,  1 ]);
    */
-  addDirection(name, offsets) {
+  addDirection(name: any, offsets: any) {
     if (this.dirs.indexOf(name) < 0) {
       this.design.addDirection(name);
     }
-    let ix = this.design.dirs.indexOf(name);
+    const ix = this.design.dirs.indexOf(name);
     if (ix >= 0) {
       this.dirs[ix] = offsets;
     }
   }
-  
+
   addPositions() {
     addPositions(this, this.scales.length - 1, "", []);
   }
