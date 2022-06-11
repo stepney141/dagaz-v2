@@ -8,7 +8,7 @@ import { TDesign } from "./design.js";
  * @param {string} name 
  * @param {Array<*>} point 
  */
-const addPositions = function(grid: any, ix: any, name: any, point: any) {
+const addPositions = function (grid: any, ix: any, name: any, point: any) {
   if (ix < 0) {
     /** @type {Array<number>} */
     const offsets = _.range(grid.dirs.length).fill(0);
@@ -57,7 +57,7 @@ export class TGrid {
     this.scales = [];
 
     /** @type {Array<Array<number>>} */
-    this.dirs   = [];
+    this.dirs = [];
   }
 
   /**

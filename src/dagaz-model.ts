@@ -2,7 +2,7 @@ import { TDesign } from "./core/index.js";
 
 const games = {
   model: {
-    resetDesign: () =>{
+    resetDesign: () => {
       if (games.model.design !== null) {
         games.model.design = null;
       }

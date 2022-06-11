@@ -34,21 +34,21 @@ export class TDesign {
      * @type {Array<string>}
      */
     this.dirs = [];
-    
+
     /**
      * A list of rotationally symmetric directions of players.
      * Each index of this array is a numeric id of each player.
      * @type {Array<undefined | Array<number>>}
      */
     this.players = [];
-    
+
     /**
      * A list of player names.
      * Each index of this array is a numeric id of each player.
      * @type {Array<string>}
      */
     this.playerNames = [];
-    
+
     /**
      * Board representation: a list of board cell offsets represented by direction ids.
      * Dagaz adopts an extended representation of the Mailbox pattern, an array-based offset board representation system.
@@ -56,7 +56,7 @@ export class TDesign {
      * @type {Array<Array<number>>}
      */
     this.positions = [];
-    
+
     /**
      * Board representation: a list of board cell names.
      * Each index of this array is a numeric id of each cell.
@@ -69,7 +69,7 @@ export class TDesign {
      * @type {Array<number>}
      */
     this.modes = [];
-    
+
     /**
      * A list of zones, the special areas composed of specified cells.
      * A zone is an array of cell ids. Also, an index of the cell array is a numeric id of a player who can use the zone.
@@ -77,23 +77,23 @@ export class TDesign {
      * @type {Array<Array<Array<number>>>}
      */
     this.zones = [];
-    
+
     /** @type {Array<string>} */
     this.zoneNames = [];
-    
+
     /**
      * A list of pieces' names.
      * Each index of this array is a numeric id of each piece type.
      * @type {string}
      */
     this.pieceNames = [];
-    
+
     /** 
      * A list of pieces' prices.
      * @type {Array<number>}
      */
     this.price = [];
-    
+
     /** 
      * @typedef {Object} movement
      * @property {number} t - piece type id
@@ -110,7 +110,7 @@ export class TDesign {
 
     /** @type {Object<number, Array<movement>> | null} */
     this.movements_grouped = null;
-    
+
     /**
      * A list of initial piece positions and piece objects.
      * @type {Array<{p: (null | number), t: TPiece}>}
@@ -356,7 +356,7 @@ export class TDesign {
     if ((piece_type_id < 0) || (player_id < 0)) {
       return;
     }
-    
+
     const piece = new TPiece(piece_type_id, player_id); // create a piece
     const position_array = (Array.isArray(positions)) ? positions : [positions]; //kind of type guard
 

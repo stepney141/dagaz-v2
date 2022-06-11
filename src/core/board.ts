@@ -24,7 +24,7 @@ export class TBoard {
    */
   constructor(design: any) {
     this.design = design;
-    
+
     /**
      * A list of pieces on the current board.
      * Each index of this array corresponds to an id of each cell where a piece occupies.
@@ -37,13 +37,13 @@ export class TBoard {
      * @type {number}
      */
     this.turn = 0;
-    
+
     /**
      * An id of the current player (a player who makes a move in the current turn).
      * @type {number}
      */
     this.player = design.currPlayer(this.turn);
-    
+
     /**
      * Zobrist hash of the current game state
      * @link https://en.wikipedia.org/wiki/Zobrist_hashing
@@ -51,7 +51,7 @@ export class TBoard {
      * @type {number}
      */
     this.z = 0;
-    
+
     /**
      * A list of legal moves available in the current game state.
      * @type {Array<TMove> | null}
@@ -109,7 +109,7 @@ export class TBoard {
    * @param {number} pos 
    */
   setLastFrom(pos: any) {
-    this.lastFrom = pos; 
+    this.lastFrom = pos;
   }
 
   /**
@@ -195,7 +195,7 @@ export class TBoard {
       // @ts-expect-error ts-migrate(2550) FIXME: Property 'values' does not exist on type 'ObjectCo... Remove this comment to see the full error message
       for (const Movements of Object.values(this.design.movements_grouped)) {
         let completed = false;
-        
+
         this.design.allPositions().forEach((pos: any) => {
           const piece = this.getPiece(pos);
           if (piece === null) {
@@ -234,7 +234,7 @@ export class TBoard {
       }
 
       this.forks = null;
-      
+
       if ((games.model as any).extension !== undefined) {
         (games.model as any).extension(this);
       }

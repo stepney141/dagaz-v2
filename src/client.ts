@@ -12,11 +12,11 @@ export class DagazClient {
     return this.design;
   }
 
-  resetDesign () {
+  resetDesign() {
     if (this.design !== null) {
       this.model.design = null;
     }
   }
 
-  buildDesign () { }
+  buildDesign() { }
 }

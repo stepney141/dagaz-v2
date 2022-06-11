@@ -60,7 +60,7 @@ export class TPiece {
     }
 
     const r = new TPiece(this.type, this.player);
-    
+
     if (r.values === null) {
       r.values = [];
     }

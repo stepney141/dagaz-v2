@@ -9,7 +9,7 @@ let hash: any = null;
  * Returns a pseudo random integer between 0 and 255
  * @returns {number}
  */
-const getRandomByte = function() {
+const getRandomByte = function () {
   const min = 0;
   const max = 255;
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -19,7 +19,7 @@ const getRandomByte = function() {
  * Generates a pseudo random integer
  * @returns {number}
  */
-const getRandomValue = function() {
+const getRandomValue = function () {
   let r = getRandomByte();
   for (let i = 0; i < 3; i++) {
     r = r << 8;
@@ -35,7 +35,7 @@ const getRandomValue = function() {
  * @param {number} pos 
  * @returns {number}
  */
-const getValue = function(type: any, player: any, pos: any) {
+const getValue = function (type: any, player: any, pos: any) {
   if (hash === null) {
     hash = [];
   }
@@ -60,7 +60,7 @@ const getValue = function(type: any, player: any, pos: any) {
  * @param {number} pos 
  * @returns {number}
  */
-const zUpdate = function(value: any, piece: any, pos: any) {
+const zUpdate = function (value: any, piece: any, pos: any) {
   return value ^ getValue(piece.type, piece.player, pos);
 };
 

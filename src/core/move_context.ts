@@ -34,16 +34,16 @@ export class TMoveContext {
 
     /** @type {null | number} */
     this.mode = null;
-    
+
     /** @type {null | TMoveContext} */
     this.parent = null;
-    
+
     /** @type {number} */
     this.part = 1;
-    
+
     /** @type {null | TPiece} */
     this.piece = piece;
-    
+
     this.move = new TMove(this.mode);
     this.succeed = false;
 
@@ -51,7 +51,7 @@ export class TMoveContext {
     this.changes = [];
 
     this.marks = [];
-    
+
     /** @type {null | {start: number, piece: (null | TPiece)}} */
     this.hand = null;
   }
@@ -63,9 +63,9 @@ export class TMoveContext {
   copy() {
     const r = new TMoveContext(this.design, this.board, this.pos, this.piece);
     r.parent = this;
-    r.part   = this.part + 1;
-    r.move   = this.move.copy();
-    r.mode   = this.mode;
+    r.part = this.part + 1;
+    r.move = this.move.copy();
+    r.mode = this.mode;
     return r;
   }
 
