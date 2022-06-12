@@ -1,6 +1,6 @@
-export { TDesign } from "./design.js";
-export { TBoard } from "./board.js";
-export { TMove } from "./move.js";
-export { TPiece } from "./piece.js";
-export { TMoveContext } from "./move_context.js";
-export { TGrid } from "./board_grid.js";
+export { TDesign } from "./design";
+export { TBoard } from "./board";
+export { TMove } from "./move";
+export { TPiece } from "./piece";
+export { TMoveContext } from "./move_context";
+export { TGrid } from "./board_grid";

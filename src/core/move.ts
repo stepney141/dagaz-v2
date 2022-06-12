@@ -1,30 +1,30 @@
-import { TBoard } from "./board.js";
-import { TPiece } from "./piece.js";
-import { TDesign } from "./design.js";
+import { TBoard } from "./board";
+import { TPiece } from "./piece";
+import { TDesign } from "./design";
 
 export class TMove {
-  actions: any;
-  mode: any;
   /**
-   * @param {null | number} mode 
+   * action[0] from - origin square id (the cell where the move starts); null for drop moves.
+   * action[1] to - target square id (the cell where the move finishes); null for capture moves.
+   * action[2] piece - the piece object that a player moves.  
+   * action[3] part - the number of partial moves; this is used in checkers-like games
    */
-  constructor(mode: any) {
-    /**
-     * action[0] from - origin square id (the cell where the move starts); null for drop moves.
-     * action[1] to - target square id (the cell where the move finishes); null for capture moves.
-     * action[2] piece - the piece object that a player moves.  
-     * action[3] part - the number of partial moves; this is used in checkers-like games
-     * @type {Array<[(null | number), (null | number), (null | TPiece), (null | number)]>>}
-     */
+  actions: Array<[(null | number), (null | number), (null | TPiece), (null | number)]>;
+  mode: null | number;
+
+  /**
+   * @param mode 
+   */
+  constructor(mode: null | number) {
     this.actions = [];
     this.mode = mode;
   }
 
   /**
    * Copies a TMove instance.
-   * @returns {TMove}
+   * @returns a new move instance
    */
-  copy() {
+  copy(): TMove {
     const r = new TMove(this.mode);
     r.actions = [...this.actions]; //shallow copying
     return r;
@@ -32,10 +32,10 @@ export class TMove {
 
   /**
    * 
-   * @param {number} part 
-   * @returns {TMove}
+   * @param part 
+   * @returns
    */
-  clone(part: any) {
+  clone(part: number): TMove {
     const r = new TMove(this.mode);
     const filtered_actions = this.actions.filter((a: any) => {
       return (a[0] === null) || (a[1] === null) || (a[3] !== part);
@@ -46,10 +46,10 @@ export class TMove {
 
   /**
    * Converts the moves to human-readable strings.
-   * @param {TDesign} design 
-   * @returns {string}
+   * @param design - game design
+   * @returns human-readable notations of the move
    */
-  toString(design: any) {
+  toString(design: TDesign): string {
     let str = "";
     let cell = null;
 
@@ -71,17 +71,17 @@ export class TMove {
 
   /**
    * 
-   * @returns {boolean}
+   * @returns
    */
-  isPass() {
+  isPass(): boolean {
     return this.actions.length == 0;
   }
 
   /**
    * Checks whether the move is a drop move or not.
-   * @returns {boolean}
+   * @returns
    */
-  isDropMove() {
+  isDropMove(): boolean {
     if (this.actions.length != 1) {
       return false;
     }
@@ -93,9 +93,9 @@ export class TMove {
    * when a player just moves his/her piece without attacking or capturing an enemy piece, the move is a quiet move.
    * @link https://www.chessprogramming.org/Quiet_Moves
    * @link https://en.wikipedia.org/wiki/Glossary_of_chess#quiet_move
-   * @returns {boolean}
+   * @returns
    */
-  isQuietMove() {
+  isQuietMove(): boolean {
     if (this.actions.length != 1) {
       return false;
     }
@@ -104,29 +104,29 @@ export class TMove {
 
   /**
    * Called when the move is a piece-transferring move.
-   * @param {number} from 
-   * @param {number} to 
-   * @param {null | TPiece} piece 
-   * @param {number=} [part=1]
+   * @param from 
+   * @param to 
+   * @param piece 
+   * @param part
    */
-  movePiece(from: any, to: any, piece: any, part = 1) {
+  movePiece(from: number, to: number, piece: null | TPiece, part = 1) {
     this.actions.push([from, to, piece, part]);
   }
 
   /**
    * Called when the move is a piece-capturing move.
-   * @param {number} from 
-   * @param {number=} [part=1]
+   * @param from 
+   * @param part
    */
-  capturePiece(from: any, part = 1) {
+  capturePiece(from: number, part = 1) {
     this.actions.push([from, null, null, part]);
   }
 
   /**
    * Called when the move is a piece-dropping move.
-   * @param {*} to 
-   * @param {*} piece 
-   * @param {number=} [part=1]
+   * @param to 
+   * @param piece 
+   * @param part
    */
   dropPiece(to: any, piece: any, part = 1) {
     this.actions.push([null, to, piece, part]);
@@ -134,9 +134,9 @@ export class TMove {
 
   /**
    * Updates the current board state with the move.
-   * @param {TBoard} board
+   * @param board
    */
-  applyTo(board: any) {
+  applyTo(board: TBoard) {
     for (const a of this.actions) {
       if (a[0] !== null) {
         board.setPiece(a[0], null); //make empty the start cell

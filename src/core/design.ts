@@ -1,51 +1,50 @@
 import _ from "underscore";
-import { games } from "../dagaz-model.js";
-import { TBoard } from "./board.js";
-import { TGrid } from "./board_grid.js";
-import { TMoveContext } from "./move_context.js";
-import { TPiece } from "./piece.js";
+import type { Movement, GameBehaviorOptions } from "../types";
+import { games } from "../dagaz-model";
+import { TBoard } from "./board";
+import { TGrid } from "./board_grid";
+import { TMoveContext } from "./move_context";
+import { TPiece } from "./piece";
 
 /**
  * A class representing general rules or information of the game.
  * This will never be re-instantiated after it once gets instantiated.
  */
 export class TDesign {
-  board: any;
-  dirs: any;
-  game_options: any;
-  initial: any;
-  modes: any;
-  movements: any;
-  movements_grouped: any;
-  pieceNames: any;
-  playerNames: any;
-  players: any;
-  positionNames: any;
-  positions: any;
-  price: any;
-  repeat: any;
-  turns: any;
-  zoneNames: any;
-  zones: any;
+  board: TBoard | undefined;
+  dirs: Array<string>;
+  game_options: GameBehaviorOptions;
+  initial: Array<{ p: (null | number), t: TPiece }>;
+  modes: Array<number>;
+  movements: Array<Movement>;
+  movements_grouped: Record<number, Array<Movement>> | null;
+  pieceNames: Array<string>;
+  playerNames: Array<string>;
+  players: Array<undefined | Array<number>>;
+  positionNames: Array<string>;
+  positions: Array<Array<number>>;
+  price: Array<number>;
+  repeat: number | null;
+  turns: Array<{ player: number, mode: any }> | undefined;
+  zoneNames: Array<string>;
+  zones: Array<Array<Array<number>>>;
+
   constructor() {
     /**
      * A list of direction names.
      * Each index of this array is a numeric id of each direction.
-     * @type {Array<string>}
      */
     this.dirs = [];
 
     /**
      * A list of rotationally symmetric directions of players.
      * Each index of this array is a numeric id of each player.
-     * @type {Array<undefined | Array<number>>}
      */
     this.players = [];
 
     /**
      * A list of player names.
      * Each index of this array is a numeric id of each player.
-     * @type {Array<string>}
      */
     this.playerNames = [];
 
@@ -53,20 +52,17 @@ export class TDesign {
      * Board representation: a list of board cell offsets represented by direction ids.
      * Dagaz adopts an extended representation of the Mailbox pattern, an array-based offset board representation system.
      * @link https://www.chessprogramming.org/Mailbox
-     * @type {Array<Array<number>>}
      */
     this.positions = [];
 
     /**
      * Board representation: a list of board cell names.
      * Each index of this array is a numeric id of each cell.
-     * @type {Array<string>}
      */
     this.positionNames = [];
 
     /**
      * A list of priorities on the mode of moves.
-     * @type {Array<number>}
      */
     this.modes = [];
 
@@ -74,61 +70,41 @@ export class TDesign {
      * A list of zones, the special areas composed of specified cells.
      * A zone is an array of cell ids. Also, an index of the cell array is a numeric id of a player who can use the zone.
      * Each index of this "zones" array is a numeric id of each zone.
-     * @type {Array<Array<Array<number>>>}
      */
     this.zones = [];
 
-    /** @type {Array<string>} */
     this.zoneNames = [];
 
     /**
      * A list of pieces' names.
      * Each index of this array is a numeric id of each piece type.
-     * @type {string}
      */
     this.pieceNames = [];
 
     /** 
      * A list of pieces' prices.
-     * @type {Array<number>}
      */
     this.price = [];
 
-    /** 
-     * @typedef {Object} movement
-     * @property {number} t - piece type id
-     * @property {(ctx: TMoveContext, params: *) => *} f - movement descripting function
-     * @property {Array<number>} p - params 
-     * @property {number} m - move mode 
-     * @property {*} s - sound 
-     */
     /**
      * A list of movements or behavior of pieces
-     * @type {Array<movement>}
      */
     this.movements = [];
 
-    /** @type {Object<number, Array<movement>> | null} */
     this.movements_grouped = null;
 
     /**
      * A list of initial piece positions and piece objects.
-     * @type {Array<{p: (null | number), t: TPiece}>}
      */
     this.initial = [];
 
-    /**
-     * @type {Array<{player: *, mode: *}> | undefined}
-     */
     this.turns;
 
     /**
      * An initial game state.
-     * @type {TBoard | undefined}
      */
     this.board;
 
-    /** @type {Object<string, boolean>} */
     this.game_options = {
       passTurn: false,
       passPartial: false,
@@ -136,26 +112,25 @@ export class TDesign {
       deferredCaptures: false,
     };
 
-    /** @type {number | null} */
     this.repeat = null;
   }
 
   /**
    * Returns a new piece instance.
-   * @param {number} type - an id of the piece type
-   * @param {number} player - an id of a player who owns the piece
-   * @returns {TPiece}
+   * @param type - an id of the piece type
+   * @param player - an id of a player who owns the piece
+   * @returns
    */
-  createPiece(type: any, player: any) {
+  createPiece(type: number, player: number): TPiece {
     return new TPiece(type, player);
   }
 
   /**
    * Defines some flags for game rules and store them into the global namespace
-   * @param {string} name - flag name
-   * @param {"true" | "false"} value - flag name
+   * @param name - flag name
+   * @param value - flag value
    */
-  checkVersion(name: any, value: any) {
+  checkVersion(name: string, value: "true" | "false") {
     if (name === "pass-turn") {
       this.game_options.passTurn = (value == "true");
     }
@@ -172,10 +147,10 @@ export class TDesign {
 
   /**
    * Returns a position name that corresponds to the given position id
-   * @param {number} pos - a position id
-   * @returns {string} a position name
+   * @param pos - a position id
+   * @returns a position name
    */
-  posToString(pos: any) {
+  posToString(pos: number): string {
     if (this.positionNames[pos] === undefined) {
       return "?";
     }
@@ -184,10 +159,10 @@ export class TDesign {
 
   /**
    * Returns an position corresponding to the given position name
-   * @param {string} name - a position name
-   * @returns {null | number} a position id
+   * @param name - a position name
+   * @returns a position id
    */
-  stringToPos(name: any) {
+  stringToPos(name: string): null | number {
     const pos = this.positionNames.indexOf(name);
     if (pos < 0) {
       return null;
@@ -197,9 +172,9 @@ export class TDesign {
 
   /**
    * Defines a new direction
-   * @param {string} name - a direction name
+   * @param name - a direction name
    */
-  addDirection(name: any) {
+  addDirection(name: string) {
     this.dirs.push(name);
   }
 
@@ -207,10 +182,10 @@ export class TDesign {
    * Defines a player with his/her rotationally symmetric move-directions;  
    * e.g. When a chess player moves a pawn one square toward north, the other player recognizes the pawn moves "one square toward south."  
    * This is an example of the move-direction symmetry.
-   * @param {string} name - a player name
-   * @param {Array<number>} symmetry - a list of direction ids that are rotationally symmetric in each player
+   * @param name - a player name
+   * @param symmetry - a list of direction ids that are rotationally symmetric in each player
    */
-  addPlayer(name: any, symmetry: any) {
+  addPlayer(name: string, symmetry: Array<number>) {
     const ix = this.playerNames.length;
     if (this.playerNames.length == 0) {
       this.playerNames.push("opposite");
@@ -221,8 +196,8 @@ export class TDesign {
 
   /**
    * Defines a turn.
-   * @param {*} player - a player id
-   * @param {*} modes 
+   * @param player - a player id
+   * @param modes 
    */
   addTurn(player: any, modes: any) {
     if (this.turns === undefined) {
@@ -246,10 +221,10 @@ export class TDesign {
 
   /**
    * Defines a cell on the game board.
-   * @param {string} name - a position name
-   * @param {Array<number>} dirs - an offset of each cell indicated by numeric direction ids
+   * @param name - a position name
+   * @param dirs - an offset of each cell indicated by numeric direction ids
    */
-  addPosition(name: any, dirs: any) {
+  addPosition(name: string, dirs: Array<number>) {
     if ((this.positions.length == 0) && (name != "start")) { //when the positions list is empty, defines the origin of the coordinates 
       this.positionNames.push("start");
       this.positions.push(_.range(dirs.length).fill(0));
@@ -260,11 +235,11 @@ export class TDesign {
 
   /**
    * Defines a special zone on the game board.
-   * @param {string} name - a zone name
-   * @param {number} player - an ID of a player who can use the zone
-   * @param {Array<string>} positions - a list of position-names which are in the zone
+   * @param name - a zone name
+   * @param player - an ID of a player who can use the zone
+   * @param positions - a list of position-names which are in the zone
    */
-  addZone(name: any, player: any, positions: any) {
+  addZone(name: string, player: number, positions: Array<string>) {
     let zone_id = this.zoneNames.indexOf(name);
     if (zone_id < 0) { //when the zone name is not found in the zone names list
       zone_id = this.zoneNames.length;
@@ -278,29 +253,29 @@ export class TDesign {
 
   /**
    * Defines a priority on the mode of moves.
-   * @param {number} mode 
+   * @param mode 
    */
-  addPriority(mode: any) {
+  addPriority(mode: number) {
     this.modes.push(mode);
   }
 
   /**
    * Defines a piece.
-   * @param {string} name - a piece name
-   * @param {number} type - a piece type id
-   * @param {number=} [price=1] - a piece value
+   * @param name - a piece name
+   * @param type - a piece type id
+   * @param price - a piece value
    */
-  addPiece(name: any, type: any, price = 1) {
+  addPiece(name: string, type: number, price = 1) {
     this.pieceNames[type] = name;
     this.price[type] = price;
   }
 
   /**
    * Returns a piece type id that corresponds to the given piece name
-   * @param {string} name - a piece name
-   * @returns {null | number} a piece type id
+   * @param name - a piece name
+   * @returns a piece type id
    */
-  getPieceType(name: any) {
+  getPieceType(name: string): null | number {
     const r = this.pieceNames.indexOf(name);
     if (r < 0) {
       return null;
@@ -310,13 +285,13 @@ export class TDesign {
 
   /**
    * Defines how a piece moves or works (e.g. how it moves to another cell, how it captures other pieces, etc.)
-   * @param {number} piece_type - piece type id
-   * @param {(ctx: TMoveContext, params: *) => *} func - callback function to define a move in internal DSL
-   * @param {Array<number>} params 
-   * @param {number} mode - move mode
-   * @param {*} sound 
+   * @param piece_type - piece type id
+   * @param func - callback function to define a move in internal DSL
+   * @param params 
+   * @param mode - move mode
+   * @param sound 
    */
-  addMove(piece_type: any, func: any, params: any, mode: any, sound: any) {
+  addMove(piece_type: number, func: (ctx: TMoveContext, params: any) => any, params: Array<number>, mode: number, sound: any) {
     this.movements.push({
       t: piece_type,
       f: func,
@@ -329,15 +304,14 @@ export class TDesign {
   /**
    * Returns a game board at the time when the game started.  
    * Or creates the initial board from the game design if it does not exist.
-   * @returns {TBoard} an initial game state
+   * @returns an initial game state
    */
-  getInitBoard() {
+  getInitBoard(): TBoard {
     if (this.board === undefined) {
-      // @ts-expect-error ts-migrate(2554) FIXME: Expected 0 arguments, but got 1.
       games.model.buildDesign(this);
       this.configureMovement();
       this.board = new TBoard(this);
-      this.initial.forEach((s: any) => { //place pieces on the specified cells
+      this.initial.forEach(s => { //place pieces on the specified cells
         this.board.setPiece(s.p, s.t);
       });
     }
@@ -346,11 +320,11 @@ export class TDesign {
 
   /**
    * Defines a initial setup of pieces.
-   * @param {string} player - a name of a player who owns the pieces
-   * @param {string} type - a piece type
-   * @param {Array<string> | string} positions - names of cells where the piece occupies when the game starts
+   * @param player - a name of a player who owns the pieces
+   * @param type - a piece type
+   * @param positions - names of cells where the piece occupies when the game starts
    */
-  setup(player: any, type: any, positions: any) {
+  setup(player: string, type: string, positions: Array<string> | string) {
     const piece_type_id = this.pieceNames.indexOf(type);
     const player_id = this.playerNames.indexOf(player);
     if ((piece_type_id < 0) || (player_id < 0)) {
@@ -370,38 +344,37 @@ export class TDesign {
       });
   }
 
-
   /**
    * Returns a list of all directions ids (starts from 0)
-   * @returns {Array<number>}
+   * @returns
    */
-  allDirections() {
+  allDirections(): Array<number> {
     return _.range(this.dirs.length);
   }
 
 
   /**
    * Returns a list of all player ids (starts from 1)
-   * @returns {Array<number>}
+   * @returns
    */
-  allPlayers() {
+  allPlayers(): Array<number> {
     return _.range(1, this.playerNames.length);
   }
 
   /**
    * Returns a list of all cell ids (starts from 1)
-   * @returns {Array<number>}
+   * @returns
    */
-  allPositions() {
+  allPositions(): Array<number> {
     return _.range(1, this.positions.length);
   }
 
   /**
    * Returns a direction id that corresponds to the given direction name
-   * @param {string} name - a direction name
-   * @returns {null | number} a direction id
+   * @param name - a direction name
+   * @returns a direction id
    */
-  getDirection(name: any) {
+  getDirection(name: string): null | number {
     const dir = this.dirs.indexOf(name);
     if (dir < 0) {
       return null;
@@ -411,12 +384,12 @@ export class TDesign {
 
   /**
    * Returns a new piece position after a player makes a move from a current position toward a given direction
-   * @param {number} player - player id
-   * @param {number} pos - current position of the piece
-   * @param {number} dir - id of the direction toward which the player is going to make a move
-   * @returns {null | number} a new position (null if the new position is not found)
+   * @param player - player id
+   * @param pos - current position of the piece
+   * @param dir - id of the direction toward which the player is going to make a move
+   * @returns a new position (null if the new position is not found)
    */
-  navigate(player: any, pos: any, dir: any) {
+  navigate(player: number, pos: number, dir: number): null | number {
     let target_dir = dir;
     if (this.players[player] !== undefined) {
       target_dir = this.players[player][dir];
@@ -431,20 +404,20 @@ export class TDesign {
 
   /**
    * 
-   * @param {*} dir 
-   * @param {number=} [player=0]
-   * @returns {number}
+   * @param dir 
+   * @param player
+   * @returns
    */
-  opposite(dir: any, player = 0) {
+  opposite(dir: any, player = 0): number {
     return this.players[player][dir];
   }
 
   /**
    * Returns a zone that corresponds to the given zone name.
-   * @param {string} name - a zone name
-   * @returns {null | number} a zone id
+   * @param name - a zone name
+   * @returns a zone id
    */
-  getZone(name: any) {
+  getZone(name: string): null | number {
     const zone = this.zoneNames.indexOf(name);
     if (zone < 0) {
       return null;
@@ -454,12 +427,12 @@ export class TDesign {
 
   /**
    * Returns if the player is in the given zone.
-   * @param {number} player - player id
-   * @param {number} pos - cell id
-   * @param {number} zone - zone id
-   * @returns {boolean}
+   * @param player - player id
+   * @param pos - cell id
+   * @param zone - zone id
+   * @returns
    */
-  inZone(player: any, pos: any, zone: any) {
+  inZone(player: number, pos: number, zone: number): boolean {
     if (this.zones[zone] !== undefined) {
       if (this.zones[zone][player] !== undefined) {
         return this.zones[zone][player].indexOf(pos) >= 0;
@@ -470,10 +443,10 @@ export class TDesign {
 
   /**
    * Returns a player who is going to make a move in the next turn.
-   * @param {number} player - current player id
-   * @returns {number} next player id
+   * @param player - current player id
+   * @returns next player id
    */
-  nextPlayer(player: any) {
+  nextPlayer(player: number): number {
     if (player + 1 >= this.playerNames.length) {
       return 1;
     } else {
@@ -483,10 +456,10 @@ export class TDesign {
 
   /**
    * Returns the next turn id.
-   * @param {TBoard} board 
-   * @returns {number}
+   * @param board 
+   * @returns
    */
-  nextTurn(board: any) {
+  nextTurn(board: TBoard): number {
     let turn = board.turn + 1;
     if (this.turns === undefined) {
       if (turn >= this.players.length - 1) {
@@ -508,10 +481,10 @@ export class TDesign {
 
   /**
    * Returns a current player id.
-   * @param {number} turn 
-   * @returns {number} current player id
+   * @param turn 
+   * @returns current player id
    */
-  currPlayer(turn: any) {
+  currPlayer(turn: number): number {
     if (this.turns === undefined) {
       return turn + 1;
     } else {
@@ -533,9 +506,9 @@ export class TDesign {
 
   /**
    * Create a new grid
-   * @returns {TGrid} a new TGrid instance
+   * @returns a new TGrid instance
    */
-  addGrid() {
+  addGrid(): TGrid {
     return new TGrid(this);
   }
 }

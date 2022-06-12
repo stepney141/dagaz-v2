@@ -1,23 +1,33 @@
-import { TDesign } from "./core/index.js";
+import { TBoard } from './core/board';
+import { TDesign } from "./core/index";
 
-const games = {
+type Game = {
+  model: {
+    resetDesign: () => void;
+    getDesign: () => null | TDesign;
+    buildDesign: null | ((design: TDesign) => void);
+    design: null | TDesign;
+    extension: null | ((board: TBoard) => any)
+  };
+  view: Record<string, unknown>
+};
+
+export const games: Game = {
   model: {
     resetDesign: () => {
       if (games.model.design !== null) {
         games.model.design = null;
       }
     },
-    getDesign: () => {
+    getDesign: (): TDesign => {
       if (games.model.design === null) {
-        // @ts-expect-error ts-migrate(2322) FIXME: Type 'TDesign' is not assignable to type 'null'.
         games.model.design = new TDesign();
       }
       return games.model.design;
     },
-    buildDesign: () => { },
-    design: null
+    buildDesign: null,
+    design: null,
+    extension: null
   },
   view: {}
 };
-
-export { games };

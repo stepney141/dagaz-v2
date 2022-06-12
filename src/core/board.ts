@@ -1,46 +1,46 @@
 import { games } from "../dagaz-model.js";
-import { zUpdate } from "../zobrist.js";
-import { TDesign } from "./design.js";
-import { TMove } from "./move.js";
-import { TMoveContext } from "./move_context.js";
-import { TPiece } from "./piece.js";
+import type { Movement } from "../types";
+import { TDesign } from "./design";
+import { TMove } from "./move";
+import { TMoveContext } from "./move_context";
+import { TPiece } from "./piece";
+import { zUpdate } from "../zobrist";
 
 /**
  * A class representing each game state.
  * This is newly instantiated every time a player makes a move and the game state gets updated.
  */
 export class TBoard {
-  design: any;
-  forks: any;
-  lastFrom: any;
-  moves: any;
-  parent: any;
-  pieces: any;
-  player: any;
-  turn: any;
-  z: any;
+  design: TDesign;
+  forks: Array<TMoveContext> | null;
+  lastFrom: number;
+  made_move: TMove | null;
+  moves: Array<TMove> | null;
+  parent: TBoard | null;
+  pieces: Array<TPiece>;
+  player: number;
+  turn: number;
+  z: number;
+
   /**
-   * @param {TDesign} design - a game design object
+   * @param design - a game design object
    */
-  constructor(design: any) {
+  constructor(design: TDesign) {
     this.design = design;
 
     /**
      * A list of pieces on the current board.
      * Each index of this array corresponds to an id of each cell where a piece occupies.
-     * @type {Array<TPiece>}
      */
     this.pieces = [];
 
     /**
      * An id of the current turn corresponding to the player id.
-     * @type {number}
      */
     this.turn = 0;
 
     /**
      * An id of the current player (a player who makes a move in the current turn).
-     * @type {number}
      */
     this.player = design.currPlayer(this.turn);
 
@@ -48,23 +48,24 @@ export class TBoard {
      * Zobrist hash of the current game state
      * @link https://en.wikipedia.org/wiki/Zobrist_hashing
      * @link https://www.chessprogramming.org/Zobrist_Hashing
-     * @type {number}
      */
     this.z = 0;
 
     /**
      * A list of legal moves available in the current game state.
-     * @type {Array<TMove> | null}
      */
     this.moves = null;
 
     /**
+     * A move that connects the current game state and the parent node of the game tree
+     */
+    this.made_move = null;
+
+    /**
      * A previous game state
-     * @type {TBoard | null}
      */
     this.parent = null;
 
-    /** @type {Array<TMoveContext> | null} */
     this.forks = null;
 
     /**
@@ -77,9 +78,9 @@ export class TBoard {
 
   /**
    * Copies and returns the TBoard instance.
-   * @returns {TBoard} a copied board instance
+   * @returns a copied board instance
    */
-  copy() {
+  copy(): TBoard {
     const r = new TBoard(this.design);
     r.parent = this;
     r.turn = this.turn;
@@ -106,18 +107,18 @@ export class TBoard {
 
   /**
    * 
-   * @param {number} pos 
+   * @param pos 
    */
-  setLastFrom(pos: any) {
+  setLastFrom(pos: number) {
     this.lastFrom = pos;
   }
 
   /**
    *
-   * @param {*} pos 
-   * @returns {boolean}
+   * @param pos 
+   * @returns
    */
-  isLastFrom(pos: any) {
+  isLastFrom(pos: number): boolean {
     if (this.lastFrom !== undefined) {
       return this.lastFrom == pos;
     }
@@ -126,10 +127,10 @@ export class TBoard {
 
   /**
    * Returns a piece on the given position.
-   * @param {number} pos - a position id
-   * @returns {null | TPiece} a piece (null if no piece occupies the given position)
+   * @param pos - a position id
+   * @returns a piece (null if no piece occupies the given position)
    */
-  getPiece(pos: any) {
+  getPiece(pos: number): null | TPiece {
     if (this.pieces[pos] === undefined) {
       return null;
     } else {
@@ -139,10 +140,10 @@ export class TBoard {
 
   /**
    * Puts a piece to a cell on the board.
-   * @param {null | number} pos - a piece position id
-   * @param {null | TPiece} piece - a piece
+   * @param pos - a piece position id
+   * @param piece - a piece
    */
-  setPiece(pos: any, piece: any) {
+  setPiece(pos: null | number, piece: null | TPiece) {
     if (this.pieces[pos] !== undefined) {
       this.z = zUpdate(this.z, this.pieces[pos], pos);
     }
@@ -156,13 +157,13 @@ export class TBoard {
 
   /**
    * 
-   * @param {TMoveContext} parent 
-   * @returns {boolean}
+   * @param parent 
+   * @returns
    */
-  completeMove(parent: any) {
+  completeMove(parent: TMoveContext): boolean {
     let r = false;
 
-    this.design.movements.forEach((movement: any) => {
+    this.design.movements.forEach((movement: Movement) => {
       if (movement.t != parent.piece.type) {
         return;
       }
@@ -192,11 +193,10 @@ export class TBoard {
       this.forks = [];
       this.moves = [];
 
-      // @ts-expect-error ts-migrate(2550) FIXME: Property 'values' does not exist on type 'ObjectCo... Remove this comment to see the full error message
       for (const Movements of Object.values(this.design.movements_grouped)) {
         let completed = false;
 
-        this.design.allPositions().forEach((pos: any) => {
+        this.design.allPositions().forEach(pos => {
           const piece = this.getPiece(pos);
           if (piece === null) {
             return; // checks the piece existence
@@ -205,7 +205,7 @@ export class TBoard {
             return; // checks if the current player can move the piece
           }
 
-          Movements.forEach((movement: any) => {
+          Movements.forEach((movement: Movement) => {
             if (movement.t != piece.type) {
               return; // searches the movement of a specific piece from the group of the same mode moves
             }
@@ -235,8 +235,8 @@ export class TBoard {
 
       this.forks = null;
 
-      if ((games.model as any).extension !== undefined) {
-        (games.model as any).extension(this);
+      if (games.model.extension !== undefined) {
+        games.model.extension(this);
       }
       if (this.design.game_options.passTurn && (this.moves.length == 0)) {
         this.moves.push(new TMove(0));
@@ -246,16 +246,15 @@ export class TBoard {
 
   /**
    * Makes a move and creates a new game state.
-   * @param {TMove} move 
-   * @returns {TBoard}
+   * @param move 
+   * @returns
    */
-  apply(move: any) {
+  apply(move: TMove): TBoard {
     const r = this.copy(); // create a new game state
     r.turn = r.design.nextTurn(this);
     r.player = r.design.currPlayer(r.turn);
     move.applyTo(r); // make a move
-    // @ts-expect-error ts-migrate(2551) FIXME: Property 'move' does not exist on type 'TBoard'. D... Remove this comment to see the full error message
-    r.move = move;
+    r.made_move = move;
     return r;
   }
 }
