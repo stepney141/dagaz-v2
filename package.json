@@ -31,7 +31,9 @@
     "test-v2": "node qunit-test-runner.js v2",
     "test": "node --experimental-vm-modules node_modules/.bin/jest",
     "test:coverage": "npm run test -- --coverage",
-    "lint": "eslint ."
+    "test:type-check": "tsc --pretty --noEmit",
+    "lint": "eslint .",
+    "build:esm": "tsc --project . --outDir ./dist"
   },
   "dependencies": {
     "@types/underscore": "^1.11.4",
