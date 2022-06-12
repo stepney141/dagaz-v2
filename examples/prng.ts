@@ -1,4 +1,4 @@
-import { getRandomValue } from "../src/zobrist.js";
+import { getRandomValue } from "../src/zobrist";
 import * as fs from 'fs/promises';
 
 // implementation with set/map
@@ -15,11 +15,11 @@ const main = async (n) => {
     }
   }
 
-  console.log( "total number generated:", n );
+  console.log("total number generated:", n);
 
-  console.log( "Is a duplicated value in the array?:", list.size != n);
+  console.log("Is a duplicated value in the array?:", list.size != n);
 
-  console.log( "duplicated counts:", n - list.size ); // show the number of duplicated values
+  console.log("duplicated counts:", n - list.size); // show the number of duplicated values
 
   // await output(duplicated.sort((a, b) => a - b));
 
@@ -37,10 +37,10 @@ const main_array = async (n) => {
 
   console.log("total number generated:", n);
 
-  console.log( "Is a duplicated value in the array?:", (new Set(list)).size != list.length ); // (less heavy than the sort)
+  console.log("Is a duplicated value in the array?:", (new Set(list)).size != list.length); // (less heavy than the sort)
 
   // console.log( list.filter((val, i, array) => !(array.indexOf(val) === i)) ); // search duplicated values (very heavy task)
-  
+
   // await output(list);
 
 };

@@ -291,7 +291,7 @@ export class TDesign {
    * @param mode - move mode
    * @param sound 
    */
-  addMove(piece_type: number, func: (ctx: TMoveContext, params: any) => any, params: Array<number>, mode: number, sound: any) {
+  addMove(piece_type: number, func: (ctx: TMoveContext, params: any) => any, params: Array<number>, mode: number, sound?: any) {
     this.movements.push({
       t: piece_type,
       f: func,

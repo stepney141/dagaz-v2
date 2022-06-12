@@ -1,4 +1,4 @@
-import { games } from "../dagaz-model.js";
+import { games } from "../dagaz-model";
 import type { Movement } from "../types";
 import { TDesign } from "./design";
 import { TMove } from "./move";
