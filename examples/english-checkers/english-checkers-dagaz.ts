@@ -1,21 +1,21 @@
-import { games } from "../../src/dagaz-model.js";
+import { games } from "../../src/dagaz-model";
 
-const shiftMan = function(ctx, params) {
+const shiftMan = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
     if (ctx.inZone(0)) {
       ctx.promote(1);
-    }    
+    }
     ctx.end();
   }
 };
 
-const shiftKing = function(ctx, params) {
+const shiftKing = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
     ctx.end();
   }
 };
 
-const jumpMan = function(ctx, params) {
+const jumpMan = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEnemy()) {
     ctx.capture();
     if (ctx.go(params, 0) && ctx.isEmpty()) {
@@ -29,7 +29,7 @@ const jumpMan = function(ctx, params) {
   }
 };
 
-const jumpKing = function(ctx, params) {
+const jumpKing = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEnemy()) {
     ctx.capture();
     if (ctx.go(params, 0) && ctx.isEmpty()) {
@@ -38,7 +38,7 @@ const jumpKing = function(ctx, params) {
   }
 };
 
-games.model.buildDesign = function(design) {
+games.model.buildDesign = function (design) {
   design.checkVersion("smart-moves", "true");
 
   design.addDirection("ne"); // 0
@@ -140,13 +140,13 @@ games.model.buildDesign = function(design) {
   design.setup("White", "Man", ["b8", "d8", "f8", "h8", "a7", "c7", "e7", "g7", "b6", "d6", "f6", "h6"]);
 };
 
-games.view.configure = function(view) {
+games.view.configure = function (view) {
   view.defBoard("Board");
   view.defPiece("WhiteMan", "White Man");
   view.defPiece("BlackMan", "Black Man");
   view.defPiece("WhiteKing", "White King");
   view.defPiece("BlackKing", "Black King");
- 
+
   view.defPosition("a8", 2, 2, 50, 50);
   view.defPosition("b8", 52, 2, 50, 50);
   view.defPosition("c8", 102, 2, 50, 50);

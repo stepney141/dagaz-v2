@@ -1,26 +1,25 @@
 import _ from "underscore";
-import { TDesign } from "./design.js";
+import type { TDesign } from "./design";
 
 /**
  * 
- * @param {TGrid} grid 
- * @param {number} ix 
- * @param {string} name 
- * @param {Array<*>} point 
+ * @param grid 
+ * @param ix 
+ * @param name 
+ * @param point 
  */
-const addPositions = function(grid, ix, name, point) {
+const addPositions = function (grid: TGrid, ix: number, name: string, point: Array<any>) {
   if (ix < 0) {
-    /** @type {Array<number>} */
     const offsets = _.range(grid.dirs.length).fill(0);
 
-    grid.dirs.forEach(dir => {
+    Object.keys(grid.dirs).forEach(dir => {
       let o = 0;
       for (let c = grid.scales.length - 1; c >= 0; c--) {
         if (c < grid.scales.length - 1) {
           o = o * grid.scales[c].length;
         }
-        let v = grid.dirs[dir][c];
-        let x = point[c] + v;
+        const v = grid.dirs[dir][c];
+        const x = point[c] + v;
         if (x < 0) {
           return;
         }
@@ -44,35 +43,35 @@ const addPositions = function(grid, ix, name, point) {
 };
 
 export class TGrid {
+  design: TDesign;
+  dirs: Array<Array<number>>;
+  scales: Array<Array<string>>;
+
   /**
-   * @param {TDesign} design 
+   * @param design 
    */
-  constructor(design) {
+  constructor(design: TDesign) {
     this.design = design;
-
-    /** @type {Array<Array<string>>} */
     this.scales = [];
-
-    /** @type {Array<Array<number>>} */
-    this.dirs   = [];
+    this.dirs = [];
   }
-  
+
   /**
    * Define a rank / a file on the board.
-   * @param {string} scale - a scale of a rank/file
+   * @param scale - a scale of a rank/file
    * @example
    * const g = design.addGrid();
    * g.addScale("A/B/C/D/E/F/G/H");
    * g.addScale("8/7/6/5/4/3/2/1");
    */
-  addScale(scale) {
+  addScale(scale: string) {
     this.scales.push(scale.split('/'));
   }
-  
+
   /**
    * Define a direction on the board.
-   * @param {string} name - direction name
-   * @param {Array<number>} offsets - directional vector
+   * @param name - direction name
+   * @param offsets - directional vector
    * @example
    * const g = design.addGrid();
    * g.addDirection("n", [ 0, -1 ]);
@@ -80,16 +79,14 @@ export class TGrid {
    * g.addDirection("w", [-1,  0 ]);
    * g.addDirection("s", [ 0,  1 ]);
    */
-  addDirection(name, offsets) {
-    if (this.dirs.indexOf(name) < 0) {
-      this.design.addDirection(name);
-    }
-    let ix = this.design.dirs.indexOf(name);
+  addDirection(name: string, offsets: Array<number>) {
+    this.design.addDirection(name);
+    const ix = this.design.dirs.indexOf(name);
     if (ix >= 0) {
       this.dirs[ix] = offsets;
     }
   }
-  
+
   addPositions() {
     addPositions(this, this.scales.length - 1, "", []);
   }

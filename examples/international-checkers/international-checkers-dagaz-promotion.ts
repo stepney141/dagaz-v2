@@ -1,5 +1,5 @@
-import { games } from "../../src/dagaz-model.js";
-import { TBoard } from "../../src/core/index.js";
+import { games } from "../../src/dagaz-model";
+import { TBoard } from "../../src/core/index";
 
 const extension = games.model.extension;
 
@@ -7,7 +7,7 @@ const extension = games.model.extension;
  * promotion of a man to a king
  * @param {TBoard} board 
  */
-games.model.extension = function(board) {
+games.model.extension = function (board) {
   const design = board.design;
 
   for (const move of board.moves.filter(move => move.actions.length != 0)) {

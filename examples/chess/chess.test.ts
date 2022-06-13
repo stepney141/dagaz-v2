@@ -1,15 +1,15 @@
-import { games } from "../../src/dagaz-model.js";
-import "./chess-dagaz.js";
-import "./chess-dagaz-invariant.js";
+import { games } from "../../src/dagaz-model";
+import "./chess-dagaz";
+import "./chess-dagaz-invariant";
 
-test("Initial Board", function() {
+test("Initial Board", function () {
   const design = games.model.getDesign();
   const board = design.getInitBoard();
 
   expect(board.player).toEqual(1); // White turn
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(20); // 20 moves
   expect(board.moves[0].toString(design)).toEqual("a2-a3");
   expect(board.moves[1].toString(design)).toEqual("a2-a4");
@@ -33,13 +33,13 @@ test("Initial Board", function() {
   expect(board.moves[19].toString(design)).toEqual("g1-h3");
 });
 
-test( "En Passant", function() {
+test("En Passant", function () {
   const design = games.model.getDesign();
   let board = design.getInitBoard();
   board.clear();
-  
+
   expect(board.player).toEqual(1); // White turn
-  
+
   const white = design.createPiece(0, 1);
   board.setPiece(design.stringToPos("c4"), white);
   board.setPiece(design.stringToPos("e2"), white);
@@ -48,72 +48,72 @@ test( "En Passant", function() {
   board.setPiece(design.stringToPos("d4"), black);
   board.setPiece(design.stringToPos("f4"), black);
   board.generate();
-  
+
   expect(board.moves.length).toEqual(5); // 5 moves
   expect(board.moves[0].toString(design)).toEqual("c4-c5");
   expect(board.moves[1].toString(design)).toEqual("e2-e3");
   expect(board.moves[2].toString(design)).toEqual("e2-e4");
   expect(board.moves[3].toString(design)).toEqual("g2-g3");
   expect(board.moves[4].toString(design)).toEqual("g2-g4");
-  
+
   board = board.apply(board.moves[2]);
-  
+
   expect(design.posToString(board.lastFrom)).toEqual("e2"); // Last from position: e2
   expect(board.player).toEqual(2); // Black turn
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(4); // 4 moves
   expect(board.moves[0].toString(design)).toEqual("d4-d3");
   expect(board.moves[1].toString(design)).toEqual("d4-e3");
   expect(board.moves[2].toString(design)).toEqual("f4-f3");
   expect(board.moves[3].toString(design)).toEqual("f4-e3");
-  
+
   board = board.apply(board.moves[1]);
-  
+
   expect(board.player).toEqual(1); // White turn
   expect(board.getPiece(design.stringToPos("d4")) === null).toBeTruthy(); // d4 is empty
   expect(board.getPiece(design.stringToPos("e4")) === null).toBeTruthy(); // e4 is empty
   expect(board.getPiece(design.stringToPos("e2")) === null).toBeTruthy(); // e2 is empty
   expect(board.getPiece(design.stringToPos("e3")).toString(design)).toEqual("Black Pawn"); // Black Pawn is on e3
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(3); // 3 moves
   expect(board.moves[0].toString(design)).toEqual("c4-c5");
   expect(board.moves[1].toString(design)).toEqual("g2-g3");
   expect(board.moves[2].toString(design)).toEqual("g2-g4");
-  
+
   board = board.apply(board.moves[1]);
-  
+
   expect(board.player).toEqual(2); // Black turn
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(3); // 3 moves
   expect(board.moves[0].toString(design)).toEqual("f4-f3");
   expect(board.moves[1].toString(design)).toEqual("f4-g3");
   expect(board.moves[2].toString(design)).toEqual("e3-e2");
-  
+
   board = board.apply(board.moves[1]);
-  
+
   expect(board.player).toEqual(1); // White turn
   expect(board.getPiece(design.stringToPos("f4")) === null).toBeTruthy(); // f4 is empty
   expect(board.getPiece(design.stringToPos("g3")).toString(design)).toEqual("Black Pawn"); // Black Pawn is on g3
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(1); // 1 move
   expect(board.moves[0].toString(design)).toEqual("c4-c5");
 });
 
-test( "Castling", function() {
+test("Castling", function () {
   const design = games.model.getDesign();
   let board = design.getInitBoard();
   board.clear();
-  
+
   expect(board.player).toEqual(1); // White turn
-  
+
   const whitePawn = design.createPiece(0, 1);
   board.setPiece(design.stringToPos("a2"), whitePawn);
   board.setPiece(design.stringToPos("b2"), whitePawn);
@@ -143,7 +143,7 @@ test( "Castling", function() {
   board.setPiece(design.stringToPos("a8"), blackRook);
   board.setPiece(design.stringToPos("h8"), blackRook);
   board.generate();
-  
+
   expect(board.moves.length).toEqual(25); // 25 moves
   expect(board.moves[0].toString(design)).toEqual("a2-a3");
   expect(board.moves[1].toString(design)).toEqual("a2-a4");
@@ -170,17 +170,17 @@ test( "Castling", function() {
   expect(board.moves[22].toString(design)).toEqual("e1-c1 a1-d1");
   expect(board.moves[23].toString(design)).toEqual("h1-g1");
   expect(board.moves[24].toString(design)).toEqual("h1-f1");
-  
+
   board = board.apply(board.moves[21]);
-  
+
   expect(board.player).toEqual(2); // Black turn
   expect(board.getPiece(design.stringToPos("e1")) === null).toBeTruthy(); // e1 is empty
   expect(board.getPiece(design.stringToPos("h1")) === null).toBeTruthy(); // h1 is empty
   expect(board.getPiece(design.stringToPos("g1")).toString(design)).toEqual("White King"); // White King is on g1
   expect(board.getPiece(design.stringToPos("f1")).toString(design)).toEqual("White Rook"); // White Rook is on f1
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(25); // 25 moves
   expect(board.moves[0].toString(design)).toEqual("a8-b8");
   expect(board.moves[1].toString(design)).toEqual("a8-c8");
@@ -207,9 +207,9 @@ test( "Castling", function() {
   expect(board.moves[22].toString(design)).toEqual("g7-g5");
   expect(board.moves[23].toString(design)).toEqual("h7-h6");
   expect(board.moves[24].toString(design)).toEqual("h7-h5");
-  
+
   board = board.apply(board.moves[6]);
-  
+
   expect(board.player).toEqual(1); // White turn
   expect(board.getPiece(design.stringToPos("e8")) === null).toBeTruthy(); // e8 is empty
   expect(board.getPiece(design.stringToPos("a8")) === null).toBeTruthy(); // a8 is empty
@@ -217,24 +217,24 @@ test( "Castling", function() {
   expect(board.getPiece(design.stringToPos("d8")).toString(design)).toEqual("Black Rook"); // Black Rook is on d8
 });
 
-test( "Stalemate", function() {
+test("Stalemate", function () {
   const design = games.model.getDesign();
   let board = design.getInitBoard();
   board.clear();
-  
+
   expect(board.player).toEqual(1); // White turn
-  
+
   const whiteKing = design.createPiece(5, 1);
   board.setPiece(design.stringToPos("e1"), whiteKing);
   const whiteQueen = design.createPiece(4, 1);
   board.setPiece(design.stringToPos("d1"), whiteQueen);
   const blackKing = design.createPiece(5, 2);
   board.setPiece(design.stringToPos("b8"), blackKing);
-  
+
   expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(21); // 21 moves
   expect(board.moves[0].toString(design)).toEqual("d1-d2");
   expect(board.moves[1].toString(design)).toEqual("d1-d3");
@@ -257,27 +257,27 @@ test( "Stalemate", function() {
   expect(board.moves[18].toString(design)).toEqual("e1-f1");
   expect(board.moves[19].toString(design)).toEqual("e1-d2");
   expect(board.moves[20].toString(design)).toEqual("e1-f2");
-  
+
   board = board.apply(board.moves[11]);
-  
+
   expect(board.player).toEqual(2); // Black turn
   expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(4); // 4 moves
   expect(board.moves[0].toString(design)).toEqual("b8-a8");
   expect(board.moves[1].toString(design)).toEqual("b8-c8");
   expect(board.moves[2].toString(design)).toEqual("b8-a7");
   expect(board.moves[3].toString(design)).toEqual("b8-c7");
-  
+
   board = board.apply(board.moves[0]);
-  
+
   expect(board.player).toEqual(1); // White turn
   expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(28); // 28 moves
   expect(board.moves[0].toString(design)).toEqual("b3-b4");
   expect(board.moves[1].toString(design)).toEqual("b3-b5");
@@ -307,24 +307,24 @@ test( "Stalemate", function() {
   expect(board.moves[25].toString(design)).toEqual("e1-f1");
   expect(board.moves[26].toString(design)).toEqual("e1-d2");
   expect(board.moves[27].toString(design)).toEqual("e1-f2");
-  
+
   board = board.apply(board.moves[2]);
-  
+
   expect(board.player).toEqual(2); // Black turn
   expect(games.model.getGoal(board, 1)).toEqual(0); // Draw
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(0); // No move
 });
 
-test( "Checkmate", function() {
+test("Checkmate", function () {
   const design = games.model.getDesign();
   let board = design.getInitBoard();
   board.clear();
-  
+
   expect(board.player).toEqual(1); // White turn
-  
+
   const whiteKing = design.createPiece(5, 1);
   board.setPiece(design.stringToPos("e1"), whiteKing);
   const whiteRook = design.createPiece(1, 1);
@@ -332,11 +332,11 @@ test( "Checkmate", function() {
   board.setPiece(design.stringToPos("h1"), whiteRook);
   const blackKing = design.createPiece(5, 2);
   board.setPiece(design.stringToPos("e8"), blackKing);
-  
+
   expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(26); // 26 moves
   expect(board.moves[0].toString(design)).toEqual("a1-a2");
   expect(board.moves[1].toString(design)).toEqual("a1-a3");
@@ -364,25 +364,25 @@ test( "Checkmate", function() {
   expect(board.moves[23].toString(design)).toEqual("h1-h8");
   expect(board.moves[24].toString(design)).toEqual("h1-g1");
   expect(board.moves[25].toString(design)).toEqual("h1-f1");
-  
+
   board = board.apply(board.moves[5]);
-  
+
   expect(board.player).toEqual(2); // Black turn
   expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(2); // 2 moves
   expect(board.moves[0].toString(design)).toEqual("e8-d8");
   expect(board.moves[1].toString(design)).toEqual("e8-f8");
-  
+
   board = board.apply(board.moves[1]);
-  
+
   expect(board.player).toEqual(1); // White turn
   expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(29); // 29 moves
   expect(board.moves[0].toString(design)).toEqual("a7-a8");
   expect(board.moves[1].toString(design)).toEqual("a7-a6");
@@ -413,14 +413,14 @@ test( "Checkmate", function() {
   expect(board.moves[26].toString(design)).toEqual("h1-h8");
   expect(board.moves[27].toString(design)).toEqual("h1-g1");
   expect(board.moves[28].toString(design)).toEqual("h1-f1");
-  
+
   board = board.apply(board.moves[26]);
-  
+
   expect(board.player).toEqual(2); // Black turn
   expect(games.model.getGoal(board, 1)).toEqual(1); // White wins
   expect(games.model.getGoal(board, 2)).toEqual(-1); // Black loses
-  
+
   board.generate();
-  
+
   expect(board.moves.length).toEqual(0); // No move
 });

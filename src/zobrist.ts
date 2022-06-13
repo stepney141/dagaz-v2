@@ -1,15 +1,15 @@
-import { TPiece } from "./core/index.js";
+import { TPiece } from "./core/index";
 
 /**
  * A transposition table
  */
-let hash = null;
+let hash: null | number[][][] = null;
 
 /**
- * Returns a pseudo random integer between 0 and 255
- * @returns {number}
+ * Generates a pseudo random integer between 0 and 255
+ * @returns a pseudo random integer between 0 and 255
  */
-const getRandomByte = function() {
+const getRandomByte = function (): number {
   const min = 0;
   const max = 255;
   return min + Math.floor(Math.random() * (max - min + 1));
@@ -17,9 +17,9 @@ const getRandomByte = function() {
 
 /**
  * Generates a pseudo random integer
- * @returns {number}
+ * @returns a pseudo random integer
  */
-const getRandomValue = function() {
+const getRandomValue = function (): number {
   let r = getRandomByte();
   for (let i = 0; i < 3; i++) {
     r = r << 8;
@@ -30,12 +30,12 @@ const getRandomValue = function() {
 
 /**
  * Returns a zobrist hash from a table
- * @param {number} type 
- * @param {number} player 
- * @param {number} pos 
- * @returns {number}
+ * @param type 
+ * @param player 
+ * @param pos 
+ * @returns
  */
-const getValue = function(type, player, pos) {
+const getValue = function (type: number, player: number, pos: number): number {
   if (hash === null) {
     hash = [];
   }
@@ -55,12 +55,12 @@ const getValue = function(type, player, pos) {
  * Updates a zobrist hash
  * @link https://en.wikipedia.org/wiki/Zobrist_hashing
  * @link https://www.chessprogramming.org/Zobrist_Hashing
- * @param {number} value - the current hash value
- * @param {TPiece} piece 
- * @param {number} pos 
- * @returns {number}
+ * @param value - the current hash value
+ * @param piece 
+ * @param pos 
+ * @returns zobrist hash
  */
-const zUpdate = function(value, piece, pos) {
+const zUpdate = function (value: number, piece: TPiece, pos: number): number {
   return value ^ getValue(piece.type, piece.player, pos);
 };
 

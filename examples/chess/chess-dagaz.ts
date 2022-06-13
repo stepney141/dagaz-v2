@@ -1,63 +1,63 @@
-import { games } from "../../src/dagaz-model.js";
+import { games } from "../../src/dagaz-model";
 
-const step = function(ctx, params) {
+const step = function (ctx, params) {
   if (ctx.go(params, 0) && !ctx.isFriend()) {
     ctx.end();
   }
 };
 
-const pawnShift = function(ctx, params) {
+const pawnShift = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
     if (ctx.inZone(0)) {
       ctx.promote(4);
-    }    
+    }
     ctx.end();
   }
 };
 
-const pawnLeap = function(ctx, params) {
+const pawnLeap = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEnemy()) {
     if (ctx.inZone(0)) {
       ctx.promote(4);
-    }    
+    }
     ctx.end();
   }
 };
 
-const pawnJump = function(ctx, params) {
-  if (ctx.go(params, 0) && 
-        ctx.isEmpty() && 
-        ctx.inZone(1) && 
-        ctx.go(params, 0) && 
-        ctx.isEmpty()) {
-    ctx.end();
-  }
-};
-
-const enPassant = function(ctx, params) {
+const pawnJump = function (ctx, params) {
   if (ctx.go(params, 0) &&
-        ctx.isEnemy() &&
-        ctx.isPiece(0)) {
+    ctx.isEmpty() &&
+    ctx.inZone(1) &&
+    ctx.go(params, 0) &&
+    ctx.isEmpty()) {
+    ctx.end();
+  }
+};
+
+const enPassant = function (ctx, params) {
+  if (ctx.go(params, 0) &&
+    ctx.isEnemy() &&
+    ctx.isPiece(0)) {
     ctx.capture();
     if (ctx.go(params, 1)) {
       ctx.put();
       if (ctx.go(params, 1) &&
-                ctx.isLastFrom()) {
+        ctx.isLastFrom()) {
         ctx.end();
       }
     }
   }
 };
 
-const jump = function(ctx, params) {
-  if (ctx.go(params, 0) && 
-        ctx.go(params, 1) && 
-       !ctx.isFriend()) {
+const jump = function (ctx, params) {
+  if (ctx.go(params, 0) &&
+    ctx.go(params, 1) &&
+    !ctx.isFriend()) {
     ctx.end();
   }
 };
 
-const slide = function(ctx, params) {
+const slide = function (ctx, params) {
   while (ctx.go(params, 0)) {
     if (ctx.isFriend()) break;
     ctx.end();
@@ -68,18 +68,18 @@ const slide = function(ctx, params) {
 /**
  * kingside castling
  */
-const O_O = function(ctx, params) {
+const O_O = function (ctx, params) {
   if (ctx.go(params, 0) &&
-        ctx.isEmpty() &&
-        ctx.go(params, 0) &&
-        ctx.isEmpty()) {
+    ctx.isEmpty() &&
+    ctx.go(params, 0) &&
+    ctx.isEmpty()) {
     ctx.put();
     if (ctx.go(params, 0) &&
-            ctx.isFriend() &&
-            ctx.isPiece(1)) {
+      ctx.isFriend() &&
+      ctx.isPiece(1)) {
       ctx.take();
       if (ctx.go(params, 1) &&
-                ctx.go(params, 1)) {
+        ctx.go(params, 1)) {
         ctx.end();
       }
     }
@@ -89,28 +89,28 @@ const O_O = function(ctx, params) {
 /**
  * queenside castling
  */
-const O_O_O = function(ctx, params) {
+const O_O_O = function (ctx, params) {
   if (ctx.go(params, 0) &&
-        ctx.isEmpty() &&
-        ctx.go(params, 0) &&
-        ctx.isEmpty()) {
+    ctx.isEmpty() &&
+    ctx.go(params, 0) &&
+    ctx.isEmpty()) {
     ctx.put();
     if (ctx.go(params, 0) &&
-            ctx.isEmpty() &&
-            ctx.go(params, 0) &&
-            ctx.isFriend() &&
-            ctx.isPiece(1)) {
+      ctx.isEmpty() &&
+      ctx.go(params, 0) &&
+      ctx.isFriend() &&
+      ctx.isPiece(1)) {
       ctx.take();
       if (ctx.go(params, 1) &&
-                ctx.go(params, 1) &&
-                ctx.go(params, 1)) {
+        ctx.go(params, 1) &&
+        ctx.go(params, 1)) {
         ctx.end();
       }
     }
   }
 };
 
-games.model.buildDesign = function(design) {
+games.model.buildDesign = function (design) {
   design.checkVersion("smart-moves", "false");
 
   design.addDirection("w");  // 0
@@ -261,7 +261,7 @@ games.model.buildDesign = function(design) {
   design.setup("Black", "King", ["e8"]);
 };
 
-games.view.configure = function(view) {
+games.view.configure = function (view) {
   view.defBoard("Board");
   view.defPiece("WhitePawn", "White Pawn");
   view.defPiece("BlackPawn", "Black Pawn");
@@ -275,7 +275,7 @@ games.view.configure = function(view) {
   view.defPiece("BlackQueen", "Black Queen");
   view.defPiece("WhiteKing", "White King");
   view.defPiece("BlackKing", "Black King");
- 
+
   view.defPosition("a8", 2, 2, 50, 50);
   view.defPosition("b8", 52, 2, 50, 50);
   view.defPosition("c8", 102, 2, 50, 50);

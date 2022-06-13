@@ -1,8 +1,9 @@
-import { TDesign } from "./core/index.js";
+import { TDesign } from "./core/index";
 
 export class DagazClient {
+  design: null | TDesign;
+  model: any;
   constructor() {
-    /** @type {TDesign | null} */
     this.design = new TDesign();
   }
 
@@ -10,11 +11,11 @@ export class DagazClient {
     return this.design;
   }
 
-  resetDesign () {
+  resetDesign() {
     if (this.design !== null) {
       this.model.design = null;
     }
   }
 
-  buildDesign () { }
+  buildDesign() { }
 }

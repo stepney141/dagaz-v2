@@ -1,6 +1,6 @@
 import _ from "underscore";
-import { games } from "../../src/dagaz-model.js";
-import { TBoard } from "../../src/core/index.js";
+import { games } from "../../src/dagaz-model";
+import { TBoard } from "../../src/core/index";
 
 let isRecursive = false;
 
@@ -12,7 +12,7 @@ const getGoal = games.model.getGoal;
  * @param {number} player 
  * @returns {null | 1 | -1 | 0}
  */
-games.model.getGoal = function(board, player) {
+games.model.getGoal = function (board, player) {
   const design = board.design;
   board.generate();
 
@@ -73,11 +73,11 @@ const extension = games.model.extension;
 /**
  * @param {TBoard} board - depth 0 (the current game state)
  */
-games.model.extension = function(board) {
+games.model.extension = function (board) {
   const design = board.design;
   const king = design.getPieceType("King");
   const rook = design.getPieceType("Rook");
-  
+
   if (!isRecursive) {
     /** @type {Array<TMove>} */
     let Moves = [];
@@ -91,7 +91,7 @@ games.model.extension = function(board) {
         const a = move.actions[0][0];
         const b = move.actions[1][0];
         safe = _.range(Math.min(a, b), Math.max(a, b) + 1);
-        
+
         for (const action of move.actions) {
           const piece = action[2];
           if (piece.getValue(0) !== null) {
