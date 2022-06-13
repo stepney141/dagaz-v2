@@ -1,19 +1,22 @@
-import { TBoard } from './core/board';
-import { TDesign } from "./core/index";
+import { TBoard, TDesign } from "./core/index";
+
+type Methods = 'buildDesign' | 'extension' | 'getGoal';
 
 type Game = {
   model: {
+    design: null | TDesign;
     resetDesign: () => void;
     getDesign: () => null | TDesign;
-    buildDesign: null | ((design: TDesign) => void);
-    design: null | TDesign;
-    extension: null | ((board: TBoard) => any)
-  };
+    buildDesign?: (design: TDesign) => void;
+    extension?: (board: TBoard) => void;
+    getGoal?: (board: TBoard, player?: number) => null | number;
+  }
   view: Record<string, unknown>
 };
 
 export const games: Game = {
   model: {
+    design: null,
     resetDesign: () => {
       if (games.model.design !== null) {
         games.model.design = null;
@@ -24,10 +27,7 @@ export const games: Game = {
         games.model.design = new TDesign();
       }
       return games.model.design;
-    },
-    buildDesign: null,
-    design: null,
-    extension: null
+    }
   },
   view: {}
 };
