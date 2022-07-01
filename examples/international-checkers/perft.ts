@@ -1,4 +1,4 @@
-import { games } from "../../src/dagaz-model";
+import { games } from "./../../src/dagaz-model";
 import "./international-checkers-dagaz";
 import "./international-checkers-dagaz-promotion";
 import "./maximal-captures-dagaz";

@@ -1,4 +1,4 @@
-import { games } from "../../src/dagaz-model";
+import { games } from "./../../src/dagaz-model";
 import "./chess-dagaz";
 import "./chess-dagaz-invariant";
 

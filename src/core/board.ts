@@ -1,10 +1,10 @@
-import { games } from "../dagaz-model";
+import { games } from "./../dagaz-model";
 import type { Movement } from "../types";
 import { TDesign } from "./design";
 import { TMove } from "./move";
 import { TMoveContext } from "./move_context";
 import { TPiece } from "./piece";
-import { zUpdate } from "../zobrist";
+import { zUpdate } from "./../zobrist";
 
 /**
  * A class representing each game state.

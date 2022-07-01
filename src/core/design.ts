@@ -1,6 +1,6 @@
 import _ from "underscore";
 import type { Movement, GameBehaviorOptions } from "../types";
-import { games } from "../dagaz-model";
+import { games } from "./../dagaz-model";
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";
 import { TMoveContext } from "./move_context";

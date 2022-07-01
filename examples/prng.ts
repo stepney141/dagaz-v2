@@ -1,4 +1,4 @@
-import { getRandomValue } from "../src/zobrist";
+import { getRandomValue } from "./../src/zobrist";
 import * as fs from 'fs/promises';
 
 // implementation with set/map
