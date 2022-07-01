@@ -41,10 +41,12 @@ const jumpKing = function (ctx, params) {
 games.model.buildDesign = function (design) {
   design.checkVersion("smart-moves", true);
 
-  design.addDirection("ne"); // 0
-  design.addDirection("se"); // 1
-  design.addDirection("sw"); // 2
-  design.addDirection("nw"); // 3
+  design.addDirection([
+    "ne", // 0
+    "se", // 1
+    "sw", // 2
+    "nw" // 3
+  ]);
 
   design.addPlayer("Black", [2, 3, 0, 1]);
   design.addPlayer("White", [2, 3, 0, 1]);

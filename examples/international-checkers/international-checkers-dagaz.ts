@@ -51,10 +51,12 @@ games.model.buildDesign = function (design) {
   design.checkVersion("maximal-captures", true);
   design.checkVersion("deferred-captures", true);
 
-  design.addDirection("se"); // 0
-  design.addDirection("sw"); // 1
-  design.addDirection("ne"); // 2
-  design.addDirection("nw"); // 3
+  design.addDirection([
+    "se", // 0
+    "sw", // 1
+    "ne", // 2
+    "nw" // 3
+  ])
 
   design.addPlayer("White", [3, 2, 1, 0]);
   design.addPlayer("Black", [3, 2, 1, 0]);

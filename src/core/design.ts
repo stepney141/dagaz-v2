@@ -171,10 +171,10 @@ export class TDesign {
 
   /**
    * Defines a new direction
-   * @param name - a direction name
+   * @param name - a list of direction names
    */
-  addDirection(name: DirectionName) {
-    this.dirs.push(name);
+  addDirection(name_list: DirectionName[]) {
+    this.dirs = name_list;
   }
 
   /**

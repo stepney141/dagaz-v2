@@ -113,14 +113,16 @@ const O_O_O = function (ctx, params) {
 games.model.buildDesign = function (design) {
   design.checkVersion("smart-moves", false);
 
-  design.addDirection("w");  // 0
-  design.addDirection("e");  // 1
-  design.addDirection("s");  // 2
-  design.addDirection("ne"); // 3
-  design.addDirection("n");  // 4
-  design.addDirection("se"); // 5
-  design.addDirection("sw"); // 6
-  design.addDirection("nw"); // 7
+  design.addDirection([
+    "w", // 0
+    "e", // 1
+    "s", // 2
+    "ne", // 3
+    "n", // 4
+    "se", // 5
+    "sw", // 6
+    "nw" // 7
+  ])
 
   design.addPlayer("White", [1, 0, 4, 6, 2, 7, 3, 5]); // [e, w, n, sw, s, nw, ne, se]
   design.addPlayer("Black", [0, 1, 4, 5, 2, 3, 7, 6]); // [w, e, n, se, s, ne, nw, sw]
