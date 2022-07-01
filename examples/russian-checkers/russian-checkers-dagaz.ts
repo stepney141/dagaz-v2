@@ -55,8 +55,8 @@ const contKing = function (ctx, params) {
 };
 
 games.model.buildDesign = function (design) {
-  design.checkVersion("smart-moves", "true");
-  design.checkVersion("deferred-captures", "true");
+  design.checkVersion("smart-moves", true);
+  design.checkVersion("deferred-captures", true);
 
   design.addDirection("ne"); // 0
   design.addDirection("se"); // 1
@@ -138,26 +138,26 @@ games.model.buildDesign = function (design) {
   design.addPriority(0);			// normal-type
 
   design.addPiece("Man", 0, 20);
-  design.addMove(0, jumpMan, [3], 1);
-  design.addMove(0, jumpMan, [0], 1);
-  design.addMove(0, jumpMan, [2], 1);
-  design.addMove(0, jumpMan, [1], 1);
-  design.addMove(0, shiftMan, [3], 0);
-  design.addMove(0, shiftMan, [0], 0);
+  design.addMove({ pieceType: 0, func: jumpMan, params: [3], mode: 1 });
+  design.addMove({ pieceType: 0, func: jumpMan, params: [0], mode: 1 });
+  design.addMove({ pieceType: 0, func: jumpMan, params: [2], mode: 1 });
+  design.addMove({ pieceType: 0, func: jumpMan, params: [1], mode: 1 });
+  design.addMove({ pieceType: 0, func: shiftMan, params: [3], mode: 0 });
+  design.addMove({ pieceType: 0, func: shiftMan, params: [0], mode: 0 });
 
   design.addPiece("King", 1, 100);
-  design.addMove(1, jumpKing, [3], 1);
-  design.addMove(1, jumpKing, [0], 1);
-  design.addMove(1, jumpKing, [2], 1);
-  design.addMove(1, jumpKing, [1], 1);
-  design.addMove(1, contKing, [3], 2);
-  design.addMove(1, contKing, [0], 2);
-  design.addMove(1, contKing, [2], 2);
-  design.addMove(1, contKing, [1], 2);
-  design.addMove(1, shiftKing, [3], 0);
-  design.addMove(1, shiftKing, [0], 0);
-  design.addMove(1, shiftKing, [2], 0);
-  design.addMove(1, shiftKing, [1], 0);
+  design.addMove({ pieceType: 1, func: jumpKing, params: [3], mode: 1 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: [0], mode: 1 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: [2], mode: 1 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: [1], mode: 1 });
+  design.addMove({ pieceType: 1, func: contKing, params: [3], mode: 2 });
+  design.addMove({ pieceType: 1, func: contKing, params: [0], mode: 2 });
+  design.addMove({ pieceType: 1, func: contKing, params: [2], mode: 2 });
+  design.addMove({ pieceType: 1, func: contKing, params: [1], mode: 2 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: [3], mode: 0 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: [0], mode: 0 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: [2], mode: 0 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: [1], mode: 0 });
 
   design.setup("White", "Man", ["a3", "c3", "e3", "g3", "b2", "d2", "f2", "h2", "a1", "c1", "e1", "g1"]);
   design.setup("Black", "Man", ["b8", "d8", "f8", "h8", "a7", "c7", "e7", "g7", "b6", "d6", "f6", "h6"]);

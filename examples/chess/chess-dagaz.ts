@@ -111,7 +111,7 @@ const O_O_O = function (ctx, params) {
 };
 
 games.model.buildDesign = function (design) {
-  design.checkVersion("smart-moves", "false");
+  design.checkVersion("smart-moves", false);
 
   design.addDirection("w");  // 0
   design.addDirection("e");  // 1
@@ -196,56 +196,56 @@ games.model.buildDesign = function (design) {
   design.addZone("third-rank", 2, ["a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"]);
 
   design.addPiece("Pawn", 0, 2);
-  design.addMove(0, pawnShift, [4], 0);
-  design.addMove(0, pawnJump, [4], 0);
-  design.addMove(0, pawnLeap, [7], 0);
-  design.addMove(0, pawnLeap, [3], 0);
-  design.addMove(0, enPassant, [1, 4], 0);
-  design.addMove(0, enPassant, [0, 4], 0);
+  design.addMove({ pieceType: 0, func: pawnShift, params: [4], mode: 0 });
+  design.addMove({ pieceType: 0, func: pawnJump, params: [4], mode: 0 });
+  design.addMove({ pieceType: 0, func: pawnLeap, params: [7], mode: 0 });
+  design.addMove({ pieceType: 0, func: pawnLeap, params: [3], mode: 0 });
+  design.addMove({ pieceType: 0, func: enPassant, params: [1, 4], mode: 0 });
+  design.addMove({ pieceType: 0, func: enPassant, params: [0, 4], mode: 0 });
 
   design.addPiece("Rook", 1, 10);
-  design.addMove(1, slide, [4], 0);
-  design.addMove(1, slide, [2], 0);
-  design.addMove(1, slide, [0], 0);
-  design.addMove(1, slide, [1], 0);
+  design.addMove({ pieceType: 1, func: slide, params: [4], mode: 0 });
+  design.addMove({ pieceType: 1, func: slide, params: [2], mode: 0 });
+  design.addMove({ pieceType: 1, func: slide, params: [0], mode: 0 });
+  design.addMove({ pieceType: 1, func: slide, params: [1], mode: 0 });
 
   design.addPiece("Knight", 2, 6);
-  design.addMove(2, jump, [4, 7], 0);
-  design.addMove(2, jump, [4, 3], 0);
-  design.addMove(2, jump, [2, 6], 0);
-  design.addMove(2, jump, [2, 5], 0);
-  design.addMove(2, jump, [0, 7], 0);
-  design.addMove(2, jump, [0, 6], 0);
-  design.addMove(2, jump, [1, 3], 0);
-  design.addMove(2, jump, [1, 5], 0);
+  design.addMove({ pieceType: 2, func: jump, params: [4, 7], mode: 0 });
+  design.addMove({ pieceType: 2, func: jump, params: [4, 3], mode: 0 });
+  design.addMove({ pieceType: 2, func: jump, params: [2, 6], mode: 0 });
+  design.addMove({ pieceType: 2, func: jump, params: [2, 5], mode: 0 });
+  design.addMove({ pieceType: 2, func: jump, params: [0, 7], mode: 0 });
+  design.addMove({ pieceType: 2, func: jump, params: [0, 6], mode: 0 });
+  design.addMove({ pieceType: 2, func: jump, params: [1, 3], mode: 0 });
+  design.addMove({ pieceType: 2, func: jump, params: [1, 5], mode: 0 });
 
   design.addPiece("Bishop", 3, 6);
-  design.addMove(3, slide, [7], 0);
-  design.addMove(3, slide, [6], 0);
-  design.addMove(3, slide, [3], 0);
-  design.addMove(3, slide, [5], 0);
+  design.addMove({ pieceType: 3, func: slide, params: [7], mode: 0 });
+  design.addMove({ pieceType: 3, func: slide, params: [6], mode: 0 });
+  design.addMove({ pieceType: 3, func: slide, params: [3], mode: 0 });
+  design.addMove({ pieceType: 3, func: slide, params: [5], mode: 0 });
 
   design.addPiece("Queen", 4, 18);
-  design.addMove(4, slide, [4], 0);
-  design.addMove(4, slide, [2], 0);
-  design.addMove(4, slide, [0], 0);
-  design.addMove(4, slide, [1], 0);
-  design.addMove(4, slide, [7], 0);
-  design.addMove(4, slide, [6], 0);
-  design.addMove(4, slide, [3], 0);
-  design.addMove(4, slide, [5], 0);
+  design.addMove({ pieceType: 4, func: slide, params: [4], mode: 0 });
+  design.addMove({ pieceType: 4, func: slide, params: [2], mode: 0 });
+  design.addMove({ pieceType: 4, func: slide, params: [0], mode: 0 });
+  design.addMove({ pieceType: 4, func: slide, params: [1], mode: 0 });
+  design.addMove({ pieceType: 4, func: slide, params: [7], mode: 0 });
+  design.addMove({ pieceType: 4, func: slide, params: [6], mode: 0 });
+  design.addMove({ pieceType: 4, func: slide, params: [3], mode: 0 });
+  design.addMove({ pieceType: 4, func: slide, params: [5], mode: 0 });
 
   design.addPiece("King", 5, 1000);
-  design.addMove(5, step, [4], 0);
-  design.addMove(5, step, [2], 0);
-  design.addMove(5, step, [0], 0);
-  design.addMove(5, step, [1], 0);
-  design.addMove(5, step, [7], 0);
-  design.addMove(5, step, [6], 0);
-  design.addMove(5, step, [3], 0);
-  design.addMove(5, step, [5], 0);
-  design.addMove(5, O_O, [1, 0], 1);
-  design.addMove(5, O_O_O, [0, 1], 1);
+  design.addMove({ pieceType: 5, func: step, params: [4], mode: 0 });
+  design.addMove({ pieceType: 5, func: step, params: [2], mode: 0 });
+  design.addMove({ pieceType: 5, func: step, params: [0], mode: 0 });
+  design.addMove({ pieceType: 5, func: step, params: [1], mode: 0 });
+  design.addMove({ pieceType: 5, func: step, params: [7], mode: 0 });
+  design.addMove({ pieceType: 5, func: step, params: [6], mode: 0 });
+  design.addMove({ pieceType: 5, func: step, params: [3], mode: 0 });
+  design.addMove({ pieceType: 5, func: step, params: [5], mode: 0 });
+  design.addMove({ pieceType: 5, func: O_O, params: [1, 0], mode: 1 });
+  design.addMove({ pieceType: 5, func: O_O_O, params: [0, 1], mode: 1 });
 
   design.setup("White", "Pawn", ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"]);
   design.setup("White", "Rook", ["a1", "h1"]);

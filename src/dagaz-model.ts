@@ -1,6 +1,5 @@
 import { TBoard, TDesign } from "./core/index";
-
-type Methods = 'buildDesign' | 'extension' | 'getGoal';
+import { PlayerID } from "./types";
 
 type Game = {
   model: {
@@ -9,7 +8,7 @@ type Game = {
     getDesign: () => null | TDesign;
     buildDesign?: (design: TDesign) => void;
     extension?: (board: TBoard) => void;
-    getGoal?: (board: TBoard, player?: number) => null | number;
+    getGoal?: (board: TBoard, player?: PlayerID) => null | number;
   }
   view: Record<string, unknown>
 };

@@ -2,14 +2,21 @@ import { TBoard } from "./board";
 import { TPiece } from "./piece";
 import { TDesign } from "./design";
 
+type From = null | number;
+type To = null | number;
+type Piece = null | TPiece;
+type Part = null | number;
+
+/**
+ * action[0] from - origin square id (the cell where the move starts); null for drop moves.
+ * action[1] to - target square id (the cell where the move finishes); null for capture moves.
+ * action[2] piece - the piece object that a player moves.  
+ * action[3] part - the number of partial moves; this is used in checkers-like games
+ */
+type MoveAction = Array<[From, To, Piece, Part]>;
+
 export class TMove {
-  /**
-   * action[0] from - origin square id (the cell where the move starts); null for drop moves.
-   * action[1] to - target square id (the cell where the move finishes); null for capture moves.
-   * action[2] piece - the piece object that a player moves.  
-   * action[3] part - the number of partial moves; this is used in checkers-like games
-   */
-  actions: Array<[(null | number), (null | number), (null | TPiece), (null | number)]>;
+  actions: MoveAction;
   mode: null | number;
 
   /**
@@ -37,7 +44,7 @@ export class TMove {
    */
   clone(part: number): TMove {
     const r = new TMove(this.mode);
-    const filtered_actions = this.actions.filter((a: any) => {
+    const filtered_actions = this.actions.filter(a => {
       return (a[0] === null) || (a[1] === null) || (a[3] !== part);
     });
     r.actions = [...filtered_actions]; //shallow copying
@@ -59,9 +66,9 @@ export class TMove {
           if (str != "") {
             str = str + " ";
           }
-          str = str + design.posToString(a[0]); //convert the start cell to strings
+          str = `${str}${design.posToString(a[0])}`; //convert the start cell to strings
         }
-        str = str + "-" + design.posToString(a[1]); //convert the target cell to strings
+        str = `${str}-${design.posToString(a[1])}`; //convert the target cell to strings
         cell = a[1];
       }
     }
@@ -109,7 +116,7 @@ export class TMove {
    * @param piece 
    * @param part
    */
-  movePiece(from: number, to: number, piece: null | TPiece, part = 1) {
+  movePiece(from: From, to: To, piece: Piece, part: Part = 1) {
     this.actions.push([from, to, piece, part]);
   }
 
@@ -118,7 +125,7 @@ export class TMove {
    * @param from 
    * @param part
    */
-  capturePiece(from: number, part = 1) {
+  capturePiece(from: From, part: Part = 1) {
     this.actions.push([from, null, null, part]);
   }
 
@@ -128,7 +135,7 @@ export class TMove {
    * @param piece 
    * @param part
    */
-  dropPiece(to: any, piece: any, part = 1) {
+  dropPiece(to: To, piece: Piece, part: Part = 1) {
     this.actions.push([null, to, piece, part]);
   }
 

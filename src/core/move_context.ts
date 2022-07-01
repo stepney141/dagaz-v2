@@ -44,8 +44,8 @@ export class TMoveContext {
   }
 
   /**
-   * 
-   * @returns
+   * clone itself
+   * @returns copied instance
    */
   copy(): TMoveContext {
     const r = new TMoveContext(this.design, this.board, this.pos, this.piece);

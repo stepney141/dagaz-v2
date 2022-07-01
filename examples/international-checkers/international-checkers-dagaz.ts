@@ -1,12 +1,12 @@
 import { games } from "./../../src/dagaz-model";
 
-const shiftMan = function(ctx, params) {
+const shiftMan = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
     ctx.end();
   }
 };
 
-const jumpMan = function(ctx, params) {
+const jumpMan = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEnemy()) {
     ctx.capture();
     if (ctx.go(params, 0) && ctx.isEmpty()) {
@@ -15,13 +15,13 @@ const jumpMan = function(ctx, params) {
   }
 };
 
-const shiftKing = function(ctx, params) {
+const shiftKing = function (ctx, params) {
   while (ctx.go(params, 0) && ctx.isEmpty()) {
     ctx.end();
   }
 };
 
-const jumpKing = function(ctx, params) {
+const jumpKing = function (ctx, params) {
   while (ctx.go(params, 0)) {
     if (!ctx.isEmpty()) break;
   }
@@ -33,7 +33,7 @@ const jumpKing = function(ctx, params) {
   }
 };
 
-const contKing = function(ctx, params) {
+const contKing = function (ctx, params) {
   while (ctx.go(params, 0)) {
     if (!ctx.isEmpty()) break;
     if (ctx.isLastFrom()) return;
@@ -46,10 +46,10 @@ const contKing = function(ctx, params) {
   }
 };
 
-games.model.buildDesign = function(design) {
-  design.checkVersion("smart-moves", "true");
-  design.checkVersion("maximal-captures", "true");
-  design.checkVersion("deferred-captures", "true");
+games.model.buildDesign = function (design) {
+  design.checkVersion("smart-moves", true);
+  design.checkVersion("maximal-captures", true);
+  design.checkVersion("deferred-captures", true);
 
   design.addDirection("se"); // 0
   design.addDirection("sw"); // 1
@@ -167,38 +167,38 @@ games.model.buildDesign = function(design) {
   design.addPriority(0);			// normal-type
 
   design.addPiece("Man", 0, 20);
-  design.addMove(0, jumpMan, [3], 1);
-  design.addMove(0, jumpMan, [0], 1);
-  design.addMove(0, jumpMan, [2], 1);
-  design.addMove(0, jumpMan, [1], 1);
-  design.addMove(0, shiftMan, [2], 0);
-  design.addMove(0, shiftMan, [3], 0);
+  design.addMove({ pieceType: 0, func: jumpMan, params: [3], mode: 1 });
+  design.addMove({ pieceType: 0, func: jumpMan, params: [0], mode: 1 });
+  design.addMove({ pieceType: 0, func: jumpMan, params: [2], mode: 1 });
+  design.addMove({ pieceType: 0, func: jumpMan, params: [1], mode: 1 });
+  design.addMove({ pieceType: 0, func: shiftMan, params: [2], mode: 0 });
+  design.addMove({ pieceType: 0, func: shiftMan, params: [3], mode: 0 });
 
   design.addPiece("King", 1, 100);
-  design.addMove(1, jumpKing, [3], 1);
-  design.addMove(1, jumpKing, [0], 1);
-  design.addMove(1, jumpKing, [2], 1);
-  design.addMove(1, jumpKing, [1], 1);
-  design.addMove(1, contKing, [3], 2);
-  design.addMove(1, contKing, [0], 2);
-  design.addMove(1, contKing, [2], 2);
-  design.addMove(1, contKing, [1], 2);
-  design.addMove(1, shiftKing, [3], 0);
-  design.addMove(1, shiftKing, [0], 0);
-  design.addMove(1, shiftKing, [2], 0);
-  design.addMove(1, shiftKing, [1], 0);
+  design.addMove({ pieceType: 1, func: jumpKing, params: [3], mode: 1 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: [0], mode: 1 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: [2], mode: 1 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: [1], mode: 1 });
+  design.addMove({ pieceType: 1, func: contKing, params: [3], mode: 2 });
+  design.addMove({ pieceType: 1, func: contKing, params: [0], mode: 2 });
+  design.addMove({ pieceType: 1, func: contKing, params: [2], mode: 2 });
+  design.addMove({ pieceType: 1, func: contKing, params: [1], mode: 2 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: [3], mode: 0 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: [0], mode: 0 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: [2], mode: 0 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: [1], mode: 0 });
 
   design.setup("White", "Man", ["a1", "c1", "e1", "g1", "i1", "b2", "d2", "f2", "h2", "j2", "a3", "c3", "e3", "g3", "i3", "b4", "d4", "f4", "h4", "j4"]);
   design.setup("Black", "Man", ["b10", "d10", "f10", "h10", "j10", "a9", "c9", "e9", "g9", "i9", "b8", "d8", "f8", "h8", "j8", "a7", "c7", "e7", "g7", "i7"]);
 };
 
-games.view.configure = function(view) {
+games.view.configure = function (view) {
   view.defBoard("Board");
   view.defPiece("WhiteMan", "White Man");
   view.defPiece("BlackMan", "Black Man");
   view.defPiece("WhiteKing", "White King");
   view.defPiece("BlackKing", "Black King");
- 
+
   view.defPosition("a10", 2, 2, 50, 50);
   view.defPosition("b10", 52, 2, 50, 50);
   view.defPosition("c10", 102, 2, 50, 50);

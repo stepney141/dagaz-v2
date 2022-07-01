@@ -1,6 +1,7 @@
 import _ from "underscore";
-import { games } from "../../src/dagaz-model";
-import { TBoard } from "../../src/core/index";
+import { TBoard } from "../../src/core";
+import { PlayerID } from "../../src/types";
+import { games } from "./../../src/dagaz-model";
 
 let isRecursive = false;
 
@@ -8,11 +9,11 @@ const getGoal = games.model.getGoal;
 
 /**
  * Returns if a player wins, loses, or draws in the given game state.
- * @param {TBoard} board 
- * @param {number} player 
+ * @param board 
+ * @param player 
  * @returns {null | 1 | -1 | 0}
  */
-games.model.getGoal = function (board, player) {
+games.model.getGoal = function (board: TBoard, player: PlayerID) {
   const design = board.design;
   board.generate();
 

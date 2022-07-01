@@ -1,5 +1,5 @@
 import { games } from "./../dagaz-model";
-import type { Movement } from "../types";
+import type { Movement, PositionID } from "./../types";
 import { TDesign } from "./design";
 import { TMove } from "./move";
 import { TMoveContext } from "./move_context";
@@ -12,12 +12,12 @@ import { zUpdate } from "./../zobrist";
  */
 export class TBoard {
   design: TDesign;
-  forks: Array<TMoveContext> | null;
-  lastFrom: number;
+  forks: TMoveContext[] | null;
+  lastFrom: PositionID | null;
   made_move: TMove | null;
-  moves: Array<TMove> | null;
+  moves: TMove[] | null;
   parent: TBoard | null;
-  pieces: Array<TPiece>;
+  pieces: TPiece[];
   player: number;
   turn: number;
   z: number;
@@ -71,7 +71,6 @@ export class TBoard {
     /**
      * origin square id
      * @link https://www.chessprogramming.org/Origin_Square
-     * @type {number | null}
      */
     this.lastFrom = null;
   }
@@ -164,10 +163,10 @@ export class TBoard {
     let r = false;
 
     this.design.movements.forEach((movement: Movement) => {
-      if (movement.t != parent.piece.type) {
+      if (movement.pieceType != parent.piece.type) {
         return;
       }
-      if (movement.m != parent.mode) {
+      if (movement.mode != parent.mode) {
         return;
       }
       const ctx = parent.copy();
@@ -176,7 +175,7 @@ export class TBoard {
         piece: parent.piece
       };
       ctx.mode = null;
-      movement.f(ctx, movement.p);
+      movement.func(ctx, movement.params);
       if (ctx.succeed) {
         r = true;
       }
@@ -206,15 +205,15 @@ export class TBoard {
           }
 
           Movements.forEach((movement: Movement) => {
-            if (movement.t != piece.type) {
+            if (movement.pieceType != piece.type) {
               return; // searches the movement of a specific piece from the group of the same mode moves
             }
 
             const ctx = new TMoveContext(this.design, this, pos, piece);
-            ctx.move.mode = movement.m;
+            ctx.move.mode = movement.mode;
             ctx.take();
             ctx.setPiece(pos, null);
-            movement.f(ctx, movement.p); // executes a method that describes moves
+            movement.func(ctx, movement.params); // executes a method that describes moves
             if (ctx.succeed) {
               completed = true; // finishes the execution
             }
