@@ -8,7 +8,8 @@
     "extends": [
         "eslint:recommended",
         "plugin:you-dont-need-lodash-underscore/compatible",
-        "plugin:@typescript-eslint/recommended"
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -25,13 +26,16 @@
             "error",
             2
         ],
+        "@typescript-eslint/indent": "off",
         "linebreak-style": 0,
-        "semi": [
+        "semi": "off",
+        "@typescript-eslint/semi": [
             "error",
             "always"
         ],
         "no-path-concat": 0,
-        "no-unused-vars": 1,
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": 1,
         "no-param-reassign": 1, // because of https://github.com/airbnb/javascript#functions--reassign-params
         "you-dont-need-lodash-underscore" : 1,
         "no-var": 1,
@@ -39,7 +43,6 @@
         "eol-last": [
             "error",
             "always"
-        ],
-        "@typescript-eslint/rule-name": "error"
+        ]
     }
 }
