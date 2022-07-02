@@ -1,5 +1,5 @@
-import { games } from "./../../src/dagaz-model";
-import "./russian-checkers-dagaz";
+import { games } from "../../src/dagaz-model";
+import "../../examples/english-checkers/english-checkers-dagaz";
 
 /**
  * Search the game tree starting from the initial positiion, 
@@ -14,9 +14,9 @@ const perft = function (depth, b) {
 
   b.generate();
 
-  for (let m of b.moves) {
+  for (const m of b.moves) {
     // console.log(m.toString(board.design));
-    let next_b = b.apply(m); //make a move
+    const next_b = b.apply(m); //make a move
     nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
   }
 
@@ -40,7 +40,7 @@ const main = function (depth, design = games.model.getDesign()) {
   console.timeEnd(`perft ${depth}`);
 };
 
-for (let i = 1; i <= 10; i++) {
+for (let i = 1; i <= 13; i++) {
   main(i);
 }
 

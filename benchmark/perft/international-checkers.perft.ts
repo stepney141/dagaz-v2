@@ -1,5 +1,7 @@
-import { games } from "./../../src/dagaz-model";
-import "./english-checkers-dagaz";
+import { games } from "../../src/dagaz-model";
+import "../../examples/international-checkers/international-checkers-dagaz";
+import "../../examples/international-checkers/international-checkers-dagaz-promotion";
+import "../../examples/international-checkers/maximal-captures-dagaz";
 
 /**
  * Search the game tree starting from the initial positiion, 
@@ -40,7 +42,7 @@ const main = function (depth, design = games.model.getDesign()) {
   console.timeEnd(`perft ${depth}`);
 };
 
-for (let i = 1; i <= 13; i++) {
+for (let i = 1; i <= 10; i++) {
   main(i);
 }
 

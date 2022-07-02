@@ -1,6 +1,6 @@
-import { games } from "./../../src/dagaz-model";
-import "./chess-dagaz";
-import "./chess-dagaz-invariant";
+import { games } from "../../src/dagaz-model";
+import "../../examples/chess/chess-dagaz";
+import "../../examples/chess/chess-dagaz-invariant";
 
 /**
  * Search the game tree starting from the initial positiion, 
@@ -41,7 +41,7 @@ const main = function (depth, design = games.model.getDesign()) {
   console.timeEnd(`perft ${depth}`);
 };
 
-for (let i = 1; i <= 4; i++) {
+for (let i = 1; i <= 5; i++) {
   main(i);
 }
 
