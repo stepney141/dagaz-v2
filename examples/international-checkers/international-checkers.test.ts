@@ -29,11 +29,11 @@ test("Man promotion", function () {
   board.setPiece(design.stringToPos("i9"), black);
   board.generate();
 
-  expect(board.moves.length).toEqual(2); // 2 moves
-  expect(board.moves[0].toString(design)).toEqual("b8-d10-f8-h10-j8-h6-f4-h2");
-  expect(board.moves[1].toString(design)).toEqual("b8-d10-f8-h10-j8-h6-f4-d2");
+  expect(board.legal_moves.length).toEqual(2); // 2 moves
+  expect(board.legal_moves[0].toString(design)).toEqual("b8-d10-f8-h10-j8-h6-f4-h2");
+  expect(board.legal_moves[1].toString(design)).toEqual("b8-d10-f8-h10-j8-h6-f4-d2");
 
-  board = board.apply(board.moves[0]);
+  board = board.apply(board.legal_moves[0]);
 
   expect(board.player).toEqual(2); // Black turn
   expect(board.getPiece(design.stringToPos("b8")) === null).toBeTruthy(); // b8 is empty
@@ -55,21 +55,21 @@ test("Man promotion", function () {
 
   board.generate();
 
-  expect(board.moves.length).toEqual(12); // 12 moves
-  expect(board.moves[0].toString(design)).toEqual("c7-b6");
-  expect(board.moves[1].toString(design)).toEqual("g7-f6");
-  expect(board.moves[2].toString(design)).toEqual("g7-h6");
-  expect(board.moves[3].toString(design)).toEqual("d6-c5");
-  expect(board.moves[4].toString(design)).toEqual("d6-e5");
-  expect(board.moves[5].toString(design)).toEqual("b4-a3");
-  expect(board.moves[6].toString(design)).toEqual("b4-c3");
-  expect(board.moves[7].toString(design)).toEqual("e3-d2");
-  expect(board.moves[8].toString(design)).toEqual("b2-a1");
-  expect(board.moves[9].toString(design)).toEqual("b2-c1");
-  expect(board.moves[10].toString(design)).toEqual("f2-e1");
-  expect(board.moves[11].toString(design)).toEqual("f2-g1");
+  expect(board.legal_moves.length).toEqual(12); // 12 moves
+  expect(board.legal_moves[0].toString(design)).toEqual("c7-b6");
+  expect(board.legal_moves[1].toString(design)).toEqual("g7-f6");
+  expect(board.legal_moves[2].toString(design)).toEqual("g7-h6");
+  expect(board.legal_moves[3].toString(design)).toEqual("d6-c5");
+  expect(board.legal_moves[4].toString(design)).toEqual("d6-e5");
+  expect(board.legal_moves[5].toString(design)).toEqual("b4-a3");
+  expect(board.legal_moves[6].toString(design)).toEqual("b4-c3");
+  expect(board.legal_moves[7].toString(design)).toEqual("e3-d2");
+  expect(board.legal_moves[8].toString(design)).toEqual("b2-a1");
+  expect(board.legal_moves[9].toString(design)).toEqual("b2-c1");
+  expect(board.legal_moves[10].toString(design)).toEqual("f2-e1");
+  expect(board.legal_moves[11].toString(design)).toEqual("f2-g1");
 
-  board = board.apply(board.moves[8]);
+  board = board.apply(board.legal_moves[8]);
 
   expect(board.player).toEqual(1); // White turn
   expect(board.getPiece(design.stringToPos("b2")) === null).toBeTruthy(); // b2 is empty
@@ -90,37 +90,37 @@ test("Check lastFrom", function () {
   board.setPiece(design.stringToPos("j10"), black);
   board.generate();
 
-  expect(board.moves.length).toEqual(21); // 21 moves
-  expect(board.moves[0].toString(design)).toEqual("e5-d6");
-  expect(board.moves[1].toString(design)).toEqual("e5-c7");
-  expect(board.moves[2].toString(design)).toEqual("e5-b8");
-  expect(board.moves[3].toString(design)).toEqual("e5-a9");
-  expect(board.moves[4].toString(design)).toEqual("e5-f4");
-  expect(board.moves[5].toString(design)).toEqual("e5-g3");
-  expect(board.moves[6].toString(design)).toEqual("e5-h2");
-  expect(board.moves[7].toString(design)).toEqual("e5-i1");
-  expect(board.moves[8].toString(design)).toEqual("e5-f6");
-  expect(board.moves[9].toString(design)).toEqual("e5-g7");
-  expect(board.moves[10].toString(design)).toEqual("e5-h8");
-  expect(board.moves[11].toString(design)).toEqual("e5-i9");
-  expect(board.moves[12].toString(design)).toEqual("d4-c5");
-  expect(board.moves[13].toString(design)).toEqual("d4-b6");
-  expect(board.moves[14].toString(design)).toEqual("d4-a7");
-  expect(board.moves[15].toString(design)).toEqual("d4-e3");
-  expect(board.moves[16].toString(design)).toEqual("d4-f2");
-  expect(board.moves[17].toString(design)).toEqual("d4-g1");
-  expect(board.moves[18].toString(design)).toEqual("d4-c3");
-  expect(board.moves[19].toString(design)).toEqual("d4-b2");
-  expect(board.moves[20].toString(design)).toEqual("d4-a1");
+  expect(board.legal_moves.length).toEqual(21); // 21 moves
+  expect(board.legal_moves[0].toString(design)).toEqual("e5-d6");
+  expect(board.legal_moves[1].toString(design)).toEqual("e5-c7");
+  expect(board.legal_moves[2].toString(design)).toEqual("e5-b8");
+  expect(board.legal_moves[3].toString(design)).toEqual("e5-a9");
+  expect(board.legal_moves[4].toString(design)).toEqual("e5-f4");
+  expect(board.legal_moves[5].toString(design)).toEqual("e5-g3");
+  expect(board.legal_moves[6].toString(design)).toEqual("e5-h2");
+  expect(board.legal_moves[7].toString(design)).toEqual("e5-i1");
+  expect(board.legal_moves[8].toString(design)).toEqual("e5-f6");
+  expect(board.legal_moves[9].toString(design)).toEqual("e5-g7");
+  expect(board.legal_moves[10].toString(design)).toEqual("e5-h8");
+  expect(board.legal_moves[11].toString(design)).toEqual("e5-i9");
+  expect(board.legal_moves[12].toString(design)).toEqual("d4-c5");
+  expect(board.legal_moves[13].toString(design)).toEqual("d4-b6");
+  expect(board.legal_moves[14].toString(design)).toEqual("d4-a7");
+  expect(board.legal_moves[15].toString(design)).toEqual("d4-e3");
+  expect(board.legal_moves[16].toString(design)).toEqual("d4-f2");
+  expect(board.legal_moves[17].toString(design)).toEqual("d4-g1");
+  expect(board.legal_moves[18].toString(design)).toEqual("d4-c3");
+  expect(board.legal_moves[19].toString(design)).toEqual("d4-b2");
+  expect(board.legal_moves[20].toString(design)).toEqual("d4-a1");
 
-  board = board.apply(board.moves[7]);
+  board = board.apply(board.legal_moves[7]);
 
   expect(board.player).toEqual(2); // Black turn
 
   board.generate();
 
-  expect(board.moves.length).toEqual(3); // 3 moves
-  expect(board.moves[0].toString(design)).toEqual("j10-c3");
-  expect(board.moves[1].toString(design)).toEqual("j10-b2");
-  expect(board.moves[2].toString(design)).toEqual("j10-a1");
+  expect(board.legal_moves.length).toEqual(3); // 3 moves
+  expect(board.legal_moves[0].toString(design)).toEqual("j10-c3");
+  expect(board.legal_moves[1].toString(design)).toEqual("j10-b2");
+  expect(board.legal_moves[2].toString(design)).toEqual("j10-a1");
 });

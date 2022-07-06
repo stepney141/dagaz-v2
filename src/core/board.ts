@@ -13,9 +13,9 @@ import { zUpdate } from "./../zobrist";
 export class TBoard {
   design: TDesign;
   forks: TMoveContext[] | null;
-  lastFrom: PositionID | null;
+  last_from: PositionID | null;
+  legal_moves: TMove[] | null;
   made_move: TMove | null;
-  moves: TMove[] | null;
   parent: TBoard | null;
   pieces: TPiece[];
   player: number;
@@ -54,7 +54,7 @@ export class TBoard {
     /**
      * A list of legal moves available in the current game state.
      */
-    this.moves = null;
+    this.legal_moves = null;
 
     /**
      * A move that connects the current game state and the parent node of the game tree
@@ -72,7 +72,7 @@ export class TBoard {
      * origin square id
      * @link https://www.chessprogramming.org/Origin_Square
      */
-    this.lastFrom = null;
+    this.last_from = null;
   }
 
   /**
@@ -101,7 +101,7 @@ export class TBoard {
   clear() {
     this.pieces = [];
     this.z = 0;
-    this.moves = null;
+    this.legal_moves = null;
   }
 
   /**
@@ -109,7 +109,7 @@ export class TBoard {
    * @param pos 
    */
   setLastFrom(pos: number) {
-    this.lastFrom = pos;
+    this.last_from = pos;
   }
 
   /**
@@ -118,8 +118,8 @@ export class TBoard {
    * @returns
    */
   isLastFrom(pos: number): boolean {
-    if (this.lastFrom !== undefined) {
-      return this.lastFrom == pos;
+    if (this.last_from !== undefined) {
+      return this.last_from == pos;
     }
     return false;
   }
@@ -188,9 +188,9 @@ export class TBoard {
    * Generates a list of the legal moves from the current game state
    */
   generate() {
-    if (this.moves === null && this.design.movements_grouped !== null) {
+    if (this.legal_moves === null && this.design.movements_grouped !== null) {
       this.forks = [];
-      this.moves = [];
+      this.legal_moves = [];
 
       for (const Movements of Object.values(this.design.movements_grouped)) {
         let completed = false;
@@ -228,7 +228,7 @@ export class TBoard {
       for (const ctx of this.forks) {
         const f = this.completeMove(ctx) ? false : true;
         if (this.design.game_options.passPartial || f) {
-          this.moves.push(ctx.move);
+          this.legal_moves.push(ctx.move);
         }
       }
 
@@ -237,8 +237,8 @@ export class TBoard {
       if (games.model.extension !== undefined) {
         games.model.extension(this);
       }
-      if (this.design.game_options.passTurn && (this.moves.length == 0)) {
-        this.moves.push(new TMove(0));
+      if (this.design.game_options.passTurn && (this.legal_moves.length == 0)) {
+        this.legal_moves.push(new TMove(0));
       }
     }
   }

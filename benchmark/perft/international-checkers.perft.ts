@@ -16,7 +16,7 @@ const perft = function (depth, b) {
 
   b.generate();
 
-  for (let m of b.moves) {
+  for (let m of b.legal_moves) {
     // console.log(m.toString(board.design));
     let next_b = b.apply(m); //make a move
     nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;

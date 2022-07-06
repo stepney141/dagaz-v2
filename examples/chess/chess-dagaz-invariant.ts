@@ -17,7 +17,7 @@ games.model.getGoal = function (board: TBoard, player: PlayerID) {
   const design = board.design;
   board.generate();
 
-  if (board.moves.length == 0) {
+  if (board.legal_moves.length == 0) {
     const king = design.getPieceType("King");
     let safe = null;
 
@@ -34,22 +34,22 @@ games.model.getGoal = function (board: TBoard, player: PlayerID) {
     const p = board.player;
 
     if (safe !== null) {
-      board.moves = null;
+      board.legal_moves = null;
       board.player = design.nextPlayer(board.player);
       isRecursive = true;
       board.generate();
       isRecursive = false;
-      for (let i = 0; i < board.moves.length; i++) {
-        for (let j = 0; j < board.moves[i].actions.length; j++) {
+      for (let i = 0; i < board.legal_moves.length; i++) {
+        for (let j = 0; j < board.legal_moves[i].actions.length; j++) {
           // checks if the other player will be able to make a move in the next turn
           // by searching a target square of a move in the next turn by the other player
-          if (safe == board.moves[i].actions[j][1]) {
+          if (safe == board.legal_moves[i].actions[j][1]) {
             safe = null;
           }
         }
       }
       board.player = p;
-      board.moves = [];
+      board.legal_moves = [];
     }
 
     if (safe === null) {
@@ -84,7 +84,7 @@ games.model.extension = function (board) {
     let Moves = [];
 
     // filters the pre-generated moves
-    board.moves.forEach(move => {
+    board.legal_moves.forEach(move => {
       /** @type {Array<number>} */
       let safe = [];
 
@@ -121,7 +121,7 @@ games.model.extension = function (board) {
         isRecursive = false;
 
         // searches in depth 2
-        for (const Move of b.moves) {
+        for (const Move of b.legal_moves) {
           for (const action of Move.actions) {
             if (safe.includes(action[1])) {
               // checks if the next player's king can be captured in the depth 2
@@ -143,7 +143,7 @@ games.model.extension = function (board) {
       Moves.push(move);
     });
 
-    board.moves = Moves; // updates the move list with the fixed legal moves
+    board.legal_moves = Moves; // updates the move list with the fixed legal legal_moves
 
     if (extension !== undefined) {
       extension(board);

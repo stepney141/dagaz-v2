@@ -139,16 +139,16 @@ test("Initial Board", function () {
 
   board.generate();
 
-  expect(board.moves.length).toEqual(7); // 7 moves
-  expect(board.moves[0].toString(design)).toEqual("a3-b4");
-  expect(board.moves[1].toString(design)).toEqual("c3-b4");
-  expect(board.moves[2].toString(design)).toEqual("c3-d4");
-  expect(board.moves[3].toString(design)).toEqual("e3-d4");
-  expect(board.moves[4].toString(design)).toEqual("e3-f4");
-  expect(board.moves[5].toString(design)).toEqual("g3-f4");
-  expect(board.moves[6].toString(design)).toEqual("g3-h4");
+  expect(board.legal_moves.length).toEqual(7); // 7 moves
+  expect(board.legal_moves[0].toString(design)).toEqual("a3-b4");
+  expect(board.legal_moves[1].toString(design)).toEqual("c3-b4");
+  expect(board.legal_moves[2].toString(design)).toEqual("c3-d4");
+  expect(board.legal_moves[3].toString(design)).toEqual("e3-d4");
+  expect(board.legal_moves[4].toString(design)).toEqual("e3-f4");
+  expect(board.legal_moves[5].toString(design)).toEqual("g3-f4");
+  expect(board.legal_moves[6].toString(design)).toEqual("g3-h4");
 
-  board = board.apply(board.moves[0]);
+  board = board.apply(board.legal_moves[0]);
 
   expect(board.player).toEqual(2); // White turn
   expect(board.turn).toEqual(1);
@@ -160,16 +160,16 @@ test("Initial Board", function () {
 
   board.generate();
 
-  expect(board.moves.length).toEqual(7); // 7 moves
-  expect(board.moves[0].toString(design)).toEqual("b6-c5");
-  expect(board.moves[1].toString(design)).toEqual("b6-a5");
-  expect(board.moves[2].toString(design)).toEqual("d6-e5");
-  expect(board.moves[3].toString(design)).toEqual("d6-c5");
-  expect(board.moves[4].toString(design)).toEqual("f6-g5");
-  expect(board.moves[5].toString(design)).toEqual("f6-e5");
-  expect(board.moves[6].toString(design)).toEqual("h6-g5");
+  expect(board.legal_moves.length).toEqual(7); // 7 moves
+  expect(board.legal_moves[0].toString(design)).toEqual("b6-c5");
+  expect(board.legal_moves[1].toString(design)).toEqual("b6-a5");
+  expect(board.legal_moves[2].toString(design)).toEqual("d6-e5");
+  expect(board.legal_moves[3].toString(design)).toEqual("d6-c5");
+  expect(board.legal_moves[4].toString(design)).toEqual("f6-g5");
+  expect(board.legal_moves[5].toString(design)).toEqual("f6-e5");
+  expect(board.legal_moves[6].toString(design)).toEqual("h6-g5");
 
-  board = board.apply(board.moves[6]);
+  board = board.apply(board.legal_moves[6]);
 
   expect(board.player).toEqual(1); // Black turn
   expect(board.turn).toEqual(0);
@@ -203,11 +203,11 @@ test("Man Capturing", function () {
   board.setPiece(design.stringToPos("e7"), white);
   board.generate();
 
-  expect(board.moves.length).toEqual(2); // 2 moves
-  expect(board.moves[0].toString(design)).toEqual("f2-d4-b6-d8");
-  expect(board.moves[1].toString(design)).toEqual("f2-d4-f6-d8");
+  expect(board.legal_moves.length).toEqual(2); // 2 moves
+  expect(board.legal_moves[0].toString(design)).toEqual("f2-d4-b6-d8");
+  expect(board.legal_moves[1].toString(design)).toEqual("f2-d4-f6-d8");
 
-  board = board.apply(board.moves[0]);
+  board = board.apply(board.legal_moves[0]);
 
   expect(board.player).toEqual(2); // White turn
   expect(board.getPiece(design.stringToPos("a3")).toString(design)).toEqual("Black Man"); // Black man is on a3
@@ -243,15 +243,15 @@ test("King Capturing", function () {
   board.setPiece(design.stringToPos("g7"), white);
   board.generate();
 
-  expect(board.moves.length).toEqual(6); // 6 moves
-  expect(board.moves[0].toString(design)).toEqual("d4-f6-h8");
-  expect(board.moves[1].toString(design)).toEqual("d4-f6-h4");
-  expect(board.moves[2].toString(design)).toEqual("d4-b6-d8-f6-h8");
-  expect(board.moves[3].toString(design)).toEqual("d4-b6-d8-f6-d4");
-  expect(board.moves[4].toString(design)).toEqual("d4-b6-d8-f6-h4");
-  expect(board.moves[5].toString(design)).toEqual("d4-f6-d8-b6-d4");
+  expect(board.legal_moves.length).toEqual(6); // 6 moves
+  expect(board.legal_moves[0].toString(design)).toEqual("d4-f6-h8");
+  expect(board.legal_moves[1].toString(design)).toEqual("d4-f6-h4");
+  expect(board.legal_moves[2].toString(design)).toEqual("d4-b6-d8-f6-h8");
+  expect(board.legal_moves[3].toString(design)).toEqual("d4-b6-d8-f6-d4");
+  expect(board.legal_moves[4].toString(design)).toEqual("d4-b6-d8-f6-h4");
+  expect(board.legal_moves[5].toString(design)).toEqual("d4-f6-d8-b6-d4");
 
-  board = board.apply(board.moves[2]);
+  board = board.apply(board.legal_moves[2]);
 
   expect(board.player).toEqual(2); // White turn
   expect(board.getPiece(design.stringToPos("h8")).toString(design)).toEqual("Black King"); // Black king is on h88

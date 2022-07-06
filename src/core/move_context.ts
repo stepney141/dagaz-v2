@@ -306,7 +306,7 @@ export class TMoveContext {
         const ctx = this.copy();
         this.board.forks.push(ctx);
       } else {
-        this.board.moves.push(this.move);
+        this.board.legal_moves.push(this.move);
       }
     }
     this.move = this.move.clone(this.part);
