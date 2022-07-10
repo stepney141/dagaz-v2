@@ -1,6 +1,6 @@
 import { games } from "../../src/dagaz-model";
-import "../../examples/chess/chess-dagaz";
-import "../../examples/chess/chess-dagaz-invariant";
+import "../../tests/chess/chess-dagaz";
+import "../../tests/chess/chess-dagaz-invariant";
 
 /**
  * Search the game tree starting from the initial positiion, 

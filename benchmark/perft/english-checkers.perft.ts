@@ -1,5 +1,5 @@
 import { games } from "../../src/dagaz-model";
-import "../../examples/english-checkers/english-checkers-dagaz";
+import "../../tests/english-checkers/english-checkers-dagaz";
 
 /**
  * Search the game tree starting from the initial positiion, 

@@ -1,7 +1,7 @@
 import { games } from "../../src/dagaz-model";
-import "../../examples/international-checkers/international-checkers-dagaz";
-import "../../examples/international-checkers/international-checkers-dagaz-promotion";
-import "../../examples/international-checkers/maximal-captures-dagaz";
+import "../../tests/international-checkers/international-checkers-dagaz";
+import "../../tests/international-checkers/international-checkers-dagaz-promotion";
+import "../../tests/international-checkers/maximal-captures-dagaz";
 
 /**
  * Search the game tree starting from the initial positiion, 
