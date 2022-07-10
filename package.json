@@ -43,8 +43,8 @@
     "test:type-check": "tsc --pretty --noEmit",
     "lint": "eslint .",
     "build": "tsc",
-    "perft:babel": "babel-node --extensions .ts,.js --presets @babel/preset-env,@babel/preset-typescript benchmark/perft/chsss.perft.ts",
-    "perft:esbuild": "node -r esbuild-register benchmark/perft/chsss.perft.ts"
+    "exec": "node -r esbuild-register",
+    "exec:babel": "babel-node --extensions .ts,.js --presets @babel/preset-env,@babel/preset-typescript"
   },
   "dependencies": {
     "@types/underscore": "^1.11.4",
