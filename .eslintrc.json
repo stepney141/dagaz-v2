@@ -24,8 +24,12 @@
     "rules": {
         "indent": [
             "error",
-            2
+            "tab"
         ],
+				"no-mixed-spaces-and-tabs": [
+					"error",
+					"smart-tabs"
+				],
         "@typescript-eslint/indent": "off",
         "linebreak-style": 0,
         "semi": "off",
