@@ -3,11 +3,11 @@ import * as fs from 'fs/promises';
 
 // implementation with set/map
 const main = async (n) => {
-	let list = new Set();
-	let duplicated = [];
+	const list = new Set();
+	const duplicated = [];
 
 	for (let i = 1; i <= n; i++) {
-		let r = getRandomValue();
+		const r = getRandomValue();
 		if (!list.has(r)) {
 			list.add(r);
 		} else {
@@ -27,7 +27,7 @@ const main = async (n) => {
 
 // implementation with array
 const main_array = async (n) => {
-	let list = [];
+	const list = [];
 
 	for (let i = 1; i <= n; i++) {
 		list.push(getRandomValue());

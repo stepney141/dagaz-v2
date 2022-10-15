@@ -122,7 +122,7 @@ games.model.buildDesign = function (design) {
 		"se", // 5
 		"sw", // 6
 		"nw" // 7
-	])
+	]);
 
 	design.addPlayer("White", [1, 0, 4, 6, 2, 7, 3, 5]); // [e, w, n, sw, s, nw, ne, se]
 	design.addPlayer("Black", [0, 1, 4, 5, 2, 3, 7, 6]); // [w, e, n, se, s, ne, nw, sw]

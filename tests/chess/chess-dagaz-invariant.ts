@@ -81,7 +81,7 @@ games.model.extension = function (board) {
 
 	if (!isRecursive) {
 		/** @type {Array<TMove>} */
-		let Moves = [];
+		const Moves = [];
 
 		// filters the pre-generated moves
 		board.legal_moves.forEach(move => {
@@ -132,7 +132,7 @@ games.model.extension = function (board) {
 				}
 
 				// searches in depth 1
-				for (let action of move.actions) {
+				for (const action of move.actions) {
 					const piece = action[2];
 					if ((piece?.type == rook) || (piece?.type == king)) {
 						action[2] = piece.setValue(0, 1); // updates the pieces' value
