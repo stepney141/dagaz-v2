@@ -5,7 +5,7 @@
   "license": "MIT License",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
-	"eslintIgnore": [
+  "eslintIgnore": [
     ".eslintrc.json"
   ],
   "devDependencies": {
