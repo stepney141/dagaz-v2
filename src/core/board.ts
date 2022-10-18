@@ -1,11 +1,8 @@
 import { games } from "./../dagaz-model";
-import type { Movement, PositionID } from "./../types";
-import { TDesign } from "./design";
 import { TMove } from "./move";
 import { TMoveContext } from "./move_context";
-import { TPiece } from "./piece";
 import { zUpdate } from "./../zobrist";
-import type { Movement, PositionID, PlayerID } from "./../types";
+import type { PositionID, PlayerID } from "./../types";
 import type { TDesign } from "./design";
 import type { TPiece } from "./piece";
 
@@ -165,12 +162,12 @@ export class TBoard {
 	completeMove(parent: TMoveContext): boolean {
 		let r = false;
 
-		this.design.movements.forEach((movement: Movement) => {
+		for (const movement of this.design.movements) {
 			if (movement.pieceType != parent.piece.type) {
-				return;
+				continue;
 			}
 			if (movement.mode != parent.mode) {
-				return;
+				continue;
 			}
 			const ctx = parent.copy();
 			ctx.hand = {
@@ -182,7 +179,7 @@ export class TBoard {
 			if (ctx.succeed) {
 				r = true;
 			}
-		});
+		}
 
 		return r;
 	}
@@ -198,30 +195,30 @@ export class TBoard {
 			for (const Movements of Object.values(this.design.movements_grouped)) {
 				let completed = false;
 
-				this.design.allPositions().forEach(pos => {
+				for (const pos of this.design.allPositions()) { // looks into every cell
 					const piece = this.getPiece(pos);
 					if (piece === null) {
-						return; // checks the piece existence
+						continue; // checks if the piece exists on the cell
 					}
 					if (!this.design.game_options.sharedPieces && (piece.player != this.player)) {
-						return; // checks if the current player can move the piece
+						continue; // checks if the current player can move the piece
 					}
 
-					Movements.forEach((movement: Movement) => {
+					for (const movement of Movements) {
 						if (movement.pieceType != piece.type) {
-							return; // searches the movement of a specific piece from the group of the same mode moves
+							continue; // searches a specific movement from the group of moves that have the same mode
 						}
 
 						const ctx = new TMoveContext(this.design, this, pos, piece);
-						ctx.move.mode = movement.mode;
+						ctx.move.mode = movement.mode; // set move modes to a TMove instance
 						ctx.take();
 						ctx.setPiece(pos, null);
-						movement.func(ctx, movement.params); // executes a method that describes moves
+						movement.func(ctx, movement.params); // executes a move definition method
 						if (ctx.succeed) {
 							completed = true; // finishes the execution
 						}
-					});
-				});
+					}
+				}
 
 				if (completed) {
 					break;
@@ -253,8 +250,8 @@ export class TBoard {
 	 */
 	apply(move: TMove): TBoard {
 		const r = this.copy(); // create a new game state
-		r.turn = r.design.nextTurn(this);
-		r.player = r.design.currPlayer(r.turn);
+		r.turn = r.design.nextTurn(this); // set next turn
+		r.player = r.design.currPlayer(r.turn); // set the next player
 		move.applyTo(r); // make a move
 		r.made_move = move;
 		return r;
