@@ -1,5 +1,5 @@
 import { TBoard, TDesign } from "./core/index";
-import { PlayerID } from "./types";
+import type { PlayerID } from "./types";
 
 type Game = {
 	model: {

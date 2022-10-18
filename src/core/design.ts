@@ -1,5 +1,13 @@
 import _ from "underscore";
-import { Movement, GameBehaviorOptions, DirectionName, PositionName, PlayerID, DirectionID, PositionID } from "./../types";
+import type {
+	Movement, MoveModeID,
+	GameBehaviorOptions,
+	DirectionName, DirectionID,
+	PositionName, PositionID,
+	PlayerName, PlayerID,
+	PieceName, PieceTypeID, PieceValue,
+	ZoneName
+} from "./../types";
 import { games } from "./../dagaz-model";
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";

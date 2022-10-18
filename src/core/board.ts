@@ -5,6 +5,9 @@ import { TMove } from "./move";
 import { TMoveContext } from "./move_context";
 import { TPiece } from "./piece";
 import { zUpdate } from "./../zobrist";
+import type { Movement, PositionID, PlayerID } from "./../types";
+import type { TDesign } from "./design";
+import type { TPiece } from "./piece";
 
 /**
  * A class representing each game state.

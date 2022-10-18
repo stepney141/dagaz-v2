@@ -6,13 +6,27 @@ export type DirectionID = number;
 export type PositionName = string;
 export type PositionID = number;
 
+export type PlayerName = string;
 export type PlayerID = number;
 
+export type PieceName = string;
+export type PieceTypeID = number;
+export type PieceValue = number;
+
+export type ZoneName = string;
+
+export type MoveModeID = number;
+
+export type MovementDefinitionMethod = (ctx: TMoveContext, params: DirectionID[]) => any;
+
+/**
+ * description of each piece's move
+ */
 export type Movement = {
-	pieceType: number//piece type id
-	func: (ctx: TMoveContext, params: any) => any //callback function to define a move in internal DSL
-	params: Array<number> //params 
-	mode: number //move mode 
+	pieceType: PieceTypeID //piece type id
+	func: MovementDefinitionMethod //callback function to define a move in internal DSL
+	params: DirectionID[] //directions that the piece can move toward
+	mode: MoveModeID //move mode
 };
 
 export type GameBehaviorOptions = {

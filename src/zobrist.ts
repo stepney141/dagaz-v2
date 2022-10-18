@@ -1,4 +1,4 @@
-import { TPiece } from "./core/index";
+import type { TPiece } from "./core/index";
 
 /**
  * A transposition table

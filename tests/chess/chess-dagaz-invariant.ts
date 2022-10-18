@@ -1,7 +1,7 @@
 import _ from "underscore";
-import { TBoard } from "../../src/core";
-import { PlayerID } from "../../src/types";
 import { games } from "./../../src/dagaz-model";
+import type { TBoard } from "../../src/core";
+import type { PlayerID } from "../../src/types";
 
 let isRecursive = false;
 

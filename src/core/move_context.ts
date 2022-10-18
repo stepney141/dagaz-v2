@@ -1,7 +1,8 @@
-import { TBoard } from "./board";
-import { TDesign } from "./design";
 import { TMove } from "./move";
-import { TPiece } from "./piece";
+import type { TBoard } from "./board";
+import type { TDesign } from "./design";
+import type { TPiece } from "./piece";
+import type { DirectionID, PositionID, PieceTypeID } from './../types';
 
 /**
  * A class representing each partial context of one move

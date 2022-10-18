@@ -1,6 +1,6 @@
 import _ from "underscore";
 import type { TDesign } from "./design";
-import { DirectionID } from './../types';
+import type { DirectionID } from './../types';
 
 /**
  * 

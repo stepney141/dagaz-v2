@@ -1,4 +1,5 @@
-import { TDesign } from "./design";
+import type { TDesign } from "./design";
+import type { PieceTypeID, PieceValue, PlayerID } from "../types";
 
 /**
  * A class representing each piece on the board.

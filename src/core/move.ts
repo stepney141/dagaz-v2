@@ -1,6 +1,7 @@
-import { TBoard } from "./board";
-import { TPiece } from "./piece";
-import { TDesign } from "./design";
+import type { TBoard } from "./board";
+import type { TPiece } from "./piece";
+import type { TDesign } from "./design";
+import type { PositionID, MoveModeID } from "../types";
 
 type From = null | number;
 type To = null | number;

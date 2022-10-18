@@ -1,4 +1,5 @@
 import { games } from "./../../src/dagaz-model";
+import type { MovementDefinitionMethod } from "../../src/types";
 
 const step = function (ctx, params) {
 	if (ctx.go(params, 0) && !ctx.isFriend()) {
