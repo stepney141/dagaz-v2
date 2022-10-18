@@ -5,15 +5,15 @@ import type { PieceTypeID, PieceValue, PlayerID } from "../types";
  * A class representing each piece on the board.
  */
 export class TPiece {
-	player: number;
-	type: number;
-	values: null | Array<number>;
+	player: PlayerID;
+	type: PieceTypeID;
+	values: null | PieceValue[];
 
 	/**
 	 * @param type - a piece type id
 	 * @param player - a player id who owns the piece
 	 */
-	constructor(type: number, player: number) {
+	constructor(type: PieceTypeID, player: PlayerID) {
 		this.type = type;
 		this.player = player;
 		this.values = null;
@@ -33,7 +33,7 @@ export class TPiece {
 	 * @param ix - a piece id
 	 * @returns a piece value (null if the specified piece doesn't exist)
 	 */
-	getValue(ix: number): null | number {
+	getValue(ix: PieceTypeID): null | PieceValue {
 		if (this.values === null) {
 			return null;
 		}
@@ -49,7 +49,7 @@ export class TPiece {
 	 * @param new_value - a new value
 	 * @returns a piece with an updated value
 	 */
-	setValue(ix: number, new_value: null | number): TPiece {
+	setValue(ix: PieceTypeID, new_value: null | PieceValue): TPiece {
 		const current_value = this.getValue(ix);
 
 		if ((current_value === null) && (new_value === null)) {
@@ -81,7 +81,7 @@ export class TPiece {
 	 * @param type - a new piece type id
 	 * @returns a new piece insatance
 	 */
-	promote(type: number): TPiece {
+	promote(type: PieceTypeID): TPiece {
 		if (type == this.type) {
 			return this;
 		}
@@ -93,7 +93,7 @@ export class TPiece {
 	 * @param player - a new player id
 	 * @returns a new piece instance
 	 */
-	changeOwner(player: number): TPiece {
+	changeOwner(player: PlayerID): TPiece {
 		if (player == this.player) {
 			return this;
 		}

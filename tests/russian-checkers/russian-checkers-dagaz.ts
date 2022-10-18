@@ -1,7 +1,7 @@
 import { games } from "./../../src/dagaz-model";
 import type { MovementDefinitionMethod } from "../../src/types";
 
-const shiftMan = function (ctx, params) {
+const shiftMan: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) && ctx.isEmpty()) {
 		if (ctx.inZone(0)) {
 			ctx.promote(1);
@@ -10,7 +10,7 @@ const shiftMan = function (ctx, params) {
 	}
 };
 
-const jumpMan = function (ctx, params) {
+const jumpMan: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) && ctx.isEnemy()) {
 		ctx.capture();
 		if (ctx.go(params, 0) && ctx.isEmpty()) {
@@ -24,13 +24,13 @@ const jumpMan = function (ctx, params) {
 	}
 };
 
-const shiftKing = function (ctx, params) {
+const shiftKing: MovementDefinitionMethod = function (ctx, params) {
 	while (ctx.go(params, 0) && ctx.isEmpty()) {
 		ctx.end();
 	}
 };
 
-const jumpKing = function (ctx, params) {
+const jumpKing: MovementDefinitionMethod = function (ctx, params) {
 	while (ctx.go(params, 0)) {
 		if (!ctx.isEmpty()) break;
 	}
@@ -42,7 +42,7 @@ const jumpKing = function (ctx, params) {
 	}
 };
 
-const contKing = function (ctx, params) {
+const contKing: MovementDefinitionMethod = function (ctx, params) {
 	while (ctx.go(params, 0)) {
 		if (!ctx.isEmpty()) break;
 		if (ctx.isLastFrom()) return;

@@ -9,7 +9,7 @@ import type { DirectionID, PositionID, PieceTypeID } from './../types';
  */
 export class TMoveContext {
 	board: TBoard;
-	changes: Array<{ p: number, x: (null | TPiece) }>;
+	changes: Array<{ p: PositionID, x: (null | TPiece) }>;
 	design: TDesign;
 	from: number;
 	hand: null | { start: number, piece: (null | TPiece) };
@@ -19,7 +19,7 @@ export class TMoveContext {
 	parent: null | TMoveContext;
 	part: number;
 	piece: null | TPiece;
-	pos: number;
+	pos: PositionID;
 	succeed: boolean;
 
 	/**
@@ -62,7 +62,7 @@ export class TMoveContext {
 	 * @param pos 
 	 * @param piece 
 	 */
-	setPiece(pos: number, piece: null | TPiece) {
+	setPiece(pos: PositionID, piece: null | TPiece) {
 		this.changes.push({
 			p: pos,
 			x: piece
@@ -74,7 +74,7 @@ export class TMoveContext {
 	 * @param pos 
 	 * @returns
 	 */
-	getPiece(pos: number): null | TPiece {
+	getPiece(pos: PositionID): null | TPiece {
 		for (const elem of this.changes) {
 			if (elem.p == pos) {
 				return elem.x;
@@ -126,7 +126,7 @@ export class TMoveContext {
 	 * @param ix - index indicating the location of an element to be retrieved from the params array
 	 * @returns
 	 */
-	getParam<T>(params: undefined | Array<T> | T, ix: number): null | T {
+	getParam<T>(params: T | Array<T>, ix: number | undefined): null | T {
 		if (params === undefined) {
 			return null;
 		}
@@ -142,7 +142,7 @@ export class TMoveContext {
 	 * @param ix - index indicating the location of an direction to be retrieved from the params array
 	 * @returns whether the piece can go toward the given direction from the current location
 	 */
-	go(params: Array<number>, ix: number): boolean {
+	go(params: Array<DirectionID>, ix: number): boolean {
 		const dir = this.getParam(params, ix);
 		if (dir === null) {
 			return false;
@@ -165,7 +165,7 @@ export class TMoveContext {
 	 * @param ix 
 	 * @returns
 	 */
-	opposite(params: any, ix: any): null | number {
+	opposite(params: number, ix: number): null | number {
 		const dir = this.getParam(params, ix);
 		if (dir === null) {
 			return null;
@@ -179,7 +179,7 @@ export class TMoveContext {
 	 * @param ix 
 	 * @returns
 	 */
-	isLastFrom(params: any, ix: any): boolean {
+	isLastFrom(params?: number, ix?: number): boolean {
 		let pos = this.getParam(params, ix);
 		if (pos === null) {
 			pos = this.pos;
@@ -237,7 +237,7 @@ export class TMoveContext {
 	 * @param ix 
 	 * @returns
 	 */
-	isPiece(params: any, ix: any): boolean {
+	isPiece(params: number, ix?: number): boolean {
 		const t = this.getParam(params, ix);
 		if (t === null) {
 			return !this.isEmpty();
@@ -255,7 +255,7 @@ export class TMoveContext {
 	 * @param ix 
 	 * @returns
 	 */
-	inZone(params: any, ix: any): null | boolean {
+	inZone(params: number, ix?: number): null | boolean {
 		const zone = this.getParam(params, ix);
 		if (zone === null) {
 			return null;
@@ -273,7 +273,7 @@ export class TMoveContext {
 	 * @param ix 
 	 * @returns
 	 */
-	promote(params: any, ix: any): boolean {
+	promote(params: PieceTypeID, ix?: number): boolean {
 		if (this.hand === null) {
 			return false;
 		}
@@ -298,7 +298,7 @@ export class TMoveContext {
 	 * @param params 
 	 * @param ix 
 	 */
-	end(params: any, ix: any) {
+	end(params?: number, ix?: number) {
 		const hand = this.hand;
 		this.put();
 		this.mode = this.getParam(params, ix);

@@ -21,19 +21,19 @@ export class TDesign {
 	board: TBoard | undefined;
 	dirs: DirectionName[];
 	game_options: GameBehaviorOptions;
-	initial: Array<{ p: (null | number), t: TPiece }>;
-	modes: number[];
+	initial: Array<{ p: (null | PositionID), t: TPiece }>;
+	modes: MoveModeID[];
 	movements: Movement[];
 	movements_grouped: Record<number, Array<Movement>> | null;
-	pieceNames: string[];
-	playerNames: string[];
+	pieceNames: PieceName[];
+	playerNames: PlayerName[];
 	players: Array<undefined | DirectionID[]>;
 	positionNames: PositionName[];
 	positions: PositionID[][];
 	price: number[];
 	repeat: number | null;
 	turns: Array<{ player: number, mode: any }> | undefined;
-	zoneNames: string[];
+	zoneNames: ZoneName[];
 	zones: number[][][];
 
 	constructor() {
@@ -128,7 +128,7 @@ export class TDesign {
 	 * @param player - an id of a player who owns the piece
 	 * @returns new piece
 	 */
-	createPiece(type: number, player: number): TPiece {
+	createPiece(type: PieceTypeID, player: PlayerID): TPiece {
 		return new TPiece(type, player);
 	}
 
@@ -228,7 +228,7 @@ export class TDesign {
 	 * @param name - a position name
 	 * @param dirs - an offset of each cell indicated by numeric direction ids
 	 */
-	addPosition(name: PositionName, dirs: PositionID[]) {
+	addPosition(name: PositionName, dirs: number[]) {
 		if ((this.positions.length == 0) && (name != "start")) { //when the positions list is empty, defines the origin of the coordinates 
 			this.positionNames.push("start");
 			this.positions.push(_.range(dirs.length).fill(0));
@@ -243,7 +243,7 @@ export class TDesign {
 	 * @param player - an ID of a player who can use the zone
 	 * @param positions - a list of position-names which are in the zone
 	 */
-	addZone(name: string, player: PlayerID, positions: PositionName[]) {
+	addZone(name: ZoneName, player: PlayerID, positions: PositionName[]) {
 		let zone_id = this.zoneNames.indexOf(name);
 		if (zone_id < 0) { //when the zone name is not found in the zone names list
 			zone_id = this.zoneNames.length;
@@ -259,7 +259,7 @@ export class TDesign {
 	 * Defines a priority on the mode of moves.
 	 * @param mode 
 	 */
-	addPriority(mode: number) {
+	addPriority(mode: MoveModeID) {
 		this.modes.push(mode);
 	}
 
@@ -269,7 +269,7 @@ export class TDesign {
 	 * @param type - a piece type id
 	 * @param price - a piece value
 	 */
-	addPiece(name: string, type: number, price = 1) {
+	addPiece(name: PieceName, type: PieceTypeID, price: PieceValue = 1) {
 		this.pieceNames[type] = name;
 		this.price[type] = price;
 	}
@@ -279,7 +279,7 @@ export class TDesign {
 	 * @param name - a piece name
 	 * @returns a piece type id
 	 */
-	getPieceType(name: string): null | number {
+	getPieceType(name: PieceName): null | PieceTypeID {
 		const r = this.pieceNames.indexOf(name);
 		if (r < 0) {
 			return null;
@@ -302,10 +302,10 @@ export class TDesign {
 	 */
 	getInitBoard(): TBoard {
 		if (this.board === undefined) {
-			games.model.buildDesign(this);
+			games.model.buildDesign(this); // load game rules
 			this.configureMovement();
-			this.board = new TBoard(this);
-			this.initial.forEach(s => { //place pieces on the specified cells
+			this.board = new TBoard(this); // create the initial game state
+			this.initial.forEach(s => { // place pieces on the specified cells
 				this.board.setPiece(s.p, s.t);
 			});
 		}
@@ -318,17 +318,15 @@ export class TDesign {
 	 * @param type - a piece type
 	 * @param positions - names of cells where the piece occupies when the game starts
 	 */
-	setup(player: string, type: string, positions: PositionName[] | PositionName) {
+	setup(player: PlayerName, type: PieceName, positions: PositionName[]) {
 		const piece_type_id = this.pieceNames.indexOf(type);
 		const player_id = this.playerNames.indexOf(player);
 		if ((piece_type_id < 0) || (player_id < 0)) {
 			return;
 		}
-
 		const piece = new TPiece(piece_type_id, player_id); // create a piece
-		const position_array = (Array.isArray(positions)) ? positions : [positions]; //kind of type guard
 
-		position_array
+		positions
 			.map(name => this.stringToPos(name))
 			.forEach(pos => {
 				this.initial.push({ //store information of a piece position 
@@ -402,7 +400,7 @@ export class TDesign {
 	 * @param player
 	 * @returns
 	 */
-	opposite(dir: any, player = 0): number {
+	opposite(dir: DirectionID, player = 0): number {
 		return this.players[player][dir];
 	}
 

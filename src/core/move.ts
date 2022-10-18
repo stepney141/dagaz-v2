@@ -3,27 +3,26 @@ import type { TPiece } from "./piece";
 import type { TDesign } from "./design";
 import type { PositionID, MoveModeID } from "../types";
 
-type From = null | number;
-type To = null | number;
-type Piece = null | TPiece;
+type From = null | PositionID;
+type To = null | PositionID;
 type Part = null | number;
 
 /**
- * action[0] from - origin square id (the cell where the move starts); null for drop moves.
- * action[1] to - target square id (the cell where the move finishes); null for capture moves.
- * action[2] piece - the piece object that a player moves.  
- * action[3] part - the number of partial moves; this is used in checkers-like games
+ * action[0] from - origin square (the cell where the move starts); null for piece-dropping moves like Go.
+ * action[1] to - target square (the cell where the move finishes); null for piece-capturing moves.
+ * action[2] piece - the piece that a player moves.  
+ * action[3] part - the move execution phase of partial moves; used in checker-like games
  */
-type MoveAction = Array<[From, To, Piece, Part]>;
+type MoveAction = Array<[From, To, (null | TPiece), Part]>;
 
 export class TMove {
 	actions: MoveAction;
-	mode: null | number;
+	mode: null | MoveModeID;
 
 	/**
 	 * @param mode 
 	 */
-	constructor(mode: null | number) {
+	constructor(mode: null | MoveModeID) {
 		this.actions = [];
 		this.mode = mode;
 	}
@@ -117,7 +116,7 @@ export class TMove {
 	 * @param piece 
 	 * @param part
 	 */
-	movePiece(from: From, to: To, piece: Piece, part: Part = 1) {
+	movePiece(from: From, to: To, piece: TPiece | null, part: Part = 1) {
 		this.actions.push([from, to, piece, part]);
 	}
 
@@ -136,7 +135,7 @@ export class TMove {
 	 * @param piece 
 	 * @param part
 	 */
-	dropPiece(to: To, piece: Piece, part: Part = 1) {
+	dropPiece(to: To, piece: TPiece | null, part: Part = 1) {
 		this.actions.push([null, to, piece, part]);
 	}
 

@@ -1,13 +1,13 @@
 import { games } from "./../../src/dagaz-model";
 import type { MovementDefinitionMethod } from "../../src/types";
 
-const step = function (ctx, params) {
+const step: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) && !ctx.isFriend()) {
 		ctx.end();
 	}
 };
 
-const pawnShift = function (ctx, params) {
+const pawnShift: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) && ctx.isEmpty()) {
 		if (ctx.inZone(0)) {
 			ctx.promote(4);
@@ -16,7 +16,7 @@ const pawnShift = function (ctx, params) {
 	}
 };
 
-const pawnLeap = function (ctx, params) {
+const pawnLeap: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) && ctx.isEnemy()) {
 		if (ctx.inZone(0)) {
 			ctx.promote(4);
@@ -25,7 +25,7 @@ const pawnLeap = function (ctx, params) {
 	}
 };
 
-const pawnJump = function (ctx, params) {
+const pawnJump: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) &&
 		ctx.isEmpty() &&
 		ctx.inZone(1) &&
@@ -35,7 +35,7 @@ const pawnJump = function (ctx, params) {
 	}
 };
 
-const enPassant = function (ctx, params) {
+const enPassant: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) &&
 		ctx.isEnemy() &&
 		ctx.isPiece(0)) {
@@ -50,7 +50,7 @@ const enPassant = function (ctx, params) {
 	}
 };
 
-const jump = function (ctx, params) {
+const jump: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) &&
 		ctx.go(params, 1) &&
 		!ctx.isFriend()) {
@@ -58,7 +58,7 @@ const jump = function (ctx, params) {
 	}
 };
 
-const slide = function (ctx, params) {
+const slide: MovementDefinitionMethod = function (ctx, params) {
 	while (ctx.go(params, 0)) {
 		if (ctx.isFriend()) break;
 		ctx.end();
@@ -69,7 +69,7 @@ const slide = function (ctx, params) {
 /**
  * kingside castling
  */
-const O_O = function (ctx, params) {
+const O_O: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) &&
 		ctx.isEmpty() &&
 		ctx.go(params, 0) &&
@@ -90,7 +90,7 @@ const O_O = function (ctx, params) {
 /**
  * queenside castling
  */
-const O_O_O = function (ctx, params) {
+const O_O_O: MovementDefinitionMethod = function (ctx, params) {
 	if (ctx.go(params, 0) &&
 		ctx.isEmpty() &&
 		ctx.go(params, 0) &&

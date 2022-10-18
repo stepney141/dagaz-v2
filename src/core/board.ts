@@ -21,7 +21,7 @@ export class TBoard {
 	made_move: TMove | null;
 	parent: TBoard | null;
 	pieces: TPiece[];
-	player: number;
+	player: PlayerID;
 	turn: number;
 	z: number;
 
@@ -111,7 +111,7 @@ export class TBoard {
 	 * 
 	 * @param pos 
 	 */
-	setLastFrom(pos: number) {
+	setLastFrom(pos: PositionID) {
 		this.last_from = pos;
 	}
 
@@ -120,7 +120,7 @@ export class TBoard {
 	 * @param pos 
 	 * @returns
 	 */
-	isLastFrom(pos: number): boolean {
+	isLastFrom(pos: PositionID): boolean {
 		if (this.last_from !== undefined) {
 			return this.last_from == pos;
 		}
@@ -132,7 +132,7 @@ export class TBoard {
 	 * @param pos - a position id
 	 * @returns a piece (null if no piece occupies the given position)
 	 */
-	getPiece(pos: number): null | TPiece {
+	getPiece(pos: PositionID): null | TPiece {
 		if (this.pieces[pos] === undefined) {
 			return null;
 		} else {
@@ -145,7 +145,7 @@ export class TBoard {
 	 * @param pos - a piece position id
 	 * @param piece - a piece
 	 */
-	setPiece(pos: null | number, piece: null | TPiece) {
+	setPiece(pos: null | PositionID, piece: null | TPiece) {
 		if (this.pieces[pos] !== undefined) {
 			this.z = zUpdate(this.z, this.pieces[pos], pos);
 		}
