@@ -10,7 +10,6 @@ type Game = {
 		extension?: (board: TBoard) => void;
 		getGoal?: (board: TBoard, player?: PlayerID) => null | number;
 	}
-	view: Record<string, unknown>
 };
 
 export const games: Game = {
@@ -27,6 +26,5 @@ export const games: Game = {
 			}
 			return games.model.design;
 		}
-	},
-	view: {}
+	}
 };
