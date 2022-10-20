@@ -18,18 +18,8 @@ jobs:
     - name: Use Node.js 14.x
       uses: actions/setup-node@v2
       with:
-        node-version: '14.x'
+        node-version: '16.x'
         cache: 'npm'
     - run: npm install
     - run: npm run test:type-check
     - run: npm test
-    - name: Output coverage in markdown
-      id: coverage-markdown
-      uses: ArtiomTr/jest-coverage-report-action@v2
-      with:
-        test-script: npm run test:coverage
-        output: comment, report-markdown
-    - name: Show coverage in comments
-      uses: marocchino/sticky-pull-request-comment@v2
-        with:
-          message: ${{ steps.coverage-markdown.outputs.report }}

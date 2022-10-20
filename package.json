@@ -43,6 +43,7 @@
     "test": "jest",
     "test-esm": "node --experimental-vm-modules node_modules/.bin/jest",
     "test:coverage": "npm run test -- --coverage",
+    "test:coverage-ci": "npm run test -- --coverage --silent --testLocationInResults --ci --json --outputFile=\"report.json\"",
     "test:type-check": "tsc --pretty --noEmit",
     "lint": "eslint .",
     "build": "tsc",
