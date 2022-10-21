@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
 
 steps:
-     uses: ArtiomTr/jest-coverage-report-action@v2.0
-     with:
-         github-token: ${{ secrets.GITHUB_TOKEN }}
-         test-script: npm run test:coverage-ci
+  uses: ArtiomTr/jest-coverage-report-action@v2.0
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    test-script: npm run test:coverage-ci
