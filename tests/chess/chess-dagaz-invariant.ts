@@ -21,17 +21,18 @@ games.model.getGoal = function (board: TBoard, player: PlayerID) {
 		const king = design.getPieceType("King");
 		let safe = null;
 
-		design.allPositions().forEach(pos => {
-			const piece = board.getPiece(pos);
-			if (piece === null) {
-				return;
-			}
-			if ((piece.type == king) && (piece.player == board.player)) {
-				safe = pos; // there is a current player's king on the board
-			}
-		});
+        design.allPositions().forEach(pos => {
+            const piece = board.getPiece(pos);
+            if (piece === null) {
+                return;
+            }
+            if ((piece.type == king) && (piece.player == board.player)) {
+                // checks if there is a current player's king on the board
+                safe = pos;
+            }
+        });
 
-		const p = board.player;
+        const p = board.player;
 
 		if (safe !== null) {
 			board.legal_moves = null;
@@ -52,21 +53,21 @@ games.model.getGoal = function (board: TBoard, player: PlayerID) {
 			board.legal_moves = [];
 		}
 
-		if (safe === null) {
-			if (p == player) {
-				return -1; // the player loses
-			} else {
-				return 1; // the player wins
-			}
-		}
-		return 0; // draw
-	}
+        if (safe === null) {  // when a current player's king is on the board
+            if (p == player) {
+                return -1; // the player loses
+            } else {
+                return 1; // the player wins
+            }
+        }
+        return 0; // draw
+    }
 
-	if (getGoal !== undefined) {
-		return getGoal(board);
-	}
+    if (getGoal !== undefined) {
+        return getGoal(board);
+    }
 
-	return null; // the game is not finished yet
+    return null; // the game is not finished yet
 };
 
 const extension = games.model.extension;
@@ -75,13 +76,11 @@ const extension = games.model.extension;
  * @param {TBoard} board - depth 0 (the current game state)
  */
 games.model.extension = function (board) {
-	const design = board.design;
-	const king = design.getPieceType("King");
-	const rook = design.getPieceType("Rook");
+    const design = board.design;
+    const king = design.getPieceType("King");
+    const rook = design.getPieceType("Rook");
 
-	if (!isRecursive) {
-		/** @type {Array<TMove>} */
-		const Moves = [];
+    if (!isRecursive) {
 
 		// filters the pre-generated moves
 		board.legal_moves.forEach(move => {
@@ -101,19 +100,15 @@ games.model.extension = function (board) {
 				}
 			}
 
-			// depth 1
-			const b = board.apply(move);
-
-			// searches in depth 1
-			design.allPositions().forEach(pos => {
-				const piece = b.getPiece(pos);
-				if (piece === null) {
-					return;
-				}
-				if ((piece.type == king) && (piece.player == board.player)) {
-					safe.push(pos); // get the place where the next player's king occupies
-				}
-			});
+            design.allPositions().forEach(pos => {
+                const piece = b.getPiece(pos);
+                if (piece === null) {
+                    return;
+                }
+                if ((piece.type == king) && (piece.player == board.player)) {
+                    safe.push(pos); // get the place where the next player's king occupies
+                }
+            });
 
 			if (safe.length > 0) {
 				isRecursive = true;
@@ -131,24 +126,24 @@ games.model.extension = function (board) {
 					}
 				}
 
-				// searches in depth 1
-				for (const action of move.actions) {
-					const piece = action[2];
-					if ((piece?.type == rook) || (piece?.type == king)) {
-						action[2] = piece.setValue(0, 1); // updates the pieces' value
-					}
-				}
-			}
+                // search in depth 1:
+                for (const action of move.actions) {
+                    const piece = action[2];
+                    if ((piece?.type == rook) || (piece?.type == king)) {
+                        action[2] = piece.setValue(0, 1); // updates the pieces' value
+                    }
+                }
+            }
 
-			Moves.push(move);
-		});
+            Moves.push(move);
+        });
 
-		board.legal_moves = Moves; // updates the move list with the fixed legal legal_moves
+        board.legal_moves = Moves; // updates the move list with the fixed legal legal_moves
 
-		if (extension !== undefined) {
-			extension(board);
-		}
-	}
+        if (extension !== undefined) {
+            extension(board);
+        }
+    }
 };
 
 export { games };

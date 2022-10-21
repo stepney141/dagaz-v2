@@ -23,10 +23,10 @@ export type MovementDefinitionMethod = (ctx: TMoveContext, params: DirectionID[]
  * description of each piece's move
  */
 export type Movement = {
-	pieceType: PieceTypeID //piece type id
-	func: MovementDefinitionMethod //callback function to define a move in internal DSL
-	params: DirectionID[] //directions that the piece can move toward
-	mode: MoveModeID //move mode
+    pieceType: PieceTypeID //piece type id
+    func: MovementDefinitionMethod //callback function to define a move in internal DSL
+    params: DirectionID[] //directions that the piece can move toward
+    mode: MoveModeID //move mode
 };
 
 export type GameBehaviorOptions = {

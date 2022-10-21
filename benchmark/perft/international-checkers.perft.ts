@@ -12,17 +12,17 @@ import "../../tests/international-checkers/maximal-captures-dagaz";
  * @returns {number} 
  */
 const perft = function (depth, b) {
-	let nodes = 0;
+    let nodes = 0;
 
-	b.generate();
+    b.generate();
 
-	for (let m of b.legal_moves) {
-		// console.log(m.toString(board.design));
-		let next_b = b.apply(m); //make a move
-		nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
-	}
+    for (const m of b.legal_moves) {
+        // console.log(m.toString(board.design));
+        const next_b = b.apply(m); //make a move
+        nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
+    }
 
-	return nodes;
+    return nodes;
 };
 
 /**
@@ -30,20 +30,20 @@ const perft = function (depth, b) {
  * @param {number} depth - depth to search
  */
 const main = function (depth, design = games.model.getDesign()) {
-	const board = design.getInitBoard();
+    const board = design.getInitBoard();
 
-	console.log(`Enumerate Nodes, depth = ${depth}`);
+    console.log(`Enumerate Nodes, depth = ${depth}`);
 
-	console.time(`perft ${depth}`);
+    console.time(`perft ${depth}`);
 
-	const results = perft(depth, board);
-	console.log('result: ', results);
+    const results = perft(depth, board);
+    console.log('result: ', results);
 
-	console.timeEnd(`perft ${depth}`);
+    console.timeEnd(`perft ${depth}`);
 };
 
 for (let i = 1; i <= 10; i++) {
-	main(i);
+    main(i);
 }
 
 console.log("==========");
