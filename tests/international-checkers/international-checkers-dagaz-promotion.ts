@@ -1,13 +1,13 @@
 import { games } from "./../../src/dagaz-model";
-import { TBoard } from "./../../src/core/index";
+import type { TBoard } from "./../../src/core/index";
 
 const extension = games.model.extension;
 
 /**
  * promotion of a man to a king
- * @param {TBoard} board 
+ * @param board 
  */
-games.model.extension = function (board) {
+games.model.extension = function (board: TBoard) {
     const design = board.design;
 
     for (const move of board.legal_moves.filter(move => move.actions.length != 0)) {

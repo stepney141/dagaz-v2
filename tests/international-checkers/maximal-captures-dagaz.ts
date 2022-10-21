@@ -1,13 +1,13 @@
 import { games } from "./../../src/dagaz-model";
-import { TBoard } from "./../../src/core/index";
+import type { TBoard } from "./../../src/core/index";
 
 const extension = games.model.extension;
 
 /**
  * Filter pseudo legal moves
- * @param {TBoard} board 
+ * @param board 
  */
-games.model.extension = function (board) {
+games.model.extension = function (board: TBoard) {
     const len = board.legal_moves
         .map(move => move.actions.length)
         .reduce((a, b) => Math.max(a, b)); // gets a maximum value
