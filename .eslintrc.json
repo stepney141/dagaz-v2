@@ -28,7 +28,7 @@
         ],
         "no-mixed-spaces-and-tabs": [
             "error"
-		],
+				],
         "@typescript-eslint/indent": "off",
         "linebreak-style": 0,
         "semi": "off",
