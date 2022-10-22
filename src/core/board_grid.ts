@@ -32,7 +32,7 @@ const addPositions = function (grid: TGrid, ix: number, name: string, point: Arr
             offsets[dir] = o;
         });
 
-        grid.design.addPosition(name, offsets);
+        grid.design.addPosition({ name, offsets });
         return;
     }
 

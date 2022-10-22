@@ -13,9 +13,9 @@ import type { TPiece } from "./piece";
 export class TBoard {
     design: TDesign;
     forks: TMoveContext[] | null;
-    last_from: PositionID | null;
-    legal_moves: TMove[] | null;
-    made_move: TMove | null;
+    lastFrom: PositionID | null;
+    legalMoves: TMove[] | null;
+    lastlyMadeMove: TMove | null;
     parent: TBoard | null;
     pieces: TPiece[];
     player: PlayerID;
@@ -54,12 +54,12 @@ export class TBoard {
         /**
          * A list of legal moves available in the current game state.
          */
-        this.legal_moves = null;
+        this.legalMoves = null;
 
         /**
          * The last-made move
          */
-        this.made_move = null;
+        this.lastlyMadeMove = null;
 
         /**
          * The previous game state
@@ -72,7 +72,7 @@ export class TBoard {
          * origin square id
          * @link https://www.chessprogramming.org/Origin_Square
          */
-        this.last_from = null;
+        this.lastFrom = null;
     }
 
     /**
@@ -95,7 +95,7 @@ export class TBoard {
     clear() {
         this.pieces = [];
         this.z = 0;
-        this.legal_moves = null;
+        this.legalMoves = null;
     }
 
     /**
@@ -103,7 +103,7 @@ export class TBoard {
      * @param pos 
      */
     setLastFrom(pos: PositionID) {
-        this.last_from = pos;
+        this.lastFrom = pos;
     }
 
     /**
@@ -112,8 +112,8 @@ export class TBoard {
      * @returns
      */
     isLastFrom(pos: PositionID): boolean {
-        if (this.last_from !== undefined) {
-            return this.last_from == pos;
+        if (this.lastFrom !== undefined) {
+            return this.lastFrom == pos;
         }
         return false;
     }
@@ -149,7 +149,7 @@ export class TBoard {
     }
 
     /**
-     * Check if the chain of move contexts is completed as a legal move
+     * Check if a chain of move contexts is completed as a legal move
      * @param parent 
      * @returns
      */
@@ -182,11 +182,11 @@ export class TBoard {
      * Generate a list of the legal moves from the current game state
      */
     generate() {
-        if (this.legal_moves === null && this.design.movements_grouped !== null) {
+        if (this.legalMoves === null && this.design.groupedMovements !== null) {
             this.forks = [];
-            this.legal_moves = [];
+            this.legalMoves = [];
 
-            for (const Movements of Object.values(this.design.movements_grouped)) {
+            for (const Movements of Object.values(this.design.groupedMovements)) {
                 let completed = false;
 
                 for (const pos of this.design.allPositions()) { // looks into every cell
@@ -194,7 +194,7 @@ export class TBoard {
                     if (piece === null) {
                         continue; // check if the piece exists on the cell
                     }
-                    if (!this.design.game_options['shared-pieces'] && (piece.player != this.player)) {
+                    if (!this.design.gameOptions['shared-pieces'] && (piece.player != this.player)) {
                         continue; // check if the current player can move the piece
                     }
 
@@ -221,8 +221,8 @@ export class TBoard {
 
             for (const ctx of this.forks) {
                 const f = this.completeMove(ctx) ? false : true; // check if the chain of move contexts is completed as a legal move
-                if (this.design.game_options['pass-partial'] || f) {
-                    this.legal_moves.push(ctx.move);
+                if (this.design.gameOptions['pass-partial'] || f) {
+                    this.legalMoves.push(ctx.move);
                 }
             }
 
@@ -231,8 +231,8 @@ export class TBoard {
             if (games.model.extension !== undefined) {
                 games.model.extension(this); // execute "invariant" modules to generate additional legal moves that cannot be described as TMoveContext
             }
-            if (this.design.game_options['pass-turn'] && (this.legal_moves.length == 0)) {
-                this.legal_moves.push(new TMove(0));
+            if (this.design.gameOptions['pass-turn'] && (this.legalMoves.length == 0)) {
+                this.legalMoves.push(new TMove(0));
             }
         }
     }
@@ -247,7 +247,7 @@ export class TBoard {
         r.turn = r.design.nextTurn(this); // set next turn
         r.player = r.design.currPlayer(r.turn); // set the next player
         move.applyTo(r); // make a move
-        r.made_move = move;
+        r.lastlyMadeMove = move;
         return r;
     }
 }

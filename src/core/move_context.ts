@@ -216,7 +216,7 @@ export class TMoveContext {
      * Check whether the target square of the piece is empty or not
      */
     isEmpty(): boolean {
-        if (this.design.game_options['deferred-captures']) {
+        if (this.design.gameOptions['deferred-captures']) {
             for (const a of this.move.actions) {
                 if (
                     (a[0] !== null) // the move is NOT a piece-dropping move
@@ -329,7 +329,7 @@ export class TMoveContext {
                 const ctx = this.copy();
                 this.board.forks.push(ctx);
             } else {
-                this.board.legal_moves.push(this.move);
+                this.board.legalMoves.push(this.move);
             }
         }
 

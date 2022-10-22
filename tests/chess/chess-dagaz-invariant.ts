@@ -21,7 +21,7 @@ games.model.getGoal = function (board: TBoard, player: PlayerID): GameGoalStatus
     board.generate(); // search the next ply
 
     // checks the game result only if the current player cannot make any legal move
-    if (board.legal_moves.length == 0) {
+    if (board.legalMoves.length == 0) {
         const king = design.getPieceType("King");
 
         /** the square where a current player's king exists */
@@ -41,7 +41,7 @@ games.model.getGoal = function (board: TBoard, player: PlayerID): GameGoalStatus
         const p = board.player;
 
         if (safe !== null) { // when a current player's king is NOT on the board
-            board.legal_moves = null;
+            board.legalMoves = null;
             board.player = design.nextPlayer(board.player);
             isRecursive = true;
 
@@ -50,7 +50,7 @@ games.model.getGoal = function (board: TBoard, player: PlayerID): GameGoalStatus
 
             // search a target square of the move in the next turn
             // so that it check whether the other player can make a move in the next turn or not
-            for (const legal_move of board.legal_moves) {
+            for (const legal_move of board.legalMoves) {
                 for (const action of legal_move.actions) {
                     if (safe == action[1]) {
                         safe = null;
@@ -59,7 +59,7 @@ games.model.getGoal = function (board: TBoard, player: PlayerID): GameGoalStatus
             }
 
             board.player = p;
-            board.legal_moves = [];
+            board.legalMoves = [];
         }
 
         if (safe === null) {  // when a current player's king is on the board
@@ -93,7 +93,7 @@ games.model.extension = function (board: TBoard) {
         const Moves: TMove[] = [];
 
         // filter pseudo-legal moves
-        board.legal_moves.forEach(move => {
+        board.legalMoves.forEach(move => {
             let safe: number[] = [];
 
             if (move.mode == 1) { // castling
@@ -130,7 +130,7 @@ games.model.extension = function (board: TBoard) {
 
                 // this checks whether the next player's king can be captured in the depth 2
                 // if so, it skips processing the current move
-                for (const Move of b.legal_moves) {
+                for (const Move of b.legalMoves) {
                     for (const action of Move.actions) {
                         if (safe.includes(action[1])) {
                             return;
@@ -150,7 +150,7 @@ games.model.extension = function (board: TBoard) {
             Moves.push(move);
         });
 
-        board.legal_moves = Moves; // updates the move list with the fixed legal legal_moves
+        board.legalMoves = Moves; // updates the move list with the fixed legal legalMoves
 
         if (extension !== undefined) {
             extension(board);
