@@ -13,24 +13,24 @@ const addPositions = function (grid: TGrid, ix: number, name: string, point: Arr
     if (ix < 0) {
         const offsets = _.range(grid.dirs.length).fill(0);
 
-        Object.keys(grid.dirs).forEach(dir => {
+        wider_loop: for (const vector of grid.dirs) {
             let o = 0;
             for (let c = grid.scales.length - 1; c >= 0; c--) {
                 if (c < grid.scales.length - 1) {
                     o = o * grid.scales[c].length;
                 }
-                const v = grid.dirs[(dir as unknown as DirectionID)][c];
+                const v = vector[c];
                 const x = point[c] + v;
                 if (x < 0) {
-                    return;
+                    continue wider_loop;
                 }
                 if (x >= grid.scales[c].length) {
-                    return;
+                    continue wider_loop;
                 }
                 o += v;
             }
-            offsets[dir] = o;
-        });
+            offsets[grid.dirs.indexOf(vector)] = o;
+        }
 
         grid.design.addPosition({ name, offsets });
         return;
@@ -82,7 +82,7 @@ export class TGrid {
      */
     addDirection(name: string, offsets: Array<number>) {
         this.design.addDirection([name]);
-        const ix: DirectionID = this.design.dirs.indexOf(name);
+        const ix: DirectionID = this.design.getDirection(name);
         if (ix >= 0) {
             this.dirs[ix] = offsets;
         }

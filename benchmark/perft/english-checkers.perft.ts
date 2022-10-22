@@ -1,4 +1,5 @@
 import { games } from "../../src/dagaz-model";
+import type { TBoard } from "../../src/core";
 import "../../tests/english-checkers/english-checkers-dagaz";
 
 /**
@@ -9,7 +10,7 @@ import "../../tests/english-checkers/english-checkers-dagaz";
  * @param {TBoard} b - initial board state
  * @returns {number} 
  */
-const perft = function (depth, b) {
+const perft = function (depth: number, b: TBoard): number {
     let nodes = 0;
 
     b.generate();
@@ -27,7 +28,7 @@ const perft = function (depth, b) {
  * main process
  * @param {number} depth - depth to search
  */
-const main = function (depth, design = games.model.getDesign()) {
+const main = function (depth: number, design = games.model.getDesign()) {
     const board = design.getInitBoard();
 
     console.log(`Enumerate Nodes, depth = ${depth}`);
