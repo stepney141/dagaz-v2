@@ -1,4 +1,3 @@
-import { games } from "./../dagaz-model";
 import { TMove } from "./move";
 import { TMoveContext } from "./move_context";
 import { zUpdate } from "./../zobrist";
@@ -228,9 +227,11 @@ export class TBoard {
 
             this.forks = null;
 
-            if (games.model.extension !== undefined) {
-                games.model.extension(this); // execute "invariant" modules to generate additional legal moves that cannot be described as TMoveContext
-            }
+            // execute "invariant" modules to generate additional legal moves that cannot be described as TMoveContext
+            this.design.plugins
+                .filter(plugin => plugin.name == "extension")
+                .forEach(plugin => plugin.func(this));
+
             if (this.design.gameOptions['pass-turn'] && (this.legalMoves.length == 0)) {
                 this.legalMoves.push(new TMove(0));
             }

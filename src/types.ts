@@ -40,3 +40,8 @@ export type Movement = {
     params: DirectionID[] //directions that the piece can move toward
     mode: MoveModeID //move mode
 };
+
+export type Plugin = {
+    name: string,
+    func: any
+};

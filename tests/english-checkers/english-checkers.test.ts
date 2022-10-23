@@ -1,9 +1,9 @@
-import { games } from "./../../src/dagaz-model";
-import "./english-checkers-dagaz";
+import { TDesign } from "../../src/core";
+import { buildDesign } from "./english-checkers-dagaz";
 
 test("Initial Board", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign);
 
     expect(board.player).toEqual(1); // Black turn 
     expect(board.turn).toEqual(0);
@@ -185,8 +185,8 @@ test("Initial Board", function () {
 });
 
 test("Man Capturing", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard().copy();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign);
 
     expect(board.player).toEqual(1); // Black turn
 
@@ -224,8 +224,8 @@ test("Man Capturing", function () {
 });
 
 test("King Capturing", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard().copy();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign);
 
     expect(board.player).toEqual(1); // Black turn
 

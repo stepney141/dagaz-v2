@@ -1,11 +1,11 @@
-import { games } from "./../../src/dagaz-model";
-import "./maximal-captures-dagaz";
-import "./international-checkers-dagaz-promotion";
-import "./international-checkers-dagaz";
+import { TDesign } from "../../src/core";
+import { buildDesign } from "./international-checkers-dagaz";
+import { maximalCapture } from "./maximal-captures-dagaz";
+import { promotion } from "./international-checkers-dagaz-promotion";
 
 test("Man promotion", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard().copy();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign, [maximalCapture, promotion]).copy();
 
     expect(board.player).toEqual(1); // White turn
 
@@ -77,8 +77,8 @@ test("Man promotion", function () {
 });
 
 test("Check lastFrom", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard().copy();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign, [maximalCapture, promotion]).copy();
 
     expect(board.player).toEqual(1); // White turn
 

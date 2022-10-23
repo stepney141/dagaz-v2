@@ -1,4 +1,4 @@
-import { games } from "./../../src/dagaz-model";
+import type { TDesign } from './../../src/core';
 import type { MovementDefinitionMethod } from "../../src/types";
 
 const shiftMan: MovementDefinitionMethod = function (ctx, params) {
@@ -47,7 +47,7 @@ const contKing: MovementDefinitionMethod = function (ctx, params) {
     }
 };
 
-games.model.buildDesign = function (design) {
+export const buildDesign = function (design: TDesign) {
     design.checkGameOption("smart-moves", true);
     design.checkGameOption("maximal-captures", true);
     design.checkGameOption("deferred-captures", true);
@@ -194,5 +194,3 @@ games.model.buildDesign = function (design) {
     design.setInitialPieces({ player: "White", pieceName: "Man", positions: ["a1", "c1", "e1", "g1", "i1", "b2", "d2", "f2", "h2", "j2", "a3", "c3", "e3", "g3", "i3", "b4", "d4", "f4", "h4", "j4"] });
     design.setInitialPieces({ player: "Black", pieceName: "Man", positions: ["b10", "d10", "f10", "h10", "j10", "a9", "c9", "e9", "g9", "i9", "b8", "d8", "f8", "h8", "j8", "a7", "c7", "e7", "g7", "i7"] });
 };
-
-export { games };

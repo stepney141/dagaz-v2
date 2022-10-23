@@ -1,9 +1,9 @@
-import { games } from "./../../src/dagaz-model";
-import "./russian-checkers-dagaz";
+import { TDesign } from "../../src/core";
+import { buildDesign } from "./russian-checkers-dagaz";
 
 test("King Moves", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard().copy();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign);
 
     expect(board.player).toEqual(1); // White turn
 
@@ -31,8 +31,8 @@ test("King Moves", function () {
 });
 
 test("King Capturing", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard().copy();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign);
 
     expect(board.player).toEqual(1); // White turn
 
@@ -61,8 +61,8 @@ test("King Capturing", function () {
 });
 
 test("Man Capturing", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard().copy();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign);
 
     expect(board.player).toEqual(1); // White turn
 

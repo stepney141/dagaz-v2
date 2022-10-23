@@ -1,5 +1,5 @@
-import { games } from "./../../src/dagaz-model";
 import type { MovementDefinitionMethod } from "../../src/types";
+import type { TDesign } from "../../src/core";
 
 const step: MovementDefinitionMethod = function (ctx, params) {
     if (ctx.go(params, 0) && !ctx.isFriend()) {
@@ -111,7 +111,7 @@ const O_O_O: MovementDefinitionMethod = function (ctx, params) {
     }
 };
 
-games.model.buildDesign = function (design) {
+export const buildDesign = function (design: TDesign) {
     design.checkGameOption("smart-moves", false);
 
     design.addDirection([
@@ -263,5 +263,3 @@ games.model.buildDesign = function (design) {
     design.setInitialPieces({ player: "Black", pieceName: "Queen", positions: ["d8"] });
     design.setInitialPieces({ player: "Black", pieceName: "King", positions: ["e8"] });
 };
-
-export { games };

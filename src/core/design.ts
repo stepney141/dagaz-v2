@@ -1,5 +1,6 @@
 import _ from "underscore";
 import type {
+    Plugin,
     Movement, MoveModeID,
     DirectionName, DirectionID,
     PositionName, PositionID,
@@ -7,7 +8,6 @@ import type {
     PieceName, PieceTypeID, PieceValue,
     ZoneName
 } from "./../types";
-import { games } from "./../dagaz-model";
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";
 import { TPiece } from "./piece";
@@ -92,6 +92,7 @@ export class TDesign {
     groupedMovements: Record<number, Movement[]> | null;
     pieceNames: PieceName[];
     playerNames: PlayerName[];
+    plugins: Plugin[];
     positionNames: PositionName[];
     price: number[];
     repeat: number | null;
@@ -186,6 +187,8 @@ export class TDesign {
         };
 
         this.repeat = null;
+
+        this.plugins = [];
     }
 
     /**
@@ -355,16 +358,22 @@ export class TDesign {
      * If it doesn't exist, create the initial board from the game design.
      * @returns an initial game state
      */
-    getInitBoard(): TBoard {
-        if (this.board === undefined) {
-            games.model.buildDesign(this); // load game rules
-            this.configureMovement();
-            this.board = new TBoard(this); // create the initial game state
-            this.initial.forEach(s => { // place pieces on the specified cells
-                this.board.setPiece(s.p, s.t);
-            });
+    getInitBoard(buildDesign: (design: TDesign) => void, plugins?: Plugin[]): TBoard {
+        buildDesign(this); // load game rules
+        this.configureMovement();
+        if (plugins !== undefined) {
+            this.setPlugins(plugins);
         }
-        return this.board;
+
+        const board = new TBoard(this); // create the initial game state
+        this.initial.forEach(s => { // place pieces on the specified cells
+            board.setPiece(s.p, s.t);
+        });
+        return board;
+    }
+
+    setPlugins(plugins: Plugin[]) {
+        plugins.forEach(plugin => this.plugins.push(plugin));
     }
 
     /**

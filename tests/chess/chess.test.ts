@@ -1,10 +1,10 @@
-import { games } from "./../../src/dagaz-model";
-import "./chess-dagaz";
-import "./chess-dagaz-invariant";
+import { TDesign } from "../../src/core";
+import { buildDesign } from "./chess-dagaz";
+import { getGoal, extension } from "./chess-dagaz-invariant";
 
 test("Initial Board", function () {
-    const design = games.model.getDesign();
-    const board = design.getInitBoard();
+    const design = new TDesign();
+    const board = design.getInitBoard(buildDesign, [getGoal, extension]);
 
     expect(board.player).toEqual(1); // White turn
 
@@ -34,8 +34,9 @@ test("Initial Board", function () {
 });
 
 test("En Passant", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign, [getGoal, extension]);
+
     board.clear();
 
     expect(board.player).toEqual(1); // White turn
@@ -108,8 +109,9 @@ test("En Passant", function () {
 });
 
 test("Castling", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign, [getGoal, extension]);
+
     board.clear();
 
     expect(board.player).toEqual(1); // White turn
@@ -218,8 +220,9 @@ test("Castling", function () {
 });
 
 test("Stalemate", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign, [getGoal, extension]);
+
     board.clear();
 
     expect(board.player).toEqual(1); // White turn
@@ -231,7 +234,7 @@ test("Stalemate", function () {
     const blackKing = design.createPiece(5, 2);
     board.setPiece(design.stringToPos("b8"), blackKing);
 
-    expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
+    expect(getGoal.func(board, board.player) === null).toBeTruthy(); // No goal
 
     board.generate();
 
@@ -261,7 +264,7 @@ test("Stalemate", function () {
     board = board.apply(board.legalMoves[11]);
 
     expect(board.player).toEqual(2); // Black turn
-    expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
+    expect(getGoal.func(board, board.player) === null).toBeTruthy(); // No goal
 
     board.generate();
 
@@ -274,7 +277,7 @@ test("Stalemate", function () {
     board = board.apply(board.legalMoves[0]);
 
     expect(board.player).toEqual(1); // White turn
-    expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
+    expect(getGoal.func(board, board.player) === null).toBeTruthy(); // No goal
 
     board.generate();
 
@@ -311,7 +314,7 @@ test("Stalemate", function () {
     board = board.apply(board.legalMoves[2]);
 
     expect(board.player).toEqual(2); // Black turn
-    expect(games.model.getGoal(board, 1)).toEqual(0); // Draw
+    expect(getGoal.func(board, 1)).toEqual(0); // Draw
 
     board.generate();
 
@@ -319,8 +322,9 @@ test("Stalemate", function () {
 });
 
 test("Checkmate", function () {
-    const design = games.model.getDesign();
-    let board = design.getInitBoard();
+    const design = new TDesign();
+    let board = design.getInitBoard(buildDesign, [getGoal, extension]);
+
     board.clear();
 
     expect(board.player).toEqual(1); // White turn
@@ -333,7 +337,7 @@ test("Checkmate", function () {
     const blackKing = design.createPiece(5, 2);
     board.setPiece(design.stringToPos("e8"), blackKing);
 
-    expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
+    expect(getGoal.func(board, board.player) === null).toBeTruthy(); // No goal
 
     board.generate();
 
@@ -368,7 +372,7 @@ test("Checkmate", function () {
     board = board.apply(board.legalMoves[5]);
 
     expect(board.player).toEqual(2); // Black turn
-    expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
+    expect(getGoal.func(board, board.player) === null).toBeTruthy(); // No goal
 
     board.generate();
 
@@ -379,7 +383,7 @@ test("Checkmate", function () {
     board = board.apply(board.legalMoves[1]);
 
     expect(board.player).toEqual(1); // White turn
-    expect(games.model.getGoal(board, board.player) === null).toBeTruthy(); // No goal
+    expect(getGoal.func(board, board.player) === null).toBeTruthy(); // No goal
 
     board.generate();
 
@@ -417,8 +421,8 @@ test("Checkmate", function () {
     board = board.apply(board.legalMoves[26]);
 
     expect(board.player).toEqual(2); // Black turn
-    expect(games.model.getGoal(board, 1)).toEqual(1); // White wins
-    expect(games.model.getGoal(board, 2)).toEqual(-1); // Black loses
+    expect(getGoal.func(board, 1)).toEqual(1); // White wins
+    expect(getGoal.func(board, 2)).toEqual(-1); // Black loses
 
     board.generate();
 
