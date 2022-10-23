@@ -42,7 +42,7 @@ export class TBoard {
         /**
          * An id of the current player (a player who makes a move in the current turn).
          */
-        this.player = design.currPlayer(this.turn);
+        this.player = design.getCurrentPlayer(this.turn);
 
         /**
          * Zobrist hash of the current game state
@@ -244,8 +244,8 @@ export class TBoard {
      */
     apply(move: TMove): TBoard {
         const r = this.copy(); // create a new game state
-        r.turn = r.design.nextTurn(this); // set next turn
-        r.player = r.design.currPlayer(r.turn); // set the next player
+        r.turn = r.design.getNextTurn(this); // set next turn
+        r.player = r.design.getCurrentPlayer(r.turn); // set the next player
         move.applyTo(r); // make a move
         r.lastlyMadeMove = move;
         return r;

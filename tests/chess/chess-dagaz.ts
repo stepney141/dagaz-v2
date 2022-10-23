@@ -250,18 +250,18 @@ games.model.buildDesign = function (design) {
     design.addMove({ pieceType: 5, func: O_O, params: [1, 0], mode: 1 });
     design.addMove({ pieceType: 5, func: O_O_O, params: [0, 1], mode: 1 });
 
-    design.configureInitBoard({ player: "White", pieceName: "Pawn", positions: ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"] });
-    design.configureInitBoard({ player: "White", pieceName: "Rook", positions: ["a1", "h1"] });
-    design.configureInitBoard({ player: "White", pieceName: "Knight", positions: ["b1", "g1"] });
-    design.configureInitBoard({ player: "White", pieceName: "Bishop", positions: ["c1", "f1"] });
-    design.configureInitBoard({ player: "White", pieceName: "Queen", positions: ["d1"] });
-    design.configureInitBoard({ player: "White", pieceName: "King", positions: ["e1"] });
-    design.configureInitBoard({ player: "Black", pieceName: "Pawn", positions: ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"] });
-    design.configureInitBoard({ player: "Black", pieceName: "Rook", positions: ["a8", "h8"] });
-    design.configureInitBoard({ player: "Black", pieceName: "Knight", positions: ["b8", "g8"] });
-    design.configureInitBoard({ player: "Black", pieceName: "Bishop", positions: ["c8", "f8"] });
-    design.configureInitBoard({ player: "Black", pieceName: "Queen", positions: ["d8"] });
-    design.configureInitBoard({ player: "Black", pieceName: "King", positions: ["e8"] });
+    design.setInitialPieces({ player: "White", pieceName: "Pawn", positions: ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"] });
+    design.setInitialPieces({ player: "White", pieceName: "Rook", positions: ["a1", "h1"] });
+    design.setInitialPieces({ player: "White", pieceName: "Knight", positions: ["b1", "g1"] });
+    design.setInitialPieces({ player: "White", pieceName: "Bishop", positions: ["c1", "f1"] });
+    design.setInitialPieces({ player: "White", pieceName: "Queen", positions: ["d1"] });
+    design.setInitialPieces({ player: "White", pieceName: "King", positions: ["e1"] });
+    design.setInitialPieces({ player: "Black", pieceName: "Pawn", positions: ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"] });
+    design.setInitialPieces({ player: "Black", pieceName: "Rook", positions: ["a8", "h8"] });
+    design.setInitialPieces({ player: "Black", pieceName: "Knight", positions: ["b8", "g8"] });
+    design.setInitialPieces({ player: "Black", pieceName: "Bishop", positions: ["c8", "f8"] });
+    design.setInitialPieces({ player: "Black", pieceName: "Queen", positions: ["d8"] });
+    design.setInitialPieces({ player: "Black", pieceName: "King", positions: ["e8"] });
 };
 
 export { games };

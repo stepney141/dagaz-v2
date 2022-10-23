@@ -12,7 +12,7 @@ games.model.extension = function (board: TBoard) {
 
     for (const move of board.legalMoves.filter(move => move.actions.length != 0)) {
         const action = move.actions[move.actions.length - 1];
-        if ((action[1] !== null) && (action[2] !== null) && design.inZone(board.player, action[1], 0)) {
+        if ((action[1] !== null) && (action[2] !== null) && design.isInZone(board.player, action[1], 0)) {
             action[2] = action[2].promote(1);
         }
     }

@@ -72,6 +72,11 @@ type PieceSetting = {
     price?: PieceValue
 };
 
+type TurnSetting = {
+    player: PlayerID,
+    modes: number[]
+};
+
 /**
  * Manager of information and rules of the game.
  * This will be never re-instantiated after it once gets instantiated.
@@ -79,7 +84,7 @@ type PieceSetting = {
 export class TDesign {
     board: TBoard | undefined;
     boardConnectionGraph: PositionID[][];
-    dirs: DirectionName[];
+    directionNames: DirectionName[];
     gameOptions: GameBehaviorOptionFlags;
     initial: Array<{ p: (null | PositionID), t: TPiece }>;
     modes: MoveModeID[];
@@ -91,7 +96,7 @@ export class TDesign {
     price: number[];
     repeat: number | null;
     rotationallySymmetricDirections: Array<undefined | DirectionID[]>;
-    turns: Array<{ player: number, mode: any }> | undefined;
+    turns: Array<TurnSetting> | undefined;
     zoneNames: ZoneName[];
     zones: number[][][];
 
@@ -100,7 +105,7 @@ export class TDesign {
          * A list of direction names.
          * Each index of this array is a numeric id of each direction.
          */
-        this.dirs = [];
+        this.directionNames = [];
 
         /**
          * A list of rotationally symmetric directions of players.
@@ -243,7 +248,7 @@ export class TDesign {
      * @param name - a list of direction names
      */
     addDirection(nameList: DirectionName[]) {
-        this.dirs = nameList;
+        this.directionNames = nameList;
     }
 
     /**
@@ -265,14 +270,11 @@ export class TDesign {
      * @param player - a player id
      * @param modes 
      */
-    addTurn(player: PlayerID, modes: Array<any>) {
+    addTurn({ player, modes }: TurnSetting) {
         if (this.turns === undefined) {
             this.turns = [];
         }
-        this.turns.push({
-            player: player,
-            mode: modes
-        });
+        this.turns.push({ player, modes });
     }
 
     repeatMark() {
@@ -368,7 +370,7 @@ export class TDesign {
     /**
      * Define a initial setup of pieces.
      */
-    configureInitBoard({ player, pieceName, positions }: InitialPiecePlacementSetting) {
+    setInitialPieces({ player, pieceName, positions }: InitialPiecePlacementSetting) {
         const piece_type_id = this.pieceNames.indexOf(pieceName);
         const player_id = this.playerNames.indexOf(player);
         if ((piece_type_id < 0) || (player_id < 0)) {
@@ -391,7 +393,7 @@ export class TDesign {
      * @returns a list of all direction ids
      */
     allDirections(): DirectionID[] {
-        return _.range(this.dirs.length);
+        return _.range(this.directionNames.length);
     }
 
 
@@ -417,7 +419,7 @@ export class TDesign {
      * @returns a direction id
      */
     getDirection(name: DirectionName): null | DirectionID {
-        const dir = this.dirs.indexOf(name);
+        const dir = this.directionNames.indexOf(name);
         if (dir < 0) {
             return null;
         }
@@ -474,7 +476,7 @@ export class TDesign {
      * @param zone - zone id
      * @returns
      */
-    inZone(player: PlayerID, pos: PositionID, zone: number): boolean {
+    isInZone(player: PlayerID, pos: PositionID, zone: number): boolean {
         if (this.zones[zone] !== undefined) {
             if (this.zones[zone][player] !== undefined) {
                 return this.zones[zone][player].indexOf(pos) >= 0;
@@ -488,7 +490,7 @@ export class TDesign {
      * @param player - current player id
      * @returns next player id
      */
-    nextPlayer(player: PlayerID): PlayerID {
+    getNextPlayer(player: PlayerID): PlayerID {
         if (player + 1 >= this.playerNames.length) {
             return 1;
         } else {
@@ -501,7 +503,7 @@ export class TDesign {
      * @param board 
      * @returns
      */
-    nextTurn(board: TBoard): number {
+    getNextTurn(board: TBoard): number {
         let turn = board.turn + 1;
         if (this.turns === undefined) {
             if (turn >= this.rotationallySymmetricDirections.length - 1) {
@@ -526,7 +528,7 @@ export class TDesign {
      * @param turn 
      * @returns current player id
      */
-    currPlayer(turn: number): PlayerID {
+    getCurrentPlayer(turn: number): PlayerID {
         if (this.turns === undefined) {
             return turn + 1;
         } else {

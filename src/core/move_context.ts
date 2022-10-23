@@ -285,7 +285,7 @@ export class TMoveContext {
         if (this.hand !== null) {
             player = this.hand.piece.player;
         }
-        return this.design.inZone(player, this.pos, zone);
+        return this.design.isInZone(player, this.pos, zone);
     }
 
     /**

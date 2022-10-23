@@ -42,7 +42,7 @@ games.model.getGoal = function (board: TBoard, player: PlayerID): GameGoalStatus
 
         if (safe !== null) { // when a current player's king is NOT on the board
             board.legalMoves = null;
-            board.player = design.nextPlayer(board.player);
+            board.player = design.getNextPlayer(board.player);
             isRecursive = true;
 
             board.generate();
