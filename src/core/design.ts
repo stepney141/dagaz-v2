@@ -3,7 +3,7 @@ import type {
     Plugin,
     Movement, MoveModeID,
     DirectionName, DirectionID,
-    PositionName, PositionID,
+    LocationName, LocationID,
     PlayerName, PlayerID,
     PieceName, PieceTypeID, PieceValue,
     ZoneName
@@ -24,31 +24,31 @@ type GameBehaviorOptionFlags = Record<GameBehaviorOptions, boolean>;
 /**
  * @param player - a name of a player who owns the pieces
  * @param pieceType - a piece type
- * @param positions - names of cells where the piece occupies when the game starts
+ * @param locations - names of cells where the piece occupies when the game starts
  */
 type InitialPiecePlacementSetting = {
     player: PlayerName,
     pieceName: PieceName,
-    positions: PositionName[]
+    locations: LocationName[]
 };
 
 /**
  * @param name - a zone name
  * @param player - an ID of a player who can use the zone
- * @param positions - a list of position-names which are in the zone
+ * @param locations - a list of location-names which are in the zone
  */
 type ZoneSetting = {
     name: ZoneName,
     player: PlayerID,
-    positions: PositionName[]
+    locations: LocationName[]
 };
 
 /**
- * @param name - a position name
- * @param offsets - cell offsets indicated by direction ids
+ * @param name - a location name
+ * @param offsets - location offsets indicated by direction ids
  */
-type PositionSetting = {
-    name: PositionName,
+type LocationSetting = {
+    name: LocationName,
     offsets: number[]
 };
 
@@ -83,23 +83,23 @@ type TurnSetting = {
  */
 export class TDesign {
     board: TBoard | undefined;
-    boardConnectionGraph: PositionID[][];
+    boardConnectionGraph: LocationID[][];
     directionNames: DirectionName[];
     gameOptions: GameBehaviorOptionFlags;
-    initial: Array<{ p: (null | PositionID), t: TPiece }>;
+    initialGamePosition: Array<{ location: (null | LocationID), piece: TPiece }>;
     modes: MoveModeID[];
     movements: Movement[];
     groupedMovements: Record<number, Movement[]> | null;
     pieceNames: PieceName[];
     playerNames: PlayerName[];
     plugins: Plugin[];
-    positionNames: PositionName[];
-    price: number[];
+    locationNames: LocationName[];
+    piecePrices: number[];
     repeat: number | null;
     rotationallySymmetricDirections: Array<undefined | DirectionID[]>;
     turns: Array<TurnSetting> | undefined;
     zoneNames: ZoneName[];
-    zones: number[][][];
+    zones: LocationID[][][];
 
     constructor() {
         /**
@@ -121,17 +121,17 @@ export class TDesign {
         this.playerNames = [];
 
         /**
-         * Board representation: a list of board cell offsets represented by direction ids.
+         * Board representation: a list of board location offsets represented by direction ids.
          * Dagaz adopts an extended representation of the Mailbox pattern, an array-based offset board representation system.
          * @link https://www.chessprogramming.org/Mailbox
          */
         this.boardConnectionGraph = [];
 
         /**
-         * Board representation: a list of board cell names.
-         * Each index of this array is a numeric id of each cell.
+         * Board representation: a list of board location names.
+         * Each index of this array is a numeric id of each location.
          */
-        this.positionNames = [];
+        this.locationNames = [];
 
         /**
          * A list of priorities on the mode of moves.
@@ -140,7 +140,7 @@ export class TDesign {
 
         /**
          * A list of zones, the special areas composed of specified cells.
-         * A zone is an array of cell ids. Also, an index of the cell array is a numeric id of a player who can use the zone.
+         * A zone is an array of location ids. Also, an index of the location array is a numeric id of a player who can use the zone.
          * Each index of this "zones" array is a numeric id of each zone.
          */
         this.zones = [];
@@ -156,7 +156,7 @@ export class TDesign {
         /** 
          * A list of pieces' prices.
          */
-        this.price = [];
+        this.piecePrices = [];
 
         /**
          * A list of movements or behavior of pieces
@@ -166,9 +166,9 @@ export class TDesign {
         this.groupedMovements = null;
 
         /**
-         * A list of initial piece positions and piece objects.
+         * A list of initial piece locations and piece objects.
          */
-        this.initial = [];
+        this.initialGamePosition = [];
 
         this.turns;
 
@@ -222,28 +222,28 @@ export class TDesign {
     }
 
     /**
-     * Return a position name that corresponds to the given position id
-     * @param pos - a position id
-     * @returns a position name
+     * Return a location name that corresponds to the given location id
+     * @param loc - a location id
+     * @returns a location name
      */
-    posToString(pos: PositionID): PositionName {
-        if (this.positionNames[pos] === undefined) {
+    locToString(loc: LocationID): LocationName {
+        if (this.locationNames[loc] === undefined) {
             return "?";
         }
-        return this.positionNames[pos];
+        return this.locationNames[loc];
     }
 
     /**
-     * Return an position corresponding to the given position name
-     * @param name - a position name
-     * @returns a position id
+     * Return an location corresponding to the given location name
+     * @param name - a location name
+     * @returns a location id
      */
-    stringToPos(name: PositionName): null | PositionID {
-        const pos = this.positionNames.indexOf(name);
-        if (pos < 0) {
+    stringToPos(name: LocationName): null | LocationID {
+        const loc = this.locationNames.indexOf(name);
+        if (loc < 0) {
             return null;
         }
-        return pos;
+        return loc;
     }
 
     /**
@@ -288,21 +288,21 @@ export class TDesign {
     }
 
     /**
-     * Define a cell on the game board.
+     * Define a location on the game board.
      */
-    addPosition({ name, offsets }: PositionSetting) {
-        if ((this.boardConnectionGraph.length == 0) && (name != "start")) { //when the positions list is empty, defines the origin of the coordinates 
-            this.positionNames.push("start");
+    addLocation({ name, offsets }: LocationSetting) {
+        if ((this.boardConnectionGraph.length == 0) && (name != "start")) { //when the locations list is empty, defines the origin of the coordinates 
+            this.locationNames.push("start");
             this.boardConnectionGraph.push(_.range(offsets.length).fill(0));
         }
-        this.positionNames.push(name);
+        this.locationNames.push(name);
         this.boardConnectionGraph.push(offsets);
     }
 
     /**
      * Define a special zone on the game board.
      */
-    addZone({ name, player, positions }: ZoneSetting) {
+    addZone({ name, player, locations }: ZoneSetting) {
         let zone_id = this.zoneNames.indexOf(name);
         if (zone_id < 0) { //when the zone name is not found in the zone names list
             zone_id = this.zoneNames.length;
@@ -311,7 +311,7 @@ export class TDesign {
         if (this.zones[zone_id] === undefined) {
             this.zones[zone_id] = [];
         }
-        this.zones[zone_id][player] = positions.map(name => this.stringToPos(name));
+        this.zones[zone_id][player] = locations.map(name => this.stringToPos(name));
     }
 
     /**
@@ -330,7 +330,7 @@ export class TDesign {
      */
     addPiece({ name, type, price = 1 }: PieceSetting) {
         this.pieceNames[type] = name;
-        this.price[type] = price;
+        this.piecePrices[type] = price;
     }
 
     /**
@@ -347,7 +347,7 @@ export class TDesign {
     }
 
     /**
-     * Define how a piece moves or works (e.g. how it moves to another cell, how it captures other pieces, etc.)
+     * Define how a piece moves or works (e.g. how it moves to another location, how it captures other pieces, etc.)
      */
     addMove(movement: Movement) {
         this.movements.push(movement);
@@ -366,8 +366,8 @@ export class TDesign {
         }
 
         const board = new TBoard(this); // create the initial game state
-        this.initial.forEach(s => { // place pieces on the specified cells
-            board.setPiece(s.p, s.t);
+        this.initialGamePosition.forEach(s => { // place pieces on the specified cells
+            board.setPiece(s.location, s.piece);
         });
         return board;
     }
@@ -379,7 +379,7 @@ export class TDesign {
     /**
      * Define a initial setup of pieces.
      */
-    setInitialPieces({ player, pieceName, positions }: InitialPiecePlacementSetting) {
+    setInitialPieces({ player, pieceName, locations }: InitialPiecePlacementSetting) {
         const piece_type_id = this.pieceNames.indexOf(pieceName);
         const player_id = this.playerNames.indexOf(player);
         if ((piece_type_id < 0) || (player_id < 0)) {
@@ -387,12 +387,12 @@ export class TDesign {
         }
         const piece = new TPiece(piece_type_id, player_id); // create a piece
 
-        positions
+        locations
             .map(name => this.stringToPos(name))
-            .forEach(pos => {
-                this.initial.push({ //store information of a piece position 
-                    p: pos,
-                    t: piece
+            .forEach(loc => {
+                this.initialGamePosition.push({ //store information of a piece location 
+                    location: loc,
+                    piece: piece
                 });
             });
     }
@@ -415,10 +415,10 @@ export class TDesign {
     }
 
     /**
-     * Return a list of all cell ids (starts from 1)
-     * @returns a list of all cell ids
+     * Return a list of all location ids (starts from 1)
+     * @returns a list of all location ids
      */
-    allPositions(): PositionID[] {
+    allLocations(): LocationID[] {
         return _.range(1, this.boardConnectionGraph.length);
     }
 
@@ -436,20 +436,20 @@ export class TDesign {
     }
 
     /**
-     * Return a new piece position after a player makes a move from a current position toward a given direction
+     * Return a new piece location after a player makes a move from a current location toward a given direction
      * @param player - player id
-     * @param pos - current position of the piece
+     * @param loc - current location of the piece
      * @param dir - id of the direction toward which the player is going to make a move
-     * @returns a new position (null if the new position is not found)
+     * @returns a new location (null if the new location is not found)
      */
-    navigate(player: PlayerID, pos: PositionID, dir: DirectionID): null | PositionID {
+    navigate(player: PlayerID, loc: LocationID, dir: DirectionID): null | LocationID {
         let target_dir = dir;
         if (this.rotationallySymmetricDirections[player] !== undefined) {
             target_dir = this.rotationallySymmetricDirections[player][dir];
         }
 
-        if (this.boardConnectionGraph[pos][target_dir] != 0) {
-            return + pos + this.boardConnectionGraph[pos][target_dir];
+        if (this.boardConnectionGraph[loc][target_dir] != 0) {
+            return + loc + this.boardConnectionGraph[loc][target_dir];
         } else {
             return null;
         }
@@ -481,14 +481,14 @@ export class TDesign {
     /**
      * Return whether the player is in the given zone.
      * @param player - player id
-     * @param pos - cell id
+     * @param loc - location id
      * @param zone - zone id
      * @returns
      */
-    isInZone(player: PlayerID, pos: PositionID, zone: number): boolean {
+    isInZone(player: PlayerID, loc: LocationID, zone: number): boolean {
         if (this.zones[zone] !== undefined) {
             if (this.zones[zone][player] !== undefined) {
-                return this.zones[zone][player].indexOf(pos) >= 0;
+                return this.zones[zone][player].indexOf(loc) >= 0;
             }
         }
         return false;

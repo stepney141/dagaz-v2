@@ -32,10 +32,10 @@ const getRandomValue = function (): number {
  * Returns a zobrist hash from a table
  * @param type 
  * @param player 
- * @param pos 
+ * @param loc 
  * @returns
  */
-const getValue = function (type: number, player: number, pos: number): number {
+const getValue = function (type: number, player: number, loc: number): number {
     if (hash === null) {
         hash = [];
     }
@@ -45,10 +45,10 @@ const getValue = function (type: number, player: number, pos: number): number {
     if (hash[type][player] === undefined) {
         hash[type][player] = [];
     }
-    if (hash[type][player][pos] === undefined) {
-        hash[type][player][pos] = getRandomValue();
+    if (hash[type][player][loc] === undefined) {
+        hash[type][player][loc] = getRandomValue();
     }
-    return hash[type][player][pos];
+    return hash[type][player][loc];
 };
 
 /**
@@ -57,11 +57,11 @@ const getValue = function (type: number, player: number, pos: number): number {
  * @link https://www.chessprogramming.org/Zobrist_Hashing
  * @param value - the current hash value
  * @param piece 
- * @param pos 
+ * @param loc 
  * @returns zobrist hash
  */
-const zUpdate = function (value: number, piece: TPiece, pos: number): number {
-    return value ^ getValue(piece.type, piece.player, pos);
+const zUpdate = function (value: number, piece: TPiece, loc: number): number {
+    return value ^ getValue(piece.type, piece.player, loc);
 };
 
 export { getRandomValue, zUpdate };

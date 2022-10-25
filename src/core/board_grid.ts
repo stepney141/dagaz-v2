@@ -9,7 +9,7 @@ import type { DirectionID } from './../types';
  * @param name 
  * @param point 
  */
-const addPositions = function (grid: TGrid, ix: number, name: string, point: Array<number>) {
+const addLocations = function (grid: TGrid, ix: number, name: string, point: Array<number>) {
     if (ix < 0) {
         const offsets = _.range(grid.dirs.length).fill(0);
 
@@ -32,13 +32,13 @@ const addPositions = function (grid: TGrid, ix: number, name: string, point: Arr
             offsets[grid.dirs.indexOf(vector)] = o;
         }
 
-        grid.design.addPosition({ name, offsets });
+        grid.design.addLocation({ name, offsets });
         return;
     }
 
     for (let i = 0; i < grid.scales[ix].length; i++) {
         point.unshift(i);
-        addPositions(grid, ix - 1, grid.scales[ix][i] + name, point);
+        addLocations(grid, ix - 1, grid.scales[ix][i] + name, point);
         point.shift();
     }
 };
@@ -88,7 +88,7 @@ export class TGrid {
         }
     }
 
-    addPositions() {
-        addPositions(this, this.scales.length - 1, "", []);
+    addLocations() {
+        addLocations(this, this.scales.length - 1, "", []);
     }
 }

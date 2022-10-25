@@ -1,6 +1,6 @@
 import _ from "underscore";
 import type { TBoard, TMove } from "../../src/core";
-import type { PositionID, PlayerID } from "../../src/types";
+import type { LocationID, PlayerID } from "../../src/types";
 
 type GameGoalStatus = null | 1 | -1 | 0;
 
@@ -24,16 +24,16 @@ export const getGoal = {
             const king = design.getPieceType("King");
 
             /** the square where a current player's king exists */
-            let safe: PositionID | null = null;
+            let safe: LocationID | null = null;
 
-            design.allPositions().forEach(pos => {
-                const piece = board.getPiece(pos);
+            design.allLocations().forEach(loc => {
+                const piece = board.getPiece(loc);
                 if (piece === null) {
                     return;
                 }
                 if ((piece.type == king) && (piece.player == board.player)) {
                     // checks if there is a current player's king on the board
-                    safe = pos;
+                    safe = loc;
                 }
             });
 
@@ -51,7 +51,7 @@ export const getGoal = {
                 // so that it check whether the other player can make a move in the next turn or not
                 for (const legal_move of board.legalMoves) {
                     for (const action of legal_move.actions) {
-                        if (safe == action[1]) {
+                        if (safe == action.targetSquare) {
                             safe = null;
                         }
                     }
@@ -93,12 +93,12 @@ export const extension = {
                 let safe: number[] = [];
 
                 if (move.mode == 1) { // castling
-                    const a = move.actions[0][0];
-                    const b = move.actions[1][0];
+                    const a = move.actions[0].originSquare;
+                    const b = move.actions[1].originSquare;
                     safe = _.range(Math.min(a, b), Math.max(a, b) + 1);
 
                     for (const action of move.actions) {
-                        const piece = action[2];
+                        const piece = action.piece;
                         if (piece.getValue(0) !== null) {
                             return;
                         }
@@ -107,13 +107,13 @@ export const extension = {
 
                 // search in depth 1
                 const b = board.apply(move);
-                design.allPositions().forEach(pos => {
-                    const piece = b.getPiece(pos);
+                design.allLocations().forEach(loc => {
+                    const piece = b.getPiece(loc);
                     if (piece === null) {
                         return;
                     }
                     if ((piece.type == king) && (piece.player == board.player)) {
-                        safe.push(pos); // get the place where the next player's king occupies
+                        safe.push(loc); // get the place where the next player's king occupies
                     }
                 });
 
@@ -128,7 +128,7 @@ export const extension = {
                     // if so, it skips processing the current move
                     for (const Move of b.legalMoves) {
                         for (const action of Move.actions) {
-                            if (safe.includes(action[1])) {
+                            if (safe.includes(action.targetSquare)) {
                                 return;
                             }
                         }
@@ -136,9 +136,9 @@ export const extension = {
 
                     // search in depth 1:
                     for (const action of move.actions) {
-                        const piece = action[2];
+                        const piece = action.piece;
                         if ((piece?.type == rook) || (piece?.type == king)) {
-                            action[2] = piece.setValue(0, 1); // updates the pieces' value
+                            action.piece = piece.setValue(0, 1); // updates the pieces' value
                         }
                     }
                 }

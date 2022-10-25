@@ -59,7 +59,7 @@ test("En Passant", function () {
 
     board = board.apply(board.legalMoves[2]);
 
-    expect(design.posToString(board.lastFrom)).toEqual("e2"); // Last from position: e2
+    expect(design.locToString(board.lastFrom)).toEqual("e2"); // Last from location: e2
     expect(board.player).toEqual(2); // Black turn
 
     board.generate();

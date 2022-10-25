@@ -11,8 +11,8 @@ export const promotion = {
 
         for (const move of board.legalMoves.filter(move => move.actions.length != 0)) {
             const action = move.actions[move.actions.length - 1];
-            if ((action[1] !== null) && (action[2] !== null) && design.isInZone(board.player, action[1], 0)) {
-                action[2] = action[2].promote(1);
+            if ((action.targetSquare !== null) && (action.piece !== null) && design.isInZone(board.player, action.targetSquare, 0)) {
+                action.piece = action.piece.promote(1);
             }
         }
     }

@@ -1,10 +1,10 @@
 import type { TBoard } from "./board";
 import type { TPiece } from "./piece";
 import type { TDesign } from "./design";
-import type { From, To, Part, MoveActions, MoveModeID } from "../types";
+import type { From, To, Part, MoveAction, MoveModeID } from "../types";
 
 export class TMove {
-    actions: MoveActions;
+    actions: MoveAction[];
     mode: null | MoveModeID;
 
     /**
@@ -33,9 +33,9 @@ export class TMove {
     clone(part: number): TMove {
         const r = new TMove(this.mode);
         const filtered_actions = this.actions.filter(a =>
-            (a[0] === null) //search drop moves
-            || (a[1] === null) //search capture moves
-            || (a[3] !== part)
+            (a.originSquare === null) //search drop moves
+            || (a.targetSquare === null) //search capture moves
+            || (a.part !== part)
         );
         r.actions = [...filtered_actions]; //shallow copying
         return r;
@@ -48,18 +48,18 @@ export class TMove {
      */
     toString(design: TDesign): string {
         let str = "";
-        let cell = null;
+        let location = null;
 
         for (const a of this.actions) {
-            if ((a[0] !== null) && (a[1] !== null)) { //neither drop moves nor capture moves
-                if ((cell === null) || (cell != a[0])) {
+            if ((a.originSquare !== null) && (a.targetSquare !== null)) { //neither drop moves nor capture moves
+                if ((location === null) || (location != a.originSquare)) {
                     if (str != "") {
                         str = str + " ";
                     }
-                    str = `${str}${design.posToString(a[0])}`; //convert the start cell to strings
+                    str = `${str}${design.locToString(a.originSquare)}`; //convert the start location to strings
                 }
-                str = `${str}-${design.posToString(a[1])}`; //convert the target cell to strings
-                cell = a[1];
+                str = `${str}-${design.locToString(a.targetSquare)}`; //convert the target location to strings
+                location = a.targetSquare;
             }
         }
 
@@ -82,7 +82,7 @@ export class TMove {
         if (this.actions.length != 1) {
             return false;
         }
-        return (this.actions[0][0] === null) && (this.actions[0][1] !== null) && (this.actions[0][2] !== null);
+        return (this.actions[0].originSquare === null) && (this.actions[0].targetSquare !== null) && (this.actions[0].piece !== null);
     }
 
     /**
@@ -96,7 +96,7 @@ export class TMove {
         if (this.actions.length != 1) {
             return false;
         }
-        return (this.actions[0][0] !== null) && (this.actions[0][1] !== null);
+        return (this.actions[0].originSquare !== null) && (this.actions[0].targetSquare !== null);
     }
 
     /**
@@ -106,8 +106,8 @@ export class TMove {
      * @param piece 
      * @param part
      */
-    movePiece(from: From, to: To, piece: TPiece | null, part: Part = 1) {
-        this.actions.push([from, to, piece, part]);
+    movePiece(originSquare: From, targetSquare: To, piece: TPiece | null, part: Part = 1) {
+        this.actions.push({ originSquare, targetSquare, piece, part });
     }
 
     /**
@@ -115,8 +115,8 @@ export class TMove {
      * @param from 
      * @param part
      */
-    capturePiece(from: From, part: Part = 1) {
-        this.actions.push([from, null, null, part]);
+    capturePiece(originSquare: From, part: Part = 1) {
+        this.actions.push({ originSquare, targetSquare: null, piece: null, part });
     }
 
     /**
@@ -125,8 +125,8 @@ export class TMove {
      * @param piece 
      * @param part
      */
-    dropPiece(to: To, piece: TPiece | null, part: Part = 1) {
-        this.actions.push([null, to, piece, part]);
+    dropPiece(targetSquare: To, piece: TPiece | null, part: Part = 1) {
+        this.actions.push({ originSquare: null, targetSquare, piece, part });
     }
 
     /**
@@ -135,14 +135,14 @@ export class TMove {
      */
     applyTo(board: TBoard) {
         for (const a of this.actions) {
-            if (a[0] !== null) {
-                board.setPiece(a[0], null); //make the origin square empty
+            if (a.originSquare !== null) {
+                board.setPiece(a.originSquare, null); //make the origin square empty
             }
-            if ((a[1] !== null) && (a[2] !== null)) {
-                board.setPiece(a[1], a[2]); //put a piece on the target cell
+            if ((a.targetSquare !== null) && (a.piece !== null)) {
+                board.setPiece(a.targetSquare, a.piece); //put a piece on the target location
             }
-            if ((a[0] !== null) && (a[1] !== null)) {
-                board.setLastFrom(a[0]); //update the origin square
+            if ((a.originSquare !== null) && (a.targetSquare !== null)) {
+                board.setLastFrom(a.originSquare); //update the origin square
             }
         }
     }

@@ -2,45 +2,45 @@ import { TMove } from "./move";
 import type { TBoard } from "./board";
 import type { TDesign } from "./design";
 import type { TPiece } from "./piece";
-import type { Part, DirectionID, PositionID, PieceTypeID } from './../types';
+import type { Part, DirectionID, LocationID, PieceTypeID } from './../types';
 
 /**
  * A partial move context
  */
 export class TMoveContext {
     board: TBoard;
-    changes: Array<{ p: PositionID, x: (null | TPiece) }>;
+    changes: Array<{ loc: LocationID, piece: (null | TPiece) }>;
     design: TDesign;
     from: number;
-    hand: null | { start: PositionID, piece: (null | TPiece) };
+    hand: null | { start: LocationID, piece: (null | TPiece) };
     marks: Array<number>;
     mode: null | number;
     move: TMove;
     parent: null | TMoveContext;
     part: Part;
     piece: null | TPiece;
-    pos: PositionID;
+    loc: LocationID;
     succeed: boolean;
 
     /**
      * @param design - a gane design object
      * @param board - a game state object
-     * @param pos - origin square (the last square that the moving piece passed through)
+     * @param loc - origin square (the last square that the moving piece passed through)
      * @param piece - a piece that moves on this turn
      */
-    constructor(design: TDesign, board: TBoard, pos: PositionID, piece: null | TPiece) {
+    constructor(design: TDesign, board: TBoard, loc: LocationID, piece: null | TPiece) {
         this.design = design;
         this.board = board;
 
         /**
          * origin square; the last location that the moving piece passed through
          */
-        this.from = pos;
+        this.from = loc;
 
         /** 
          * temporary location of the moving piece
          */
-        this.pos = pos;
+        this.loc = loc;
         this.mode = null;
         this.parent = null;
 
@@ -69,7 +69,7 @@ export class TMoveContext {
      * @returns copied instance
      */
     copy(): TMoveContext {
-        const r = new TMoveContext(this.design, this.board, this.pos, this.piece);
+        const r = new TMoveContext(this.design, this.board, this.loc, this.piece);
         r.parent = this;
         r.part = this.part + 1;
         r.move = this.move.copy();
@@ -79,46 +79,43 @@ export class TMoveContext {
 
     /**
      * 
-     * @param pos 
+     * @param loc 
      * @param piece 
      */
-    setPiece(pos: PositionID, piece: null | TPiece) {
-        this.changes.push({
-            p: pos,
-            x: piece
-        });
+    setPiece(loc: LocationID, piece: null | TPiece) {
+        this.changes.push({ loc, piece });
     }
 
     /**
      * 
-     * @param pos 
+     * @param loc 
      * @returns
      */
-    getPiece(pos: PositionID): null | TPiece {
+    getPiece(loc: LocationID): null | TPiece {
         for (const elem of this.changes) {
-            if (elem.p == pos) {
-                return elem.x;
+            if (elem.loc == loc) {
+                return elem.piece;
             }
         }
         if (this.parent !== null) {
-            return this.parent.getPiece(pos);
+            return this.parent.getPiece(loc);
         }
-        return this.board.getPiece(pos);
+        return this.board.getPiece(loc);
     }
 
     mark() {
-        this.marks.push(this.pos);
+        this.marks.push(this.loc);
     }
 
     back() {
         if (this.marks.length > 0) {
-            this.pos = this.marks[this.marks.length - 1];
+            this.loc = this.marks[this.marks.length - 1];
         }
     }
 
     pop() {
         if (this.marks.length > 0) {
-            this.pos = this.marks.pop();
+            this.loc = this.marks.pop();
         }
     }
 
@@ -127,15 +124,15 @@ export class TMoveContext {
      */
     take() {
         this.hand = {
-            start: this.pos,
-            piece: this.board.getPiece(this.pos)
+            start: this.loc,
+            piece: this.board.getPiece(this.loc)
         };
     }
 
     put() {
         if (this.hand !== null) {
             this.piece = this.hand.piece;
-            this.move.movePiece(this.hand.start, this.pos, this.hand.piece, this.part);
+            this.move.movePiece(this.hand.start, this.loc, this.hand.piece, this.part);
             this.hand = null;
             this.succeed = true;
         }
@@ -171,11 +168,11 @@ export class TMoveContext {
         if (this.hand !== null) {
             player = this.hand.piece.player;
         }
-        const new_p = this.design.navigate(player, this.pos, dir);
-        if (new_p === null) {
+        const new_loc = this.design.navigate(player, this.loc, dir);
+        if (new_loc === null) {
             return false;
         }
-        this.pos = new_p; // update the piece location
+        this.loc = new_loc; // update the piece location
         return true;
     }
 
@@ -200,16 +197,16 @@ export class TMoveContext {
      * @returns
      */
     isLastFrom(params?: number, ix?: number): boolean {
-        let pos = this.getParam(params, ix);
-        if (pos === null) {
-            pos = this.pos;
+        let loc = this.getParam(params, ix);
+        if (loc === null) {
+            loc = this.loc;
         }
         if ((this.parent !== null) && (this.parent.parent !== null)) {
-            if (pos == this.parent.parent.from) {
+            if (loc == this.parent.parent.from) {
                 return true;
             }
         }
-        return this.board.isLastFrom(pos);
+        return this.board.isLastFrom(loc);
     }
 
     /**
@@ -219,22 +216,22 @@ export class TMoveContext {
         if (this.design.gameOptions['deferred-captures']) {
             for (const a of this.move.actions) {
                 if (
-                    (a[0] !== null) // the move is NOT a piece-dropping move
-                    && (a[1] === null) // the move is a piece-capturing move
-                    && (a[0] == this.pos)
+                    (a.originSquare !== null) // the move is NOT a piece-dropping move
+                    && (a.targetSquare === null) // the move is a piece-capturing move
+                    && (a.originSquare == this.loc)
                 ) {
                     return false;
                 }
             }
         }
-        return this.getPiece(this.pos) === null;
+        return this.getPiece(this.loc) === null;
     }
 
     /**
      * Check whether an enemy piece is on the given square or not
      */
     isEnemy(): boolean {
-        const piece = this.getPiece(this.pos);
+        const piece = this.getPiece(this.loc);
         if (piece === null) {
             return false;
         }
@@ -246,7 +243,7 @@ export class TMoveContext {
      * @returns
      */
     isFriend(): boolean {
-        const piece = this.getPiece(this.pos);
+        const piece = this.getPiece(this.loc);
         if (piece === null) {
             return false;
         }
@@ -264,7 +261,7 @@ export class TMoveContext {
         if (t === null) {
             return !this.isEmpty();
         }
-        const piece = this.getPiece(this.pos);
+        const piece = this.getPiece(this.loc);
         if (piece === null) {
             return false;
         }
@@ -285,7 +282,7 @@ export class TMoveContext {
         if (this.hand !== null) {
             player = this.hand.piece.player;
         }
-        return this.design.isInZone(player, this.pos, zone);
+        return this.design.isInZone(player, this.loc, zone);
     }
 
     /**
@@ -310,8 +307,8 @@ export class TMoveContext {
      * capture a piece on the passing square
      */
     capture() {
-        this.setPiece(this.pos, null); // take an existing piece off the square
-        this.move.capturePiece(this.pos, this.part); // capture the piece
+        this.setPiece(this.loc, null); // take an existing piece off the square
+        this.move.capturePiece(this.loc, this.part); // capture the piece
     }
 
     /**

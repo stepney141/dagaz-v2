@@ -1,7 +1,7 @@
 import { TMove } from "./move";
 import { TMoveContext } from "./move_context";
 import { zUpdate } from "./../zobrist";
-import type { PositionID, PlayerID } from "./../types";
+import type { From, LocationID, PlayerID } from "./../types";
 import type { TDesign } from "./design";
 import type { TPiece } from "./piece";
 
@@ -12,7 +12,7 @@ import type { TPiece } from "./piece";
 export class TBoard {
     design: TDesign;
     forks: TMoveContext[] | null;
-    lastFrom: PositionID | null;
+    lastFrom: From;
     legalMoves: TMove[] | null;
     lastlyMadeMove: TMove | null;
     parent: TBoard | null;
@@ -29,7 +29,7 @@ export class TBoard {
 
         /**
          * A list of pieces on the current board.
-         * Each index of this array corresponds to an id of each cell where a piece occupies.
+         * Each index of this array corresponds to an id of each location where a piece occupies.
          */
         this.pieces = [];
 
@@ -98,52 +98,52 @@ export class TBoard {
     }
 
     /**
-     * Set the origin square (the cell where the move starts)
-     * @param pos 
+     * Set the origin square (the location where the move starts)
+     * @param loc 
      */
-    setLastFrom(pos: PositionID) {
-        this.lastFrom = pos;
+    setLastFrom(loc: LocationID) {
+        this.lastFrom = loc;
     }
 
     /**
-     * Check if a location is the origin square (the cell where the move starts)
-     * @param pos 
+     * Check if a location is the origin square (the location where the move starts)
+     * @param loc 
      * @returns
      */
-    isLastFrom(pos: PositionID): boolean {
+    isLastFrom(loc: LocationID): boolean {
         if (this.lastFrom !== undefined) {
-            return this.lastFrom == pos;
+            return this.lastFrom == loc;
         }
         return false;
     }
 
     /**
-     * Return a piece on the given position.
-     * @param pos - a position id
-     * @returns a piece (null if no piece occupies the given position)
+     * Return a piece on the given location.
+     * @param loc - a location id
+     * @returns a piece (null if no piece occupies the given location)
      */
-    getPiece(pos: PositionID): null | TPiece {
-        if (this.pieces[pos] === undefined) {
+    getPiece(loc: LocationID): null | TPiece {
+        if (this.pieces[loc] === undefined) {
             return null;
         } else {
-            return this.pieces[pos];
+            return this.pieces[loc];
         }
     }
 
     /**
-     * Put a piece to a cell on the board.
-     * @param pos - a piece position id
+     * Put a piece to a location on the board.
+     * @param loc - a piece location id
      * @param piece - a piece
      */
-    setPiece(pos: null | PositionID, piece: null | TPiece) {
-        if (this.pieces[pos] !== undefined) {
-            this.z = zUpdate(this.z, this.pieces[pos], pos);
+    setPiece(loc: null | LocationID, piece: null | TPiece) {
+        if (this.pieces[loc] !== undefined) {
+            this.z = zUpdate(this.z, this.pieces[loc], loc);
         }
         if (piece === null) {
-            this.pieces[pos] = undefined;
+            this.pieces[loc] = undefined;
         } else {
-            this.pieces[pos] = piece;
-            this.z = zUpdate(this.z, piece, pos);
+            this.pieces[loc] = piece;
+            this.z = zUpdate(this.z, piece, loc);
         }
     }
 
@@ -164,7 +164,7 @@ export class TBoard {
             }
             const ctx = parent.copy();
             ctx.hand = {
-                start: parent.pos,
+                start: parent.loc,
                 piece: parent.piece
             };
             ctx.mode = null;
@@ -188,10 +188,10 @@ export class TBoard {
             for (const Movements of Object.values(this.design.groupedMovements)) {
                 let completed = false;
 
-                for (const pos of this.design.allPositions()) { // looks into every cell
-                    const piece = this.getPiece(pos);
+                for (const loc of this.design.allLocations()) { // looks into every location
+                    const piece = this.getPiece(loc);
                     if (piece === null) {
-                        continue; // check if the piece exists on the cell
+                        continue; // check if the piece exists on the location
                     }
                     if (!this.design.gameOptions['shared-pieces'] && (piece.player != this.player)) {
                         continue; // check if the current player can move the piece
@@ -202,10 +202,10 @@ export class TBoard {
                             continue; // search a specific movement from the group of moves that have the same mode
                         }
 
-                        const ctx = new TMoveContext(this.design, this, pos, piece);
+                        const ctx = new TMoveContext(this.design, this, loc, piece);
                         ctx.move.mode = movement.mode; // set move modes to a TMove instance
                         ctx.take();
-                        ctx.setPiece(pos, null);
+                        ctx.setPiece(loc, null);
                         movement.func(ctx, movement.params); // execute a move definition method
                         if (ctx.succeed) {
                             completed = true; // finish the execution
