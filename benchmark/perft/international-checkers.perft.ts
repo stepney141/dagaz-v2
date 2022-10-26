@@ -52,7 +52,7 @@ const main = function (depth: number) {
     console.timeEnd(`perft ${depth}`);
 };
 
-for (let i = 1; i <= 10; i++) {
+for (let i = 1; i <= 8; i++) {
     main(i);
     console.log("----------");
 }
