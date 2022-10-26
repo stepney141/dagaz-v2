@@ -8,7 +8,8 @@
 		"plugins": [
 			"you-dont-need-lodash-underscore",
 			"jest",
-			"@typescript-eslint"
+			"@typescript-eslint",
+			"jsdoc"
 		],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -25,7 +26,7 @@
     "rules": {
         "indent": [
 					"error",
-          4
+          2
         ],
         "no-mixed-spaces-and-tabs": [
           "error"
@@ -47,6 +48,8 @@
         "eol-last": [
           "error",
           "always"
-        ]
+        ],
+				"jsdoc/check-alignment": 1,
+				"jsdoc/check-indentation": 1
     }
 }

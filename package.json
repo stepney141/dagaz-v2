@@ -24,6 +24,7 @@
     "esbuild-register": "^3.3.3",
     "eslint": "^8.26.0",
     "eslint-plugin-jest": "^26.5.3",
+    "eslint-plugin-jsdoc": "^39.3.25",
     "eslint-plugin-you-dont-need-lodash-underscore": "^6.12.0",
     "fs": "*",
     "glob": "^7.2.3",

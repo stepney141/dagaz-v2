@@ -8,7 +8,7 @@ import type { TBoard } from "../../src/core";
  * @link https://aartbik.blogspot.com/2012/10/bikdam-international-checkers.html
  */
 const PERFT_RESULTS = [
-    1, 9, 81, 658, 4265, 27117, 167140, 1049442, 6483961, 41022423, 258895763, 1665861398,
+  1, 9, 81, 658, 4265, 27117, 167140, 1049442, 6483961, 41022423, 258895763, 1665861398,
 ];
 
 /**
@@ -20,17 +20,17 @@ const PERFT_RESULTS = [
  * @returns the number of enumarated nodes
  */
 const perft = function (depth: number, b: TBoard): number {
-    let nodes = 0;
+  let nodes = 0;
 
-    b.generateMoves();
+  b.generateMoves();
 
-    for (const m of b.legalMoves) {
-        // console.log(m.toString(board.design));
-        const next_b = b.makeMove(m); //make a move
-        nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
-    }
+  for (const m of b.legalMoves) {
+    // console.log(m.toString(board.design));
+    const next_b = b.makeMove(m); //make a move
+    nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
+  }
 
-    return nodes;
+  return nodes;
 };
 
 /**
@@ -38,18 +38,18 @@ const perft = function (depth: number, b: TBoard): number {
  * @param depth - depth to search
  */
 const main = function (depth: number) {
-    const design = new TDesign();
-    const board = design.getInitBoard(buildDesign, [maximalCapture, promotion]);
+  const design = new TDesign();
+  const board = design.getInitBoard(buildDesign, [maximalCapture, promotion]);
 
-    console.log(`Enumerate Nodes, depth = ${depth}`);
+  console.log(`Enumerate Nodes, depth = ${depth}`);
 
-    console.time(`perft ${depth}`);
+  console.time(`perft ${depth}`);
 
-    const results = perft(depth, board);
-    console.log('computed result: ', results);
-    console.log('correct value: ', PERFT_RESULTS[depth]);
+  const results = perft(depth, board);
+  console.log('computed result: ', results);
+  console.log('correct value: ', PERFT_RESULTS[depth]);
 
-    console.timeEnd(`perft ${depth}`);
+  console.timeEnd(`perft ${depth}`);
 };
 
 // for (let i = 1; i <= 8; i++) {
