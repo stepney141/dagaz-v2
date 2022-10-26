@@ -50,9 +50,11 @@ const main = function (depth: number) {
     console.timeEnd(`perft ${depth}`);
 };
 
-for (let i = 1; i <= 9; i++) {
-    main(i);
-    console.log("----------");
-}
+// for (let i = 1; i <= 9; i++) {
+//     main(i);
+//     console.log("----------");
+// }
+
+main(9);
 
 console.log("==========");
