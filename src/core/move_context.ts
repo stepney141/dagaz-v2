@@ -187,7 +187,7 @@ export class TMoveContext {
         if (dir === null) {
             return null;
         }
-        return this.design.opposite(dir);
+        return this.design.getDirectionFromOtherPlayer(dir);
     }
 
     /**

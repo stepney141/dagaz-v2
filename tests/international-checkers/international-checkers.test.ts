@@ -27,13 +27,13 @@ test("Man promotion", function () {
     board.setPiece(design.stringToPos("g9"), black);
     board.setPiece(design.stringToPos("i7"), black);
     board.setPiece(design.stringToPos("i9"), black);
-    board.generate();
+    board.generateMoves();
 
     expect(board.legalMoves.length).toEqual(2); // 2 moves
     expect(board.legalMoves[0].toString(design)).toEqual("b8-d10-f8-h10-j8-h6-f4-h2");
     expect(board.legalMoves[1].toString(design)).toEqual("b8-d10-f8-h10-j8-h6-f4-d2");
 
-    board = board.apply(board.legalMoves[0]);
+    board = board.makeMove(board.legalMoves[0]);
 
     expect(board.player).toEqual(2); // Black turn
     expect(board.getPiece(design.stringToPos("b8")) === null).toBeTruthy(); // b8 is empty
@@ -53,7 +53,7 @@ test("Man promotion", function () {
     expect(board.getPiece(design.stringToPos("g7")).toString(design)).toEqual("Black Man"); // Black Man on g7
     expect(board.getPiece(design.stringToPos("h2")).toString(design)).toEqual("White Man"); // White Man on h2
 
-    board.generate();
+    board.generateMoves();
 
     expect(board.legalMoves.length).toEqual(12); // 12 moves
     expect(board.legalMoves[0].toString(design)).toEqual("c7-b6");
@@ -69,7 +69,7 @@ test("Man promotion", function () {
     expect(board.legalMoves[10].toString(design)).toEqual("f2-e1");
     expect(board.legalMoves[11].toString(design)).toEqual("f2-g1");
 
-    board = board.apply(board.legalMoves[8]);
+    board = board.makeMove(board.legalMoves[8]);
 
     expect(board.player).toEqual(1); // White turn
     expect(board.getPiece(design.stringToPos("b2")) === null).toBeTruthy(); // b2 is empty
@@ -88,7 +88,7 @@ test("Check lastFrom", function () {
     board.setPiece(design.stringToPos("e5"), white);
     const black = design.createPiece(1, 2);
     board.setPiece(design.stringToPos("j10"), black);
-    board.generate();
+    board.generateMoves();
 
     expect(board.legalMoves.length).toEqual(21); // 21 moves
     expect(board.legalMoves[0].toString(design)).toEqual("e5-d6");
@@ -113,11 +113,11 @@ test("Check lastFrom", function () {
     expect(board.legalMoves[19].toString(design)).toEqual("d4-b2");
     expect(board.legalMoves[20].toString(design)).toEqual("d4-a1");
 
-    board = board.apply(board.legalMoves[7]);
+    board = board.makeMove(board.legalMoves[7]);
 
     expect(board.player).toEqual(2); // Black turn
 
-    board.generate();
+    board.generateMoves();
 
     expect(board.legalMoves.length).toEqual(3); // 3 moves
     expect(board.legalMoves[0].toString(design)).toEqual("j10-c3");

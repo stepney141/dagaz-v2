@@ -280,7 +280,7 @@ export class TDesign {
         this.turns.push({ player, modes });
     }
 
-    repeatMark() {
+    setRepeatMark() {
         if (this.turns === undefined) {
             this.turns = [];
         }
@@ -439,8 +439,8 @@ export class TDesign {
      * Return a new piece location after a player makes a move from a current location toward a given direction
      * @param player - player id
      * @param loc - current location of the piece
-     * @param dir - id of the direction toward which the player is going to make a move
-     * @returns a new location (null if the new location is not found)
+     * @param dir - direction toward which the player is going to make a move
+     * @returns new location id (null if it is not found)
      */
     navigate(player: PlayerID, loc: LocationID, dir: DirectionID): null | LocationID {
         let target_dir = dir;
@@ -461,7 +461,7 @@ export class TDesign {
      * @param player
      * @returns
      */
-    opposite(dir: DirectionID, player = 0): number {
+    getDirectionFromOtherPlayer(dir: DirectionID, player = 0): number {
         return this.rotationallySymmetricDirections[player][dir];
     }
 

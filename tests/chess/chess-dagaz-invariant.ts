@@ -17,7 +17,7 @@ export const getGoal = {
     func: function (board: TBoard, player: PlayerID): GameGoalStatus {
         const design = board.design;
 
-        board.generate(); // search the next ply
+        board.generateMoves(); // search the next ply
 
         // checks the game result only if the current player cannot make any legal move
         if (board.legalMoves.length == 0) {
@@ -44,7 +44,7 @@ export const getGoal = {
                 board.player = design.getNextPlayer(board.player);
                 isRecursive = true;
 
-                board.generate();
+                board.generateMoves();
                 isRecursive = false;
 
                 // search a target square of the move in the next turn
@@ -106,7 +106,7 @@ export const extension = {
                 }
 
                 // search in depth 1
-                const b = board.apply(move);
+                const b = board.makeMove(move);
                 design.allLocations().forEach(loc => {
                     const piece = b.getPiece(loc);
                     if (piece === null) {
@@ -121,7 +121,7 @@ export const extension = {
                     isRecursive = true;
 
                     // search in depth 2:
-                    b.generate();
+                    b.generateMoves();
                     isRecursive = false;
 
                     // this checks whether the next player's king can be captured in the depth 2

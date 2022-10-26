@@ -10,7 +10,7 @@ test("King Moves", function () {
     board.clear();
     const white = design.createPiece(1, 1);
     board.setPiece(design.stringToPos("h2"), white);
-    board.generate();
+    board.generateMoves();
 
     expect(board.legalMoves.length).toEqual(7); // 7 moves
     expect(board.legalMoves[0].toString(design)).toEqual("h2-g3");
@@ -21,7 +21,7 @@ test("King Moves", function () {
     expect(board.legalMoves[5].toString(design)).toEqual("h2-b8");
     expect(board.legalMoves[6].toString(design)).toEqual("h2-g1");
 
-    board = board.apply(board.legalMoves[3]);
+    board = board.makeMove(board.legalMoves[3]);
 
     expect(board.player).toEqual(2); // Black turn
     expect(board.getPiece(design.stringToPos("h2")) === null).toBeTruthy(); // h2 is empty
@@ -41,7 +41,7 @@ test("King Capturing", function () {
     board.setPiece(design.stringToPos("h2"), white);
     const black = design.createPiece(0, 2);
     board.setPiece(design.stringToPos("f4"), black);
-    board.generate();
+    board.generateMoves();
 
     expect(board.legalMoves.length).toEqual(4); // 4 moves
     expect(board.legalMoves[0].toString(design)).toEqual("h2-e5");
@@ -49,7 +49,7 @@ test("King Capturing", function () {
     expect(board.legalMoves[2].toString(design)).toEqual("h2-c7");
     expect(board.legalMoves[3].toString(design)).toEqual("h2-b8");
 
-    board = board.apply(board.legalMoves[2]);
+    board = board.makeMove(board.legalMoves[2]);
 
     expect(board.player).toEqual(2);
     expect(board.getPiece(design.stringToPos("h2")) === null).toBeTruthy(); // h2 is empty
@@ -77,7 +77,7 @@ test("Man Capturing", function () {
     board.setPiece(design.stringToPos("g3"), black);
     board.setPiece(design.stringToPos("g5"), black);
     board.setPiece(design.stringToPos("g7"), black);
-    board.generate();
+    board.generateMoves();
 
     expect(board.legalMoves.length).toEqual(7); // 7 moves
     expect(board.legalMoves[0].toString(design)).toEqual("h2-f4-d6-f8-h6-f4");
@@ -88,7 +88,7 @@ test("Man Capturing", function () {
     expect(board.legalMoves[5].toString(design)).toEqual("h2-f4-h6-f8-c5-a3");
     expect(board.legalMoves[6].toString(design)).toEqual("h2-f4-d6-f8-h6-d2-a5");
 
-    board = board.apply(board.legalMoves[6]);
+    board = board.makeMove(board.legalMoves[6]);
 
     expect(board.player).toEqual(2); // Black turn
     expect(board.getPiece(design.stringToPos("h2")) === null).toBeTruthy(); // h2 is empty

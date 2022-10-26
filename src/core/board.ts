@@ -152,7 +152,7 @@ export class TBoard {
      * @param parent 
      * @returns
      */
-    completeMove(parent: TMoveContext): boolean {
+    isCompleteMove(parent: TMoveContext): boolean {
         let r = false;
 
         for (const movement of this.design.movements) {
@@ -180,7 +180,7 @@ export class TBoard {
     /**
      * Generate a list of the legal moves from the current game state
      */
-    generate() {
+    generateMoves() {
         if (this.legalMoves === null && this.design.groupedMovements !== null) {
             this.forks = [];
             this.legalMoves = [];
@@ -219,7 +219,7 @@ export class TBoard {
             }
 
             for (const ctx of this.forks) {
-                const f = this.completeMove(ctx) ? false : true; // check if the chain of move contexts is completed as a legal move
+                const f = this.isCompleteMove(ctx) ? false : true; // check if the chain of move contexts is completed as a legal move
                 if (this.design.gameOptions['pass-partial'] || f) {
                     this.legalMoves.push(ctx.move);
                 }
@@ -243,7 +243,7 @@ export class TBoard {
      * @param move 
      * @returns
      */
-    apply(move: TMove): TBoard {
+    makeMove(move: TMove): TBoard {
         const r = this.copy(); // create a new game state
         r.turn = r.design.getNextTurn(this); // set next turn
         r.player = r.design.getCurrentPlayer(r.turn); // set the next player
