@@ -34,8 +34,8 @@ export class TMove {
     const r = new TMove(this.mode);
     const filtered_actions = this.actions.filter(a =>
       (a.originSquare === null) //search drop moves
-            || (a.targetSquare === null) //search capture moves
-            || (a.part !== part)
+      || (a.targetSquare === null) //search capture moves
+      || (a.part !== part)
     );
     r.actions = [...filtered_actions]; //shallow copying
     return r;

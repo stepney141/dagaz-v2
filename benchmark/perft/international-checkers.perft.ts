@@ -53,8 +53,8 @@ const main = function (depth: number) {
 };
 
 // for (let i = 1; i <= 8; i++) {
-//     main(i);
-//     console.log("----------");
+//   main(i);
+//   console.log("----------");
 // }
 
 main(8);

@@ -28,10 +28,10 @@ export type Part = null | number;
  * action[3] part - the move execution phase of partial moves; used in checker-like games
  */
 export type MoveAction = {
-    originSquare: From,
-    targetSquare: To,
-    piece: null | TPiece,
-    part: Part
+  originSquare: From,
+  targetSquare: To,
+  piece: null | TPiece,
+  part: Part
 };
 
 export type MoveModeID = number;
@@ -42,13 +42,13 @@ export type MovementDefinitionMethod = <T>(ctx: TMoveContext, params: DirectionI
  * description of each piece's move
  */
 export type Movement = {
-    pieceType: PieceTypeID //piece type id
-    func: MovementDefinitionMethod //callback function to define a move in internal DSL
-    params: DirectionID[] //directions that the piece can move toward
-    mode: MoveModeID //move mode
+  pieceType: PieceTypeID //piece type id
+  func: MovementDefinitionMethod //callback function to define a move in internal DSL
+  params: DirectionID[] //directions that the piece can move toward
+  mode: MoveModeID //move mode
 };
 
 export type Plugin = {
-    name: string,
-    func: any
+  name: string,
+  func: any
 };

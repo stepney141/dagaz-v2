@@ -51,8 +51,8 @@ const main = function (depth: number) {
 };
 
 // for (let i = 1; i <= 9; i++) {
-//     main(i);
-//     console.log("----------");
+//   main(i);
+//   console.log("----------");
 // }
 
 main(9);

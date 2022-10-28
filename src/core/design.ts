@@ -13,12 +13,12 @@ import { TGrid } from "./board_grid";
 import { TPiece } from "./piece";
 
 type GameBehaviorOptions =
-    | 'pass-turn'
-    | 'pass-partial'
-    | 'shared-pieces'
-    | 'deferred-captures'
-    | 'maximal-captures'
-    | 'smart-moves';
+  | 'pass-turn'
+  | 'pass-partial'
+  | 'shared-pieces'
+  | 'deferred-captures'
+  | 'maximal-captures'
+  | 'smart-moves';
 type GameBehaviorOptionFlags = Record<GameBehaviorOptions, boolean>;
 
 /**
@@ -27,9 +27,9 @@ type GameBehaviorOptionFlags = Record<GameBehaviorOptions, boolean>;
  * @param locations - names of cells where the piece occupies when the game starts
  */
 type InitialPiecePlacementSetting = {
-    player: PlayerName,
-    pieceName: PieceName,
-    locations: LocationName[]
+  player: PlayerName,
+  pieceName: PieceName,
+  locations: LocationName[]
 };
 
 /**
@@ -38,9 +38,9 @@ type InitialPiecePlacementSetting = {
  * @param locations - a list of location-names which are in the zone
  */
 type ZoneSetting = {
-    name: ZoneName,
-    player: PlayerID,
-    locations: LocationName[]
+  name: ZoneName,
+  player: PlayerID,
+  locations: LocationName[]
 };
 
 /**
@@ -48,8 +48,8 @@ type ZoneSetting = {
  * @param offsets - location offsets indicated by direction ids
  */
 type LocationSetting = {
-    name: LocationName,
-    offsets: number[]
+  name: LocationName,
+  offsets: number[]
 };
 
 /**
@@ -57,8 +57,8 @@ type LocationSetting = {
  * @param symmetry - a list of direction ids that are rotationally symmetric in each player
  */
 type PlayerSetting = {
-    name: string,
-    symmetry: DirectionID[]
+  name: string,
+  symmetry: DirectionID[]
 };
 
 /**
@@ -67,14 +67,14 @@ type PlayerSetting = {
  * @param price - a piece value
  */
 type PieceSetting = {
-    name: PieceName,
-    type: PieceTypeID,
-    price?: PieceValue
+  name: PieceName,
+  type: PieceTypeID,
+  price?: PieceValue
 };
 
 type TurnSetting = {
-    player: PlayerID,
-    modes: number[]
+  player: PlayerID,
+  modes: number[]
 };
 
 /**

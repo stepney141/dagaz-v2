@@ -27,23 +27,23 @@ const pawnLeap: MovementDefinitionMethod = function (ctx, params) {
 
 const pawnJump: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.go(params, 0) &&
-        ctx.isEmpty() &&
-        ctx.inZone(1) &&
-        ctx.go(params, 0) &&
-        ctx.isEmpty()) {
+    ctx.isEmpty() &&
+    ctx.inZone(1) &&
+    ctx.go(params, 0) &&
+    ctx.isEmpty()) {
     ctx.end();
   }
 };
 
 const enPassant: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.go(params, 0) &&
-        ctx.isEnemy() &&
-        ctx.isPiece(0)) {
+    ctx.isEnemy() &&
+    ctx.isPiece(0)) {
     ctx.capture();
     if (ctx.go(params, 1)) {
       ctx.put();
       if (ctx.go(params, 1) &&
-                ctx.isLastFrom()) {
+        ctx.isLastFrom()) {
         ctx.end();
       }
     }
@@ -52,8 +52,8 @@ const enPassant: MovementDefinitionMethod = function (ctx, params) {
 
 const jump: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.go(params, 0) &&
-        ctx.go(params, 1) &&
-        !ctx.isFriend()) {
+    ctx.go(params, 1) &&
+    !ctx.isFriend()) {
     ctx.end();
   }
 };
@@ -71,16 +71,16 @@ const slide: MovementDefinitionMethod = function (ctx, params) {
  */
 const O_O: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.go(params, 0) &&
-        ctx.isEmpty() &&
-        ctx.go(params, 0) &&
-        ctx.isEmpty()) {
+    ctx.isEmpty() &&
+    ctx.go(params, 0) &&
+    ctx.isEmpty()) {
     ctx.put();
     if (ctx.go(params, 0) &&
-            ctx.isFriend() &&
-            ctx.isPiece(1)) {
+      ctx.isFriend() &&
+      ctx.isPiece(1)) {
       ctx.take();
       if (ctx.go(params, 1) &&
-                ctx.go(params, 1)) {
+        ctx.go(params, 1)) {
         ctx.end();
       }
     }
@@ -92,19 +92,19 @@ const O_O: MovementDefinitionMethod = function (ctx, params) {
  */
 const O_O_O: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.go(params, 0) &&
-        ctx.isEmpty() &&
-        ctx.go(params, 0) &&
-        ctx.isEmpty()) {
+    ctx.isEmpty() &&
+    ctx.go(params, 0) &&
+    ctx.isEmpty()) {
     ctx.put();
     if (ctx.go(params, 0) &&
-            ctx.isEmpty() &&
-            ctx.go(params, 0) &&
-            ctx.isFriend() &&
-            ctx.isPiece(1)) {
+      ctx.isEmpty() &&
+      ctx.go(params, 0) &&
+      ctx.isFriend() &&
+      ctx.isPiece(1)) {
       ctx.take();
       if (ctx.go(params, 1) &&
-                ctx.go(params, 1) &&
-                ctx.go(params, 1)) {
+        ctx.go(params, 1) &&
+        ctx.go(params, 1)) {
         ctx.end();
       }
     }

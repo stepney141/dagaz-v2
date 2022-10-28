@@ -217,8 +217,8 @@ export class TMoveContext {
       for (const a of this.move.actions) {
         if (
           (a.originSquare !== null) // the move is NOT a piece-dropping move
-                    && (a.targetSquare === null) // the move is a piece-capturing move
-                    && (a.originSquare == this.loc)
+          && (a.targetSquare === null) // the move is a piece-capturing move
+          && (a.originSquare == this.loc)
         ) {
           return false;
         }
