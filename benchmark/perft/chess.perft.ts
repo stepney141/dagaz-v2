@@ -1,49 +1,61 @@
-import { games } from "../../src/dagaz-model";
-import "../../tests/chess/chess-dagaz";
-import "../../tests/chess/chess-dagaz-invariant";
+import { TBoard, TDesign } from "../../src/core";
+import { buildDesign } from "../../tests/chess/chess-dagaz";
+import { getGoal, extension } from "../../tests/chess/chess-dagaz-invariant";
+
+/** 
+ * @link https://www.chessprogramming.org/Perft_Results
+ */
+const PERFT_RESULTS = [
+  1, 20, 400, 8902, 197281, 4865609, 119060324, 3195901860
+];
 
 /**
  * Search the game tree starting from the initial positiion, 
  * and counts all the leaf nodes of a certain depth
  * @link https://www.chessprogramming.org/Perft
- * @param {number} depth - depth to search (>= 1)
- * @param {TBoard} b - initial board state
- * @returns {number} 
+ * @param depth - depth to search (>= 1)
+ * @param b - initial board state
+ * @returns the number of enumarated nodes
  */
-const perft = function (depth, b) {
-    let nodes = 0;
+const perft = function (depth: number, b: TBoard): number {
+  let nodes = 0;
 
-    b.generate();
+  b.generateMoves();
 
-    for (const m of b.legal_moves) {
-        // console.log(m.toString(board.design));
-        const next_b = b.apply(m); //make a move
-        nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
-    }
+  for (const m of b.legalMoves) {
+    // console.log(m.toString(board.design));
+    const next_b = b.makeMove(m); //make a move
+    nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
+  }
 
-    return nodes;
+  return nodes;
 };
 
 /**
  * main process
- * @param {number} depth - depth to search
+ * @param depth - depth to search
  */
-const main = function (depth, design = games.model.getDesign()) {
-    const board = design.getInitBoard();
+const main = function (depth: number) {
+  const design = new TDesign();
+  const board = design.getInitBoard(buildDesign, [getGoal, extension]);
 
-    console.log(`Enumerate Nodes, depth = ${depth}`);
+  console.log(`Enumerate Nodes, depth = ${depth}`);
 
-    console.time(`perft ${depth}`);
+  console.time(`perft ${depth}`);
 
-    const results = perft(depth, board);
-    console.log('result: ', results);
+  const results = perft(depth, board);
+  console.log('computed result: ', results);
+  console.log('correct value: ', PERFT_RESULTS[depth]);
 
-    console.timeEnd(`perft ${depth}`);
+  console.timeEnd(`perft ${depth}`);
 };
 
-for (let i = 1; i <= 5; i++) {
-    main(i);
-}
+// for (let i = 1; i <= 5; i++) {
+//   main(i);
+//   console.log("----------");
+// }
+
+main(5);
 
 console.log("==========");
 

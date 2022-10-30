@@ -1,23 +1,16 @@
-import { games } from "./../../src/dagaz-model";
-import type { TBoard } from "./../../src/core/index";
-
-const extension = games.model.extension;
+import type { TBoard } from "./../../src/core";
 
 /**
  * Filter pseudo legal moves
  * @param board 
  */
-games.model.extension = function (board: TBoard) {
-    const len = board.legal_moves
-        .map(move => move.actions.length)
-        .reduce((a, b) => Math.max(a, b)); // gets a maximum value
-    // const len = _.max(board.legal_moves.map(move =>  move.actions.length));
+export const maximalCapture = {
+  name: "extension",
+  func: function (board: TBoard) {
+    const len = board.legalMoves
+      .map(move => move.actions.length)
+      .reduce((a, b) => Math.max(a, b)); // gets a maximum value
 
-    board.legal_moves = board.legal_moves.filter(move => move.actions.length == len);
-
-    if (extension !== undefined) {
-        extension(board);
-    }
+    board.legalMoves = board.legalMoves.filter(move => move.actions.length == len);
+  }
 };
-
-export { games };

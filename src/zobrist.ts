@@ -10,9 +10,9 @@ let hash: null | number[][][] = null;
  * @returns a pseudo random integer between 0 and 255
  */
 const getRandomByte = function (): number {
-    const min = 0;
-    const max = 255;
-    return min + Math.floor(Math.random() * (max - min + 1));
+  const min = 0;
+  const max = 255;
+  return min + Math.floor(Math.random() * (max - min + 1));
 };
 
 /**
@@ -20,35 +20,35 @@ const getRandomByte = function (): number {
  * @returns a pseudo random integer
  */
 const getRandomValue = function (): number {
-    let r = getRandomByte();
-    for (let i = 0; i < 3; i++) {
-        r = r << 8;
-        r = r | getRandomByte();
-    }
-    return r;
+  let r = getRandomByte();
+  for (let i = 0; i < 3; i++) {
+    r = r << 8;
+    r = r | getRandomByte();
+  }
+  return r;
 };
 
 /**
  * Returns a zobrist hash from a table
  * @param type 
  * @param player 
- * @param pos 
+ * @param loc 
  * @returns
  */
-const getValue = function (type: number, player: number, pos: number): number {
-    if (hash === null) {
-        hash = [];
-    }
-    if (hash[type] === undefined) {
-        hash[type] = [];
-    }
-    if (hash[type][player] === undefined) {
-        hash[type][player] = [];
-    }
-    if (hash[type][player][pos] === undefined) {
-        hash[type][player][pos] = getRandomValue();
-    }
-    return hash[type][player][pos];
+const getValue = function (type: number, player: number, loc: number): number {
+  if (hash === null) {
+    hash = [];
+  }
+  if (hash[type] === undefined) {
+    hash[type] = [];
+  }
+  if (hash[type][player] === undefined) {
+    hash[type][player] = [];
+  }
+  if (hash[type][player][loc] === undefined) {
+    hash[type][player][loc] = getRandomValue();
+  }
+  return hash[type][player][loc];
 };
 
 /**
@@ -57,11 +57,11 @@ const getValue = function (type: number, player: number, pos: number): number {
  * @link https://www.chessprogramming.org/Zobrist_Hashing
  * @param value - the current hash value
  * @param piece 
- * @param pos 
+ * @param loc 
  * @returns zobrist hash
  */
-const zUpdate = function (value: number, piece: TPiece, pos: number): number {
-    return value ^ getValue(piece.type, piece.player, pos);
+const zUpdate = function (value: number, piece: TPiece, loc: number): number {
+  return value ^ getValue(piece.type, piece.player, loc);
 };
 
 export { getRandomValue, zUpdate };
