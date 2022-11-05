@@ -57,6 +57,6 @@ const main = function (depth: number) {
 //   console.log("----------");
 // }
 
-main(8);
+main(7);
 
 console.log("==========");
