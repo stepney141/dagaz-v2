@@ -1,149 +1,172 @@
 import type { TBoard } from "./board";
 import type { TPiece } from "./piece";
 import type { TDesign } from "./design";
-import type { From, To, Part, MoveAction, MoveModeID } from "../types";
+import type { From, To, Part, MoveModeID } from "../types";
 
-export class TMove {
+/**
+ * action[0] from - origin square (the location where the move starts); null for piece-dropping moves like Go.
+ * @link https://www.chessprogramming.org/Origin_Square  
+ * action[1] to - target square (the location where the move finishes); null for piece-capturing moves.
+ * @link https://www.chessprogramming.org/Target_Square  
+ * action[2] piece - the piece that a player moves.  
+ * action[3] part - the move execution phase of partial moves; used in checker-like games
+ */
+export type MoveAction = {
+  originSquare: From,
+  targetSquare: To,
+  piece: null | TPiece,
+  part: Part
+};
+
+export type TMove = {
   actions: MoveAction[];
   mode: null | MoveModeID;
+};
 
-  /**
-   * @param mode 
-   */
-  constructor(mode: null | MoveModeID) {
-    this.actions = [];
-    this.mode = mode;
-  }
+type CapturingMove = {
+  originSquare: From,
+  part: Part
+};
 
-  /**
-   * Copy itself.
-   * @returns a new move instance
-   */
-  copy(): TMove {
-    const r = new TMove(this.mode);
-    r.actions = [...this.actions]; //shallow copying
-    return r;
-  }
+type DroppingMove = {
+  targetSquare: To,
+  piece: TPiece | null,
+  part: Part
+};
 
-  /**
-   * 
-   * @param part 
-   * @returns
-   */
-  clone(part: number): TMove {
-    const r = new TMove(this.mode);
-    const filtered_actions = this.actions.filter(a =>
-      (a.originSquare === null) //search drop moves
-      || (a.targetSquare === null) //search capture moves
-      || (a.part !== part)
-    );
-    r.actions = [...filtered_actions]; //shallow copying
-    return r;
-  }
+/**
+ * Copy itself.
+ * @returns a new move instance
+ */
+export function copyMove(move: TMove): TMove {
+  return {
+    mode: move.mode,
+    actions: [...move.actions], //shallow copying
+  };
+}
 
-  /**
-   * Convert the moves to human-readable strings.
-   * @param design - game design
-   * @returns human-readable notations of the move
-   */
-  toString(design: TDesign): string {
-    let str = "";
-    let location = null;
+/**
+ * 
+ * @param part 
+ * @returns
+ */
+export function cloneMove(move: TMove, part: number): TMove {
+  const filtered_actions = move.actions.filter(a =>
+    (a.originSquare === null) //search drop moves
+    || (a.targetSquare === null) //search capture moves
+    || (a.part !== part)
+  );
+  return {
+    mode: move.mode,
+    actions: [...filtered_actions] //shallow copying
+  };
+}
 
-    for (const a of this.actions) {
-      if ((a.originSquare !== null) && (a.targetSquare !== null)) { //neither drop moves nor capture moves
-        if ((location === null) || (location != a.originSquare)) {
-          if (str != "") {
-            str = str + " ";
-          }
-          str = `${str}${design.locToString(a.originSquare)}`; //convert the start location to strings
+/**
+ * Convert the moves to human-readable strings.
+ * @param design - game design
+ * @returns human-readable notations of the move
+ */
+export function moveToString(move: TMove, design: TDesign): string {
+  let str = "";
+  let location = null;
+
+  for (const a of move.actions) {
+    if ((a.originSquare !== null) && (a.targetSquare !== null)) { //neither drop moves nor capture moves
+      if ((location === null) || (location != a.originSquare)) {
+        if (str != "") {
+          str = str + " ";
         }
-        str = `${str}-${design.locToString(a.targetSquare)}`; //convert the target location to strings
-        location = a.targetSquare;
+        str = `${str}${design.locToString(a.originSquare)}`; //convert the start location to strings
       }
+      str = `${str}-${design.locToString(a.targetSquare)}`; //convert the target location to strings
+      location = a.targetSquare;
     }
-
-    return str;
   }
 
-  /**
-   * Check whether the move is a pass or not;
-   * @returns
-   */
-  isPass(): boolean {
-    return this.actions.length == 0;
-  }
+  return str;
+}
 
-  /**
-   * Check whether the move is a drop move or not.
-   * @returns
-   */
-  isDropMove(): boolean {
-    if (this.actions.length != 1) {
-      return false;
+/**
+ * Check whether the move is a pass or not;
+ * @returns
+ */
+export function isPassMove(move: TMove): boolean {
+  return move.actions.length == 0;
+}
+
+/**
+ * Check whether the move is a drop move or not.
+ * @returns
+ */
+export function isDropMove(move: TMove): boolean {
+  if (move.actions.length != 1) {
+    return false;
+  }
+  return (move.actions[0].originSquare === null)
+    && (move.actions[0].targetSquare !== null)
+    && (move.actions[0].piece !== null);
+}
+
+/**
+ * Checks whether the move is a "quiet move" or not;
+ * when a player just moves his/her piece without attacking or capturing any piece, the move is a quiet move.
+ * @link https://www.chessprogramming.org/Quiet_Moves
+ * @link https://en.wikipedia.org/wiki/Glossary_of_chess#quiet_move
+ * @returns
+ */
+export function isQuietMove(move: TMove): boolean {
+  if (move.actions.length != 1) {
+    return false;
+  }
+  return (move.actions[0].originSquare !== null)
+    && (move.actions[0].targetSquare !== null);
+}
+
+/**
+ * Called when the move is a piece-transferring move.
+ * @param from 
+ * @param to 
+ * @param piece 
+ * @param part
+ */
+export function movePiece(move: TMove, { originSquare, targetSquare, piece, part = 1 }: MoveAction) {
+  move.actions.push({ originSquare, targetSquare, piece, part });
+}
+
+/**
+ * Called when the move is a piece-capturing move.
+ * @param from 
+ * @param part
+ */
+export function capturePiece(move: TMove, { originSquare, part = 1 }: CapturingMove) {
+  move.actions.push({ originSquare, targetSquare: null, piece: null, part });
+}
+
+/**
+ * Called when the move is a piece-dropping move.
+ * @param to 
+ * @param piece 
+ * @param part
+ */
+export function dropPiece(move: TMove, { targetSquare, piece, part = 1 }: DroppingMove) {
+  move.actions.push({ originSquare: null, targetSquare, piece, part });
+}
+
+/**
+ * Updates the current board state with the move.
+ * @param board
+ */
+export function applyTo(move: TMove, board: TBoard) {
+  for (const a of move.actions) {
+    if (a.originSquare !== null) {
+      board.setPiece(a.originSquare, null); //make the origin square empty
     }
-    return (this.actions[0].originSquare === null) && (this.actions[0].targetSquare !== null) && (this.actions[0].piece !== null);
-  }
-
-  /**
-   * Checks whether the move is a "quiet move" or not;
-   * when a player just moves his/her piece without attacking or capturing any piece, the move is a quiet move.
-   * @link https://www.chessprogramming.org/Quiet_Moves
-   * @link https://en.wikipedia.org/wiki/Glossary_of_chess#quiet_move
-   * @returns
-   */
-  isQuietMove(): boolean {
-    if (this.actions.length != 1) {
-      return false;
+    if ((a.targetSquare !== null) && (a.piece !== null)) {
+      board.setPiece(a.targetSquare, a.piece); //put a piece on the target location
     }
-    return (this.actions[0].originSquare !== null) && (this.actions[0].targetSquare !== null);
-  }
-
-  /**
-   * Called when the move is a piece-transferring move.
-   * @param from 
-   * @param to 
-   * @param piece 
-   * @param part
-   */
-  movePiece(originSquare: From, targetSquare: To, piece: TPiece | null, part: Part = 1) {
-    this.actions.push({ originSquare, targetSquare, piece, part });
-  }
-
-  /**
-   * Called when the move is a piece-capturing move.
-   * @param from 
-   * @param part
-   */
-  capturePiece(originSquare: From, part: Part = 1) {
-    this.actions.push({ originSquare, targetSquare: null, piece: null, part });
-  }
-
-  /**
-   * Called when the move is a piece-dropping move.
-   * @param to 
-   * @param piece 
-   * @param part
-   */
-  dropPiece(targetSquare: To, piece: TPiece | null, part: Part = 1) {
-    this.actions.push({ originSquare: null, targetSquare, piece, part });
-  }
-
-  /**
-   * Updates the current board state with the move.
-   * @param board
-   */
-  applyTo(board: TBoard) {
-    for (const a of this.actions) {
-      if (a.originSquare !== null) {
-        board.setPiece(a.originSquare, null); //make the origin square empty
-      }
-      if ((a.targetSquare !== null) && (a.piece !== null)) {
-        board.setPiece(a.targetSquare, a.piece); //put a piece on the target location
-      }
-      if ((a.originSquare !== null) && (a.targetSquare !== null)) {
-        board.setLastFrom(a.originSquare); //update the origin square
-      }
+    if ((a.originSquare !== null) && (a.targetSquare !== null)) {
+      board.setLastFrom(a.originSquare); //update the origin square
     }
   }
 }

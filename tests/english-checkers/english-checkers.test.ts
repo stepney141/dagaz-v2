@@ -1,4 +1,5 @@
 import { TDesign } from "../../src/core";
+import { moveToString } from "../../src/core/move";
 import { pieceToString, promotePiece } from "../../src/core/piece";
 import { buildDesign } from "./english-checkers-dagaz";
 
@@ -141,13 +142,13 @@ test("Initial Board", function () {
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(7); // 7 moves
-  expect(board.legalMoves[0].toString(design)).toEqual("a3-b4");
-  expect(board.legalMoves[1].toString(design)).toEqual("c3-b4");
-  expect(board.legalMoves[2].toString(design)).toEqual("c3-d4");
-  expect(board.legalMoves[3].toString(design)).toEqual("e3-d4");
-  expect(board.legalMoves[4].toString(design)).toEqual("e3-f4");
-  expect(board.legalMoves[5].toString(design)).toEqual("g3-f4");
-  expect(board.legalMoves[6].toString(design)).toEqual("g3-h4");
+  expect(moveToString(board.legalMoves[0], design)).toEqual("a3-b4");
+  expect(moveToString(board.legalMoves[1], design)).toEqual("c3-b4");
+  expect(moveToString(board.legalMoves[2], design)).toEqual("c3-d4");
+  expect(moveToString(board.legalMoves[3], design)).toEqual("e3-d4");
+  expect(moveToString(board.legalMoves[4], design)).toEqual("e3-f4");
+  expect(moveToString(board.legalMoves[5], design)).toEqual("g3-f4");
+  expect(moveToString(board.legalMoves[6], design)).toEqual("g3-h4");
 
   board = board.makeMove(board.legalMoves[0]);
 
@@ -162,13 +163,13 @@ test("Initial Board", function () {
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(7); // 7 moves
-  expect(board.legalMoves[0].toString(design)).toEqual("b6-c5");
-  expect(board.legalMoves[1].toString(design)).toEqual("b6-a5");
-  expect(board.legalMoves[2].toString(design)).toEqual("d6-e5");
-  expect(board.legalMoves[3].toString(design)).toEqual("d6-c5");
-  expect(board.legalMoves[4].toString(design)).toEqual("f6-g5");
-  expect(board.legalMoves[5].toString(design)).toEqual("f6-e5");
-  expect(board.legalMoves[6].toString(design)).toEqual("h6-g5");
+  expect(moveToString(board.legalMoves[0], design)).toEqual("b6-c5");
+  expect(moveToString(board.legalMoves[1], design)).toEqual("b6-a5");
+  expect(moveToString(board.legalMoves[2], design)).toEqual("d6-e5");
+  expect(moveToString(board.legalMoves[3], design)).toEqual("d6-c5");
+  expect(moveToString(board.legalMoves[4], design)).toEqual("f6-g5");
+  expect(moveToString(board.legalMoves[5], design)).toEqual("f6-e5");
+  expect(moveToString(board.legalMoves[6], design)).toEqual("h6-g5");
 
   board = board.makeMove(board.legalMoves[6]);
 
@@ -205,8 +206,8 @@ test("Man Capturing", function () {
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(2); // 2 moves
-  expect(board.legalMoves[0].toString(design)).toEqual("f2-d4-b6-d8");
-  expect(board.legalMoves[1].toString(design)).toEqual("f2-d4-f6-d8");
+  expect(moveToString(board.legalMoves[0], design)).toEqual("f2-d4-b6-d8");
+  expect(moveToString(board.legalMoves[1], design)).toEqual("f2-d4-f6-d8");
 
   board = board.makeMove(board.legalMoves[0]);
 
@@ -245,12 +246,12 @@ test("King Capturing", function () {
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(6); // 6 moves
-  expect(board.legalMoves[0].toString(design)).toEqual("d4-f6-h8");
-  expect(board.legalMoves[1].toString(design)).toEqual("d4-f6-h4");
-  expect(board.legalMoves[2].toString(design)).toEqual("d4-b6-d8-f6-h8");
-  expect(board.legalMoves[3].toString(design)).toEqual("d4-b6-d8-f6-d4");
-  expect(board.legalMoves[4].toString(design)).toEqual("d4-b6-d8-f6-h4");
-  expect(board.legalMoves[5].toString(design)).toEqual("d4-f6-d8-b6-d4");
+  expect(moveToString(board.legalMoves[0], design)).toEqual("d4-f6-h8");
+  expect(moveToString(board.legalMoves[1], design)).toEqual("d4-f6-h4");
+  expect(moveToString(board.legalMoves[2], design)).toEqual("d4-b6-d8-f6-h8");
+  expect(moveToString(board.legalMoves[3], design)).toEqual("d4-b6-d8-f6-d4");
+  expect(moveToString(board.legalMoves[4], design)).toEqual("d4-b6-d8-f6-h4");
+  expect(moveToString(board.legalMoves[5], design)).toEqual("d4-f6-d8-b6-d4");
 
   board = board.makeMove(board.legalMoves[2]);
 

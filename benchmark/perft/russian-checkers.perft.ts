@@ -23,7 +23,6 @@ const perft = function (depth: number, b: TBoard) {
   b.generateMoves();
 
   for (const m of b.legalMoves) {
-    // console.log(m.toString(board.design));
     const next_b = b.makeMove(m); //make a move
     nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
   }

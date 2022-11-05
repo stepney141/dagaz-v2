@@ -1,4 +1,4 @@
-import { TMove } from "./move";
+import { capturePiece, cloneMove, copyMove, movePiece, type TMove } from "./move";
 import type { TBoard } from "./board";
 import type { TDesign } from "./design";
 import { promotePiece, TPiece } from "./piece";
@@ -53,7 +53,10 @@ export class TMoveContext {
      * the moving piece
      */
     this.piece = piece;
-    this.move = new TMove(this.mode);
+    this.move = {
+      actions: [],
+      mode: this.mode
+    };
     this.succeed = false;
     this.changes = [];
     this.marks = [];
@@ -72,7 +75,7 @@ export class TMoveContext {
     const r = new TMoveContext(this.design, this.board, this.loc, this.piece);
     r.parent = this;
     r.part = this.part + 1;
-    r.move = this.move.copy();
+    r.move = copyMove(this.move);
     r.mode = this.mode;
     return r;
   }
@@ -132,7 +135,12 @@ export class TMoveContext {
   put() {
     if (this.hand !== null) {
       this.piece = this.hand.piece;
-      this.move.movePiece(this.hand.start, this.loc, this.hand.piece, this.part);
+      movePiece(this.move, {
+        originSquare: this.hand.start,
+        targetSquare: this.loc,
+        piece: this.hand.piece,
+        part: this.part
+      });
       this.hand = null;
       this.succeed = true;
     }
@@ -308,7 +316,10 @@ export class TMoveContext {
    */
   capture() {
     this.setPiece(this.loc, null); // take an existing piece off the square
-    this.move.capturePiece(this.loc, this.part); // capture the piece
+    capturePiece(this.move, {
+      originSquare: this.loc,
+      part: this.part
+    }); // capture the piece
   }
 
   /**
@@ -330,7 +341,7 @@ export class TMoveContext {
       }
     }
 
-    this.move = this.move.clone(this.part);
+    this.move = cloneMove(this.move, this.part);
     this.hand = hand;
   }
 }

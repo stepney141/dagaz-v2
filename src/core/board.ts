@@ -1,4 +1,4 @@
-import { TMove } from "./move";
+import { applyTo, type TMove } from "./move";
 import { TMoveContext } from "./move_context";
 import { zUpdate } from "./../zobrist";
 import type { From, LocationID, PlayerID } from "./../types";
@@ -233,7 +233,10 @@ export class TBoard {
         .forEach(plugin => plugin.func(this));
 
       if (this.design.gameOptions['pass-turn'] && (this.legalMoves.length == 0)) {
-        this.legalMoves.push(new TMove(0));
+        this.legalMoves.push({
+          actions: [],
+          mode: 0
+        } as TMove);
       }
     }
   }
@@ -247,7 +250,7 @@ export class TBoard {
     const r = this.copy(); // create a new game state
     r.turn = r.design.getNextTurn(this); // set next turn
     r.player = r.design.getCurrentPlayer(r.turn); // set the next player
-    move.applyTo(r); // make a move
+    applyTo(move, r); // make a move
     r.lastlyMadeMove = move;
     return r;
   }
