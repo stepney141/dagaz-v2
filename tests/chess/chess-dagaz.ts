@@ -112,7 +112,7 @@ const O_O_O: MovementDefinitionMethod = function (ctx, params) {
 };
 
 export const buildDesign = function (design: TDesign) {
-  design.checkGameOption("smart-moves", false);
+  design.setGameOption("smart-moves", false);
 
   design.addDirection([
     "w", // 0

@@ -9,7 +9,7 @@ test("King Moves", function () {
 
   board.clear();
   const white = design.createPiece(1, 1);
-  board.setPiece(design.stringToPos("h2"), white);
+  board.setPiece(design.stringToLoc("h2"), white);
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(7); // 7 moves
@@ -24,10 +24,10 @@ test("King Moves", function () {
   board = board.makeMove(board.legalMoves[3]);
 
   expect(board.player).toEqual(2); // Black turn
-  expect(board.getPiece(design.stringToPos("h2")) === null).toBeTruthy(); // h2 is empty
-  expect(board.getPiece(design.stringToPos("f4")) === null).toBeTruthy(); // f4 is empty
-  expect(board.getPiece(design.stringToPos("e5")) === null).toBeTruthy(); // e5 is empty
-  expect(board.getPiece(design.stringToPos("d6")).toString(design)).toEqual("White King"); // White King is on d6
+  expect(board.getPiece(design.stringToLoc("h2")) === null).toBeTruthy(); // h2 is empty
+  expect(board.getPiece(design.stringToLoc("f4")) === null).toBeTruthy(); // f4 is empty
+  expect(board.getPiece(design.stringToLoc("e5")) === null).toBeTruthy(); // e5 is empty
+  expect(board.getPiece(design.stringToLoc("d6")).toString(design)).toEqual("White King"); // White King is on d6
 });
 
 test("King Capturing", function () {
@@ -38,9 +38,9 @@ test("King Capturing", function () {
 
   board.clear();
   const white = design.createPiece(1, 1);
-  board.setPiece(design.stringToPos("h2"), white);
+  board.setPiece(design.stringToLoc("h2"), white);
   const black = design.createPiece(0, 2);
-  board.setPiece(design.stringToPos("f4"), black);
+  board.setPiece(design.stringToLoc("f4"), black);
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(4); // 4 moves
@@ -52,12 +52,12 @@ test("King Capturing", function () {
   board = board.makeMove(board.legalMoves[2]);
 
   expect(board.player).toEqual(2);
-  expect(board.getPiece(design.stringToPos("h2")) === null).toBeTruthy(); // h2 is empty
-  expect(board.getPiece(design.stringToPos("g3")) === null).toBeTruthy(); // g3 is empty
-  expect(board.getPiece(design.stringToPos("f4")) === null).toBeTruthy(); // f4 is empty
-  expect(board.getPiece(design.stringToPos("e5")) === null).toBeTruthy(); // e5 is empty
-  expect(board.getPiece(design.stringToPos("d6")) === null).toBeTruthy(); // d6 is empty
-  expect(board.getPiece(design.stringToPos("c7")).toString(design)).toEqual("White King"); // White King is on c7
+  expect(board.getPiece(design.stringToLoc("h2")) === null).toBeTruthy(); // h2 is empty
+  expect(board.getPiece(design.stringToLoc("g3")) === null).toBeTruthy(); // g3 is empty
+  expect(board.getPiece(design.stringToLoc("f4")) === null).toBeTruthy(); // f4 is empty
+  expect(board.getPiece(design.stringToLoc("e5")) === null).toBeTruthy(); // e5 is empty
+  expect(board.getPiece(design.stringToLoc("d6")) === null).toBeTruthy(); // d6 is empty
+  expect(board.getPiece(design.stringToLoc("c7")).toString(design)).toEqual("White King"); // White King is on c7
 });
 
 test("Man Capturing", function () {
@@ -68,15 +68,15 @@ test("Man Capturing", function () {
 
   board.clear();
   const white = design.createPiece(0, 1);
-  board.setPiece(design.stringToPos("h2"), white);
+  board.setPiece(design.stringToLoc("h2"), white);
   const black = design.createPiece(0, 2);
-  board.setPiece(design.stringToPos("a7"), black);
-  board.setPiece(design.stringToPos("b4"), black);
-  board.setPiece(design.stringToPos("e5"), black);
-  board.setPiece(design.stringToPos("e7"), black);
-  board.setPiece(design.stringToPos("g3"), black);
-  board.setPiece(design.stringToPos("g5"), black);
-  board.setPiece(design.stringToPos("g7"), black);
+  board.setPiece(design.stringToLoc("a7"), black);
+  board.setPiece(design.stringToLoc("b4"), black);
+  board.setPiece(design.stringToLoc("e5"), black);
+  board.setPiece(design.stringToLoc("e7"), black);
+  board.setPiece(design.stringToLoc("g3"), black);
+  board.setPiece(design.stringToLoc("g5"), black);
+  board.setPiece(design.stringToLoc("g7"), black);
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(7); // 7 moves
@@ -91,20 +91,20 @@ test("Man Capturing", function () {
   board = board.makeMove(board.legalMoves[6]);
 
   expect(board.player).toEqual(2); // Black turn
-  expect(board.getPiece(design.stringToPos("h2")) === null).toBeTruthy(); // h2 is empty
-  expect(board.getPiece(design.stringToPos("g3")) === null).toBeTruthy(); // g3 is empty
-  expect(board.getPiece(design.stringToPos("f4")) === null).toBeTruthy(); // f4 is empty
-  expect(board.getPiece(design.stringToPos("e5")) === null).toBeTruthy(); // e5 is empty
-  expect(board.getPiece(design.stringToPos("d6")) === null).toBeTruthy(); // d6 is empty
-  expect(board.getPiece(design.stringToPos("e7")) === null).toBeTruthy(); // e7 is empty
-  expect(board.getPiece(design.stringToPos("f8")) === null).toBeTruthy(); // f8 is empty
-  expect(board.getPiece(design.stringToPos("g7")) === null).toBeTruthy(); // g7 is empty
-  expect(board.getPiece(design.stringToPos("h6")) === null).toBeTruthy(); // h6 is empty
-  expect(board.getPiece(design.stringToPos("g5")) === null).toBeTruthy(); // g5 is empty
-  expect(board.getPiece(design.stringToPos("e3")) === null).toBeTruthy(); // e3 is empty
-  expect(board.getPiece(design.stringToPos("d2")) === null).toBeTruthy(); // d2 is empty
-  expect(board.getPiece(design.stringToPos("c3")) === null).toBeTruthy(); // c3 is empty
-  expect(board.getPiece(design.stringToPos("b4")) === null).toBeTruthy(); // b4 is empty
-  expect(board.getPiece(design.stringToPos("a5")).toString(design)).toEqual("White King"); // White king is on a5
-  expect(board.getPiece(design.stringToPos("a7")).toString(design)).toEqual("Black Man"); // Black king is on a7
+  expect(board.getPiece(design.stringToLoc("h2")) === null).toBeTruthy(); // h2 is empty
+  expect(board.getPiece(design.stringToLoc("g3")) === null).toBeTruthy(); // g3 is empty
+  expect(board.getPiece(design.stringToLoc("f4")) === null).toBeTruthy(); // f4 is empty
+  expect(board.getPiece(design.stringToLoc("e5")) === null).toBeTruthy(); // e5 is empty
+  expect(board.getPiece(design.stringToLoc("d6")) === null).toBeTruthy(); // d6 is empty
+  expect(board.getPiece(design.stringToLoc("e7")) === null).toBeTruthy(); // e7 is empty
+  expect(board.getPiece(design.stringToLoc("f8")) === null).toBeTruthy(); // f8 is empty
+  expect(board.getPiece(design.stringToLoc("g7")) === null).toBeTruthy(); // g7 is empty
+  expect(board.getPiece(design.stringToLoc("h6")) === null).toBeTruthy(); // h6 is empty
+  expect(board.getPiece(design.stringToLoc("g5")) === null).toBeTruthy(); // g5 is empty
+  expect(board.getPiece(design.stringToLoc("e3")) === null).toBeTruthy(); // e3 is empty
+  expect(board.getPiece(design.stringToLoc("d2")) === null).toBeTruthy(); // d2 is empty
+  expect(board.getPiece(design.stringToLoc("c3")) === null).toBeTruthy(); // c3 is empty
+  expect(board.getPiece(design.stringToLoc("b4")) === null).toBeTruthy(); // b4 is empty
+  expect(board.getPiece(design.stringToLoc("a5")).toString(design)).toEqual("White King"); // White king is on a5
+  expect(board.getPiece(design.stringToLoc("a7")).toString(design)).toEqual("Black Man"); // Black king is on a7
 });

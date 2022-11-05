@@ -48,9 +48,9 @@ const contKing: MovementDefinitionMethod = function (ctx, params) {
 };
 
 export const buildDesign = function (design: TDesign) {
-  design.checkGameOption("smart-moves", true);
-  design.checkGameOption("maximal-captures", true);
-  design.checkGameOption("deferred-captures", true);
+  design.setGameOption("smart-moves", true);
+  design.setGameOption("maximal-captures", true);
+  design.setGameOption("deferred-captures", true);
 
   design.addDirection([
     "se", // 0

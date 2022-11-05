@@ -58,24 +58,24 @@ export class TGrid {
     if (ix < 0) {
       const offsets = _.range(grid.dirs.length).fill(0);
 
-      wider_loop: for (const vector of grid.dirs) {
+      Object.keys(grid.dirs).forEach(dir => {
         let o = 0;
         for (let c = grid.scales.length - 1; c >= 0; c--) {
           if (c < grid.scales.length - 1) {
             o = o * grid.scales[c].length;
           }
-          const v = vector[c];
+          const v = grid.dirs[(dir as unknown as DirectionID)][c];
           const x = point[c] + v;
           if (x < 0) {
-            continue wider_loop;
+            return;
           }
           if (x >= grid.scales[c].length) {
-            continue wider_loop;
+            return;
           }
           o += v;
         }
-        offsets[grid.dirs.indexOf(vector)] = o;
-      }
+        offsets[(dir as unknown as DirectionID)] = o;
+      });
 
       grid.design.addLocation({ name, offsets });
       return;

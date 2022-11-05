@@ -206,7 +206,7 @@ export class TDesign {
    * @param name - flag name
    * @param value - flag value
    */
-  checkGameOption(name: GameBehaviorOptions, value: boolean) {
+  setGameOption(name: GameBehaviorOptions, value: boolean) {
     if (name === "pass-turn") {
       this.gameOptions['pass-turn'] = (value === true);
     }
@@ -238,7 +238,7 @@ export class TDesign {
    * @param name - a location name
    * @returns a location id
    */
-  stringToPos(name: LocationName): null | LocationID {
+  stringToLoc(name: LocationName): null | LocationID {
     const loc = this.locationNames.indexOf(name);
     if (loc < 0) {
       return null;
@@ -311,7 +311,7 @@ export class TDesign {
     if (this.zones[zone_id] === undefined) {
       this.zones[zone_id] = [];
     }
-    this.zones[zone_id][player] = locations.map(name => this.stringToPos(name));
+    this.zones[zone_id][player] = locations.map(name => this.stringToLoc(name));
   }
 
   /**
@@ -388,7 +388,7 @@ export class TDesign {
     const piece = new TPiece(piece_type_id, player_id); // create a piece
 
     locations
-      .map(name => this.stringToPos(name))
+      .map(name => this.stringToLoc(name))
       .forEach(loc => {
         this.initialGamePosition.push({ //store information of a piece location 
           location: loc,
@@ -443,10 +443,9 @@ export class TDesign {
    * @returns new location id (null if it is not found)
    */
   navigate(player: PlayerID, loc: LocationID, dir: DirectionID): null | LocationID {
-    let target_dir = dir;
-    if (this.rotationallySymmetricDirections[player] !== undefined) {
-      target_dir = this.rotationallySymmetricDirections[player][dir];
-    }
+    const target_dir = (this.rotationallySymmetricDirections[player] !== undefined)
+      ? this.rotationallySymmetricDirections[player][dir]
+      : dir;
 
     if (this.boardConnectionGraph[loc][target_dir] != 0) {
       return + loc + this.boardConnectionGraph[loc][target_dir];

@@ -42,12 +42,12 @@ test("En Passant", function () {
   expect(board.player).toEqual(1); // White turn
 
   const white = design.createPiece(0, 1);
-  board.setPiece(design.stringToPos("c4"), white);
-  board.setPiece(design.stringToPos("e2"), white);
-  board.setPiece(design.stringToPos("g2"), white);
+  board.setPiece(design.stringToLoc("c4"), white);
+  board.setPiece(design.stringToLoc("e2"), white);
+  board.setPiece(design.stringToLoc("g2"), white);
   const black = design.createPiece(0, 2);
-  board.setPiece(design.stringToPos("d4"), black);
-  board.setPiece(design.stringToPos("f4"), black);
+  board.setPiece(design.stringToLoc("d4"), black);
+  board.setPiece(design.stringToLoc("f4"), black);
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(5); // 5 moves
@@ -73,10 +73,10 @@ test("En Passant", function () {
   board = board.makeMove(board.legalMoves[1]);
 
   expect(board.player).toEqual(1); // White turn
-  expect(board.getPiece(design.stringToPos("d4")) === null).toBeTruthy(); // d4 is empty
-  expect(board.getPiece(design.stringToPos("e4")) === null).toBeTruthy(); // e4 is empty
-  expect(board.getPiece(design.stringToPos("e2")) === null).toBeTruthy(); // e2 is empty
-  expect(board.getPiece(design.stringToPos("e3")).toString(design)).toEqual("Black Pawn"); // Black Pawn is on e3
+  expect(board.getPiece(design.stringToLoc("d4")) === null).toBeTruthy(); // d4 is empty
+  expect(board.getPiece(design.stringToLoc("e4")) === null).toBeTruthy(); // e4 is empty
+  expect(board.getPiece(design.stringToLoc("e2")) === null).toBeTruthy(); // e2 is empty
+  expect(board.getPiece(design.stringToLoc("e3")).toString(design)).toEqual("Black Pawn"); // Black Pawn is on e3
 
   board.generateMoves();
 
@@ -99,8 +99,8 @@ test("En Passant", function () {
   board = board.makeMove(board.legalMoves[1]);
 
   expect(board.player).toEqual(1); // White turn
-  expect(board.getPiece(design.stringToPos("f4")) === null).toBeTruthy(); // f4 is empty
-  expect(board.getPiece(design.stringToPos("g3")).toString(design)).toEqual("Black Pawn"); // Black Pawn is on g3
+  expect(board.getPiece(design.stringToLoc("f4")) === null).toBeTruthy(); // f4 is empty
+  expect(board.getPiece(design.stringToLoc("g3")).toString(design)).toEqual("Black Pawn"); // Black Pawn is on g3
 
   board.generateMoves();
 
@@ -117,33 +117,33 @@ test("Castling", function () {
   expect(board.player).toEqual(1); // White turn
 
   const whitePawn = design.createPiece(0, 1);
-  board.setPiece(design.stringToPos("a2"), whitePawn);
-  board.setPiece(design.stringToPos("b2"), whitePawn);
-  board.setPiece(design.stringToPos("c2"), whitePawn);
-  board.setPiece(design.stringToPos("d2"), whitePawn);
-  board.setPiece(design.stringToPos("e2"), whitePawn);
-  board.setPiece(design.stringToPos("f2"), whitePawn);
-  board.setPiece(design.stringToPos("g2"), whitePawn);
-  board.setPiece(design.stringToPos("h2"), whitePawn);
+  board.setPiece(design.stringToLoc("a2"), whitePawn);
+  board.setPiece(design.stringToLoc("b2"), whitePawn);
+  board.setPiece(design.stringToLoc("c2"), whitePawn);
+  board.setPiece(design.stringToLoc("d2"), whitePawn);
+  board.setPiece(design.stringToLoc("e2"), whitePawn);
+  board.setPiece(design.stringToLoc("f2"), whitePawn);
+  board.setPiece(design.stringToLoc("g2"), whitePawn);
+  board.setPiece(design.stringToLoc("h2"), whitePawn);
   const whiteKing = design.createPiece(5, 1);
-  board.setPiece(design.stringToPos("e1"), whiteKing);
+  board.setPiece(design.stringToLoc("e1"), whiteKing);
   const whiteRook = design.createPiece(1, 1);
-  board.setPiece(design.stringToPos("a1"), whiteRook);
-  board.setPiece(design.stringToPos("h1"), whiteRook);
+  board.setPiece(design.stringToLoc("a1"), whiteRook);
+  board.setPiece(design.stringToLoc("h1"), whiteRook);
   const blackPawn = design.createPiece(0, 2);
-  board.setPiece(design.stringToPos("a7"), blackPawn);
-  board.setPiece(design.stringToPos("b7"), blackPawn);
-  board.setPiece(design.stringToPos("c7"), blackPawn);
-  board.setPiece(design.stringToPos("d7"), blackPawn);
-  board.setPiece(design.stringToPos("e7"), blackPawn);
-  board.setPiece(design.stringToPos("f7"), blackPawn);
-  board.setPiece(design.stringToPos("g7"), blackPawn);
-  board.setPiece(design.stringToPos("h7"), blackPawn);
+  board.setPiece(design.stringToLoc("a7"), blackPawn);
+  board.setPiece(design.stringToLoc("b7"), blackPawn);
+  board.setPiece(design.stringToLoc("c7"), blackPawn);
+  board.setPiece(design.stringToLoc("d7"), blackPawn);
+  board.setPiece(design.stringToLoc("e7"), blackPawn);
+  board.setPiece(design.stringToLoc("f7"), blackPawn);
+  board.setPiece(design.stringToLoc("g7"), blackPawn);
+  board.setPiece(design.stringToLoc("h7"), blackPawn);
   const blackKing = design.createPiece(5, 2);
-  board.setPiece(design.stringToPos("e8"), blackKing);
+  board.setPiece(design.stringToLoc("e8"), blackKing);
   const blackRook = design.createPiece(1, 2);
-  board.setPiece(design.stringToPos("a8"), blackRook);
-  board.setPiece(design.stringToPos("h8"), blackRook);
+  board.setPiece(design.stringToLoc("a8"), blackRook);
+  board.setPiece(design.stringToLoc("h8"), blackRook);
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(25); // 25 moves
@@ -176,10 +176,10 @@ test("Castling", function () {
   board = board.makeMove(board.legalMoves[21]);
 
   expect(board.player).toEqual(2); // Black turn
-  expect(board.getPiece(design.stringToPos("e1")) === null).toBeTruthy(); // e1 is empty
-  expect(board.getPiece(design.stringToPos("h1")) === null).toBeTruthy(); // h1 is empty
-  expect(board.getPiece(design.stringToPos("g1")).toString(design)).toEqual("White King"); // White King is on g1
-  expect(board.getPiece(design.stringToPos("f1")).toString(design)).toEqual("White Rook"); // White Rook is on f1
+  expect(board.getPiece(design.stringToLoc("e1")) === null).toBeTruthy(); // e1 is empty
+  expect(board.getPiece(design.stringToLoc("h1")) === null).toBeTruthy(); // h1 is empty
+  expect(board.getPiece(design.stringToLoc("g1")).toString(design)).toEqual("White King"); // White King is on g1
+  expect(board.getPiece(design.stringToLoc("f1")).toString(design)).toEqual("White Rook"); // White Rook is on f1
 
   board.generateMoves();
 
@@ -213,10 +213,10 @@ test("Castling", function () {
   board = board.makeMove(board.legalMoves[6]);
 
   expect(board.player).toEqual(1); // White turn
-  expect(board.getPiece(design.stringToPos("e8")) === null).toBeTruthy(); // e8 is empty
-  expect(board.getPiece(design.stringToPos("a8")) === null).toBeTruthy(); // a8 is empty
-  expect(board.getPiece(design.stringToPos("c8")).toString(design)).toEqual("Black King"); // Black King is on c8
-  expect(board.getPiece(design.stringToPos("d8")).toString(design)).toEqual("Black Rook"); // Black Rook is on d8
+  expect(board.getPiece(design.stringToLoc("e8")) === null).toBeTruthy(); // e8 is empty
+  expect(board.getPiece(design.stringToLoc("a8")) === null).toBeTruthy(); // a8 is empty
+  expect(board.getPiece(design.stringToLoc("c8")).toString(design)).toEqual("Black King"); // Black King is on c8
+  expect(board.getPiece(design.stringToLoc("d8")).toString(design)).toEqual("Black Rook"); // Black Rook is on d8
 });
 
 test("Stalemate", function () {
@@ -228,11 +228,11 @@ test("Stalemate", function () {
   expect(board.player).toEqual(1); // White turn
 
   const whiteKing = design.createPiece(5, 1);
-  board.setPiece(design.stringToPos("e1"), whiteKing);
+  board.setPiece(design.stringToLoc("e1"), whiteKing);
   const whiteQueen = design.createPiece(4, 1);
-  board.setPiece(design.stringToPos("d1"), whiteQueen);
+  board.setPiece(design.stringToLoc("d1"), whiteQueen);
   const blackKing = design.createPiece(5, 2);
-  board.setPiece(design.stringToPos("b8"), blackKing);
+  board.setPiece(design.stringToLoc("b8"), blackKing);
 
   expect(getGoal.func(board, board.player) === null).toBeTruthy(); // No goal
 
@@ -330,12 +330,12 @@ test("Checkmate", function () {
   expect(board.player).toEqual(1); // White turn
 
   const whiteKing = design.createPiece(5, 1);
-  board.setPiece(design.stringToPos("e1"), whiteKing);
+  board.setPiece(design.stringToLoc("e1"), whiteKing);
   const whiteRook = design.createPiece(1, 1);
-  board.setPiece(design.stringToPos("a1"), whiteRook);
-  board.setPiece(design.stringToPos("h1"), whiteRook);
+  board.setPiece(design.stringToLoc("a1"), whiteRook);
+  board.setPiece(design.stringToLoc("h1"), whiteRook);
   const blackKing = design.createPiece(5, 2);
-  board.setPiece(design.stringToPos("e8"), blackKing);
+  board.setPiece(design.stringToLoc("e8"), blackKing);
 
   expect(getGoal.func(board, board.player) === null).toBeTruthy(); // No goal
 

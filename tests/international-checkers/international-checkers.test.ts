@@ -11,22 +11,22 @@ test("Man promotion", function () {
 
   board.clear();
   const white = design.createPiece(0, 1);
-  board.setPiece(design.stringToPos("b8"), white);
+  board.setPiece(design.stringToLoc("b8"), white);
   const black = design.createPiece(0, 2);
-  board.setPiece(design.stringToPos("b2"), black);
-  board.setPiece(design.stringToPos("b4"), black);
-  board.setPiece(design.stringToPos("c7"), black);
-  board.setPiece(design.stringToPos("c9"), black);
-  board.setPiece(design.stringToPos("d6"), black);
-  board.setPiece(design.stringToPos("e3"), black);
-  board.setPiece(design.stringToPos("e9"), black);
-  board.setPiece(design.stringToPos("f2"), black);
-  board.setPiece(design.stringToPos("g3"), black);
-  board.setPiece(design.stringToPos("g5"), black);
-  board.setPiece(design.stringToPos("g7"), black);
-  board.setPiece(design.stringToPos("g9"), black);
-  board.setPiece(design.stringToPos("i7"), black);
-  board.setPiece(design.stringToPos("i9"), black);
+  board.setPiece(design.stringToLoc("b2"), black);
+  board.setPiece(design.stringToLoc("b4"), black);
+  board.setPiece(design.stringToLoc("c7"), black);
+  board.setPiece(design.stringToLoc("c9"), black);
+  board.setPiece(design.stringToLoc("d6"), black);
+  board.setPiece(design.stringToLoc("e3"), black);
+  board.setPiece(design.stringToLoc("e9"), black);
+  board.setPiece(design.stringToLoc("f2"), black);
+  board.setPiece(design.stringToLoc("g3"), black);
+  board.setPiece(design.stringToLoc("g5"), black);
+  board.setPiece(design.stringToLoc("g7"), black);
+  board.setPiece(design.stringToLoc("g9"), black);
+  board.setPiece(design.stringToLoc("i7"), black);
+  board.setPiece(design.stringToLoc("i9"), black);
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(2); // 2 moves
@@ -36,22 +36,22 @@ test("Man promotion", function () {
   board = board.makeMove(board.legalMoves[0]);
 
   expect(board.player).toEqual(2); // Black turn
-  expect(board.getPiece(design.stringToPos("b8")) === null).toBeTruthy(); // b8 is empty
-  expect(board.getPiece(design.stringToPos("c9")) === null).toBeTruthy(); // c9 is empty
-  expect(board.getPiece(design.stringToPos("e9")) === null).toBeTruthy(); // e9 is empty
-  expect(board.getPiece(design.stringToPos("g9")) === null).toBeTruthy(); // g9 is empty
-  expect(board.getPiece(design.stringToPos("i9")) === null).toBeTruthy(); // i9 is empty
-  expect(board.getPiece(design.stringToPos("i7")) === null).toBeTruthy(); // i7 is empty
-  expect(board.getPiece(design.stringToPos("g5")) === null).toBeTruthy(); // g5 is empty
-  expect(board.getPiece(design.stringToPos("g3")) === null).toBeTruthy(); // g3 is empty
-  expect(board.getPiece(design.stringToPos("b2")).toString(design)).toEqual("Black Man"); // Black Man on b2
-  expect(board.getPiece(design.stringToPos("b4")).toString(design)).toEqual("Black Man"); // Black Man on b4
-  expect(board.getPiece(design.stringToPos("c7")).toString(design)).toEqual("Black Man"); // Black Man on c7
-  expect(board.getPiece(design.stringToPos("d6")).toString(design)).toEqual("Black Man"); // Black Man on d6
-  expect(board.getPiece(design.stringToPos("e3")).toString(design)).toEqual("Black Man"); // Black Man on e3
-  expect(board.getPiece(design.stringToPos("f2")).toString(design)).toEqual("Black Man"); // Black Man on f2
-  expect(board.getPiece(design.stringToPos("g7")).toString(design)).toEqual("Black Man"); // Black Man on g7
-  expect(board.getPiece(design.stringToPos("h2")).toString(design)).toEqual("White Man"); // White Man on h2
+  expect(board.getPiece(design.stringToLoc("b8")) === null).toBeTruthy(); // b8 is empty
+  expect(board.getPiece(design.stringToLoc("c9")) === null).toBeTruthy(); // c9 is empty
+  expect(board.getPiece(design.stringToLoc("e9")) === null).toBeTruthy(); // e9 is empty
+  expect(board.getPiece(design.stringToLoc("g9")) === null).toBeTruthy(); // g9 is empty
+  expect(board.getPiece(design.stringToLoc("i9")) === null).toBeTruthy(); // i9 is empty
+  expect(board.getPiece(design.stringToLoc("i7")) === null).toBeTruthy(); // i7 is empty
+  expect(board.getPiece(design.stringToLoc("g5")) === null).toBeTruthy(); // g5 is empty
+  expect(board.getPiece(design.stringToLoc("g3")) === null).toBeTruthy(); // g3 is empty
+  expect(board.getPiece(design.stringToLoc("b2")).toString(design)).toEqual("Black Man"); // Black Man on b2
+  expect(board.getPiece(design.stringToLoc("b4")).toString(design)).toEqual("Black Man"); // Black Man on b4
+  expect(board.getPiece(design.stringToLoc("c7")).toString(design)).toEqual("Black Man"); // Black Man on c7
+  expect(board.getPiece(design.stringToLoc("d6")).toString(design)).toEqual("Black Man"); // Black Man on d6
+  expect(board.getPiece(design.stringToLoc("e3")).toString(design)).toEqual("Black Man"); // Black Man on e3
+  expect(board.getPiece(design.stringToLoc("f2")).toString(design)).toEqual("Black Man"); // Black Man on f2
+  expect(board.getPiece(design.stringToLoc("g7")).toString(design)).toEqual("Black Man"); // Black Man on g7
+  expect(board.getPiece(design.stringToLoc("h2")).toString(design)).toEqual("White Man"); // White Man on h2
 
   board.generateMoves();
 
@@ -72,8 +72,8 @@ test("Man promotion", function () {
   board = board.makeMove(board.legalMoves[8]);
 
   expect(board.player).toEqual(1); // White turn
-  expect(board.getPiece(design.stringToPos("b2")) === null).toBeTruthy(); // b2 is empty
-  expect(board.getPiece(design.stringToPos("a1")).toString(design)).toEqual("Black King"); // Black king is on a1
+  expect(board.getPiece(design.stringToLoc("b2")) === null).toBeTruthy(); // b2 is empty
+  expect(board.getPiece(design.stringToLoc("a1")).toString(design)).toEqual("Black King"); // Black king is on a1
 });
 
 test("Check lastFrom", function () {
@@ -84,10 +84,10 @@ test("Check lastFrom", function () {
 
   board.clear();
   const white = design.createPiece(1, 1);
-  board.setPiece(design.stringToPos("d4"), white);
-  board.setPiece(design.stringToPos("e5"), white);
+  board.setPiece(design.stringToLoc("d4"), white);
+  board.setPiece(design.stringToLoc("e5"), white);
   const black = design.createPiece(1, 2);
-  board.setPiece(design.stringToPos("j10"), black);
+  board.setPiece(design.stringToLoc("j10"), black);
   board.generateMoves();
 
   expect(board.legalMoves.length).toEqual(21); // 21 moves
