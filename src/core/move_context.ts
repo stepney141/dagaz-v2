@@ -1,8 +1,8 @@
-import { capturePiece, cloneMove, copyMove, movePiece, type TMove } from "./move";
+import { capturePiece, cloneMove, copyMove, movePiece } from "./move";
 import type { TBoard } from "./board";
 import type { TDesign } from "./design";
-import { promotePiece, TPiece } from "./piece";
-import type { Part, DirectionID, LocationID, PieceTypeID } from './../types';
+import { promotePiece } from "./piece";
+import type { TPiece, TMove, Part, DirectionID, LocationID, PieceTypeID } from './../types';
 
 /**
  * A partial move context

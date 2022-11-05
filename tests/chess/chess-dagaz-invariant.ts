@@ -1,7 +1,7 @@
 import _ from "underscore";
-import type { TBoard, TMove } from "../../src/core";
 import { getPieceValue, updatePieceValue } from "../../src/core/piece";
-import type { LocationID, PlayerID } from "../../src/types";
+import type { TBoard } from "../../src/core";
+import type { TMove, LocationID, PlayerID } from "../../src/types";
 
 type GameGoalStatus = null | 1 | -1 | 0;
 

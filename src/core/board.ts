@@ -1,9 +1,8 @@
-import { applyTo, type TMove } from "./move";
+import { applyTo } from "./move";
 import { TMoveContext } from "./move_context";
 import { zUpdate } from "./../zobrist";
-import type { From, LocationID, PlayerID } from "./../types";
+import type { TPiece, TMove, From, LocationID, PlayerID } from "./../types";
 import type { TDesign } from "./design";
-import type { TPiece } from "./piece";
 
 /**
  * A game state.

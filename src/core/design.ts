@@ -1,16 +1,15 @@
 import _ from "underscore";
 import type {
-  Plugin,
+  TPiece,
   Movement, MoveModeID,
   DirectionName, DirectionID,
   LocationName, LocationID,
   PlayerName, PlayerID,
   PieceName, PieceTypeID, PieceValue,
-  ZoneName
+  ZoneName, Plugin
 } from "./../types";
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";
-import type { TPiece } from "./piece";
 
 type GameBehaviorOptions =
   | 'pass-turn'

@@ -1,14 +1,5 @@
 import type { TDesign } from "./design";
-import type { PieceTypeID, PieceValue, PlayerID } from "../types";
-
-/**
- * A piece on the board.
- */
-export type TPiece = {
-  player: PlayerID;
-  type: PieceTypeID;
-  values: null | PieceValue[];
-};
+import type { TPiece, PieceTypeID, PieceValue, PlayerID } from "../types";
 
 /**
  * Serialize the piece information into string data
