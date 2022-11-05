@@ -1,7 +1,7 @@
 import { TMove } from "./move";
 import type { TBoard } from "./board";
 import type { TDesign } from "./design";
-import type { TPiece } from "./piece";
+import { promotePiece, TPiece } from "./piece";
 import type { Part, DirectionID, LocationID, PieceTypeID } from './../types';
 
 /**
@@ -299,7 +299,7 @@ export class TMoveContext {
     if (type === null) {
       return false;
     }
-    this.hand.piece = this.hand.piece.promote(type);
+    this.hand.piece = promotePiece(this.hand.piece, type);
     return true;
   }
 

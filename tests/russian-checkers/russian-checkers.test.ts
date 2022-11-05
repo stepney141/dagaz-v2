@@ -1,4 +1,5 @@
 import { TDesign } from "../../src/core";
+import { pieceToString } from "../../src/core/piece";
 import { buildDesign } from "./russian-checkers-dagaz";
 
 test("King Moves", function () {
@@ -27,7 +28,7 @@ test("King Moves", function () {
   expect(board.getPiece(design.stringToLoc("h2")) === null).toBeTruthy(); // h2 is empty
   expect(board.getPiece(design.stringToLoc("f4")) === null).toBeTruthy(); // f4 is empty
   expect(board.getPiece(design.stringToLoc("e5")) === null).toBeTruthy(); // e5 is empty
-  expect(board.getPiece(design.stringToLoc("d6")).toString(design)).toEqual("White King"); // White King is on d6
+  expect(pieceToString(board.getPiece(design.stringToLoc("d6")), design)).toEqual("White King"); // White King is on d6
 });
 
 test("King Capturing", function () {
@@ -57,7 +58,7 @@ test("King Capturing", function () {
   expect(board.getPiece(design.stringToLoc("f4")) === null).toBeTruthy(); // f4 is empty
   expect(board.getPiece(design.stringToLoc("e5")) === null).toBeTruthy(); // e5 is empty
   expect(board.getPiece(design.stringToLoc("d6")) === null).toBeTruthy(); // d6 is empty
-  expect(board.getPiece(design.stringToLoc("c7")).toString(design)).toEqual("White King"); // White King is on c7
+  expect(pieceToString(board.getPiece(design.stringToLoc("c7")), design)).toEqual("White King"); // White King is on c7
 });
 
 test("Man Capturing", function () {
@@ -105,6 +106,6 @@ test("Man Capturing", function () {
   expect(board.getPiece(design.stringToLoc("d2")) === null).toBeTruthy(); // d2 is empty
   expect(board.getPiece(design.stringToLoc("c3")) === null).toBeTruthy(); // c3 is empty
   expect(board.getPiece(design.stringToLoc("b4")) === null).toBeTruthy(); // b4 is empty
-  expect(board.getPiece(design.stringToLoc("a5")).toString(design)).toEqual("White King"); // White king is on a5
-  expect(board.getPiece(design.stringToLoc("a7")).toString(design)).toEqual("Black Man"); // Black king is on a7
+  expect(pieceToString(board.getPiece(design.stringToLoc("a5")), design)).toEqual("White King"); // White king is on a5
+  expect(pieceToString(board.getPiece(design.stringToLoc("a7")), design)).toEqual("Black Man"); // Black king is on a7
 });

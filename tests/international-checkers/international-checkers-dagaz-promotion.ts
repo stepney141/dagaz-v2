@@ -1,3 +1,4 @@
+import { promotePiece } from "../../src/core/piece";
 import type { TBoard } from "./../../src/core";
 
 /**
@@ -12,7 +13,7 @@ export const promotion = {
     for (const move of board.legalMoves.filter(move => move.actions.length != 0)) {
       const action = move.actions[move.actions.length - 1];
       if ((action.targetSquare !== null) && (action.piece !== null) && design.isInZone(board.player, action.targetSquare, 0)) {
-        action.piece = action.piece.promote(1);
+        action.piece = promotePiece(action.piece, 1);
       }
     }
   }

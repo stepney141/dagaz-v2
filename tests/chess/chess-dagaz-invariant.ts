@@ -1,5 +1,6 @@
 import _ from "underscore";
 import type { TBoard, TMove } from "../../src/core";
+import { getPieceValue, updatePieceValue } from "../../src/core/piece";
 import type { LocationID, PlayerID } from "../../src/types";
 
 type GameGoalStatus = null | 1 | -1 | 0;
@@ -99,7 +100,7 @@ export const extension = {
 
           for (const action of move.actions) {
             const piece = action.piece;
-            if (piece.getValue(0) !== null) {
+            if (getPieceValue(piece, 0) !== null) {
               return;
             }
           }
@@ -138,7 +139,7 @@ export const extension = {
           for (const action of move.actions) {
             const piece = action.piece;
             if ((piece?.type == rook) || (piece?.type == king)) {
-              action.piece = piece.setValue(0, 1); // updates the pieces' value
+              action.piece = updatePieceValue(piece, 0, 1); // updates the pieces' value
             }
           }
         }

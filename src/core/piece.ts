@@ -4,99 +4,89 @@ import type { PieceTypeID, PieceValue, PlayerID } from "../types";
 /**
  * A piece on the board.
  */
-export class TPiece {
+export type TPiece = {
   player: PlayerID;
   type: PieceTypeID;
   values: null | PieceValue[];
+};
 
-  /**
-   * @param type - a piece type id
-   * @param player - a player id who owns the piece
-   */
-  constructor(type: PieceTypeID, player: PlayerID) {
-    this.type = type;
-    this.player = player;
-    this.values = null;
+/**
+ * Serialize the piece information into string data
+ * @param design - the object describing the game rules
+ * @returns human-readable piece details
+ */
+export function pieceToString(piece: TPiece, design: TDesign): string {
+  return design.playerNames[piece.player] + " " + design.pieceNames[piece.type];
+}
+
+/**
+ * Return a value of the given piece type
+ * @param ix - a piece id
+ * @returns a piece value (null if the specified piece doesn't exist)
+ */
+export function getPieceValue(piece: TPiece, ix: PieceTypeID): null | PieceValue {
+  if (piece.values === null) {
+    return null;
+  }
+  if (piece.values[ix] === undefined) {
+    return null;
+  }
+  return piece.values[ix];
+}
+
+/**
+ * Set a value of the piece
+ * @param ix - a piece id
+ * @param new_value - a new value
+ * @returns a piece with an updated value
+ */
+export function updatePieceValue(piece: TPiece, ix: PieceTypeID, new_value: null | PieceValue): TPiece {
+  const current_value = getPieceValue(piece, ix);
+
+  if ((current_value === null) && (new_value === null)) {
+    return piece;
+  }
+  if ((current_value !== null) && (new_value !== null) && (current_value == new_value)) {
+    return piece;
   }
 
-  /**
-   * Serialize the piece information into string data
-   * @param design - the object describing the game rules
-   * @returns human-readable piece details
-   */
-  toString(design: TDesign): string {
-    return design.playerNames[this.player] + " " + design.pieceNames[this.type];
+  const r: TPiece = { player: piece.player, type: piece.type, values: null };
+
+  if (r.values === null) {
+    r.values = [];
+  }
+  if (piece.values !== null) {
+    r.values = [...piece.values]; //shallow copying
+  }
+  if (new_value !== null) {
+    r.values[ix] = new_value;
+  } else {
+    r.values[ix] = undefined;
   }
 
-  /**
-   * Return a value of the given piece type
-   * @param ix - a piece id
-   * @returns a piece value (null if the specified piece doesn't exist)
-   */
-  getValue(ix: PieceTypeID): null | PieceValue {
-    if (this.values === null) {
-      return null;
-    }
-    if (this.values[ix] === undefined) {
-      return null;
-    }
-    return this.values[ix];
-  }
+  return r;
+}
 
-  /**
-   * Set a value of the piece
-   * @param ix - a piece id
-   * @param new_value - a new value
-   * @returns a piece with an updated value
-   */
-  setValue(ix: PieceTypeID, new_value: null | PieceValue): TPiece {
-    const current_value = this.getValue(ix);
+/**
+ * Return a piece instance promoted to another piece type.
+ * @param type - a new piece type id
+ * @returns a new piece insatance
+ */
+export function promotePiece(piece: TPiece, type: PieceTypeID): TPiece {
+  return {
+    ...piece,
+    type
+  };
+}
 
-    if ((current_value === null) && (new_value === null)) {
-      return this;
-    }
-    if ((current_value !== null) && (new_value !== null) && (current_value == new_value)) {
-      return this;
-    }
-
-    const r = new TPiece(this.type, this.player);
-
-    if (r.values === null) {
-      r.values = [];
-    }
-    if (this.values !== null) {
-      r.values = [...this.values]; //shallow copying
-    }
-    if (new_value !== null) {
-      r.values[ix] = new_value;
-    } else {
-      r.values[ix] = undefined;
-    }
-
-    return r;
-  }
-
-  /**
-   * Return a piece instance promoted to another piece type.
-   * @param type - a new piece type id
-   * @returns a new piece insatance
-   */
-  promote(type: PieceTypeID): TPiece {
-    if (type == this.type) {
-      return this;
-    }
-    return new TPiece(type, this.player);
-  }
-
-  /**
-   * Return a piece instance that got changed its owner.
-   * @param player - a new player id
-   * @returns a new piece instance
-   */
-  changeOwner(player: PlayerID): TPiece {
-    if (player == this.player) {
-      return this;
-    }
-    return new TPiece(this.type, player);
-  }
+/**
+ * Return a piece instance that got changed its owner.
+ * @param player - a new player id
+ * @returns a new piece instance
+ */
+export function changePieceOwner(piece: TPiece, player: PlayerID): TPiece {
+  return {
+    ...piece,
+    player
+  };
 }

@@ -10,7 +10,7 @@ import type {
 } from "./../types";
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";
-import { TPiece } from "./piece";
+import type { TPiece } from "./piece";
 
 type GameBehaviorOptions =
   | 'pass-turn'
@@ -198,7 +198,11 @@ export class TDesign {
    * @returns new piece
    */
   createPiece(type: PieceTypeID, player: PlayerID): TPiece {
-    return new TPiece(type, player);
+    return {
+      type,
+      player,
+      values: null
+    };
   }
 
   /**
@@ -385,7 +389,11 @@ export class TDesign {
     if ((piece_type_id < 0) || (player_id < 0)) {
       return;
     }
-    const piece = new TPiece(piece_type_id, player_id); // create a piece
+    const piece: TPiece = {
+      player: player_id,
+      type: piece_type_id,
+      values: null
+    };
 
     locations
       .map(name => this.stringToLoc(name))

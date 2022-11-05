@@ -1,4 +1,5 @@
 import { TDesign } from "../../src/core";
+import { pieceToString, promotePiece } from "../../src/core/piece";
 import { buildDesign } from "./english-checkers-dagaz";
 
 test("Initial Board", function () {
@@ -11,51 +12,51 @@ test("Initial Board", function () {
   expect(design.locToString(1)).toEqual("a8");
   expect(board.getPiece(1) === null).toBeTruthy();
   expect(design.locToString(2)).toEqual("b8");
-  expect(board.getPiece(2).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(2), design)).toEqual("White Man");
   expect(design.locToString(3)).toEqual("c8");
   expect(board.getPiece(3) === null).toBeTruthy();
   expect(design.locToString(4)).toEqual("d8");
-  expect(board.getPiece(4).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(4), design)).toEqual("White Man");
   expect(design.locToString(5)).toEqual("e8");
   expect(board.getPiece(5) === null).toBeTruthy();
   expect(design.locToString(6)).toEqual("f8");
-  expect(board.getPiece(6).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(6), design)).toEqual("White Man");
   expect(design.locToString(7)).toEqual("g8");
   expect(board.getPiece(7) === null).toBeTruthy();
   expect(design.locToString(8)).toEqual("h8");
-  expect(board.getPiece(8).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(8), design)).toEqual("White Man");
   expect(design.locToString(9)).toEqual("a7");
-  expect(board.getPiece(9).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(9), design)).toEqual("White Man");
   expect(design.locToString(10)).toEqual("b7");
   expect(board.getPiece(10) === null).toBeTruthy();
   expect(design.locToString(11)).toEqual("c7");
-  expect(board.getPiece(11).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(11), design)).toEqual("White Man");
   expect(design.locToString(12)).toEqual("d7");
   expect(board.getPiece(12) === null).toBeTruthy();
   expect(design.locToString(13)).toEqual("e7");
-  expect(board.getPiece(13).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(13), design)).toEqual("White Man");
   expect(design.locToString(14)).toEqual("f7");
   expect(board.getPiece(14) === null).toBeTruthy();
   expect(design.locToString(15)).toEqual("g7");
-  expect(board.getPiece(15).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(15), design)).toEqual("White Man");
   expect(design.locToString(16)).toEqual("h7");
   expect(board.getPiece(16) === null).toBeTruthy();
   expect(design.locToString(17)).toEqual("a6");
   expect(board.getPiece(17) === null).toBeTruthy();
   expect(design.locToString(18)).toEqual("b6");
-  expect(board.getPiece(18).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(18), design)).toEqual("White Man");
   expect(design.locToString(19)).toEqual("c6");
   expect(board.getPiece(19) === null).toBeTruthy();
   expect(design.locToString(20)).toEqual("d6");
-  expect(board.getPiece(20).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(20), design)).toEqual("White Man");
   expect(design.locToString(21)).toEqual("e6");
   expect(board.getPiece(21) === null).toBeTruthy();
   expect(design.locToString(22)).toEqual("f6");
-  expect(board.getPiece(22).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(22), design)).toEqual("White Man");
   expect(design.locToString(23)).toEqual("g6");
   expect(board.getPiece(23) === null).toBeTruthy();
   expect(design.locToString(24)).toEqual("h6");
-  expect(board.getPiece(24).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(24), design)).toEqual("White Man");
   expect(design.locToString(25)).toEqual("a5");
   expect(board.getPiece(25) === null).toBeTruthy();
   expect(design.locToString(26)).toEqual("b5");
@@ -89,51 +90,51 @@ test("Initial Board", function () {
   expect(design.locToString(40)).toEqual("h4");
   expect(board.getPiece(40) === null).toBeTruthy();
   expect(design.locToString(41)).toEqual("a3");
-  expect(board.getPiece(41).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(41), design)).toEqual("Black Man");
   expect(design.locToString(42)).toEqual("b3");
   expect(board.getPiece(42) === null).toBeTruthy();
   expect(design.locToString(43)).toEqual("c3");
-  expect(board.getPiece(43).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(43), design)).toEqual("Black Man");
   expect(design.locToString(44)).toEqual("d3");
   expect(board.getPiece(44) === null).toBeTruthy();
   expect(design.locToString(45)).toEqual("e3");
-  expect(board.getPiece(45).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(45), design)).toEqual("Black Man");
   expect(design.locToString(46)).toEqual("f3");
   expect(board.getPiece(46) === null).toBeTruthy();
   expect(design.locToString(47)).toEqual("g3");
-  expect(board.getPiece(47).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(47), design)).toEqual("Black Man");
   expect(design.locToString(48)).toEqual("h3");
   expect(board.getPiece(48) === null).toBeTruthy();
   expect(design.locToString(49)).toEqual("a2");
   expect(board.getPiece(49) === null).toBeTruthy();
   expect(design.locToString(50)).toEqual("b2");
-  expect(board.getPiece(50).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(50), design)).toEqual("Black Man");
   expect(design.locToString(51)).toEqual("c2");
   expect(board.getPiece(51) === null).toBeTruthy();
   expect(design.locToString(52)).toEqual("d2");
-  expect(board.getPiece(52).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(52), design)).toEqual("Black Man");
   expect(design.locToString(53)).toEqual("e2");
   expect(board.getPiece(53) === null).toBeTruthy();
   expect(design.locToString(54)).toEqual("f2");
-  expect(board.getPiece(54).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(54), design)).toEqual("Black Man");
   expect(design.locToString(55)).toEqual("g2");
   expect(board.getPiece(55) === null).toBeTruthy();
   expect(design.locToString(56)).toEqual("h2");
-  expect(board.getPiece(56).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(56), design)).toEqual("Black Man");
   expect(design.locToString(57)).toEqual("a1");
-  expect(board.getPiece(57).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(57), design)).toEqual("Black Man");
   expect(design.locToString(58)).toEqual("b1");
   expect(board.getPiece(58) === null).toBeTruthy();
   expect(design.locToString(59)).toEqual("c1");
-  expect(board.getPiece(59).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(59), design)).toEqual("Black Man");
   expect(design.locToString(60)).toEqual("d1");
   expect(board.getPiece(60) === null).toBeTruthy();
   expect(design.locToString(61)).toEqual("e1");
-  expect(board.getPiece(61).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(61), design)).toEqual("Black Man");
   expect(design.locToString(62)).toEqual("f1");
   expect(board.getPiece(62) === null).toBeTruthy();
   expect(design.locToString(63)).toEqual("g1");
-  expect(board.getPiece(63).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(63), design)).toEqual("Black Man");
   expect(design.locToString(64)).toEqual("h1");
   expect(board.getPiece(64) === null).toBeTruthy();
 
@@ -156,7 +157,7 @@ test("Initial Board", function () {
   expect(design.locToString(41)).toEqual("a3");
   expect(board.getPiece(41) === null).toBeTruthy();
   expect(design.locToString(34)).toEqual("b4");
-  expect(board.getPiece(34).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(34), design)).toEqual("Black Man");
 
   board.generateMoves();
 
@@ -177,11 +178,11 @@ test("Initial Board", function () {
   expect(design.locToString(41)).toEqual("a3");
   expect(board.getPiece(41) === null).toBeTruthy();
   expect(design.locToString(34)).toEqual("b4");
-  expect(board.getPiece(34).toString(design)).toEqual("Black Man");
+  expect(pieceToString(board.getPiece(34), design)).toEqual("Black Man");
   expect(design.locToString(24)).toEqual("h6");
   expect(board.getPiece(24) === null).toBeTruthy();
   expect(design.locToString(31)).toEqual("g5");
-  expect(board.getPiece(31).toString(design)).toEqual("White Man");
+  expect(pieceToString(board.getPiece(31), design)).toEqual("White Man");
 });
 
 test("Man Capturing", function () {
@@ -210,17 +211,17 @@ test("Man Capturing", function () {
   board = board.makeMove(board.legalMoves[0]);
 
   expect(board.player).toEqual(2); // White turn
-  expect(board.getPiece(design.stringToLoc("a3")).toString(design)).toEqual("Black Man"); // Black man is on a3
-  expect(board.getPiece(design.stringToLoc("d8")).toString(design)).toEqual("Black King"); // Black king is on d8
+  expect(pieceToString(board.getPiece(design.stringToLoc("a3")), design)).toEqual("Black Man"); // Black man is on a3
+  expect(pieceToString(board.getPiece(design.stringToLoc("d8")), design)).toEqual("Black King"); // Black king is on d8
   expect(board.getPiece(design.stringToLoc("f3")) === null).toBeTruthy(); // f3 is empty
   expect(board.getPiece(design.stringToLoc("e3")) === null).toBeTruthy(); // e3 is empty
   expect(board.getPiece(design.stringToLoc("c5")) === null).toBeTruthy(); // c5 is empty
   expect(board.getPiece(design.stringToLoc("c7")) === null).toBeTruthy(); // c7 is empty
   expect(board.getPiece(design.stringToLoc("d4")) === null).toBeTruthy(); // d4 is empty
   expect(board.getPiece(design.stringToLoc("b6")) === null).toBeTruthy(); // b6 is empty
-  expect(board.getPiece(design.stringToLoc("c3")).toString(design)).toEqual("White Man"); // White Man is on c3
-  expect(board.getPiece(design.stringToLoc("e5")).toString(design)).toEqual("White Man"); // White Man is on e5
-  expect(board.getPiece(design.stringToLoc("e7")).toString(design)).toEqual("White Man"); // White Man is on e7
+  expect(pieceToString(board.getPiece(design.stringToLoc("c3")), design)).toEqual("White Man"); // White Man is on c3
+  expect(pieceToString(board.getPiece(design.stringToLoc("e5")), design)).toEqual("White Man"); // White Man is on e5
+  expect(pieceToString(board.getPiece(design.stringToLoc("e7")), design)).toEqual("White Man"); // White Man is on e7
 });
 
 test("King Capturing", function () {
@@ -232,7 +233,7 @@ test("King Capturing", function () {
   board.clear();
   let black = design.createPiece(0, 1);
   board.setPiece(design.stringToLoc("f2"), black);
-  black = black.promote(1);
+  black = promotePiece(black, 1);
   board.setPiece(design.stringToLoc("d4"), black);
   const white = design.createPiece(0, 2);
   board.setPiece(design.stringToLoc("c5"), white);
@@ -254,7 +255,7 @@ test("King Capturing", function () {
   board = board.makeMove(board.legalMoves[2]);
 
   expect(board.player).toEqual(2); // White turn
-  expect(board.getPiece(design.stringToLoc("h8")).toString(design)).toEqual("Black King"); // Black king is on h88
+  expect(pieceToString(board.getPiece(design.stringToLoc("h8")), design)).toEqual("Black King"); // Black king is on h88
   expect(board.getPiece(design.stringToLoc("d4")) === null).toBeTruthy(); // d4 is empty
   expect(board.getPiece(design.stringToLoc("c5")) === null).toBeTruthy(); // c5 is empty
   expect(board.getPiece(design.stringToLoc("c7")) === null).toBeTruthy(); // c7 is empty
@@ -263,6 +264,6 @@ test("King Capturing", function () {
   expect(board.getPiece(design.stringToLoc("b6")) === null).toBeTruthy(); // b6 is empty
   expect(board.getPiece(design.stringToLoc("d8")) === null).toBeTruthy(); // d8 is empty
   expect(board.getPiece(design.stringToLoc("f6")) === null).toBeTruthy(); // f6 is empty
-  expect(board.getPiece(design.stringToLoc("e5")).toString(design)).toEqual("White Man"); // White Man is on e5
-  expect(board.getPiece(design.stringToLoc("g5")).toString(design)).toEqual("White Man"); // White Man is on g5
+  expect(pieceToString(board.getPiece(design.stringToLoc("e5")), design)).toEqual("White Man"); // White Man is on e5
+  expect(pieceToString(board.getPiece(design.stringToLoc("g5")), design)).toEqual("White Man"); // White Man is on g5
 });

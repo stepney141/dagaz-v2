@@ -1,4 +1,5 @@
 import { TDesign } from "../../src/core";
+import { pieceToString } from "../../src/core/piece";
 import { buildDesign } from "./chess-dagaz";
 import { getGoal, extension } from "./chess-dagaz-invariant";
 
@@ -76,7 +77,7 @@ test("En Passant", function () {
   expect(board.getPiece(design.stringToLoc("d4")) === null).toBeTruthy(); // d4 is empty
   expect(board.getPiece(design.stringToLoc("e4")) === null).toBeTruthy(); // e4 is empty
   expect(board.getPiece(design.stringToLoc("e2")) === null).toBeTruthy(); // e2 is empty
-  expect(board.getPiece(design.stringToLoc("e3")).toString(design)).toEqual("Black Pawn"); // Black Pawn is on e3
+  expect(pieceToString(board.getPiece(design.stringToLoc("e3")), design)).toEqual("Black Pawn"); // Black Pawn is on e3
 
   board.generateMoves();
 
@@ -100,7 +101,7 @@ test("En Passant", function () {
 
   expect(board.player).toEqual(1); // White turn
   expect(board.getPiece(design.stringToLoc("f4")) === null).toBeTruthy(); // f4 is empty
-  expect(board.getPiece(design.stringToLoc("g3")).toString(design)).toEqual("Black Pawn"); // Black Pawn is on g3
+  expect(pieceToString(board.getPiece(design.stringToLoc("g3")), design)).toEqual("Black Pawn"); // Black Pawn is on g3
 
   board.generateMoves();
 
@@ -178,8 +179,8 @@ test("Castling", function () {
   expect(board.player).toEqual(2); // Black turn
   expect(board.getPiece(design.stringToLoc("e1")) === null).toBeTruthy(); // e1 is empty
   expect(board.getPiece(design.stringToLoc("h1")) === null).toBeTruthy(); // h1 is empty
-  expect(board.getPiece(design.stringToLoc("g1")).toString(design)).toEqual("White King"); // White King is on g1
-  expect(board.getPiece(design.stringToLoc("f1")).toString(design)).toEqual("White Rook"); // White Rook is on f1
+  expect(pieceToString(board.getPiece(design.stringToLoc("g1")), design)).toEqual("White King"); // White King is on g1
+  expect(pieceToString(board.getPiece(design.stringToLoc("f1")), design)).toEqual("White Rook"); // White Rook is on f1
 
   board.generateMoves();
 
@@ -215,8 +216,8 @@ test("Castling", function () {
   expect(board.player).toEqual(1); // White turn
   expect(board.getPiece(design.stringToLoc("e8")) === null).toBeTruthy(); // e8 is empty
   expect(board.getPiece(design.stringToLoc("a8")) === null).toBeTruthy(); // a8 is empty
-  expect(board.getPiece(design.stringToLoc("c8")).toString(design)).toEqual("Black King"); // Black King is on c8
-  expect(board.getPiece(design.stringToLoc("d8")).toString(design)).toEqual("Black Rook"); // Black Rook is on d8
+  expect(pieceToString(board.getPiece(design.stringToLoc("c8")), design)).toEqual("Black King"); // Black King is on c8
+  expect(pieceToString(board.getPiece(design.stringToLoc("d8")), design)).toEqual("Black Rook"); // Black Rook is on d8
 });
 
 test("Stalemate", function () {
