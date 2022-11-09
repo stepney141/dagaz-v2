@@ -3,7 +3,7 @@ import type { TPiece } from "./types";
 /**
  * A transposition table
  */
-let hash: null | number[][][] = null;
+const hash: number[][][] = [];
 
 /**
  * Generates a pseudo random integer between 0 and 255
@@ -36,9 +36,6 @@ const getRandomValue = function (): number {
  * @returns
  */
 const getValue = function (type: number, player: number, loc: number): number {
-  if (hash === null) {
-    hash = [];
-  }
   if (hash[type] === undefined) {
     hash[type] = [];
   }
@@ -60,8 +57,6 @@ const getValue = function (type: number, player: number, loc: number): number {
  * @param loc 
  * @returns zobrist hash
  */
-const zUpdate = function (value: number, piece: TPiece, loc: number): number {
+export const zUpdate = function (value: number, piece: TPiece, loc: number): number {
   return value ^ getValue(piece.type, piece.player, loc);
 };
-
-export { getRandomValue, zUpdate };
