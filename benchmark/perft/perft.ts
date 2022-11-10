@@ -17,9 +17,10 @@ type PerftHashResult = {
 const hashTable = new Map<PerftHashTableKey, NodeCounts>();
 
 const getHash = (depth: DepthToSearch, board: TBoard): PerftHashResult => {
+  const key: PerftHashTableKey = `Hash:${board.z}/Depth:${depth}`;
   return {
-    hash: hashTable.get(`Hash:${board.z}/Depth:${depth}`),
-    isFound: hashTable.has(`Hash:${board.z}/Depth:${depth}`)
+    hash: hashTable.get(key),
+    isFound: hashTable.has(key)
   };
 };
 

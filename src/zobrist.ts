@@ -1,9 +1,11 @@
-import type { TPiece } from "./types";
+import type { LocationID, PieceTypeID, PlayerID, TPiece } from "./types";
+
+type TranspositionTableKey = `${PieceTypeID}/${PlayerID}/${LocationID}`;
 
 /**
  * A transposition table
  */
-const hash: number[][][] = [];
+const TRANSPOSITION_TABLE = new Map<TranspositionTableKey, number>();
 
 /**
  * Generates a pseudo random integer between 0 and 255
@@ -35,17 +37,12 @@ const getRandomValue = function (): number {
  * @param loc 
  * @returns
  */
-const getValue = function (type: number, player: number, loc: number): number {
-  if (hash[type] === undefined) {
-    hash[type] = [];
+const getHash = function (pieceType: number, player: number, loc: number) {
+  const key: TranspositionTableKey = `${pieceType}/${player}/${loc}`;
+  if (TRANSPOSITION_TABLE.has(key) === false) {
+    TRANSPOSITION_TABLE.set(key, getRandomValue());
   }
-  if (hash[type][player] === undefined) {
-    hash[type][player] = [];
-  }
-  if (hash[type][player][loc] === undefined) {
-    hash[type][player][loc] = getRandomValue();
-  }
-  return hash[type][player][loc];
+  return TRANSPOSITION_TABLE.get(key);
 };
 
 /**
@@ -58,5 +55,5 @@ const getValue = function (type: number, player: number, loc: number): number {
  * @returns zobrist hash
  */
 export const zUpdate = function (value: number, piece: TPiece, loc: number): number {
-  return value ^ getValue(piece.type, piece.player, loc);
+  return value ^ getHash(piece.type, piece.player, loc);
 };
