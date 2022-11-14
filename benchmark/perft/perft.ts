@@ -1,25 +1,28 @@
 import type { Plugin } from './../../src/types';
+import { buildTranspositionTable, PositionHash } from '../../src/zobrist';
 import { TBoard, TDesign } from "../../src/core";
 
 type ExactPerftAnswers = number[];
-type PositionHash = number;
 type DepthToSearch = number;
 type NodeCounts = number;
 
 // This hash is sooooooo collidable and impractical...
 // TODO: make it a better hashing system that the collisions hardly occur
-type PerftHashTableKey = `Hash:${PositionHash}/Depth:${DepthToSearch}`;
+// type PerftHashTableKey = `Hash:${string}/Depth:${DepthToSearch}`;
+type PerftHashTableEntry = {
+  nodes: NodeCounts,
+  positionHash: string
+};
 type PerftHashResult = {
-  hash: number,
+  result: NodeCounts,
   isFound: boolean
 };
 
-const hashTable = new Map<PerftHashTableKey, NodeCounts>();
+const hashTable = buildTranspositionTable<PerftHashTableEntry>();
 
-const getHash = (depth: DepthToSearch, board: TBoard): PerftHashResult => {
-  const key: PerftHashTableKey = `Hash:${board.z}/Depth:${depth}`;
+const lookHashTable = (key: PositionHash): PerftHashResult => {
   return {
-    hash: hashTable.get(key),
+    result: (hashTable.get(key))?.nodes,
     isFound: hashTable.has(key)
   };
 };
@@ -35,9 +38,9 @@ const getHash = (depth: DepthToSearch, board: TBoard): PerftHashResult => {
 const perft = function (depth: DepthToSearch, b: TBoard): NodeCounts {
   let nodes: NodeCounts = 0;
 
-  const { hash, isFound } = getHash(depth, b);
+  const { result, isFound } = lookHashTable(b.z);
   if (isFound) {
-    return hash;
+    return result;
   }
 
   b.generateMoves();
@@ -47,7 +50,7 @@ const perft = function (depth: DepthToSearch, b: TBoard): NodeCounts {
     nodes += (depth > 1) ? perft(depth - 1, next_b) : 1;
   }
 
-  hashTable.set(`Hash:${b.z}/Depth:${depth}`, nodes);
+  hashTable.set(b.z, { nodes, positionHash: b.z.toString() });
 
   return nodes;
 };
@@ -58,13 +61,13 @@ const perft = function (depth: DepthToSearch, b: TBoard): NodeCounts {
  */
 export const main = function (depth: DepthToSearch, PERFT_RESULTS: ExactPerftAnswers, buildDesign: (design: TDesign) => void, plugins?: Plugin[]) {
   const design = new TDesign();
-  const board = design.getInitBoard(buildDesign, plugins);
+  const initialBoard = design.getInitBoard(buildDesign, plugins);
 
   console.log(`Enumerate Nodes, depth = ${depth}`);
 
   console.time(`perft ${depth}`);
 
-  const results = perft(depth, board);
+  const results = perft(depth, initialBoard);
   console.log('computed result: ', results);
   console.log('correct value: ', PERFT_RESULTS[depth]);
 
