@@ -92,7 +92,7 @@ export class TBoard {
    */
   clear() {
     this.pieces = [];
-    // this.z = getRandomValue.next().value.toString();
+    this.z = getRandomValue.next().value;
     this.legalMoves = null;
   }
 
