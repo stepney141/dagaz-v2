@@ -1,67 +1,44 @@
-import type { TPiece } from "./types";
+export type PositionHash = [number, number];
 
 /**
- * A transposition table
+ * Generate 64-bit pseudo random integer with Xorshift method.
+ * Each integer generated is represented as a tuple of two 32-bit numbers.
  */
-let hash: null | number[][][] = null;
+function* XorShift64(initialState: PositionHash): Iterator<PositionHash> {
+  let x0: number = initialState[0] & 0xFFFF_FFFF;
+  let x1: number = initialState[1] & 0xFFFF_FFFF;
+  if (x0 === 0 && x1 === 0) {
+    throw Error("initialState must not be zero.");
+  }
+  for (; ;) {
+    x1 ^= (x0 >>> 19) | (x1 << 13);
+    x0 ^= x0 << 13;
+    x0 ^= (x0 >>> 7) | (x1 << 25);
+    x1 ^= x1 >>> 7;
+    x1 ^= (x0 >>> 15) | (x1 << 17);
+    x0 ^= x0 << 17;
+    yield [x0 >>> 0, x1 >>> 0] as PositionHash;
+  }
+}
+const RANDOM_SEED: PositionHash = [1, 0];
+export const getRandomValue = XorShift64(RANDOM_SEED);
 
-/**
- * Generates a pseudo random integer between 0 and 255
- * @returns a pseudo random integer between 0 and 255
- */
-const getRandomByte = function (): number {
-  const min = 0;
-  const max = 255;
-  return min + Math.floor(Math.random() * (max - min + 1));
-};
+type TranspositionTableKey = PositionHash;
+export type TranspositionTable<Entry> = Map<TranspositionTableKey, Entry>;
 
-/**
- * Generates a pseudo random integer
- * @returns a pseudo random integer
- */
-const getRandomValue = function (): number {
-  let r = getRandomByte();
-  for (let i = 0; i < 3; i++) {
-    r = r << 8;
-    r = r | getRandomByte();
-  }
-  return r;
-};
-
-/**
- * Returns a zobrist hash from a table
- * @param type 
- * @param player 
- * @param loc 
- * @returns
- */
-const getValue = function (type: number, player: number, loc: number): number {
-  if (hash === null) {
-    hash = [];
-  }
-  if (hash[type] === undefined) {
-    hash[type] = [];
-  }
-  if (hash[type][player] === undefined) {
-    hash[type][player] = [];
-  }
-  if (hash[type][player][loc] === undefined) {
-    hash[type][player][loc] = getRandomValue();
-  }
-  return hash[type][player][loc];
-};
+export function buildTranspositionTable<Entry>(): TranspositionTable<Entry> {
+  return new Map();
+}
 
 /**
  * Updates a zobrist hash
  * @link https://en.wikipedia.org/wiki/Zobrist_hashing
  * @link https://www.chessprogramming.org/Zobrist_Hashing
- * @param value - the current hash value
- * @param piece 
- * @param loc 
- * @returns zobrist hash
  */
-const zUpdate = function (value: number, piece: TPiece, loc: number): number {
-  return value ^ getValue(piece.type, piece.player, loc);
-};
-
-export { getRandomValue, zUpdate };
+export function zUpdate(currentHashKey: PositionHash): PositionHash {
+  const hash = getRandomValue.next().value as PositionHash;
+  return [
+    (currentHashKey[0] ^ hash[0]) & 0xFFFF_FFFF,
+    (currentHashKey[1] ^ hash[1]) & 0xFFFF_FFFF
+  ];
+}
