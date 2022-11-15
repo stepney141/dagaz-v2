@@ -7,7 +7,7 @@ import type { TPiece, PieceTypeID, PieceValue, PlayerID } from "../types";
  * @returns human-readable piece details
  */
 export function pieceToString(piece: TPiece, design: TDesign): string {
-  return design.playerNames[piece.player] + " " + design.pieceNames[piece.type];
+  return `${design.playerNames[piece.player]} ${design.pieceNames[piece.type]}`;
 }
 
 /**

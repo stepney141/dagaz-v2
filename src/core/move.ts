@@ -1,17 +1,9 @@
 import type { TBoard } from "./board";
 import type { TDesign } from "./design";
-import type { TMove, TPiece, From, To, Part, MoveAction } from "../types";
+import type { TMove, MoveAction } from "../types";
 
-type CapturingMove = {
-  originSquare: From,
-  part: Part
-};
-
-type DroppingMove = {
-  targetSquare: To,
-  piece: TPiece | null,
-  part: Part
-};
+type CapturingMove = Pick<MoveAction, 'originSquare' | 'part'>;
+type DroppingMove = Pick<MoveAction, 'targetSquare' | 'piece' | 'part'>;
 
 /**
  * Copy itself.
