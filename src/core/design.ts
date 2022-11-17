@@ -489,7 +489,6 @@ export class TDesign {
    * @param player - player id
    * @param loc - location id
    * @param zone - zone id
-   * @returns
    */
   isInZone(player: PlayerID, loc: LocationID, zone: number): boolean {
     if (this.zones[zone] !== undefined) {
@@ -516,7 +515,7 @@ export class TDesign {
   /**
    * Return the next turn id.
    * @param board 
-   * @returns
+   * @returns next turn id
    */
   getNextTurn(board: TBoard): number {
     let turn = board.turn + 1;

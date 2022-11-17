@@ -106,8 +106,6 @@ export class TBoard {
 
   /**
    * Check if a location is the origin square (the location where the move starts)
-   * @param loc 
-   * @returns
    */
   isLastFrom(loc: LocationID): boolean {
     if (this.lastFrom !== undefined) {
@@ -148,8 +146,6 @@ export class TBoard {
 
   /**
    * Check if a chain of move contexts is completed as a legal move
-   * @param parent 
-   * @returns
    */
   isCompleteMove(parent: TMoveContext): boolean {
     let r = false;
@@ -243,7 +239,7 @@ export class TBoard {
   /**
    * Make a move and creates a new game state.
    * @param move 
-   * @returns
+   * @returns next game state
    */
   makeMove(move: TMove): TBoard {
     const r = this.copy(); // create a new game state

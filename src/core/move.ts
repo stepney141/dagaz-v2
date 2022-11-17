@@ -59,16 +59,14 @@ export function moveToString(move: TMove, design: TDesign): string {
 }
 
 /**
- * Check whether the move is a pass or not;
- * @returns
+ * Check whether the move is a pass or not.
  */
 export function isPassMove(move: TMove): boolean {
   return move.actions.length == 0;
 }
 
 /**
- * Check whether the move is a drop move or not.
- * @returns
+ * Check whether the move is a drop move or not
  */
 export function isDropMove(move: TMove): boolean {
   if (move.actions.length != 1) {
@@ -84,7 +82,6 @@ export function isDropMove(move: TMove): boolean {
  * when a player just moves his/her piece without attacking or capturing any piece, the move is a quiet move.
  * @link https://www.chessprogramming.org/Quiet_Moves
  * @link https://en.wikipedia.org/wiki/Glossary_of_chess#quiet_move
- * @returns
  */
 export function isQuietMove(move: TMove): boolean {
   if (move.actions.length != 1) {
@@ -96,10 +93,6 @@ export function isQuietMove(move: TMove): boolean {
 
 /**
  * Called when the move is a piece-transferring move.
- * @param from 
- * @param to 
- * @param piece 
- * @param part
  */
 export function movePiece(move: TMove, { originSquare, targetSquare, piece, part = 1 }: MoveAction) {
   move.actions.push({ originSquare, targetSquare, piece, part });
@@ -107,8 +100,6 @@ export function movePiece(move: TMove, { originSquare, targetSquare, piece, part
 
 /**
  * Called when the move is a piece-capturing move.
- * @param from 
- * @param part
  */
 export function capturePiece(move: TMove, { originSquare, part = 1 }: CapturingMove) {
   move.actions.push({ originSquare, targetSquare: null, piece: null, part });
@@ -116,9 +107,6 @@ export function capturePiece(move: TMove, { originSquare, part = 1 }: CapturingM
 
 /**
  * Called when the move is a piece-dropping move.
- * @param to 
- * @param piece 
- * @param part
  */
 export function dropPiece(move: TMove, { targetSquare, piece, part = 1 }: DroppingMove) {
   move.actions.push({ originSquare: null, targetSquare, piece, part });
@@ -126,7 +114,6 @@ export function dropPiece(move: TMove, { targetSquare, piece, part = 1 }: Droppi
 
 /**
  * Updates the current board state with the move.
- * @param board
  */
 export function applyTo(move: TMove, board: TBoard) {
   for (const a of move.actions) {
