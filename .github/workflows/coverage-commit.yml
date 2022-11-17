@@ -3,8 +3,6 @@ name: Tests with Jest
 
 # when to fire the action
 on:
-  pull_request:
-    branches: [ master ]
   push:
     branches: [ master ]
 

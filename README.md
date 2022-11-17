@@ -22,8 +22,19 @@ $ npm install
 
 ## Testing
 
-This repository has unit tests based on [Jest](https://jestjs.io/) test suite. You can run them with Node.js `v14.x`.
+### Unit tests
+
+Unit tests with [Jest](https://jestjs.io/) test suite are available.
 
 ```bash
 $ npm run test
+```
+
+### Perft
+
+```bash
+$ npm run exec benchmark/perft/chess.perft.ts
+$ npm run exec benchmark/perft/english-checkers.perft.ts
+$ npm run exec benchmark/perft/international-checkers.perft.ts
+$ npm run exec benchmark/perft/russian-checkers.perft.ts
 ```
