@@ -1,12 +1,12 @@
 import _ from "underscore";
 import type {
-  TPiece,
+  TPiece, Plugin,
   Movement, MoveModeID,
   DirectionName, DirectionID,
   LocationName, LocationID,
   PlayerName, PlayerID,
-  PieceName, PieceTypeID, PieceValue,
-  ZoneName, Plugin
+  PieceName, PieceTypeID, PiecePrice,
+  ZoneID, ZoneName
 } from "./../types";
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";
@@ -68,7 +68,7 @@ type PlayerSetting = {
 type PieceSetting = {
   name: PieceName,
   type: PieceTypeID,
-  price?: PieceValue
+  price?: PiecePrice
 };
 
 type TurnSetting = {
@@ -327,8 +327,8 @@ export class TDesign {
    * Define a priority on the mode of moves.
    * @param mode 
    */
-  addPriority(mode: MoveModeID) {
-    this.modes.push(mode);
+  addMovePriority(modes: MoveModeID[]) {
+    this.modes = modes;
   }
 
   /**

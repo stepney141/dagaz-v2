@@ -166,8 +166,10 @@ export const buildDesign = function (design: TDesign) {
   design.addZone({ name: "promotion", player: 2, locations: ["a1", "c1", "e1", "g1", "i1"] });
   design.addZone({ name: "promotion", player: 1, locations: ["b10", "d10", "f10", "h10", "j10"] });
 
-  design.addPriority(1);			// jump-type
-  design.addPriority(0);			// normal-type
+  design.addMovePriority([
+    1, // jump-type
+    0 // normal-type
+  ]);
 
   design.addPiece({ name: "Man", type: 0, price: 20 });
   design.addMove({ pieceType: 0, func: jumpMan, params: [3], mode: 1 });
