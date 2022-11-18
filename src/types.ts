@@ -11,9 +11,10 @@ export type PlayerID = number;
 
 export type PieceName = string;
 export type PieceTypeID = number;
-export type PieceValue = number;
+export type PiecePrice = number;
 
 export type ZoneName = string;
+export type ZoneID = number;
 
 export type From = null | LocationID;
 export type To = null | LocationID;
@@ -44,7 +45,7 @@ export type Plugin = {
 export type TPiece = {
   player: PlayerID;
   type: PieceTypeID;
-  values: null | PieceValue[];
+  prices: null | PiecePrice[];
 };
 
 /**

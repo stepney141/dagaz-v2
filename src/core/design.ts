@@ -89,16 +89,29 @@ export class TDesign {
   modes: MoveModeID[];
   movements: Movement[];
   groupedMovements: Record<number, Movement[]> | null;
-  pieceNames: PieceName[];
+  pieces: {
+    [key in PieceTypeID]: {
+      name: PieceName,
+      price: PiecePrice
+    }
+  };
+  pieceNames: {
+    [EachPiece in PieceName]: PieceTypeID
+  };
   playerNames: PlayerName[];
   plugins: Plugin[];
   locationNames: LocationName[];
-  piecePrices: number[];
   repeat: number | null;
-  rotationallySymmetricDirections: Array<undefined | DirectionID[]>;
-  turns: Array<TurnSetting> | undefined;
-  zoneNames: ZoneName[];
-  zones: LocationID[][][];
+  rotationallySymmetricDirections: DirectionID[][];
+  turns: TurnSetting[] | undefined;
+  zoneNames: {
+    [EachZone in ZoneName]: ZoneID
+  };
+  zones: {
+    [EachZone in ZoneID]: {
+      [EachPlayerWhoCanUseTheZone in PlayerID]: LocationID[]
+    }
+  };
 
   constructor() {
     /**
@@ -138,24 +151,17 @@ export class TDesign {
     this.modes = [];
 
     /**
-     * A list of zones, the special areas composed of specified cells.
-     * A zone is an array of location ids. Also, an index of the location array is a numeric id of a player who can use the zone.
-     * Each index of this "zones" array is a numeric id of each zone.
+     * A list of zones, the special areas composed of specified locations.
      */
-    this.zones = [];
-
-    this.zoneNames = [];
+    this.zones = {};
+    this.zoneNames = {};
 
     /**
-     * A list of pieces' names.
-     * Each index of this array is a numeric id of each piece type.
+     * A list of pieces' names and prices.
+     * Each property is a numeric id of each piece type.
      */
-    this.pieceNames = [];
-
-    /** 
-     * A list of pieces' prices.
-     */
-    this.piecePrices = [];
+    this.pieces = {};
+    this.pieceNames = {};
 
     /**
      * A list of movements or behavior of pieces
@@ -200,7 +206,7 @@ export class TDesign {
     return {
       type,
       player,
-      values: null
+      prices: null
     };
   }
 
@@ -306,13 +312,13 @@ export class TDesign {
    * Define a special zone on the game board.
    */
   addZone({ name, player, locations }: ZoneSetting) {
-    let zone_id = this.zoneNames.indexOf(name);
-    if (zone_id < 0) { //when the zone name is not found in the zone names list
-      zone_id = this.zoneNames.length;
-      this.zoneNames.push(name);
+    let zone_id = this.zoneNames[name];
+    if (zone_id === undefined) { //when the zone name is not found in the list
+      zone_id = Object.keys(this.zoneNames).length;
+      this.zoneNames[name] = zone_id;
     }
     if (this.zones[zone_id] === undefined) {
-      this.zones[zone_id] = [];
+      this.zones[zone_id] = {};
     }
     this.zones[zone_id][player] = locations.map(name => this.stringToLoc(name));
   }
@@ -332,8 +338,11 @@ export class TDesign {
    * @param price - a piece value
    */
   addPiece({ name, type, price = 1 }: PieceSetting) {
-    this.pieceNames[type] = name;
-    this.piecePrices[type] = price;
+    this.pieces[type] = {
+      name,
+      price
+    };
+    this.pieceNames[name] = type;
   }
 
   /**
@@ -342,8 +351,8 @@ export class TDesign {
    * @returns a piece type id
    */
   getPieceType(name: PieceName): null | PieceTypeID {
-    const r = this.pieceNames.indexOf(name);
-    if (r < 0) {
+    const r = this.pieceNames[name];
+    if (r === undefined) {
       return null;
     }
     return r;
@@ -383,15 +392,15 @@ export class TDesign {
    * Define a initial setup of pieces.
    */
   setInitialPieces({ player, pieceName, locations }: InitialPiecePlacementSetting) {
-    const piece_type_id = this.pieceNames.indexOf(pieceName);
+    const piece_type_id = this.getPieceType(pieceName);
     const player_id = this.playerNames.indexOf(player);
-    if ((piece_type_id < 0) || (player_id < 0)) {
+    if ((piece_type_id === null) || (player_id < 0)) {
       return;
     }
     const piece: TPiece = {
       player: player_id,
       type: piece_type_id,
-      values: null
+      prices: null
     };
 
     locations
@@ -477,8 +486,8 @@ export class TDesign {
    * @returns a zone id
    */
   getZone(name: string): null | number {
-    const zone = this.zoneNames.indexOf(name);
-    if (zone < 0) {
+    const zone = this.zoneNames[name];
+    if (zone === undefined) {
       return null;
     }
     return zone;

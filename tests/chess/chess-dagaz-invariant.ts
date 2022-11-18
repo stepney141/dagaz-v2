@@ -1,5 +1,5 @@
 import _ from "underscore";
-import { getPieceValue, updatePieceValue } from "../../src/core/piece";
+import { getPiecePrice, updatePiecePrice } from "../../src/core/piece";
 import type { TBoard } from "../../src/core";
 import type { TMove, LocationID, PlayerID } from "../../src/types";
 
@@ -100,7 +100,7 @@ export const extension = {
 
           for (const action of move.actions) {
             const piece = action.piece;
-            if (getPieceValue(piece, 0) !== null) {
+            if (getPiecePrice(piece, 0) !== null) {
               return;
             }
           }
@@ -139,7 +139,7 @@ export const extension = {
           for (const action of move.actions) {
             const piece = action.piece;
             if ((piece?.type == rook) || (piece?.type == king)) {
-              action.piece = updatePieceValue(piece, 0, 1); // updates the pieces' value
+              action.piece = updatePiecePrice(piece, 0, 1); // updates the pieces' value
             }
           }
         }

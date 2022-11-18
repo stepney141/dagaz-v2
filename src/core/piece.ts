@@ -1,5 +1,5 @@
 import type { TDesign } from "./design";
-import type { TPiece, PieceTypeID, PieceValue, PlayerID } from "../types";
+import type { TPiece, PieceTypeID, PiecePrice, PlayerID } from "../types";
 
 /**
  * Serialize the piece information into string data
@@ -7,7 +7,7 @@ import type { TPiece, PieceTypeID, PieceValue, PlayerID } from "../types";
  * @returns human-readable piece details
  */
 export function pieceToString(piece: TPiece, design: TDesign): string {
-  return `${design.playerNames[piece.player]} ${design.pieceNames[piece.type]}`;
+  return `${design.playerNames[piece.player]} ${design.pieces[piece.type]?.name}`;
 }
 
 /**
@@ -15,14 +15,14 @@ export function pieceToString(piece: TPiece, design: TDesign): string {
  * @param ix - a piece id
  * @returns a piece value (null if the specified piece doesn't exist)
  */
-export function getPieceValue(piece: TPiece, ix: PieceTypeID): null | PieceValue {
-  if (piece.values === null) {
+export function getPiecePrice(piece: TPiece, ix: PieceTypeID): null | PiecePrice {
+  if (piece.prices === null) {
     return null;
   }
-  if (piece.values[ix] === undefined) {
+  if (piece.prices[ix] === undefined) {
     return null;
   }
-  return piece.values[ix];
+  return piece.prices[ix];
 }
 
 /**
@@ -31,28 +31,25 @@ export function getPieceValue(piece: TPiece, ix: PieceTypeID): null | PieceValue
  * @param new_value - a new value
  * @returns a piece with an updated value
  */
-export function updatePieceValue(piece: TPiece, ix: PieceTypeID, new_value: null | PieceValue): TPiece {
-  const current_value = getPieceValue(piece, ix);
+export function updatePiecePrice(piece: TPiece, ix: PieceTypeID, new_value: null | PiecePrice): TPiece {
+  const currentPrice = getPiecePrice(piece, ix);
 
-  if ((current_value === null) && (new_value === null)) {
+  if ((currentPrice === null) && (new_value === null)) {
     return piece;
   }
-  if ((current_value !== null) && (new_value !== null) && (current_value == new_value)) {
+  if ((currentPrice !== null) && (new_value !== null) && (currentPrice == new_value)) {
     return piece;
   }
 
-  const r: TPiece = { player: piece.player, type: piece.type, values: null };
+  const r: TPiece = { player: piece.player, type: piece.type, prices: [] };
 
-  if (r.values === null) {
-    r.values = [];
-  }
-  if (piece.values !== null) {
-    r.values = [...piece.values]; //shallow copying
+  if (piece.prices !== null) {
+    r.prices = [...piece.prices]; //shallow copying
   }
   if (new_value !== null) {
-    r.values[ix] = new_value;
+    r.prices[ix] = new_value;
   } else {
-    r.values[ix] = undefined;
+    r.prices[ix] = undefined;
   }
 
   return r;
