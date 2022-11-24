@@ -1,7 +1,12 @@
+/**
+ * game state
+ * @module board
+ */
+
 import { applyTo } from "./move";
 import { TMoveContext } from "./move_context";
-import { getRandomValue, zUpdate, type PositionHash } from "./../zobrist";
-import type { TPiece, TMove, From, LocationID, PlayerID } from "./../types";
+import { getRandomValue, zUpdate, type PositionHash } from "./tt";
+import type { TPiece, TMove, From, LocationID, PlayerID } from "./types";
 import type { TDesign } from "./design";
 
 /**

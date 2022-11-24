@@ -1,3 +1,8 @@
+/**
+ * management game rules
+ * @module design
+ */
+
 import _ from "underscore";
 import type {
   TPiece, Plugin,
@@ -7,7 +12,7 @@ import type {
   PlayerName, PlayerID,
   PieceName, PieceTypeID, PiecePrice,
   ZoneID, ZoneName
-} from "./../types";
+} from "./types";
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";
 

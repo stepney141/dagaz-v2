@@ -1,3 +1,8 @@
+/**
+ * Transposition Table & Hash Generator
+ * @module tt
+ */
+
 export type PositionHash = [number, number];
 
 /**

@@ -1,7 +1,14 @@
+/**
+ * @module board_grid
+ */
+
 import _ from "underscore";
 import type { TDesign } from "./design";
-import type { DirectionID } from './../types';
+import type { DirectionID } from './types';
 
+/**
+ * internal DSL manager to easily represent board representation
+ */
 export class TGrid {
   design: TDesign;
   dirs: Array<Array<number>>;

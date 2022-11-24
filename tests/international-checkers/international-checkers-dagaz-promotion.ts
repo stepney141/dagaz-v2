@@ -1,5 +1,5 @@
-import { promotePiece } from "../../src/core/piece";
-import type { TBoard } from "./../../src/core";
+import { promotePiece } from "../../src/piece";
+import type { TBoard } from "../../src/board";
 
 /**
  * promotion of a man to a king

@@ -1,5 +1,10 @@
+/**
+ * functions to view or update each piece's state
+ * @module piece
+ */
+
 import type { TDesign } from "./design";
-import type { TPiece, PieceTypeID, PiecePrice, PlayerID } from "../types";
+import type { TPiece, PieceTypeID, PiecePrice, PlayerID } from "./types";
 
 /**
  * Serialize the piece information into string data

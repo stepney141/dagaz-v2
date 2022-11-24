@@ -1,6 +1,6 @@
-import { TDesign } from "../../src/core";
-import { moveToString } from "../../src/core/move";
-import { pieceToString, promotePiece } from "../../src/core/piece";
+import { TDesign } from "../../src/design";
+import { moveToString } from "../../src/move";
+import { pieceToString, promotePiece } from "../../src/piece";
 import { buildDesign } from "./english-checkers-dagaz";
 
 test("Initial Board", function () {

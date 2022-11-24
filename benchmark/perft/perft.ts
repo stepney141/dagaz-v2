@@ -1,6 +1,6 @@
 import type { Plugin } from './../../src/types';
-import { buildTranspositionTable, PositionHash } from '../../src/zobrist';
-import { TBoard, TDesign } from "../../src/core";
+import { buildTranspositionTable, PositionHash } from '../../src/tt';
+import { TBoard, TDesign } from "../../src";
 
 type ExactPerftAnswers = number[];
 type DepthToSearch = number;

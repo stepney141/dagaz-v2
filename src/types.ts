@@ -1,4 +1,4 @@
-import type { TMoveContext } from "./core";
+import type { TMoveContext } from "./move_context";
 
 export type DirectionName = string;
 export type DirectionID = number;
@@ -40,7 +40,7 @@ export type Plugin = {
 };
 
 /**
- * piece on the board
+ * representation of a piece on the board
  */
 export type TPiece = {
   player: PlayerID;
@@ -50,11 +50,11 @@ export type TPiece = {
 
 /**
  * action[0] from - origin square (the location where the move starts); null for piece-dropping moves like Go.
- * @link https://www.chessprogramming.org/Origin_Square  
- * action[1] to - target square (the location where the move finishes); null for piece-capturing moves.
- * @link https://www.chessprogramming.org/Target_Square  
+ * action[1] to - target square (the location where the move finishes); null for piece-capturing moves. 
  * action[2] piece - the piece that a player moves.  
  * action[3] part - the move execution phase of partial moves; used in checker-like games
+ * @link https://www.chessprogramming.org/Origin_Square
+ * @link https://www.chessprogramming.org/Target_Square 
  */
 export type MoveAction = {
   originSquare: From,
@@ -64,7 +64,7 @@ export type MoveAction = {
 };
 
 /**
- * move on each turn
+ * representation of a move on each turn
  */
 export type TMove = {
   actions: MoveAction[];

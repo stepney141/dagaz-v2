@@ -1,8 +1,13 @@
+/**
+ * management internal DSL to describe game rules
+ * @module move_context
+ */
+
 import { capturePiece, cloneMove, copyMove, movePiece } from "./move";
 import type { TBoard } from "./board";
 import type { TDesign } from "./design";
 import { promotePiece } from "./piece";
-import type { TPiece, TMove, Part, DirectionID, LocationID, PieceTypeID } from './../types';
+import type { TPiece, TMove, Part, DirectionID, LocationID, PieceTypeID } from './types';
 
 /**
  * A partial move context

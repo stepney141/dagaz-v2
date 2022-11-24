@@ -1,6 +1,11 @@
+/**
+ * functions to view or update each move state
+ * @module move
+ */
+
 import type { TBoard } from "./board";
 import type { TDesign } from "./design";
-import type { TMove, MoveAction } from "../types";
+import type { TMove, MoveAction } from "./types";
 
 type CapturingMove = Pick<MoveAction, 'originSquare' | 'part'>;
 type DroppingMove = Pick<MoveAction, 'targetSquare' | 'piece' | 'part'>;

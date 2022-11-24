@@ -1,4 +1,4 @@
-import type { TBoard } from "./../../src/core";
+import type { TBoard } from "../../src/board";
 
 /**
  * Filter pseudo legal moves

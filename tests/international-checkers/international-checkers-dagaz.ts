@@ -1,4 +1,4 @@
-import type { TDesign } from './../../src/core';
+import type { TDesign } from '../../src/design';
 import type { MovementDefinitionMethod } from "../../src/types";
 
 const shiftMan: MovementDefinitionMethod = function (ctx, params) {

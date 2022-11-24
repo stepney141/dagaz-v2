@@ -1,5 +1,5 @@
 import type { MovementDefinitionMethod } from "../../src/types";
-import type { TDesign } from './../../src/core';
+import type { TDesign } from '../../src/design';
 
 const shiftMan: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
