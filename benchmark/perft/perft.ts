@@ -1,6 +1,7 @@
 import type { Plugin } from './../../src/types';
 import { buildTranspositionTable, PositionHash } from '../../src/tt';
-import { TBoard, TDesign } from "../../src";
+import type { TBoard } from "../../src/board";
+import { TDesign } from "../../src/design";
 
 type ExactPerftAnswers = number[];
 type DepthToSearch = number;
