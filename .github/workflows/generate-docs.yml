@@ -1,0 +1,28 @@
+# original: https://crieit.net/posts/TypeDoc-GitHub-Actions-GitHub-Pages-TypeScript
+name: TypeDoc to GitHub Pages
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install
+        run: npm install
+
+      - name: Build
+        run: npm run docs
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB\_TOKEN }}
+          publish_dir: ./docs
