@@ -28,15 +28,15 @@ export type MovementDefinitionMethod = <T>(ctx: TMoveContext, params: DirectionI
  * description of each piece's move
  */
 export type Movement = {
-  pieceType: PieceTypeID //piece type id
-  func: MovementDefinitionMethod //callback function to define a move in internal DSL
-  params: DirectionID[] //directions that the piece can move toward
-  mode: MoveModeID //move mode
+  pieceType: PieceTypeID; //piece type id
+  func: MovementDefinitionMethod; //callback function to define a move in internal DSL
+  params: DirectionID[]; //directions that the piece can move toward
+  mode: MoveModeID; //move mode
 };
 
 export type Plugin = {
-  name: string,
-  func: any
+  name: string;
+  func: any;
 };
 
 /**
@@ -50,17 +50,17 @@ export type TPiece = {
 
 /**
  * action[0] from - origin square (the location where the move starts); null for piece-dropping moves like Go.
- * action[1] to - target square (the location where the move finishes); null for piece-capturing moves. 
- * action[2] piece - the piece that a player moves.  
+ * action[1] to - target square (the location where the move finishes); null for piece-capturing moves.
+ * action[2] piece - the piece that a player moves.
  * action[3] part - the move execution phase of partial moves; used in checker-like games
  * @link https://www.chessprogramming.org/Origin_Square
- * @link https://www.chessprogramming.org/Target_Square 
+ * @link https://www.chessprogramming.org/Target_Square
  */
 export type MoveAction = {
-  originSquare: From,
-  targetSquare: To,
-  piece: null | TPiece,
-  part: Part
+  originSquare: From;
+  targetSquare: To;
+  piece: null | TPiece;
+  part: Part;
 };
 
 /**

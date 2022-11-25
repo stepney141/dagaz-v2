@@ -9,8 +9,8 @@ let isRecursive = false;
 
 /**
  * Returns if a player wins, loses, or draws in the given game state.
- * @param board 
- * @param player 
+ * @param board
+ * @param player
  * @returns {null | 1 | -1 | 0}
  */
 export const getGoal = {
@@ -27,12 +27,12 @@ export const getGoal = {
       /** the square where a current player's king exists */
       let safe: LocationID | null = null;
 
-      design.allLocations().forEach(loc => {
+      design.allLocations().forEach((loc) => {
         const piece = board.getPiece(loc);
         if (piece === null) {
           return;
         }
-        if ((piece.type == king) && (piece.player == board.player)) {
+        if (piece.type == king && piece.player == board.player) {
           // checks if there is a current player's king on the board
           safe = loc;
         }
@@ -40,7 +40,8 @@ export const getGoal = {
 
       const p = board.player;
 
-      if (safe !== null) { // when a current player's king is NOT on the board
+      if (safe !== null) {
+        // when a current player's king is NOT on the board
         board.legalMoves = null;
         board.player = design.getNextPlayer(board.player);
         isRecursive = true;
@@ -62,7 +63,8 @@ export const getGoal = {
         board.legalMoves = [];
       }
 
-      if (safe === null) {  // when a current player's king is on the board
+      if (safe === null) {
+        // when a current player's king is on the board
         if (p == player) {
           return -1; // the player loses
         } else {
@@ -90,10 +92,11 @@ export const extension = {
       const Moves: TMove[] = [];
 
       // filter pseudo-legal moves
-      board.legalMoves.forEach(move => {
+      board.legalMoves.forEach((move) => {
         let safe: number[] = [];
 
-        if (move.mode == 1) { // castling
+        if (move.mode == 1) {
+          // castling
           const a = move.actions[0].originSquare;
           const b = move.actions[1].originSquare;
           safe = _.range(Math.min(a, b), Math.max(a, b) + 1);
@@ -108,12 +111,12 @@ export const extension = {
 
         // search in depth 1
         const b = board.makeMove(move);
-        design.allLocations().forEach(loc => {
+        design.allLocations().forEach((loc) => {
           const piece = b.getPiece(loc);
           if (piece === null) {
             return;
           }
-          if ((piece.type == king) && (piece.player == board.player)) {
+          if (piece.type == king && piece.player == board.player) {
             safe.push(loc); // get the place where the next player's king occupies
           }
         });
@@ -138,7 +141,7 @@ export const extension = {
           // search in depth 1:
           for (const action of move.actions) {
             const piece = action.piece;
-            if ((piece?.type == rook) || (piece?.type == king)) {
+            if (piece?.type == rook || piece?.type == king) {
               action.piece = updatePiecePrice(piece, 0, 1); // updates the pieces' value
             }
           }

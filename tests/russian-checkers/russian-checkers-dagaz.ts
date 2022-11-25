@@ -139,7 +139,7 @@ export const buildDesign = function (design: TDesign) {
 
   design.addMovePriority([
     1, // jump-type
-    0, // normal-type
+    0 // normal-type
   ]);
 
   design.addPiece({ name: "Man", type: 0, price: 20 });
@@ -164,6 +164,14 @@ export const buildDesign = function (design: TDesign) {
   design.addMove({ pieceType: 1, func: shiftKing, params: [2], mode: 0 });
   design.addMove({ pieceType: 1, func: shiftKing, params: [1], mode: 0 });
 
-  design.setInitialPieces({ player: "White", pieceName: "Man", locations: ["a3", "c3", "e3", "g3", "b2", "d2", "f2", "h2", "a1", "c1", "e1", "g1"] });
-  design.setInitialPieces({ player: "Black", pieceName: "Man", locations: ["b8", "d8", "f8", "h8", "a7", "c7", "e7", "g7", "b6", "d6", "f6", "h6"] });
+  design.setInitialPieces({
+    player: "White",
+    pieceName: "Man",
+    locations: ["a3", "c3", "e3", "g3", "b2", "d2", "f2", "h2", "a1", "c1", "e1", "g1"]
+  });
+  design.setInitialPieces({
+    player: "Black",
+    pieceName: "Man",
+    locations: ["b8", "d8", "f8", "h8", "a7", "c7", "e7", "g7", "b6", "d6", "f6", "h6"]
+  });
 };

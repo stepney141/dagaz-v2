@@ -103,7 +103,7 @@ export class TBoard {
 
   /**
    * Set the origin square (the location where the move starts)
-   * @param loc 
+   * @param loc
    */
   setLastFrom(loc: LocationID) {
     this.lastFrom = loc;
@@ -188,12 +188,13 @@ export class TBoard {
       for (const Movements of Object.values(this.design.groupedMovements)) {
         let completed = false;
 
-        for (const loc of this.design.allLocations()) { // looks into every location
+        for (const loc of this.design.allLocations()) {
+          // looks into every location
           const piece = this.getPiece(loc);
           if (piece === null) {
             continue; // check if the piece exists on the location
           }
-          if (!this.design.gameOptions['shared-pieces'] && (piece.player != this.player)) {
+          if (!this.design.gameOptions["shared-pieces"] && piece.player != this.player) {
             continue; // check if the current player can move the piece
           }
 
@@ -220,7 +221,7 @@ export class TBoard {
 
       for (const ctx of this.forks) {
         const f = this.isCompleteMove(ctx) ? false : true; // check if the chain of move contexts is completed as a legal move
-        if (this.design.gameOptions['pass-partial'] || f) {
+        if (this.design.gameOptions["pass-partial"] || f) {
           this.legalMoves.push(ctx.move);
         }
       }
@@ -228,11 +229,9 @@ export class TBoard {
       this.forks = null;
 
       // execute "invariant" modules to generate additional legal moves that cannot be described as TMoveContext
-      this.design.plugins
-        .filter(plugin => plugin.name == "extension")
-        .forEach(plugin => plugin.func(this));
+      this.design.plugins.filter((plugin) => plugin.name == "extension").forEach((plugin) => plugin.func(this));
 
-      if (this.design.gameOptions['pass-turn'] && (this.legalMoves.length == 0)) {
+      if (this.design.gameOptions["pass-turn"] && this.legalMoves.length == 0) {
         this.legalMoves.push({
           actions: [],
           mode: 0
@@ -243,7 +242,7 @@ export class TBoard {
 
   /**
    * Make a move and creates a new game state.
-   * @param move 
+   * @param move
    * @returns next game state
    */
   makeMove(move: TMove): TBoard {

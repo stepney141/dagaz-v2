@@ -10,12 +10,12 @@ export type PositionHash = [number, number];
  * Each integer generated is represented as a tuple of two 32-bit numbers.
  */
 function* XorShift64(initialState: PositionHash): Iterator<PositionHash> {
-  let x0: number = initialState[0] & 0xFFFF_FFFF;
-  let x1: number = initialState[1] & 0xFFFF_FFFF;
+  let x0: number = initialState[0] & 0xffff_ffff;
+  let x1: number = initialState[1] & 0xffff_ffff;
   if (x0 === 0 && x1 === 0) {
     throw Error("initialState must not be zero.");
   }
-  for (; ;) {
+  for (;;) {
     x1 ^= (x0 >>> 19) | (x1 << 13);
     x0 ^= x0 << 13;
     x0 ^= (x0 >>> 7) | (x1 << 25);
@@ -42,8 +42,5 @@ export function buildTranspositionTable<Entry>(): TranspositionTable<Entry> {
  */
 export function zUpdate(currentHashKey: PositionHash): PositionHash {
   const hash = getRandomValue.next().value as PositionHash;
-  return [
-    (currentHashKey[0] ^ hash[0]) & 0xFFFF_FFFF,
-    (currentHashKey[1] ^ hash[1]) & 0xFFFF_FFFF
-  ];
+  return [(currentHashKey[0] ^ hash[0]) & 0xffff_ffff, (currentHashKey[1] ^ hash[1]) & 0xffff_ffff];
 }

@@ -4,7 +4,7 @@
 
 import _ from "underscore";
 import type { TDesign } from "./design";
-import type { DirectionID } from './types';
+import type { DirectionID } from "./types";
 
 /**
  * internal DSL manager to easily represent board representation
@@ -15,7 +15,7 @@ export class TGrid {
   scales: Array<Array<string>>;
 
   /**
-   * @param design 
+   * @param design
    */
   constructor(design: TDesign) {
     this.design = design;
@@ -32,7 +32,7 @@ export class TGrid {
    * g.addScale("8/7/6/5/4/3/2/1");
    */
   addScale(scale: string) {
-    this.scales.push(scale.split('/'));
+    this.scales.push(scale.split("/"));
   }
 
   /**
@@ -55,23 +55,23 @@ export class TGrid {
   }
 
   /**
-   * 
-   * @param grid 
-   * @param ix 
-   * @param name 
-   * @param point 
+   *
+   * @param grid
+   * @param ix
+   * @param name
+   * @param point
    */
   addLocations(grid: TGrid = this, ix: number = this.scales.length - 1, name = "", point: Array<number> = []) {
     if (ix < 0) {
       const offsets = _.range(grid.dirs.length).fill(0);
 
-      Object.keys(grid.dirs).forEach(dir => {
+      Object.keys(grid.dirs).forEach((dir) => {
         let o = 0;
         for (let c = grid.scales.length - 1; c >= 0; c--) {
           if (c < grid.scales.length - 1) {
             o = o * grid.scales[c].length;
           }
-          const v = grid.dirs[(dir as unknown as DirectionID)][c];
+          const v = grid.dirs[dir as unknown as DirectionID][c];
           const x = point[c] + v;
           if (x < 0) {
             return;
@@ -81,7 +81,7 @@ export class TGrid {
           }
           o += v;
         }
-        offsets[(dir as unknown as DirectionID)] = o;
+        offsets[dir as unknown as DirectionID] = o;
       });
 
       grid.design.addLocation({ name, offsets });

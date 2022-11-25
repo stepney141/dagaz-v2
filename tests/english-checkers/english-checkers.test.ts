@@ -7,7 +7,7 @@ test("Initial Board", function () {
   const design = new TDesign();
   let board = design.getInitBoard(buildDesign);
 
-  expect(board.player).toEqual(1); // Black turn 
+  expect(board.player).toEqual(1); // Black turn
   expect(board.turn).toEqual(0);
   expect(board.player).toEqual(1);
   expect(design.locToString(1)).toEqual("a8");

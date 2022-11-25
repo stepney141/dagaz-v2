@@ -7,17 +7,17 @@ import { capturePiece, cloneMove, copyMove, movePiece } from "./move";
 import type { TBoard } from "./board";
 import type { TDesign } from "./design";
 import { promotePiece } from "./piece";
-import type { TPiece, TMove, Part, DirectionID, LocationID, PieceTypeID } from './types';
+import type { TPiece, TMove, Part, DirectionID, LocationID, PieceTypeID } from "./types";
 
 /**
  * A partial move context
  */
 export class TMoveContext {
   board: TBoard;
-  changes: Array<{ loc: LocationID, piece: (null | TPiece) }>;
+  changes: Array<{ loc: LocationID; piece: null | TPiece }>;
   design: TDesign;
   from: number;
-  hand: null | { start: LocationID, piece: (null | TPiece) };
+  hand: null | { start: LocationID; piece: null | TPiece };
   marks: Array<number>;
   mode: null | number;
   move: TMove;
@@ -42,7 +42,7 @@ export class TMoveContext {
      */
     this.from = loc;
 
-    /** 
+    /**
      * temporary location of the moving piece
      */
     this.loc = loc;
@@ -86,17 +86,17 @@ export class TMoveContext {
   }
 
   /**
-   * 
-   * @param loc 
-   * @param piece 
+   *
+   * @param loc
+   * @param piece
    */
   setPiece(loc: LocationID, piece: null | TPiece) {
     this.changes.push({ loc, piece });
   }
 
   /**
-   * 
-   * @param loc 
+   *
+   * @param loc
    * @returns
    */
   getPiece(loc: LocationID): null | TPiece {
@@ -190,9 +190,9 @@ export class TMoveContext {
   }
 
   /**
-   * 
-   * @param params 
-   * @param ix 
+   *
+   * @param params
+   * @param ix
    * @returns
    */
   opposite(params: number, ix: number): null | number {
@@ -204,9 +204,9 @@ export class TMoveContext {
   }
 
   /**
-   * 
-   * @param params 
-   * @param ix 
+   *
+   * @param params
+   * @param ix
    * @returns
    */
   isLastFrom(params?: number, ix?: number): boolean {
@@ -214,7 +214,7 @@ export class TMoveContext {
     if (loc === null) {
       loc = this.loc;
     }
-    if ((this.parent !== null) && (this.parent.parent !== null)) {
+    if (this.parent !== null && this.parent.parent !== null) {
       if (loc == this.parent.parent.from) {
         return true;
       }
@@ -226,12 +226,12 @@ export class TMoveContext {
    * Check whether the target square of the piece is empty or not
    */
   isEmpty(): boolean {
-    if (this.design.gameOptions['deferred-captures']) {
+    if (this.design.gameOptions["deferred-captures"]) {
       for (const a of this.move.actions) {
         if (
-          (a.originSquare !== null) // the move is NOT a piece-dropping move
-          && (a.targetSquare === null) // the move is a piece-capturing move
-          && (a.originSquare == this.loc)
+          a.originSquare !== null && // the move is NOT a piece-dropping move
+          a.targetSquare === null && // the move is a piece-capturing move
+          a.originSquare == this.loc
         ) {
           return false;
         }
@@ -264,9 +264,9 @@ export class TMoveContext {
   }
 
   /**
-   * 
-   * @param params 
-   * @param ix 
+   *
+   * @param params
+   * @param ix
    * @returns
    */
   isPiece(params: number, ix?: number): boolean {
@@ -283,8 +283,8 @@ export class TMoveContext {
 
   /**
    * Check if the piece is in the specified zone
-   * @param params 
-   * @param ix 
+   * @param params
+   * @param ix
    */
   inZone(params: number, ix?: number): null | boolean {
     const zone = this.getParam(params, ix);
@@ -300,8 +300,8 @@ export class TMoveContext {
 
   /**
    * Make the current piece promote to another piece of the given type
-   * @param params 
-   * @param ix 
+   * @param params
+   * @param ix
    * @returns whether the current piece can promote to the given piece type or not
    */
   promote(params: PieceTypeID, ix?: number): boolean {
@@ -329,8 +329,8 @@ export class TMoveContext {
 
   /**
    * Finish the context of the current move
-   * @param params 
-   * @param ix 
+   * @param params
+   * @param ix
    */
   end(params?: number, ix?: number) {
     const hand = this.hand;

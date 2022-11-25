@@ -39,10 +39,10 @@ export function getPiecePrice(piece: TPiece, ix: PieceTypeID): null | PiecePrice
 export function updatePiecePrice(piece: TPiece, ix: PieceTypeID, new_value: null | PiecePrice): TPiece {
   const currentPrice = getPiecePrice(piece, ix);
 
-  if ((currentPrice === null) && (new_value === null)) {
+  if (currentPrice === null && new_value === null) {
     return piece;
   }
-  if ((currentPrice !== null) && (new_value !== null) && (currentPrice == new_value)) {
+  if (currentPrice !== null && new_value !== null && currentPrice == new_value) {
     return piece;
   }
 

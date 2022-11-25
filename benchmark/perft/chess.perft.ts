@@ -2,12 +2,10 @@ import { buildDesign } from "../../tests/chess/chess-dagaz";
 import { getGoal, extension } from "../../tests/chess/chess-dagaz-invariant";
 import { main } from "./perft";
 
-/** 
+/**
  * @link https://www.chessprogramming.org/Perft_Results
  */
-const PERFT_RESULTS = [
-  1, 20, 400, 8902, 197281, 4865609, 119060324, 3195901860
-];
+const PERFT_RESULTS = [1, 20, 400, 8902, 197281, 4865609, 119060324, 3195901860];
 
 for (let i = 1; i <= 6; i++) {
   main(i, PERFT_RESULTS, buildDesign, [getGoal, extension]);

@@ -43,7 +43,7 @@
     "test:coverage": "npm run test -- --coverage",
     "test:coverage-ci": "npm run test -- --coverage --silent --testLocationInResults --ci --json --outputFile=\"report.json\"",
     "test:type-check": "tsc --pretty --noEmit",
-    "lint-fix": "prettier --write ./src && eslint --fix ./src",
+    "lint-fix": "prettier --write ./src ./tests ./benchmark/perft  && eslint ./src ./tests ./benchmark/perft --fix",
     "build": "tsc",
     "exec": "node -r esbuild-register",
     "exec:babel": "babel-node --extensions .ts,.js --presets @babel/preset-env,@babel/preset-typescript",

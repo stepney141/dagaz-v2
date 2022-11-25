@@ -7,8 +7,8 @@ import type { TBoard } from "./board";
 import type { TDesign } from "./design";
 import type { TMove, MoveAction } from "./types";
 
-type CapturingMove = Pick<MoveAction, 'originSquare' | 'part'>;
-type DroppingMove = Pick<MoveAction, 'targetSquare' | 'piece' | 'part'>;
+type CapturingMove = Pick<MoveAction, "originSquare" | "part">;
+type DroppingMove = Pick<MoveAction, "targetSquare" | "piece" | "part">;
 
 /**
  * Copy itself.
@@ -17,20 +17,21 @@ type DroppingMove = Pick<MoveAction, 'targetSquare' | 'piece' | 'part'>;
 export function copyMove(move: TMove): TMove {
   return {
     mode: move.mode,
-    actions: [...move.actions], //shallow copying
+    actions: [...move.actions] //shallow copying
   };
 }
 
 /**
- * 
- * @param part 
+ *
+ * @param part
  * @returns
  */
 export function cloneMove(move: TMove, part: number): TMove {
-  const filtered_actions = move.actions.filter(a =>
-    (a.originSquare === null) //search drop moves
-    || (a.targetSquare === null) //search capture moves
-    || (a.part !== part)
+  const filtered_actions = move.actions.filter(
+    (a) =>
+      a.originSquare === null || //search drop moves
+      a.targetSquare === null || //search capture moves
+      a.part !== part
   );
   return {
     mode: move.mode,
@@ -48,8 +49,9 @@ export function moveToString(move: TMove, design: TDesign): string {
   let location = null;
 
   for (const a of move.actions) {
-    if ((a.originSquare !== null) && (a.targetSquare !== null)) { //neither drop moves nor capture moves
-      if ((location === null) || (location != a.originSquare)) {
+    if (a.originSquare !== null && a.targetSquare !== null) {
+      //neither drop moves nor capture moves
+      if (location === null || location != a.originSquare) {
         if (str != "") {
           str = str + " ";
         }
@@ -77,9 +79,11 @@ export function isDropMove(move: TMove): boolean {
   if (move.actions.length != 1) {
     return false;
   }
-  return (move.actions[0].originSquare === null)
-    && (move.actions[0].targetSquare !== null)
-    && (move.actions[0].piece !== null);
+  return (
+    move.actions[0].originSquare === null &&
+    move.actions[0].targetSquare !== null &&
+    move.actions[0].piece !== null
+  );
 }
 
 /**
@@ -92,8 +96,7 @@ export function isQuietMove(move: TMove): boolean {
   if (move.actions.length != 1) {
     return false;
   }
-  return (move.actions[0].originSquare !== null)
-    && (move.actions[0].targetSquare !== null);
+  return move.actions[0].originSquare !== null && move.actions[0].targetSquare !== null;
 }
 
 /**
@@ -125,10 +128,10 @@ export function applyTo(move: TMove, board: TBoard) {
     if (a.originSquare !== null) {
       board.setPiece(a.originSquare, null); //make the origin square empty
     }
-    if ((a.targetSquare !== null) && (a.piece !== null)) {
+    if (a.targetSquare !== null && a.piece !== null) {
       board.setPiece(a.targetSquare, a.piece); //put a piece on the target location
     }
-    if ((a.originSquare !== null) && (a.targetSquare !== null)) {
+    if (a.originSquare !== null && a.targetSquare !== null) {
       board.setLastFrom(a.originSquare); //update the origin square
     }
   }

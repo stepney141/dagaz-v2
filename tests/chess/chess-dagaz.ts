@@ -26,24 +26,17 @@ const pawnLeap: MovementDefinitionMethod = function (ctx, params) {
 };
 
 const pawnJump: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) &&
-    ctx.isEmpty() &&
-    ctx.inZone(1) &&
-    ctx.go(params, 0) &&
-    ctx.isEmpty()) {
+  if (ctx.go(params, 0) && ctx.isEmpty() && ctx.inZone(1) && ctx.go(params, 0) && ctx.isEmpty()) {
     ctx.end();
   }
 };
 
 const enPassant: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) &&
-    ctx.isEnemy() &&
-    ctx.isPiece(0)) {
+  if (ctx.go(params, 0) && ctx.isEnemy() && ctx.isPiece(0)) {
     ctx.capture();
     if (ctx.go(params, 1)) {
       ctx.put();
-      if (ctx.go(params, 1) &&
-        ctx.isLastFrom()) {
+      if (ctx.go(params, 1) && ctx.isLastFrom()) {
         ctx.end();
       }
     }
@@ -51,9 +44,7 @@ const enPassant: MovementDefinitionMethod = function (ctx, params) {
 };
 
 const jump: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) &&
-    ctx.go(params, 1) &&
-    !ctx.isFriend()) {
+  if (ctx.go(params, 0) && ctx.go(params, 1) && !ctx.isFriend()) {
     ctx.end();
   }
 };
@@ -70,17 +61,11 @@ const slide: MovementDefinitionMethod = function (ctx, params) {
  * kingside castling
  */
 const O_O: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) &&
-    ctx.isEmpty() &&
-    ctx.go(params, 0) &&
-    ctx.isEmpty()) {
+  if (ctx.go(params, 0) && ctx.isEmpty() && ctx.go(params, 0) && ctx.isEmpty()) {
     ctx.put();
-    if (ctx.go(params, 0) &&
-      ctx.isFriend() &&
-      ctx.isPiece(1)) {
+    if (ctx.go(params, 0) && ctx.isFriend() && ctx.isPiece(1)) {
       ctx.take();
-      if (ctx.go(params, 1) &&
-        ctx.go(params, 1)) {
+      if (ctx.go(params, 1) && ctx.go(params, 1)) {
         ctx.end();
       }
     }
@@ -91,20 +76,11 @@ const O_O: MovementDefinitionMethod = function (ctx, params) {
  * queenside castling
  */
 const O_O_O: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) &&
-    ctx.isEmpty() &&
-    ctx.go(params, 0) &&
-    ctx.isEmpty()) {
+  if (ctx.go(params, 0) && ctx.isEmpty() && ctx.go(params, 0) && ctx.isEmpty()) {
     ctx.put();
-    if (ctx.go(params, 0) &&
-      ctx.isEmpty() &&
-      ctx.go(params, 0) &&
-      ctx.isFriend() &&
-      ctx.isPiece(1)) {
+    if (ctx.go(params, 0) && ctx.isEmpty() && ctx.go(params, 0) && ctx.isFriend() && ctx.isPiece(1)) {
       ctx.take();
-      if (ctx.go(params, 1) &&
-        ctx.go(params, 1) &&
-        ctx.go(params, 1)) {
+      if (ctx.go(params, 1) && ctx.go(params, 1) && ctx.go(params, 1)) {
         ctx.end();
       }
     }
@@ -250,13 +226,21 @@ export const buildDesign = function (design: TDesign) {
   design.addMove({ pieceType: 5, func: O_O, params: [1, 0], mode: 1 });
   design.addMove({ pieceType: 5, func: O_O_O, params: [0, 1], mode: 1 });
 
-  design.setInitialPieces({ player: "White", pieceName: "Pawn", locations: ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"] });
+  design.setInitialPieces({
+    player: "White",
+    pieceName: "Pawn",
+    locations: ["a2", "b2", "c2", "d2", "e2", "f2", "g2", "h2"]
+  });
   design.setInitialPieces({ player: "White", pieceName: "Rook", locations: ["a1", "h1"] });
   design.setInitialPieces({ player: "White", pieceName: "Knight", locations: ["b1", "g1"] });
   design.setInitialPieces({ player: "White", pieceName: "Bishop", locations: ["c1", "f1"] });
   design.setInitialPieces({ player: "White", pieceName: "Queen", locations: ["d1"] });
   design.setInitialPieces({ player: "White", pieceName: "King", locations: ["e1"] });
-  design.setInitialPieces({ player: "Black", pieceName: "Pawn", locations: ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"] });
+  design.setInitialPieces({
+    player: "Black",
+    pieceName: "Pawn",
+    locations: ["a7", "b7", "c7", "d7", "e7", "f7", "g7", "h7"]
+  });
   design.setInitialPieces({ player: "Black", pieceName: "Rook", locations: ["a8", "h8"] });
   design.setInitialPieces({ player: "Black", pieceName: "Knight", locations: ["b8", "g8"] });
   design.setInitialPieces({ player: "Black", pieceName: "Bishop", locations: ["c8", "f8"] });

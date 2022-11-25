@@ -5,24 +5,32 @@
 
 import _ from "underscore";
 import type {
-  TPiece, Plugin,
-  Movement, MoveModeID,
-  DirectionName, DirectionID,
-  LocationName, LocationID,
-  PlayerName, PlayerID,
-  PieceName, PieceTypeID, PiecePrice,
-  ZoneID, ZoneName
+  TPiece,
+  Plugin,
+  Movement,
+  MoveModeID,
+  DirectionName,
+  DirectionID,
+  LocationName,
+  LocationID,
+  PlayerName,
+  PlayerID,
+  PieceName,
+  PieceTypeID,
+  PiecePrice,
+  ZoneID,
+  ZoneName
 } from "./types";
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";
 
 type GameBehaviorOptions =
-  | 'pass-turn'
-  | 'pass-partial'
-  | 'shared-pieces'
-  | 'deferred-captures'
-  | 'maximal-captures'
-  | 'smart-moves';
+  | "pass-turn"
+  | "pass-partial"
+  | "shared-pieces"
+  | "deferred-captures"
+  | "maximal-captures"
+  | "smart-moves";
 type GameBehaviorOptionFlags = Record<GameBehaviorOptions, boolean>;
 
 /**
@@ -31,9 +39,9 @@ type GameBehaviorOptionFlags = Record<GameBehaviorOptions, boolean>;
  * @param locations - names of cells where the piece occupies when the game starts
  */
 type InitialPiecePlacementSetting = {
-  player: PlayerName,
-  pieceName: PieceName,
-  locations: LocationName[]
+  player: PlayerName;
+  pieceName: PieceName;
+  locations: LocationName[];
 };
 
 /**
@@ -42,9 +50,9 @@ type InitialPiecePlacementSetting = {
  * @param locations - a list of location-names which are in the zone
  */
 type ZoneSetting = {
-  name: ZoneName,
-  player: PlayerID,
-  locations: LocationName[]
+  name: ZoneName;
+  player: PlayerID;
+  locations: LocationName[];
 };
 
 /**
@@ -52,8 +60,8 @@ type ZoneSetting = {
  * @param offsets - location offsets indicated by direction ids
  */
 type LocationSetting = {
-  name: LocationName,
-  offsets: number[]
+  name: LocationName;
+  offsets: number[];
 };
 
 /**
@@ -61,8 +69,8 @@ type LocationSetting = {
  * @param symmetry - a list of direction ids that are rotationally symmetric in each player
  */
 type PlayerSetting = {
-  name: string,
-  symmetry: DirectionID[]
+  name: string;
+  symmetry: DirectionID[];
 };
 
 /**
@@ -71,14 +79,14 @@ type PlayerSetting = {
  * @param price - a piece value
  */
 type PieceSetting = {
-  name: PieceName,
-  type: PieceTypeID,
-  price?: PiecePrice
+  name: PieceName;
+  type: PieceTypeID;
+  price?: PiecePrice;
 };
 
 type TurnSetting = {
-  player: PlayerID,
-  modes: number[]
+  player: PlayerID;
+  modes: number[];
 };
 
 /**
@@ -90,18 +98,18 @@ export class TDesign {
   boardConnectionGraph: LocationID[][];
   directionNames: DirectionName[];
   gameOptions: GameBehaviorOptionFlags;
-  initialGamePosition: Array<{ location: (null | LocationID), piece: TPiece }>;
+  initialGamePosition: Array<{ location: null | LocationID; piece: TPiece }>;
   modes: MoveModeID[];
   movements: Movement[];
   groupedMovements: Record<number, Movement[]> | null;
   pieces: {
     [key in PieceTypeID]: {
-      name: PieceName,
-      price: PiecePrice
-    }
+      name: PieceName;
+      price: PiecePrice;
+    };
   };
   pieceNames: {
-    [EachPiece in PieceName]: PieceTypeID
+    [EachPiece in PieceName]: PieceTypeID;
   };
   playerNames: PlayerName[];
   plugins: Plugin[];
@@ -110,12 +118,12 @@ export class TDesign {
   rotationallySymmetricDirections: DirectionID[][];
   turns: TurnSetting[] | undefined;
   zoneNames: {
-    [EachZone in ZoneName]: ZoneID
+    [EachZone in ZoneName]: ZoneID;
   };
   zones: {
     [EachZone in ZoneID]: {
-      [EachPlayerWhoCanUseTheZone in PlayerID]: LocationID[]
-    }
+      [EachPlayerWhoCanUseTheZone in PlayerID]: LocationID[];
+    };
   };
 
   constructor() {
@@ -188,12 +196,12 @@ export class TDesign {
     this.board;
 
     this.gameOptions = {
-      'pass-turn': false,
-      'pass-partial': false,
-      'shared-pieces': false,
-      'deferred-captures': false,
-      'maximal-captures': false,
-      'smart-moves': false
+      "pass-turn": false,
+      "pass-partial": false,
+      "shared-pieces": false,
+      "deferred-captures": false,
+      "maximal-captures": false,
+      "smart-moves": false
     };
 
     this.repeat = null;
@@ -222,16 +230,16 @@ export class TDesign {
    */
   setGameOption(name: GameBehaviorOptions, value: boolean) {
     if (name === "pass-turn") {
-      this.gameOptions['pass-turn'] = (value === true);
+      this.gameOptions["pass-turn"] = value === true;
     }
     if (name === "pass-partial") {
-      this.gameOptions['pass-partial'] = (value === true);
+      this.gameOptions["pass-partial"] = value === true;
     }
     if (name === "shared-pieces") {
-      this.gameOptions['shared-pieces'] = (value === true);
+      this.gameOptions["shared-pieces"] = value === true;
     }
     if (name === "deferred-captures") {
-      this.gameOptions['deferred-captures'] = (value === true);
+      this.gameOptions["deferred-captures"] = value === true;
     }
   }
 
@@ -269,8 +277,8 @@ export class TDesign {
   }
 
   /**
-   * Define a player with his/her rotationally symmetric move-directions;  
-   * e.g. When a chess player moves a pawn one square toward north, the other player recognizes the pawn moves "one square toward south."  
+   * Define a player with his/her rotationally symmetric move-directions;
+   * e.g. When a chess player moves a pawn one square toward north, the other player recognizes the pawn moves "one square toward south."
    * This is an example of the move-direction symmetry.
    */
   addPlayer({ name, symmetry }: PlayerSetting) {
@@ -285,7 +293,7 @@ export class TDesign {
   /**
    * Define a turn.
    * @param player - a player id
-   * @param modes 
+   * @param modes
    */
   addTurn({ player, modes }: TurnSetting) {
     if (this.turns === undefined) {
@@ -305,7 +313,8 @@ export class TDesign {
    * Define a location on the game board.
    */
   addLocation({ name, offsets }: LocationSetting) {
-    if ((this.boardConnectionGraph.length == 0) && (name != "start")) { //when the locations list is empty, defines the origin of the coordinates 
+    if (this.boardConnectionGraph.length == 0 && name != "start") {
+      //when the locations list is empty, defines the origin of the coordinates
       this.locationNames.push("start");
       this.boardConnectionGraph.push(_.range(offsets.length).fill(0));
     }
@@ -318,19 +327,20 @@ export class TDesign {
    */
   addZone({ name, player, locations }: ZoneSetting) {
     let zone_id = this.zoneNames[name];
-    if (zone_id === undefined) { //when the zone name is not found in the list
+    if (zone_id === undefined) {
+      //when the zone name is not found in the list
       zone_id = Object.keys(this.zoneNames).length;
       this.zoneNames[name] = zone_id;
     }
     if (this.zones[zone_id] === undefined) {
       this.zones[zone_id] = {};
     }
-    this.zones[zone_id][player] = locations.map(name => this.stringToLoc(name));
+    this.zones[zone_id][player] = locations.map((name) => this.stringToLoc(name));
   }
 
   /**
    * Define a priority on the mode of moves.
-   * @param mode 
+   * @param mode
    */
   addMovePriority(modes: MoveModeID[]) {
     this.modes = modes;
@@ -383,14 +393,15 @@ export class TDesign {
     }
 
     const board = new TBoard(this); // create the initial game state
-    this.initialGamePosition.forEach(s => { // place pieces on the specified cells
+    this.initialGamePosition.forEach((s) => {
+      // place pieces on the specified cells
       board.setPiece(s.location, s.piece);
     });
     return board;
   }
 
   setPlugins(plugins: Plugin[]) {
-    plugins.forEach(plugin => this.plugins.push(plugin));
+    plugins.forEach((plugin) => this.plugins.push(plugin));
   }
 
   /**
@@ -399,7 +410,7 @@ export class TDesign {
   setInitialPieces({ player, pieceName, locations }: InitialPiecePlacementSetting) {
     const piece_type_id = this.getPieceType(pieceName);
     const player_id = this.playerNames.indexOf(player);
-    if ((piece_type_id === null) || (player_id < 0)) {
+    if (piece_type_id === null || player_id < 0) {
       return;
     }
     const piece: TPiece = {
@@ -409,9 +420,10 @@ export class TDesign {
     };
 
     locations
-      .map(name => this.stringToLoc(name))
-      .forEach(loc => {
-        this.initialGamePosition.push({ //store information of a piece location 
+      .map((name) => this.stringToLoc(name))
+      .forEach((loc) => {
+        this.initialGamePosition.push({
+          //store information of a piece location
           location: loc,
           piece: piece
         });
@@ -425,7 +437,6 @@ export class TDesign {
   allDirections(): DirectionID[] {
     return _.range(this.directionNames.length);
   }
-
 
   /**
    * Return a list of all player ids (starts from 1)
@@ -464,20 +475,21 @@ export class TDesign {
    * @returns new location id (null if it is not found)
    */
   navigate(player: PlayerID, loc: LocationID, dir: DirectionID): null | LocationID {
-    const target_dir = (this.rotationallySymmetricDirections[player] !== undefined)
-      ? this.rotationallySymmetricDirections[player][dir]
-      : dir;
+    const target_dir =
+      this.rotationallySymmetricDirections[player] !== undefined
+        ? this.rotationallySymmetricDirections[player][dir]
+        : dir;
 
     if (this.boardConnectionGraph[loc][target_dir] != 0) {
-      return + loc + this.boardConnectionGraph[loc][target_dir];
+      return +loc + this.boardConnectionGraph[loc][target_dir];
     } else {
       return null;
     }
   }
 
   /**
-   * 
-   * @param dir 
+   *
+   * @param dir
    * @param player
    * @returns
    */
@@ -528,7 +540,7 @@ export class TDesign {
 
   /**
    * Return the next turn id.
-   * @param board 
+   * @param board
    * @returns next turn id
    */
   getNextTurn(board: TBoard): number {
@@ -553,7 +565,7 @@ export class TDesign {
 
   /**
    * Return a current player id.
-   * @param turn 
+   * @param turn
    * @returns current player id
    */
   getCurrentPlayer(turn: number): PlayerID {
@@ -568,7 +580,7 @@ export class TDesign {
    * Classify piece movement according to a move mode
    */
   configureMovement() {
-    this.groupedMovements = _.groupBy(this.movements, movement => {
+    this.groupedMovements = _.groupBy(this.movements, (movement) => {
       if (this.modes.length == 0) {
         return 0;
       }
