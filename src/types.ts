@@ -81,25 +81,25 @@ export type GameBehaviorOptions =
 export type GameBehaviorOptionFlags = Record<GameBehaviorOptions, boolean>;
 
 export type GameRuleTemplate = {
-  directions: DirectionName[],
+  directions: DirectionName[];
 
   /**
    * @param name - a location name
    * @param offsets - location offsets indicated by direction ids
    */
   locations: {
-    name: LocationName,
-    offsets: number[]
-  }[],
+    name: LocationName;
+    offsets: number[];
+  }[];
 
   /**
    * @param name - a player name
    * @param symmetry - a list of direction ids that are rotationally symmetric in each player
    */
   players: {
-    name: PlayerName,
-    symmetry: number[]
-  }[],
+    name: PlayerName;
+    symmetry: number[];
+  }[];
 
   /**
    * @param name - a piece name
@@ -107,12 +107,12 @@ export type GameRuleTemplate = {
    * @param price - a piece value
    */
   pieces: {
-    name: PieceName,
-    type: PieceTypeID,
-    price: PiecePrice
-  }[],
+    name: PieceName;
+    type: PieceTypeID;
+    price: PiecePrice;
+  }[];
 
-  moves: Movement[],
+  moves: Movement[];
 
   /**
    * @param player - a name of a player who owns the pieces
@@ -120,10 +120,10 @@ export type GameRuleTemplate = {
    * @param locations - names of cells where the piece occupies when the game starts
    */
   initialPosition: {
-    player: PlayerName,
-    pieceName: PieceName,
-    locations: LocationName[]
-  }[],
+    player: PlayerName;
+    pieceName: PieceName;
+    locations: LocationName[];
+  }[];
 
   /**
    * @param name - a zone name
@@ -131,16 +131,16 @@ export type GameRuleTemplate = {
    * @param locations - a list of location-names which are in the zone
    */
   zones?: {
-    name: ZoneName,
-    player: PlayerID,
-    locations: LocationName[]
-  }[],
+    name: ZoneName;
+    player: PlayerID;
+    locations: LocationName[];
+  }[];
 
   turns?: {
-    player: PlayerID,
-    modes: number[]
-  }[],
+    player: PlayerID;
+    modes: number[];
+  }[];
 
-  movePriority?: number[],
-  gameOptions?: Partial<GameBehaviorOptionFlags>
+  movePriority?: number[];
+  gameOptions?: Partial<GameBehaviorOptionFlags>;
 };

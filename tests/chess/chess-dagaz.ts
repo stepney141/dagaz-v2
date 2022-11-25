@@ -1,4 +1,4 @@
-import type { GameRuleTemplate } from './../../src/types';
+import type { GameRuleTemplate } from "./../../src/types";
 import type { MovementDefinitionMethod } from "../../src/types";
 import type { TDesign } from "../../src/design";
 
@@ -111,7 +111,7 @@ export const basicGameRule: GameRuleTemplate = {
     },
     {
       name: "Black",
-      symmetry: [0, 1, 4, 5, 2, 3, 7, 6]  // [w, e, n, se, s, ne, nw, sw]
+      symmetry: [0, 1, 4, 5, 2, 3, 7, 6] // [w, e, n, se, s, ne, nw, sw]
     }
   ],
 
@@ -186,7 +186,7 @@ export const basicGameRule: GameRuleTemplate = {
     { name: "last-rank", player: 1, locations: ["a8", "b8", "c8", "d8", "e8", "f8", "g8", "h8"] },
     { name: "last-rank", player: 2, locations: ["a1", "b1", "c1", "d1", "e1", "f1", "g1", "h1"] },
     { name: "third-rank", player: 1, locations: ["a3", "b3", "c3", "d3", "e3", "f3", "g3", "h3"] },
-    { name: "third-rank", player: 2, locations: ["a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"] },
+    { name: "third-rank", player: 2, locations: ["a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"] }
   ],
 
   pieces: [
@@ -195,7 +195,7 @@ export const basicGameRule: GameRuleTemplate = {
     { name: "Knight", type: 2, price: 6 },
     { name: "Bishop", type: 3, price: 6 },
     { name: "Queen", type: 4, price: 18 },
-    { name: "King", type: 5, price: 1000 },
+    { name: "King", type: 5, price: 1000 }
   ],
 
   moves: [
@@ -238,7 +238,7 @@ export const basicGameRule: GameRuleTemplate = {
     { pieceType: 5, func: step, params: [3], mode: 0 },
     { pieceType: 5, func: step, params: [5], mode: 0 },
     { pieceType: 5, func: O_O, params: [1, 0], mode: 1 },
-    { pieceType: 5, func: O_O_O, params: [0, 1], mode: 1 },
+    { pieceType: 5, func: O_O_O, params: [0, 1], mode: 1 }
   ],
 
   initialPosition: [
@@ -261,6 +261,6 @@ export const basicGameRule: GameRuleTemplate = {
     { player: "Black", pieceName: "Knight", locations: ["b8", "g8"] },
     { player: "Black", pieceName: "Bishop", locations: ["c8", "f8"] },
     { player: "Black", pieceName: "Queen", locations: ["d8"] },
-    { player: "Black", pieceName: "King", locations: ["e8"] },
+    { player: "Black", pieceName: "King", locations: ["e8"] }
   ]
 };
