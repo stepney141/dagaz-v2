@@ -70,3 +70,78 @@ export type TMove = {
   actions: MoveAction[];
   mode: null | MoveModeID;
 };
+
+export type GameBehaviorOptions =
+  | "pass-turn"
+  | "pass-partial"
+  | "shared-pieces"
+  | "deferred-captures"
+  | "maximal-captures"
+  | "smart-moves";
+export type GameBehaviorOptionFlags = Record<GameBehaviorOptions, boolean>;
+
+export type GameRuleTemplate = {
+  gameOptions?: Partial<{
+    [key in GameBehaviorOptions]: boolean
+  }>,
+  directions: DirectionName[],
+
+  /**
+   * @param name - a location name
+   * @param offsets - location offsets indicated by direction ids
+   */
+  locations: {
+    name: LocationName,
+    offsets: number[]
+  }[],
+
+  /**
+   * @param name - a player name
+   * @param symmetry - a list of direction ids that are rotationally symmetric in each player
+   */
+  players: {
+    name: PlayerName,
+    symmetry: number[]
+  }[],
+
+  /**
+   * @param name - a piece name
+   * @param type - a piece type id
+   * @param price - a piece value
+   */
+  pieces: {
+    name: PieceName,
+    type: PieceTypeID,
+    price: PiecePrice
+  }[],
+
+  /**
+   * @param name - a zone name
+   * @param player - an ID of a player who can use the zone
+   * @param locations - a list of location-names which are in the zone
+   */
+  zones?: {
+    name: ZoneName,
+    player: PlayerID,
+    locations: LocationName[]
+  }[],
+
+  turns: {
+    player: PlayerID,
+    modes: number[]
+  }[],
+
+  moves: Movement[],
+  movePriority?: number[],
+
+  /**
+   * @param player - a name of a player who owns the pieces
+   * @param pieceType - a piece type
+   * @param locations - names of cells where the piece occupies when the game starts
+   */
+  initialPosition: {
+    player: PlayerName,
+    pieceName: PieceName,
+    locations: LocationName[]
+  }[]
+};
