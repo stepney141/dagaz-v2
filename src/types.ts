@@ -81,9 +81,6 @@ export type GameBehaviorOptions =
 export type GameBehaviorOptionFlags = Record<GameBehaviorOptions, boolean>;
 
 export type GameRuleTemplate = {
-  gameOptions?: Partial<{
-    [key in GameBehaviorOptions]: boolean
-  }>,
   directions: DirectionName[],
 
   /**
@@ -115,6 +112,19 @@ export type GameRuleTemplate = {
     price: PiecePrice
   }[],
 
+  moves: Movement[],
+
+  /**
+   * @param player - a name of a player who owns the pieces
+   * @param pieceType - a piece type
+   * @param locations - names of cells where the piece occupies when the game starts
+   */
+  initialPosition: {
+    player: PlayerName,
+    pieceName: PieceName,
+    locations: LocationName[]
+  }[],
+
   /**
    * @param name - a zone name
    * @param player - an ID of a player who can use the zone
@@ -126,22 +136,11 @@ export type GameRuleTemplate = {
     locations: LocationName[]
   }[],
 
-  turns: {
+  turns?: {
     player: PlayerID,
     modes: number[]
   }[],
 
-  moves: Movement[],
   movePriority?: number[],
-
-  /**
-   * @param player - a name of a player who owns the pieces
-   * @param pieceType - a piece type
-   * @param locations - names of cells where the piece occupies when the game starts
-   */
-  initialPosition: {
-    player: PlayerName,
-    pieceName: PieceName,
-    locations: LocationName[]
-  }[]
+  gameOptions?: Partial<GameBehaviorOptionFlags>
 };
