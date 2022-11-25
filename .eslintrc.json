@@ -1,54 +1,44 @@
 {
-    "env": {
-      "node": true,
-      "browser": true,
-      "es2021": true,
-      "jest/globals": true
-    },
-		"plugins": [
-			"you-dont-need-lodash-underscore",
-			"jest",
-			"@typescript-eslint",
-			"jsdoc"
-		],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-			"ecmaVersion": 12,
-      "sourceType": "module",
-      "project": "./tsconfig.json"
-    },
-		"extends": [
-			"eslint:recommended",
-			"plugin:@typescript-eslint/recommended",
-			"plugin:@typescript-eslint/recommended-requiring-type-checking",
-			"plugin:you-dont-need-lodash-underscore/compatible"
-		],
-    "rules": {
-			"linebreak-style": 0,
-      "semi": "off",
-			"indent": [
-				"error",
-        2
-      ],
-      "eol-last": [
-        "error",
-        "always"
-      ],
-      "no-path-concat": 0,
-      "no-unused-vars": "off",
-      "no-param-reassign": 1, // because of https://github.com/airbnb/javascript#functions--reassign-params
-      "no-var": 1,
-      "no-eq-null": 2,
-			"no-mixed-spaces-and-tabs": [
-        "error"
-			],
-			"jsdoc/check-alignment": 1,
-			"jsdoc/check-indentation": 1,
-			"@typescript-eslint/no-unused-vars": 1,
-			"@typescript-eslint/indent": "off",
-			"@typescript-eslint/semi": [
-        "error",
-        "always"
-      ]
-		}
+  "env": {
+    "node": true,
+    "browser": true,
+    "es2021": true,
+    "jest/globals": true
+  },
+  "plugins": [
+    "you-dont-need-lodash-underscore",
+    "jest",
+    "@typescript-eslint",
+    "jsdoc"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 12,
+    "sourceType": "module",
+    "project": "./tsconfig.json"
+  },
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@typescript-eslint/recommended-requiring-type-checking",
+    "plugin:you-dont-need-lodash-underscore/compatible",
+    "prettier"
+  ],
+  "rules": {
+    "linebreak-style": 0,
+    "semi": "off",
+    "indent": ["error", 2],
+    "eol-last": ["error", "always"],
+    "no-path-concat": 0,
+    "no-unused-vars": "off",
+    "no-param-reassign": 1, // because of https://github.com/airbnb/javascript#functions--reassign-params
+    "no-var": 1,
+    "no-eq-null": 2,
+    "no-mixed-spaces-and-tabs": ["error"],
+    "jsdoc/check-alignment": 1,
+    "jsdoc/check-indentation": 1,
+    "@typescript-eslint/no-unused-vars": 1,
+    "@typescript-eslint/indent": "off",
+    "@typescript-eslint/semi": ["error", "always"]
+  }
 }
