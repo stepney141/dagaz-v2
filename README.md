@@ -1,4 +1,4 @@
-# Dagaz
+# Dagaz v2
 
 <!--
 ![](./logo_transparent.png)
@@ -11,6 +11,23 @@
 The next version of [Dagaz Project](https://github.com/GlukKazan/Dagaz), a general boardgame creating/playing engine using Javascript.
 
 This is just an alpha version and still a work in progeress. We always welcome any suggestions or contributions that improve the quality of our projects!
+
+**TypeDoc Documents: https://stepney141.github.io/dagaz-v2/**
+
+## Features
+
+- Game state management
+- Game rules representation with embedded DSL
+- Fully TypeScripted
+
+## Roadmaps
+
+- [ ] GUI (Vanilla JS, HTML Canvas, and React)
+- [ ] more universal DSL
+- [ ] AI player
+- [ ] Supporting non-square shaped boards
+- [ ] Useful documents
+- [ ] Supporting [the pvp server project](https://github.com/GlukKazan/DagazServer)
 
 ## Setting up the dev environment
 
