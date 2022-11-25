@@ -1,5 +1,5 @@
 {
-	"entryPoints": ["./src"],
+	"entryPoints": [ "./src/index.ts" ],
 	"out": "./docs",
   "excludeExternals": true,
   "tsconfig": "./tsconfig.json",
