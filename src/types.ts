@@ -26,12 +26,16 @@ export type MovementDefinitionMethod = <T>(ctx: TMoveContext, params: DirectionI
 
 /**
  * description of each piece's move
+ * @param pieceType - piece type id
+ * @param func - callback function to define a move in internal DSL
+ * @param params - directions that the piece can move toward
+ * @param mode - move mode
  */
 export type Movement = {
-  pieceType: PieceTypeID; //piece type id
-  func: MovementDefinitionMethod; //callback function to define a move in internal DSL
-  params: DirectionID[]; //directions that the piece can move toward
-  mode: MoveModeID; //move mode
+  pieceType: PieceTypeID;
+  func: MovementDefinitionMethod;
+  params: DirectionID[];
+  mode: MoveModeID;
 };
 
 export type Plugin = {
