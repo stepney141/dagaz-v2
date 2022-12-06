@@ -4,6 +4,10 @@
  */
 
 import _ from "underscore";
+
+import { TBoard } from "./board";
+import { TGrid } from "./board_grid";
+
 import type {
   TPiece,
   Plugin,
@@ -22,8 +26,6 @@ import type {
   ZoneName,
   MovementDefinitionMethod
 } from "./types";
-import { TBoard } from "./board";
-import { TGrid } from "./board_grid";
 
 type GameBehaviorOptions =
   | "pass-turn"

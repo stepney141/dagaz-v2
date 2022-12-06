@@ -1,6 +1,7 @@
 import { TDesign } from "../../src/design";
 import { moveToString } from "../../src/move";
 import { pieceToString } from "../../src/piece";
+
 import { buildDesign } from "./russian-checkers-dagaz";
 
 test("King Moves", function () {

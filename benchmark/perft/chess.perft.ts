@@ -1,5 +1,6 @@
 import { buildDesign } from "../../tests/chess/chess-dagaz";
 import { getGoal, extension } from "../../tests/chess/chess-dagaz-invariant";
+
 import { main } from "./perft";
 
 /**

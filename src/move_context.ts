@@ -4,9 +4,10 @@
  */
 
 import { capturePiece, cloneMove, copyMove, movePiece } from "./move";
+import { promotePiece } from "./piece";
+
 import type { TBoard } from "./board";
 import type { TDesign } from "./design";
-import { promotePiece } from "./piece";
 import type { TPiece, TMove, Part, DirectionID, LocationID, PieceTypeID } from "./types";
 
 /**

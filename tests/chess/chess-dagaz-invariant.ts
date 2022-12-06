@@ -1,5 +1,7 @@
 import _ from "underscore";
+
 import { getPiecePrice, updatePiecePrice } from "../../src/piece";
+
 import type { TBoard } from "../../src/board";
 import type { TMove, LocationID, PlayerID } from "../../src/types";
 

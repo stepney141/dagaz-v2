@@ -1,5 +1,5 @@
-import type { MovementDefinitionMethod } from "../../src/types";
 import type { TDesign } from "../../src/design";
+import type { MovementDefinitionMethod } from "../../src/types";
 
 const step: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.go(params, 0) && !ctx.isFriend()) {

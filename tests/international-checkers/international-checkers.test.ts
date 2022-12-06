@@ -1,9 +1,10 @@
 import { TDesign } from "../../src/design";
 import { moveToString } from "../../src/move";
 import { pieceToString } from "../../src/piece";
+
 import { buildDesign } from "./international-checkers-dagaz";
-import { maximalCapture } from "./maximal-captures-dagaz";
 import { promotion } from "./international-checkers-dagaz-promotion";
+import { maximalCapture } from "./maximal-captures-dagaz";
 
 test("Man promotion", function () {
   const design = new TDesign();

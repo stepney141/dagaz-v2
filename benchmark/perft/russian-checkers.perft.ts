@@ -1,4 +1,5 @@
 import { buildDesign } from "../../tests/russian-checkers/russian-checkers-dagaz";
+
 import { main } from "./perft";
 
 /**
