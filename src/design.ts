@@ -19,7 +19,8 @@ import type {
   PieceTypeID,
   PiecePrice,
   ZoneID,
-  ZoneName
+  ZoneName,
+  MovementDefinitionMethod
 } from "./types";
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";
@@ -376,8 +377,23 @@ export class TDesign {
   /**
    * Define how a piece moves or works (e.g. how it moves to another location, how it captures other pieces, etc.)
    */
-  addMove(movement: Movement) {
-    this.movements.push(movement);
+  addMove({
+    pieceType,
+    func,
+    params,
+    mode
+  }: {
+    pieceType: PieceTypeID;
+    func: MovementDefinitionMethod;
+    params: DirectionName[];
+    mode: MoveModeID;
+  }) {
+    this.movements.push({
+      pieceType,
+      func,
+      params: params.map((name) => this.getDirection(name)),
+      mode
+    });
   }
 
   /**

@@ -1,5 +1,5 @@
-import type { MovementDefinitionMethod } from "../../src/types";
 import type { TDesign } from "../../src/design";
+import type { MovementDefinitionMethod } from "../../src/types";
 
 const shiftMan: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.go(params, 0) && ctx.isEmpty()) {
@@ -126,20 +126,20 @@ export const buildDesign = function (design: TDesign) {
   ]);
 
   design.addPiece({ name: "Man", type: 0, price: 20 });
-  design.addMove({ pieceType: 0, func: jumpMan, params: [3], mode: 1 });
-  design.addMove({ pieceType: 0, func: jumpMan, params: [0], mode: 1 });
-  design.addMove({ pieceType: 0, func: shiftMan, params: [3], mode: 0 });
-  design.addMove({ pieceType: 0, func: shiftMan, params: [0], mode: 0 });
+  design.addMove({ pieceType: 0, func: jumpMan, params: ["nw"], mode: 1 });
+  design.addMove({ pieceType: 0, func: jumpMan, params: ["ne"], mode: 1 });
+  design.addMove({ pieceType: 0, func: shiftMan, params: ["nw"], mode: 0 });
+  design.addMove({ pieceType: 0, func: shiftMan, params: ["ne"], mode: 0 });
 
   design.addPiece({ name: "King", type: 1, price: 40 });
-  design.addMove({ pieceType: 1, func: jumpKing, params: [3], mode: 1 });
-  design.addMove({ pieceType: 1, func: jumpKing, params: [0], mode: 1 });
-  design.addMove({ pieceType: 1, func: jumpKing, params: [2], mode: 1 });
-  design.addMove({ pieceType: 1, func: jumpKing, params: [1], mode: 1 });
-  design.addMove({ pieceType: 1, func: shiftKing, params: [3], mode: 0 });
-  design.addMove({ pieceType: 1, func: shiftKing, params: [0], mode: 0 });
-  design.addMove({ pieceType: 1, func: shiftKing, params: [2], mode: 0 });
-  design.addMove({ pieceType: 1, func: shiftKing, params: [1], mode: 0 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: ["nw"], mode: 1 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: ["ne"], mode: 1 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: ["sw"], mode: 1 });
+  design.addMove({ pieceType: 1, func: jumpKing, params: ["se"], mode: 1 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: ["nw"], mode: 0 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: ["ne"], mode: 0 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: ["sw"], mode: 0 });
+  design.addMove({ pieceType: 1, func: shiftKing, params: ["se"], mode: 0 });
 
   design.setInitialPieces({
     player: "Black",
