@@ -5,7 +5,6 @@ import type { TBoard } from "../../src/board";
 import type { PositionHash } from "../../src/tt";
 import type { Plugin } from "./../../src/types";
 
-
 type ExactPerftAnswers = number[];
 type DepthToSearch = number;
 type NodeCounts = number;
@@ -15,21 +14,25 @@ type NodeCounts = number;
 // type PerftHashTableKey = `Hash:${string}/Depth:${DepthToSearch}`;
 type PerftHashTableEntry = {
   nodes: NodeCounts;
-  positionHash: string;
+  depth: DepthToSearch;
 };
-type PerftHashResult = {
-  result: NodeCounts;
-  isFound: boolean;
-};
+type PerftHashResult =
+  | {
+      result: PerftHashTableEntry;
+      isFound: true;
+    }
+  | {
+      result: undefined;
+      isFound: false;
+    };
 
-const hashTable = buildTranspositionTable<PerftHashTableEntry>();
-
-const lookHashTable = (key: PositionHash): PerftHashResult => {
+const perftTT = buildTranspositionTable<PerftHashTableEntry>();
+function lookupPerftTT(key: PositionHash): PerftHashResult {
   return {
-    result: hashTable.get(key)?.nodes,
-    isFound: hashTable.has(key)
-  };
-};
+    result: perftTT.get(key),
+    isFound: perftTT.has(key)
+  } as PerftHashResult;
+}
 
 /**
  * Search the game tree starting from the initial positiion,
@@ -40,23 +43,26 @@ const lookHashTable = (key: PositionHash): PerftHashResult => {
  * @returns the number of enumarated nodes
  */
 const perft = function (depth: DepthToSearch, b: TBoard): NodeCounts {
-  let nodes: NodeCounts = 0;
+  if (depth >= 1) {
+    let nodes: NodeCounts = 0;
 
-  const { result, isFound } = lookHashTable(b.z);
-  if (isFound) {
-    return result;
+    const { result, isFound } = lookupPerftTT(b.z);
+    if (isFound) {
+      return result.nodes;
+    }
+
+    b.generateMoves();
+    for (const m of b.legalMoves) {
+      const next_b = b.makeMove(m); //make a move
+      nodes += perft(depth - 1, next_b);
+    }
+
+    perftTT.set(b.z, { nodes, depth });
+
+    return nodes;
   }
 
-  b.generateMoves();
-
-  for (const m of b.legalMoves) {
-    const next_b = b.makeMove(m); //make a move
-    nodes += depth > 1 ? perft(depth - 1, next_b) : 1;
-  }
-
-  hashTable.set(b.z, { nodes, positionHash: b.z.toString() });
-
-  return nodes;
+  return 1;
 };
 
 /**

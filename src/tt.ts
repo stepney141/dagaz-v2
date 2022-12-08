@@ -1,3 +1,4 @@
+import type { PositionHash } from "./tt";
 /**
  * Transposition Table & Hash Generator
  * @module tt
@@ -33,6 +34,10 @@ export type TranspositionTable<Entry> = Map<TranspositionTableKey, Entry>;
 
 export function buildTranspositionTable<Entry>(): TranspositionTable<Entry> {
   return new Map();
+}
+
+export function hashToString(hash: PositionHash): string {
+  return `${hash[0]}${hash[1]}`;
 }
 
 /**
