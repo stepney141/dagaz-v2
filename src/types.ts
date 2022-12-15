@@ -45,7 +45,8 @@ export type Plugin = {
 export type TPiece = {
   player: PlayerID;
   type: PieceTypeID;
-  prices: null | PiecePrice[];
+  price: PiecePrice;
+  attributes: null | any[];
 };
 
 /**

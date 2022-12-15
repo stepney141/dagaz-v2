@@ -222,7 +222,8 @@ export class TDesign {
     return {
       type,
       player,
-      prices: null
+      price: this.pieces[type].price,
+      attributes: null
     };
   }
 
@@ -431,11 +432,7 @@ export class TDesign {
     if (piece_type_id === null || player_id < 0) {
       return;
     }
-    const piece: TPiece = {
-      player: player_id,
-      type: piece_type_id,
-      prices: null
-    };
+    const piece = this.createPiece(piece_type_id, player_id);
 
     locations
       .map((name) => this.stringToLoc(name))

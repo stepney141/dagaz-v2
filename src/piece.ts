@@ -4,7 +4,7 @@
  */
 
 import type { TDesign } from "./design";
-import type { TPiece, PieceTypeID, PiecePrice, PlayerID } from "./types";
+import type { TPiece, PieceTypeID, PlayerID } from "./types";
 
 /**
  * Serialize the piece information into string data
@@ -16,45 +16,42 @@ export function pieceToString(piece: TPiece, design: TDesign): string {
 }
 
 /**
- * Return a value of the given piece type
+ * Return an attribute value of the given piece
  * @param ix - a piece id
  * @returns a piece value (null if the specified piece doesn't exist)
  */
-export function getPiecePrice(piece: TPiece, ix: PieceTypeID): null | PiecePrice {
-  if (piece.prices === null) {
+export function getPieceAttribute(piece: TPiece, ix: number) {
+  if (piece.attributes === null || piece.attributes[ix] === undefined) {
     return null;
   }
-  if (piece.prices[ix] === undefined) {
-    return null;
-  }
-  return piece.prices[ix];
+  return piece.attributes[ix];
 }
 
 /**
- * Set a value of the piece
+ * Set an attribute value of the given piece
  * @param ix - a piece id
  * @param new_value - a new value
  * @returns a piece with an updated value
  */
-export function updatePiecePrice(piece: TPiece, ix: PieceTypeID, new_value: null | PiecePrice): TPiece {
-  const currentPrice = getPiecePrice(piece, ix);
+export function updatePieceAttribute(piece: TPiece, ix: number, new_value: any | null): TPiece {
+  const currentAttribute = getPieceAttribute(piece, ix);
 
-  if (currentPrice === null && new_value === null) {
+  if (currentAttribute === null && new_value === null) {
     return piece;
   }
-  if (currentPrice !== null && new_value !== null && currentPrice == new_value) {
+  if (currentAttribute !== null && new_value !== null && currentAttribute == new_value) {
     return piece;
   }
 
-  const r: TPiece = { player: piece.player, type: piece.type, prices: [] };
+  const r: TPiece = { player: piece.player, type: piece.type, price: 1, attributes: [] };
 
-  if (piece.prices !== null) {
-    r.prices = [...piece.prices]; //shallow copying
+  if (piece.attributes !== null) {
+    r.attributes = [...piece.attributes]; //shallow copying
   }
   if (new_value !== null) {
-    r.prices[ix] = new_value;
+    r.attributes[ix] = new_value;
   } else {
-    r.prices[ix] = undefined;
+    r.attributes[ix] = undefined;
   }
 
   return r;
