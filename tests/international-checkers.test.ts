@@ -1,10 +1,9 @@
-import { TDesign } from "../../src/design";
-import { moveToString } from "../../src/move";
-import { pieceToString } from "../../src/piece";
-
-import { buildDesign } from "./international-checkers-dagaz";
-import { promotion } from "./international-checkers-dagaz-promotion";
-import { maximalCapture } from "./maximal-captures-dagaz";
+import { buildDesign } from "../games/international-checkers/international-checkers-dagaz";
+import { promotion } from "../games/international-checkers/international-checkers-dagaz-promotion";
+import { maximalCapture } from "../games/international-checkers/maximal-captures-dagaz";
+import { TDesign } from "../src/design";
+import { moveToString } from "../src/move";
+import { pieceToString } from "../src/piece";
 
 test("Man promotion", function () {
   const design = new TDesign();

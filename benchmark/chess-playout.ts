@@ -1,7 +1,7 @@
+import { buildDesign } from "../games/chess/chess-dagaz";
+import { getGoal, extension } from "../games/chess/chess-dagaz-invariant";
 import { TDesign } from "../src/design";
 import { pieceToString } from "../src/piece";
-import { buildDesign } from "../tests/chess/chess-dagaz";
-import { getGoal, extension } from "../tests/chess/chess-dagaz-invariant";
 
 function playout(plyUpperLimit: number, enableLog = true): number {
   const design = new TDesign();

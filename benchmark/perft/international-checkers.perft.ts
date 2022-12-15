@@ -1,6 +1,6 @@
-import { buildDesign } from "../../tests/international-checkers/international-checkers-dagaz";
-import { promotion } from "../../tests/international-checkers/international-checkers-dagaz-promotion";
-import { maximalCapture } from "../../tests/international-checkers/maximal-captures-dagaz";
+import { buildDesign } from "../../games/international-checkers/international-checkers-dagaz";
+import { promotion } from "../../games/international-checkers/international-checkers-dagaz-promotion";
+import { maximalCapture } from "../../games/international-checkers/maximal-captures-dagaz";
 
 import { main } from "./perft";
 

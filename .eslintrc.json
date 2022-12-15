@@ -44,7 +44,7 @@
         "newlines-between": "always"
       }
     ],
-    "indent": ["error", 2],
+    // "indent": ["error", 2],
 		"jsdoc/check-alignment": 1,
     "jsdoc/check-indentation": 1,
 		"linebreak-style": 0,

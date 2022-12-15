@@ -1,8 +1,7 @@
-import { TDesign } from "../../src/design";
-import { moveToString } from "../../src/move";
-import { pieceToString } from "../../src/piece";
-
-import { buildDesign } from "./russian-checkers-dagaz";
+import { buildDesign } from "../games/russian-checkers/russian-checkers-dagaz";
+import { TDesign } from "../src/design";
+import { moveToString } from "../src/move";
+import { pieceToString } from "../src/piece";
 
 test("King Moves", function () {
   const design = new TDesign();
