@@ -46,7 +46,7 @@ const perft = function (depth: DepthToSearch, b: TBoard): NodeCounts {
   if (depth >= 1) {
     let nodes: NodeCounts = 0;
 
-    const { result, isFound } = lookupPerftTT(b.z);
+    const { result, isFound } = lookupPerftTT(b.hash);
     if (isFound) {
       return result.nodes;
     }
@@ -57,7 +57,7 @@ const perft = function (depth: DepthToSearch, b: TBoard): NodeCounts {
       nodes += perft(depth - 1, next_b);
     }
 
-    perftTT.set(b.z, { nodes, depth });
+    perftTT.set(b.hash, { nodes, depth });
 
     return nodes;
   }
