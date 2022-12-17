@@ -294,23 +294,22 @@ export class TDesign {
   /**
    * Define how a piece moves or works (e.g. how it moves to another location, how it captures other pieces, etc.)
    */
-  addMove({
-    pieceType,
-    func,
-    params,
-    mode
-  }: {
-    pieceType: PieceTypeID;
-    func: MovementDefinitionMethod;
-    params: DirectionName[];
-    mode: MoveModeID;
-  }) {
-    this.movements.push({
-      pieceType,
-      func,
-      params: params.map((name) => this.getDirection(name)),
-      mode
-    });
+  addMove(
+    ...movements: {
+      pieceType: PieceTypeID;
+      func: MovementDefinitionMethod;
+      params: DirectionName[];
+      mode: MoveModeID;
+    }[]
+  ) {
+    for (const { pieceType, func, params, mode } of movements) {
+      this.movements.push({
+        pieceType,
+        func,
+        params: params.map((name) => this.getDirection(name)),
+        mode
+      });
+    }
   }
 
   /**

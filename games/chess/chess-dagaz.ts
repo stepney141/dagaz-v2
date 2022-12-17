@@ -181,56 +181,68 @@ export const buildDesign = function (design: TDesign) {
   );
 
   design.addPiece({ name: "Pawn", type: 0, price: 2 });
-  design.addMove({ pieceType: 0, func: pawnShift, params: ["n"], mode: 0 });
-  design.addMove({ pieceType: 0, func: pawnJump, params: ["n"], mode: 0 });
-  design.addMove({ pieceType: 0, func: pawnLeap, params: ["nw"], mode: 0 });
-  design.addMove({ pieceType: 0, func: pawnLeap, params: ["ne"], mode: 0 });
-  design.addMove({ pieceType: 0, func: enPassant, params: ["e", "n"], mode: 0 });
-  design.addMove({ pieceType: 0, func: enPassant, params: ["w", "n"], mode: 0 });
+  design.addMove(
+    { pieceType: 0, func: pawnShift, params: ["n"], mode: 0 },
+    { pieceType: 0, func: pawnJump, params: ["n"], mode: 0 },
+    { pieceType: 0, func: pawnLeap, params: ["nw"], mode: 0 },
+    { pieceType: 0, func: pawnLeap, params: ["ne"], mode: 0 },
+    { pieceType: 0, func: enPassant, params: ["e", "n"], mode: 0 },
+    { pieceType: 0, func: enPassant, params: ["w", "n"], mode: 0 }
+  );
 
   design.addPiece({ name: "Rook", type: 1, price: 10 });
-  design.addMove({ pieceType: 1, func: slide, params: ["n"], mode: 0 });
-  design.addMove({ pieceType: 1, func: slide, params: ["s"], mode: 0 });
-  design.addMove({ pieceType: 1, func: slide, params: ["w"], mode: 0 });
-  design.addMove({ pieceType: 1, func: slide, params: ["e"], mode: 0 });
+  design.addMove(
+    { pieceType: 1, func: slide, params: ["n"], mode: 0 },
+    { pieceType: 1, func: slide, params: ["s"], mode: 0 },
+    { pieceType: 1, func: slide, params: ["w"], mode: 0 },
+    { pieceType: 1, func: slide, params: ["e"], mode: 0 }
+  );
 
   design.addPiece({ name: "Knight", type: 2, price: 6 });
-  design.addMove({ pieceType: 2, func: jump, params: ["n", "nw"], mode: 0 });
-  design.addMove({ pieceType: 2, func: jump, params: ["n", "ne"], mode: 0 });
-  design.addMove({ pieceType: 2, func: jump, params: ["s", "sw"], mode: 0 });
-  design.addMove({ pieceType: 2, func: jump, params: ["s", "se"], mode: 0 });
-  design.addMove({ pieceType: 2, func: jump, params: ["w", "nw"], mode: 0 });
-  design.addMove({ pieceType: 2, func: jump, params: ["w", "sw"], mode: 0 });
-  design.addMove({ pieceType: 2, func: jump, params: ["e", "ne"], mode: 0 });
-  design.addMove({ pieceType: 2, func: jump, params: ["e", "se"], mode: 0 });
+  design.addMove(
+    { pieceType: 2, func: jump, params: ["n", "nw"], mode: 0 },
+    { pieceType: 2, func: jump, params: ["n", "ne"], mode: 0 },
+    { pieceType: 2, func: jump, params: ["s", "sw"], mode: 0 },
+    { pieceType: 2, func: jump, params: ["s", "se"], mode: 0 },
+    { pieceType: 2, func: jump, params: ["w", "nw"], mode: 0 },
+    { pieceType: 2, func: jump, params: ["w", "sw"], mode: 0 },
+    { pieceType: 2, func: jump, params: ["e", "ne"], mode: 0 },
+    { pieceType: 2, func: jump, params: ["e", "se"], mode: 0 }
+  );
 
   design.addPiece({ name: "Bishop", type: 3, price: 6 });
-  design.addMove({ pieceType: 3, func: slide, params: ["nw"], mode: 0 });
-  design.addMove({ pieceType: 3, func: slide, params: ["sw"], mode: 0 });
-  design.addMove({ pieceType: 3, func: slide, params: ["ne"], mode: 0 });
-  design.addMove({ pieceType: 3, func: slide, params: ["se"], mode: 0 });
+  design.addMove(
+    { pieceType: 3, func: slide, params: ["nw"], mode: 0 },
+    { pieceType: 3, func: slide, params: ["sw"], mode: 0 },
+    { pieceType: 3, func: slide, params: ["ne"], mode: 0 },
+    { pieceType: 3, func: slide, params: ["se"], mode: 0 }
+  );
 
   design.addPiece({ name: "Queen", type: 4, price: 18 });
-  design.addMove({ pieceType: 4, func: slide, params: ["n"], mode: 0 });
-  design.addMove({ pieceType: 4, func: slide, params: ["s"], mode: 0 });
-  design.addMove({ pieceType: 4, func: slide, params: ["w"], mode: 0 });
-  design.addMove({ pieceType: 4, func: slide, params: ["e"], mode: 0 });
-  design.addMove({ pieceType: 4, func: slide, params: ["nw"], mode: 0 });
-  design.addMove({ pieceType: 4, func: slide, params: ["sw"], mode: 0 });
-  design.addMove({ pieceType: 4, func: slide, params: ["ne"], mode: 0 });
-  design.addMove({ pieceType: 4, func: slide, params: ["se"], mode: 0 });
+  design.addMove(
+    { pieceType: 4, func: slide, params: ["n"], mode: 0 },
+    { pieceType: 4, func: slide, params: ["s"], mode: 0 },
+    { pieceType: 4, func: slide, params: ["w"], mode: 0 },
+    { pieceType: 4, func: slide, params: ["e"], mode: 0 },
+    { pieceType: 4, func: slide, params: ["nw"], mode: 0 },
+    { pieceType: 4, func: slide, params: ["sw"], mode: 0 },
+    { pieceType: 4, func: slide, params: ["ne"], mode: 0 },
+    { pieceType: 4, func: slide, params: ["se"], mode: 0 }
+  );
 
   design.addPiece({ name: "King", type: 5, price: 1000 });
-  design.addMove({ pieceType: 5, func: step, params: ["n"], mode: 0 });
-  design.addMove({ pieceType: 5, func: step, params: ["s"], mode: 0 });
-  design.addMove({ pieceType: 5, func: step, params: ["w"], mode: 0 });
-  design.addMove({ pieceType: 5, func: step, params: ["e"], mode: 0 });
-  design.addMove({ pieceType: 5, func: step, params: ["nw"], mode: 0 });
-  design.addMove({ pieceType: 5, func: step, params: ["sw"], mode: 0 });
-  design.addMove({ pieceType: 5, func: step, params: ["ne"], mode: 0 });
-  design.addMove({ pieceType: 5, func: step, params: ["se"], mode: 0 });
-  design.addMove({ pieceType: 5, func: O_O, params: ["e", "w"], mode: 1 });
-  design.addMove({ pieceType: 5, func: O_O_O, params: ["w", "e"], mode: 1 });
+  design.addMove(
+    { pieceType: 5, func: step, params: ["n"], mode: 0 },
+    { pieceType: 5, func: step, params: ["s"], mode: 0 },
+    { pieceType: 5, func: step, params: ["w"], mode: 0 },
+    { pieceType: 5, func: step, params: ["e"], mode: 0 },
+    { pieceType: 5, func: step, params: ["nw"], mode: 0 },
+    { pieceType: 5, func: step, params: ["sw"], mode: 0 },
+    { pieceType: 5, func: step, params: ["ne"], mode: 0 },
+    { pieceType: 5, func: step, params: ["se"], mode: 0 },
+    { pieceType: 5, func: O_O, params: ["e", "w"], mode: 1 },
+    { pieceType: 5, func: O_O_O, params: ["w", "e"], mode: 1 }
+  );
 
   design.setInitialPieces(
     {

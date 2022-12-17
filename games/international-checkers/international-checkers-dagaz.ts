@@ -173,26 +173,30 @@ export const buildDesign = function (design: TDesign) {
   ]);
 
   design.addPiece({ name: "Man", type: 0, price: 20 });
-  design.addMove({ pieceType: 0, func: jumpMan, params: ["nw"], mode: 1 });
-  design.addMove({ pieceType: 0, func: jumpMan, params: ["se"], mode: 1 });
-  design.addMove({ pieceType: 0, func: jumpMan, params: ["ne"], mode: 1 });
-  design.addMove({ pieceType: 0, func: jumpMan, params: ["sw"], mode: 1 });
-  design.addMove({ pieceType: 0, func: shiftMan, params: ["ne"], mode: 0 });
-  design.addMove({ pieceType: 0, func: shiftMan, params: ["nw"], mode: 0 });
+  design.addMove(
+    { pieceType: 0, func: jumpMan, params: ["nw"], mode: 1 },
+    { pieceType: 0, func: jumpMan, params: ["se"], mode: 1 },
+    { pieceType: 0, func: jumpMan, params: ["ne"], mode: 1 },
+    { pieceType: 0, func: jumpMan, params: ["sw"], mode: 1 },
+    { pieceType: 0, func: shiftMan, params: ["ne"], mode: 0 },
+    { pieceType: 0, func: shiftMan, params: ["nw"], mode: 0 }
+  );
 
   design.addPiece({ name: "King", type: 1, price: 100 });
-  design.addMove({ pieceType: 1, func: jumpKing, params: ["nw"], mode: 1 });
-  design.addMove({ pieceType: 1, func: jumpKing, params: ["se"], mode: 1 });
-  design.addMove({ pieceType: 1, func: jumpKing, params: ["ne"], mode: 1 });
-  design.addMove({ pieceType: 1, func: jumpKing, params: ["sw"], mode: 1 });
-  design.addMove({ pieceType: 1, func: contKing, params: ["nw"], mode: 2 });
-  design.addMove({ pieceType: 1, func: contKing, params: ["se"], mode: 2 });
-  design.addMove({ pieceType: 1, func: contKing, params: ["ne"], mode: 2 });
-  design.addMove({ pieceType: 1, func: contKing, params: ["sw"], mode: 2 });
-  design.addMove({ pieceType: 1, func: shiftKing, params: ["nw"], mode: 0 });
-  design.addMove({ pieceType: 1, func: shiftKing, params: ["se"], mode: 0 });
-  design.addMove({ pieceType: 1, func: shiftKing, params: ["ne"], mode: 0 });
-  design.addMove({ pieceType: 1, func: shiftKing, params: ["sw"], mode: 0 });
+  design.addMove(
+    { pieceType: 1, func: jumpKing, params: ["nw"], mode: 1 },
+    { pieceType: 1, func: jumpKing, params: ["se"], mode: 1 },
+    { pieceType: 1, func: jumpKing, params: ["ne"], mode: 1 },
+    { pieceType: 1, func: jumpKing, params: ["sw"], mode: 1 },
+    { pieceType: 1, func: contKing, params: ["nw"], mode: 2 },
+    { pieceType: 1, func: contKing, params: ["se"], mode: 2 },
+    { pieceType: 1, func: contKing, params: ["ne"], mode: 2 },
+    { pieceType: 1, func: contKing, params: ["sw"], mode: 2 },
+    { pieceType: 1, func: shiftKing, params: ["nw"], mode: 0 },
+    { pieceType: 1, func: shiftKing, params: ["se"], mode: 0 },
+    { pieceType: 1, func: shiftKing, params: ["ne"], mode: 0 },
+    { pieceType: 1, func: shiftKing, params: ["sw"], mode: 0 }
+  );
 
   design.setInitialPieces(
     {
