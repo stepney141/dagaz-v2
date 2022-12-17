@@ -159,21 +159,6 @@ export class TDesign {
   }
 
   /**
-   * Return a new piece instance.
-   * @param type - an id of the piece type
-   * @param player - an id of a player who owns the piece
-   * @returns new piece
-   */
-  createPiece(type: PieceTypeID, player: PlayerID): TPiece {
-    return {
-      type,
-      player,
-      price: this.pieces[type].price,
-      attributes: null
-    };
-  }
-
-  /**
    * Define some flags for game rules and store them into the global namespace
    * @param name - flag name
    * @param value - flag value
@@ -183,31 +168,6 @@ export class TDesign {
       ...defaultGameOptions,
       ...gameOptions
     };
-  }
-
-  /**
-   * Return a location name that corresponds to the given location id
-   * @param loc - a location id
-   * @returns a location name
-   */
-  locToString(loc: LocationID): LocationName {
-    if (this.locationNames[loc] === undefined) {
-      return "?";
-    }
-    return this.locationNames[loc];
-  }
-
-  /**
-   * Return an location corresponding to the given location name
-   * @param name - a location name
-   * @returns a location id
-   */
-  stringToLoc(name: LocationName): null | LocationID {
-    const loc = this.locationNames.indexOf(name);
-    if (loc < 0) {
-      return null;
-    }
-    return loc;
   }
 
   /**
@@ -242,25 +202,6 @@ export class TDesign {
   }
 
   /**
-   * Define a turn.
-   * @param player - a player id
-   * @param modes
-   */
-  addTurn({ player, modes }: { player: PlayerID; modes: number[] }) {
-    if (this.turns === undefined) {
-      this.turns = [];
-    }
-    this.turns.push({ player, modes });
-  }
-
-  setRepeatMark() {
-    if (this.turns === undefined) {
-      this.turns = [];
-    }
-    this.repeat = this.turns.length;
-  }
-
-  /**
    * Define a location on the game board.
    * @param name - a location name
    * @param offsets - location offsets indicated by direction ids
@@ -280,6 +221,25 @@ export class TDesign {
       this.locationNames.push(name);
       this.boardConnectionGraph.push(offsets);
     }
+  }
+
+  /**
+   * Define a turn.
+   * @param player - a player id
+   * @param modes
+   */
+  addTurn({ player, modes }: { player: PlayerID; modes: number[] }) {
+    if (this.turns === undefined) {
+      this.turns = [];
+    }
+    this.turns.push({ player, modes });
+  }
+
+  setRepeatMark() {
+    if (this.turns === undefined) {
+      this.turns = [];
+    }
+    this.repeat = this.turns.length;
   }
 
   /**
@@ -332,19 +292,6 @@ export class TDesign {
   }
 
   /**
-   * Return a piece type id that corresponds to the given piece name
-   * @param name - a piece name
-   * @returns a piece type id
-   */
-  getPieceType(name: PieceName): null | PieceTypeID {
-    const r = this.pieceNames[name];
-    if (r === undefined) {
-      return null;
-    }
-    return r;
-  }
-
-  /**
    * Define how a piece moves or works (e.g. how it moves to another location, how it captures other pieces, etc.)
    */
   addMove({
@@ -367,27 +314,11 @@ export class TDesign {
   }
 
   /**
-   * Return a game board at the time when the game started.
-   * If it doesn't exist, create the initial board from the game design.
-   * @returns an initial game state
+   * Create a new grid
+   * @returns a new TGrid instance
    */
-  getInitBoard(buildDesign: (design: TDesign) => void, plugins?: Plugin[]): TBoard {
-    buildDesign(this); // load game rules
-    this.configureMovement();
-    if (plugins !== undefined) {
-      this.setPlugins(plugins);
-    }
-
-    const board = new TBoard(this); // create the initial game state
-    this.initialGamePosition.forEach((s) => {
-      // place pieces on the specified cells
-      board.setPiece(s.location, s.piece);
-    });
-    return board;
-  }
-
-  private setPlugins(plugins: Plugin[]) {
-    plugins.forEach((plugin) => this.plugins.push(plugin));
+  addGrid(): TGrid {
+    return new TGrid(this);
   }
 
   /**
@@ -448,19 +379,6 @@ export class TDesign {
   }
 
   /**
-   * Return a direction id that corresponds to the given direction name
-   * @param name - a direction name
-   * @returns a direction id
-   */
-  getDirection(name: DirectionName): null | DirectionID {
-    const dir = this.directionNames.indexOf(name);
-    if (dir < 0) {
-      return null;
-    }
-    return dir;
-  }
-
-  /**
    * Return a new piece location after a player makes a move from a current location toward a given direction
    * @param player - player id
    * @param loc - current location of the piece
@@ -478,6 +396,52 @@ export class TDesign {
     } else {
       return null;
     }
+  }
+
+  /**
+   * Return a game board at the time when the game started.
+   * If it doesn't exist, create the initial board from the game design.
+   * @returns an initial game state
+   */
+  getInitBoard(buildDesign: (design: TDesign) => void, plugins?: Plugin[]): TBoard {
+    buildDesign(this); // load game rules
+    this.configureMovement();
+    if (plugins !== undefined) {
+      this.setPlugins(plugins);
+    }
+
+    const board = new TBoard(this); // create the initial game state
+    this.initialGamePosition.forEach((s) => {
+      // place pieces on the specified cells
+      board.setPiece(s.location, s.piece);
+    });
+    return board;
+  }
+
+  /**
+   * Return a piece type id that corresponds to the given piece name
+   * @param name - a piece name
+   * @returns a piece type id
+   */
+  getPieceType(name: PieceName): null | PieceTypeID {
+    const r = this.pieceNames[name];
+    if (r === undefined) {
+      return null;
+    }
+    return r;
+  }
+
+  /**
+   * Return a direction id that corresponds to the given direction name
+   * @param name - a direction name
+   * @returns a direction id
+   */
+  getDirection(name: DirectionName): null | DirectionID {
+    const dir = this.directionNames.indexOf(name);
+    if (dir < 0) {
+      return null;
+    }
+    return dir;
   }
 
   /**
@@ -504,18 +468,16 @@ export class TDesign {
   }
 
   /**
-   * Return whether the player is in the given zone.
-   * @param player - player id
-   * @param loc - location id
-   * @param zone - zone id
+   * Return a current player id.
+   * @param turn
+   * @returns current player id
    */
-  isInZone(player: PlayerID, loc: LocationID, zone: number): boolean {
-    if (this.zones[zone] !== undefined) {
-      if (this.zones[zone][player] !== undefined) {
-        return this.zones[zone][player].indexOf(loc) >= 0;
-      }
+  getCurrentPlayer(turn: number): PlayerID {
+    if (this.turns === undefined) {
+      return turn + 1;
+    } else {
+      return this.turns[turn].player;
     }
-    return false;
   }
 
   /**
@@ -557,16 +519,63 @@ export class TDesign {
   }
 
   /**
-   * Return a current player id.
-   * @param turn
-   * @returns current player id
+   * Return whether the player is in the given zone.
+   * @param player - player id
+   * @param loc - location id
+   * @param zone - zone id
    */
-  getCurrentPlayer(turn: number): PlayerID {
-    if (this.turns === undefined) {
-      return turn + 1;
-    } else {
-      return this.turns[turn].player;
+  isInZone(player: PlayerID, loc: LocationID, zone: number): boolean {
+    if (this.zones[zone] !== undefined) {
+      if (this.zones[zone][player] !== undefined) {
+        return this.zones[zone][player].indexOf(loc) >= 0;
+      }
     }
+    return false;
+  }
+
+  /**
+   * Return a new piece instance.
+   * @param type - an id of the piece type
+   * @param player - an id of a player who owns the piece
+   * @returns new piece
+   */
+  createPiece(type: PieceTypeID, player: PlayerID): TPiece {
+    return {
+      type,
+      player,
+      price: this.pieces[type].price,
+      attributes: null
+    };
+  }
+
+  /**
+   *
+   * Return a location name that corresponds to the given location id
+   * @param loc - a location id
+   * @returns a location name
+   */
+  locToString(loc: LocationID): LocationName {
+    if (this.locationNames[loc] === undefined) {
+      return "?";
+    }
+    return this.locationNames[loc];
+  }
+
+  /**
+   * Return an location corresponding to the given location name
+   * @param name - a location name
+   * @returns a location id
+   */
+  stringToLoc(name: LocationName): null | LocationID {
+    const loc = this.locationNames.indexOf(name);
+    if (loc < 0) {
+      return null;
+    }
+    return loc;
+  }
+
+  private setPlugins(plugins: Plugin[]) {
+    plugins.forEach((plugin) => this.plugins.push(plugin));
   }
 
   /**
@@ -579,13 +588,5 @@ export class TDesign {
       }
       return this.modes.indexOf(movement.mode);
     });
-  }
-
-  /**
-   * Create a new grid
-   * @returns a new TGrid instance
-   */
-  addGrid(): TGrid {
-    return new TGrid(this);
   }
 }
