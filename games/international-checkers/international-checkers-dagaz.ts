@@ -2,47 +2,47 @@ import type { TDesign } from "../../src/design";
 import type { MovementDefinitionMethod } from "../../src/types";
 
 const shiftMan: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEmpty()) {
-    ctx.end();
+  if (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
+    ctx.endMove();
   }
 };
 
 const jumpMan: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEnemy()) {
+  if (ctx.canGoTo(params, 0) && ctx.isEnemy()) {
     ctx.capture();
-    if (ctx.go(params, 0) && ctx.isEmpty()) {
-      ctx.end(1);
+    if (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
+      ctx.endMove(1);
     }
   }
 };
 
 const shiftKing: MovementDefinitionMethod = function (ctx, params) {
-  while (ctx.go(params, 0) && ctx.isEmpty()) {
-    ctx.end();
+  while (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
+    ctx.endMove();
   }
 };
 
 const jumpKing: MovementDefinitionMethod = function (ctx, params) {
-  while (ctx.go(params, 0)) {
+  while (ctx.canGoTo(params, 0)) {
     if (!ctx.isEmpty()) break;
   }
   if (ctx.isEnemy()) {
     ctx.capture();
-    while (ctx.go(params, 0) && ctx.isEmpty()) {
-      ctx.end(2);
+    while (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
+      ctx.endMove(2);
     }
   }
 };
 
 const contKing: MovementDefinitionMethod = function (ctx, params) {
-  while (ctx.go(params, 0)) {
+  while (ctx.canGoTo(params, 0)) {
     if (!ctx.isEmpty()) break;
     if (ctx.isLastFrom()) return;
   }
   if (ctx.isEnemy()) {
     ctx.capture();
-    while (ctx.go(params, 0) && ctx.isEmpty()) {
-      ctx.end(2);
+    while (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
+      ctx.endMove(2);
     }
   }
 };

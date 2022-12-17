@@ -2,57 +2,57 @@ import type { TDesign } from "../../src/design";
 import type { MovementDefinitionMethod } from "../../src/types";
 
 const step: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && !ctx.isFriend()) {
-    ctx.end();
+  if (ctx.canGoTo(params, 0) && !ctx.isFriend()) {
+    ctx.endMove();
   }
 };
 
 const pawnShift: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEmpty()) {
+  if (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
     if (ctx.inZone(0)) {
       ctx.promote(4);
     }
-    ctx.end();
+    ctx.endMove();
   }
 };
 
 const pawnLeap: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEnemy()) {
+  if (ctx.canGoTo(params, 0) && ctx.isEnemy()) {
     if (ctx.inZone(0)) {
       ctx.promote(4);
     }
-    ctx.end();
+    ctx.endMove();
   }
 };
 
 const pawnJump: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEmpty() && ctx.inZone(1) && ctx.go(params, 0) && ctx.isEmpty()) {
-    ctx.end();
+  if (ctx.canGoTo(params, 0) && ctx.isEmpty() && ctx.inZone(1) && ctx.canGoTo(params, 0) && ctx.isEmpty()) {
+    ctx.endMove();
   }
 };
 
 const enPassant: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEnemy() && ctx.isPiece(0)) {
+  if (ctx.canGoTo(params, 0) && ctx.isEnemy() && ctx.isPiece(0)) {
     ctx.capture();
-    if (ctx.go(params, 1)) {
+    if (ctx.canGoTo(params, 1)) {
       ctx.put();
-      if (ctx.go(params, 1) && ctx.isLastFrom()) {
-        ctx.end();
+      if (ctx.canGoTo(params, 1) && ctx.isLastFrom()) {
+        ctx.endMove();
       }
     }
   }
 };
 
 const jump: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.go(params, 1) && !ctx.isFriend()) {
-    ctx.end();
+  if (ctx.canGoTo(params, 0) && ctx.canGoTo(params, 1) && !ctx.isFriend()) {
+    ctx.endMove();
   }
 };
 
 const slide: MovementDefinitionMethod = function (ctx, params) {
-  while (ctx.go(params, 0)) {
+  while (ctx.canGoTo(params, 0)) {
     if (ctx.isFriend()) break;
-    ctx.end();
+    ctx.endMove();
     if (!ctx.isEmpty()) break;
   }
 };
@@ -61,12 +61,12 @@ const slide: MovementDefinitionMethod = function (ctx, params) {
  * kingside castling
  */
 const O_O: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEmpty() && ctx.go(params, 0) && ctx.isEmpty()) {
+  if (ctx.canGoTo(params, 0) && ctx.isEmpty() && ctx.canGoTo(params, 0) && ctx.isEmpty()) {
     ctx.put();
-    if (ctx.go(params, 0) && ctx.isFriend() && ctx.isPiece(1)) {
+    if (ctx.canGoTo(params, 0) && ctx.isFriend() && ctx.isPiece(1)) {
       ctx.take();
-      if (ctx.go(params, 1) && ctx.go(params, 1)) {
-        ctx.end();
+      if (ctx.canGoTo(params, 1) && ctx.canGoTo(params, 1)) {
+        ctx.endMove();
       }
     }
   }
@@ -76,12 +76,12 @@ const O_O: MovementDefinitionMethod = function (ctx, params) {
  * queenside castling
  */
 const O_O_O: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEmpty() && ctx.go(params, 0) && ctx.isEmpty()) {
+  if (ctx.canGoTo(params, 0) && ctx.isEmpty() && ctx.canGoTo(params, 0) && ctx.isEmpty()) {
     ctx.put();
-    if (ctx.go(params, 0) && ctx.isEmpty() && ctx.go(params, 0) && ctx.isFriend() && ctx.isPiece(1)) {
+    if (ctx.canGoTo(params, 0) && ctx.isEmpty() && ctx.canGoTo(params, 0) && ctx.isFriend() && ctx.isPiece(1)) {
       ctx.take();
-      if (ctx.go(params, 1) && ctx.go(params, 1) && ctx.go(params, 1)) {
-        ctx.end();
+      if (ctx.canGoTo(params, 1) && ctx.canGoTo(params, 1) && ctx.canGoTo(params, 1)) {
+        ctx.endMove();
       }
     }
   }

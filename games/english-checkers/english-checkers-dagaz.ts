@@ -2,39 +2,39 @@ import type { TDesign } from "../../src/design";
 import type { MovementDefinitionMethod } from "../../src/types";
 
 const shiftMan: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEmpty()) {
+  if (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
     if (ctx.inZone(0)) {
       ctx.promote(1);
     }
-    ctx.end();
+    ctx.endMove();
   }
 };
 
 const shiftKing: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEmpty()) {
-    ctx.end();
+  if (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
+    ctx.endMove();
   }
 };
 
 const jumpMan: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEnemy()) {
+  if (ctx.canGoTo(params, 0) && ctx.isEnemy()) {
     ctx.capture();
-    if (ctx.go(params, 0) && ctx.isEmpty()) {
+    if (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
       if (ctx.inZone(0)) {
         ctx.promote(1);
-        ctx.end();
+        ctx.endMove();
       } else {
-        ctx.end(1);
+        ctx.endMove(1);
       }
     }
   }
 };
 
 const jumpKing: MovementDefinitionMethod = function (ctx, params) {
-  if (ctx.go(params, 0) && ctx.isEnemy()) {
+  if (ctx.canGoTo(params, 0) && ctx.isEnemy()) {
     ctx.capture();
-    if (ctx.go(params, 0) && ctx.isEmpty()) {
-      ctx.end(1);
+    if (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
+      ctx.endMove(1);
     }
   }
 };
