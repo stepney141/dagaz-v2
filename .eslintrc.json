@@ -45,20 +45,20 @@
       }
     ],
     // "indent": ["error", 2],
-		"jsdoc/check-alignment": 1,
-    "jsdoc/check-indentation": 1,
-		"linebreak-style": 0,
-    "no-path-concat": 0,
-    "no-unused-vars": "warn",
-    "no-param-reassign": 1, // because of https://github.com/airbnb/javascript#functions--reassign-params
-    "no-var": 1,
-    "no-eq-null": 2,
+		"jsdoc/check-alignment": "warn",
+    "jsdoc/check-indentation": "warn",
+		"linebreak-style": "off",
+    "no-path-concat": "off",
+    "no-unused-vars": "off",
+    "no-param-reassign": "warn", // because of https://github.com/airbnb/javascript#functions--reassign-params
+    "no-var": "warn",
+    "no-eq-null": "error",
     "no-mixed-spaces-and-tabs": ["error"],
     "semi": "off",
 		"unused-imports/no-unused-imports": "warn",
     "@typescript-eslint/consistent-type-imports": ["warn", { "prefer": "type-imports" }],
     "@typescript-eslint/indent": "off",
-		"@typescript-eslint/no-unused-vars": "off",
+		"@typescript-eslint/no-unused-vars": ["warn"],
     "@typescript-eslint/semi": ["warn", "always"]
   },
 	"settings": {
