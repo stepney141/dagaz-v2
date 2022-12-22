@@ -27,23 +27,17 @@ import type {
   MovementDefinitionMethod
 } from "./types";
 
-type GameBehaviorOptionNames =
-  | "pass-turn"
-  | "pass-partial"
-  | "shared-pieces"
-  | "deferred-captures"
-  | "maximal-captures"
-  | "smart-moves";
-type GameBehaviorOptions = Record<GameBehaviorOptionNames, boolean>;
-
-const defaultGameOptions: GameBehaviorOptions = {
+const DEFAULT_GAME_OPTIONS = {
   "pass-turn": false,
   "pass-partial": false,
   "shared-pieces": false,
   "deferred-captures": false,
   "maximal-captures": false,
   "smart-moves": false
-};
+} as const satisfies Record<string, boolean>;
+
+type GameBehaviorOptionNames = keyof typeof DEFAULT_GAME_OPTIONS;
+type GameBehaviorOptions = Record<GameBehaviorOptionNames, boolean>;
 
 /**
  * Manager of information and rules of the game.
@@ -151,7 +145,7 @@ export class TDesign {
      */
     this.board;
 
-    this.gameOptions = defaultGameOptions;
+    this.gameOptions = DEFAULT_GAME_OPTIONS;
 
     this.repeat = null;
 
@@ -165,7 +159,7 @@ export class TDesign {
    */
   setGameOption(gameOptions: Partial<GameBehaviorOptions> = {}): TDesign {
     this.gameOptions = {
-      ...defaultGameOptions,
+      ...DEFAULT_GAME_OPTIONS,
       ...gameOptions
     };
     return this;
