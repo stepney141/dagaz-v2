@@ -42,111 +42,111 @@ const jumpKing: MovementDefinitionMethod = function (ctx, params) {
 export const buildDesign = function (design: TDesign) {
   design.setGameOption({ "smart-moves": true });
 
-  design.addDirection([
-    "ne", // 0
-    "se", // 1
-    "sw", // 2
-    "nw" // 3
-  ]);
-
-  design.addPlayer({ name: "Black", symmetry: [2, 3, 0, 1] }, { name: "White", symmetry: [2, 3, 0, 1] });
-
-  design.addLocation(
-    { name: "a8", locationDelta: [0, 9, 0, 0] },
-    { name: "b8", locationDelta: [0, 9, 7, 0] },
-    { name: "c8", locationDelta: [0, 9, 7, 0] },
-    { name: "d8", locationDelta: [0, 9, 7, 0] },
-    { name: "e8", locationDelta: [0, 9, 7, 0] },
-    { name: "f8", locationDelta: [0, 9, 7, 0] },
-    { name: "g8", locationDelta: [0, 9, 7, 0] },
-    { name: "h8", locationDelta: [0, 0, 7, 0] },
-    { name: "a7", locationDelta: [-7, 9, 0, 0] },
-    { name: "b7", locationDelta: [-7, 9, 7, -9] },
-    { name: "c7", locationDelta: [-7, 9, 7, -9] },
-    { name: "d7", locationDelta: [-7, 9, 7, -9] },
-    { name: "e7", locationDelta: [-7, 9, 7, -9] },
-    { name: "f7", locationDelta: [-7, 9, 7, -9] },
-    { name: "g7", locationDelta: [-7, 9, 7, -9] },
-    { name: "h7", locationDelta: [0, 0, 7, -9] },
-    { name: "a6", locationDelta: [-7, 9, 0, 0] },
-    { name: "b6", locationDelta: [-7, 9, 7, -9] },
-    { name: "c6", locationDelta: [-7, 9, 7, -9] },
-    { name: "d6", locationDelta: [-7, 9, 7, -9] },
-    { name: "e6", locationDelta: [-7, 9, 7, -9] },
-    { name: "f6", locationDelta: [-7, 9, 7, -9] },
-    { name: "g6", locationDelta: [-7, 9, 7, -9] },
-    { name: "h6", locationDelta: [0, 0, 7, -9] },
-    { name: "a5", locationDelta: [-7, 9, 0, 0] },
-    { name: "b5", locationDelta: [-7, 9, 7, -9] },
-    { name: "c5", locationDelta: [-7, 9, 7, -9] },
-    { name: "d5", locationDelta: [-7, 9, 7, -9] },
-    { name: "e5", locationDelta: [-7, 9, 7, -9] },
-    { name: "f5", locationDelta: [-7, 9, 7, -9] },
-    { name: "g5", locationDelta: [-7, 9, 7, -9] },
-    { name: "h5", locationDelta: [0, 0, 7, -9] },
-    { name: "a4", locationDelta: [-7, 9, 0, 0] },
-    { name: "b4", locationDelta: [-7, 9, 7, -9] },
-    { name: "c4", locationDelta: [-7, 9, 7, -9] },
-    { name: "d4", locationDelta: [-7, 9, 7, -9] },
-    { name: "e4", locationDelta: [-7, 9, 7, -9] },
-    { name: "f4", locationDelta: [-7, 9, 7, -9] },
-    { name: "g4", locationDelta: [-7, 9, 7, -9] },
-    { name: "h4", locationDelta: [0, 0, 7, -9] },
-    { name: "a3", locationDelta: [-7, 9, 0, 0] },
-    { name: "b3", locationDelta: [-7, 9, 7, -9] },
-    { name: "c3", locationDelta: [-7, 9, 7, -9] },
-    { name: "d3", locationDelta: [-7, 9, 7, -9] },
-    { name: "e3", locationDelta: [-7, 9, 7, -9] },
-    { name: "f3", locationDelta: [-7, 9, 7, -9] },
-    { name: "g3", locationDelta: [-7, 9, 7, -9] },
-    { name: "h3", locationDelta: [0, 0, 7, -9] },
-    { name: "a2", locationDelta: [-7, 9, 0, 0] },
-    { name: "b2", locationDelta: [-7, 9, 7, -9] },
-    { name: "c2", locationDelta: [-7, 9, 7, -9] },
-    { name: "d2", locationDelta: [-7, 9, 7, -9] },
-    { name: "e2", locationDelta: [-7, 9, 7, -9] },
-    { name: "f2", locationDelta: [-7, 9, 7, -9] },
-    { name: "g2", locationDelta: [-7, 9, 7, -9] },
-    { name: "h2", locationDelta: [0, 0, 7, -9] },
-    { name: "a1", locationDelta: [-7, 0, 0, 0] },
-    { name: "b1", locationDelta: [-7, 0, 0, -9] },
-    { name: "c1", locationDelta: [-7, 0, 0, -9] },
-    { name: "d1", locationDelta: [-7, 0, 0, -9] },
-    { name: "e1", locationDelta: [-7, 0, 0, -9] },
-    { name: "f1", locationDelta: [-7, 0, 0, -9] },
-    { name: "g1", locationDelta: [-7, 0, 0, -9] },
-    { name: "h1", locationDelta: [0, 0, 0, -9] }
-  );
-
-  design.addZone(
-    { name: "promotion", player: 2, locations: ["a1", "c1", "e1", "g1"] },
-    { name: "promotion", player: 1, locations: ["b8", "d8", "f8", "h8"] }
-  );
+  design
+    .addDirection([
+      "ne", // 0
+      "se", // 1
+      "sw", // 2
+      "nw" // 3
+    ])
+    .addPlayer({ name: "Black", symmetry: [2, 3, 0, 1] }, { name: "White", symmetry: [2, 3, 0, 1] })
+    .addLocation(
+      { name: "a8", locationDelta: [0, 9, 0, 0] },
+      { name: "b8", locationDelta: [0, 9, 7, 0] },
+      { name: "c8", locationDelta: [0, 9, 7, 0] },
+      { name: "d8", locationDelta: [0, 9, 7, 0] },
+      { name: "e8", locationDelta: [0, 9, 7, 0] },
+      { name: "f8", locationDelta: [0, 9, 7, 0] },
+      { name: "g8", locationDelta: [0, 9, 7, 0] },
+      { name: "h8", locationDelta: [0, 0, 7, 0] },
+      { name: "a7", locationDelta: [-7, 9, 0, 0] },
+      { name: "b7", locationDelta: [-7, 9, 7, -9] },
+      { name: "c7", locationDelta: [-7, 9, 7, -9] },
+      { name: "d7", locationDelta: [-7, 9, 7, -9] },
+      { name: "e7", locationDelta: [-7, 9, 7, -9] },
+      { name: "f7", locationDelta: [-7, 9, 7, -9] },
+      { name: "g7", locationDelta: [-7, 9, 7, -9] },
+      { name: "h7", locationDelta: [0, 0, 7, -9] },
+      { name: "a6", locationDelta: [-7, 9, 0, 0] },
+      { name: "b6", locationDelta: [-7, 9, 7, -9] },
+      { name: "c6", locationDelta: [-7, 9, 7, -9] },
+      { name: "d6", locationDelta: [-7, 9, 7, -9] },
+      { name: "e6", locationDelta: [-7, 9, 7, -9] },
+      { name: "f6", locationDelta: [-7, 9, 7, -9] },
+      { name: "g6", locationDelta: [-7, 9, 7, -9] },
+      { name: "h6", locationDelta: [0, 0, 7, -9] },
+      { name: "a5", locationDelta: [-7, 9, 0, 0] },
+      { name: "b5", locationDelta: [-7, 9, 7, -9] },
+      { name: "c5", locationDelta: [-7, 9, 7, -9] },
+      { name: "d5", locationDelta: [-7, 9, 7, -9] },
+      { name: "e5", locationDelta: [-7, 9, 7, -9] },
+      { name: "f5", locationDelta: [-7, 9, 7, -9] },
+      { name: "g5", locationDelta: [-7, 9, 7, -9] },
+      { name: "h5", locationDelta: [0, 0, 7, -9] },
+      { name: "a4", locationDelta: [-7, 9, 0, 0] },
+      { name: "b4", locationDelta: [-7, 9, 7, -9] },
+      { name: "c4", locationDelta: [-7, 9, 7, -9] },
+      { name: "d4", locationDelta: [-7, 9, 7, -9] },
+      { name: "e4", locationDelta: [-7, 9, 7, -9] },
+      { name: "f4", locationDelta: [-7, 9, 7, -9] },
+      { name: "g4", locationDelta: [-7, 9, 7, -9] },
+      { name: "h4", locationDelta: [0, 0, 7, -9] },
+      { name: "a3", locationDelta: [-7, 9, 0, 0] },
+      { name: "b3", locationDelta: [-7, 9, 7, -9] },
+      { name: "c3", locationDelta: [-7, 9, 7, -9] },
+      { name: "d3", locationDelta: [-7, 9, 7, -9] },
+      { name: "e3", locationDelta: [-7, 9, 7, -9] },
+      { name: "f3", locationDelta: [-7, 9, 7, -9] },
+      { name: "g3", locationDelta: [-7, 9, 7, -9] },
+      { name: "h3", locationDelta: [0, 0, 7, -9] },
+      { name: "a2", locationDelta: [-7, 9, 0, 0] },
+      { name: "b2", locationDelta: [-7, 9, 7, -9] },
+      { name: "c2", locationDelta: [-7, 9, 7, -9] },
+      { name: "d2", locationDelta: [-7, 9, 7, -9] },
+      { name: "e2", locationDelta: [-7, 9, 7, -9] },
+      { name: "f2", locationDelta: [-7, 9, 7, -9] },
+      { name: "g2", locationDelta: [-7, 9, 7, -9] },
+      { name: "h2", locationDelta: [0, 0, 7, -9] },
+      { name: "a1", locationDelta: [-7, 0, 0, 0] },
+      { name: "b1", locationDelta: [-7, 0, 0, -9] },
+      { name: "c1", locationDelta: [-7, 0, 0, -9] },
+      { name: "d1", locationDelta: [-7, 0, 0, -9] },
+      { name: "e1", locationDelta: [-7, 0, 0, -9] },
+      { name: "f1", locationDelta: [-7, 0, 0, -9] },
+      { name: "g1", locationDelta: [-7, 0, 0, -9] },
+      { name: "h1", locationDelta: [0, 0, 0, -9] }
+    )
+    .addZone(
+      { name: "promotion", player: 2, locations: ["a1", "c1", "e1", "g1"] },
+      { name: "promotion", player: 1, locations: ["b8", "d8", "f8", "h8"] }
+    );
 
   design.addMovePriority([
     1, // jump-type
     0 // normal-type
   ]);
 
-  design.addPiece({ name: "Man", type: 0, price: 20 });
-  design.addMove(
-    { pieceType: 0, func: jumpMan, params: ["nw"], mode: 1 },
-    { pieceType: 0, func: jumpMan, params: ["ne"], mode: 1 },
-    { pieceType: 0, func: shiftMan, params: ["nw"], mode: 0 },
-    { pieceType: 0, func: shiftMan, params: ["ne"], mode: 0 }
-  );
+  design
+    .addPiece({ name: "Man", type: 0, price: 20 })
+    .addMove(
+      { pieceType: 0, func: jumpMan, params: ["nw"], mode: 1 },
+      { pieceType: 0, func: jumpMan, params: ["ne"], mode: 1 },
+      { pieceType: 0, func: shiftMan, params: ["nw"], mode: 0 },
+      { pieceType: 0, func: shiftMan, params: ["ne"], mode: 0 }
+    );
 
-  design.addPiece({ name: "King", type: 1, price: 40 });
-  design.addMove(
-    { pieceType: 1, func: jumpKing, params: ["nw"], mode: 1 },
-    { pieceType: 1, func: jumpKing, params: ["ne"], mode: 1 },
-    { pieceType: 1, func: jumpKing, params: ["sw"], mode: 1 },
-    { pieceType: 1, func: jumpKing, params: ["se"], mode: 1 },
-    { pieceType: 1, func: shiftKing, params: ["nw"], mode: 0 },
-    { pieceType: 1, func: shiftKing, params: ["ne"], mode: 0 },
-    { pieceType: 1, func: shiftKing, params: ["sw"], mode: 0 },
-    { pieceType: 1, func: shiftKing, params: ["se"], mode: 0 }
-  );
+  design
+    .addPiece({ name: "King", type: 1, price: 40 })
+    .addMove(
+      { pieceType: 1, func: jumpKing, params: ["nw"], mode: 1 },
+      { pieceType: 1, func: jumpKing, params: ["ne"], mode: 1 },
+      { pieceType: 1, func: jumpKing, params: ["sw"], mode: 1 },
+      { pieceType: 1, func: jumpKing, params: ["se"], mode: 1 },
+      { pieceType: 1, func: shiftKing, params: ["nw"], mode: 0 },
+      { pieceType: 1, func: shiftKing, params: ["ne"], mode: 0 },
+      { pieceType: 1, func: shiftKing, params: ["sw"], mode: 0 },
+      { pieceType: 1, func: shiftKing, params: ["se"], mode: 0 }
+    );
 
   design.setInitialPieces(
     {

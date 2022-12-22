@@ -163,19 +163,21 @@ export class TDesign {
    * @param name - flag name
    * @param value - flag value
    */
-  setGameOption(gameOptions: Partial<GameBehaviorOptions> = {}) {
+  setGameOption(gameOptions: Partial<GameBehaviorOptions> = {}): TDesign {
     this.gameOptions = {
       ...defaultGameOptions,
       ...gameOptions
     };
+    return this;
   }
 
   /**
    * Define a new direction
    * @param name - a list of direction names
    */
-  addDirection(nameList: DirectionName[]) {
+  addDirection(nameList: DirectionName[]): TDesign {
     this.directionNames = nameList;
+    return this;
   }
 
   /**
@@ -190,7 +192,7 @@ export class TDesign {
       name: string;
       symmetry: DirectionID[];
     }[]
-  ) {
+  ): TDesign {
     for (const { name, symmetry } of playerSettings) {
       const ix = this.playerNames.length;
       if (this.playerNames.length == 0) {
@@ -199,6 +201,7 @@ export class TDesign {
       this.rotationallySymmetricDirections[ix] = symmetry;
       this.playerNames.push(name);
     }
+    return this;
   }
 
   /**
@@ -211,7 +214,7 @@ export class TDesign {
       name: LocationName;
       locationDelta: number[];
     }[]
-  ) {
+  ): TDesign {
     for (const { name, locationDelta } of locationSettings) {
       if (this.boardConnectionGraph.length == 0 && name != "start") {
         //when the locations list is empty, defines the origin of the coordinates
@@ -221,6 +224,7 @@ export class TDesign {
       this.locationNames.push(name);
       this.boardConnectionGraph.push(locationDelta);
     }
+    return this;
   }
 
   /**
@@ -228,18 +232,20 @@ export class TDesign {
    * @param player - a player id
    * @param modes
    */
-  addTurn({ player, modes }: { player: PlayerID; modes: number[] }) {
+  addTurn({ player, modes }: { player: PlayerID; modes: number[] }): TDesign {
     if (this.turns === undefined) {
       this.turns = [];
     }
     this.turns.push({ player, modes });
+    return this;
   }
 
-  setRepeatMark() {
+  setRepeatMark(): TDesign {
     if (this.turns === undefined) {
       this.turns = [];
     }
     this.repeat = this.turns.length;
+    return this;
   }
 
   /**
@@ -254,7 +260,7 @@ export class TDesign {
       player: PlayerID;
       locations: LocationName[];
     }[]
-  ) {
+  ): TDesign {
     for (const { name, player, locations } of zoneSettings) {
       let zone_id = this.zoneNames[name];
       if (zone_id === undefined) {
@@ -267,14 +273,16 @@ export class TDesign {
       }
       this.zones[zone_id][player] = locations.map((name) => this.stringToLoc(name));
     }
+    return this;
   }
 
   /**
    * Define a priority on the mode of moves.
    * @param mode
    */
-  addMovePriority(modes: MoveModeID[]) {
+  addMovePriority(modes: MoveModeID[]): TDesign {
     this.modes = modes;
+    return this;
   }
 
   /**
@@ -283,12 +291,13 @@ export class TDesign {
    * @param type - a piece type id
    * @param price - a piece value
    */
-  addPiece({ name, type, price = 1 }: { name: PieceName; type: PieceTypeID; price?: PiecePrice }) {
+  addPiece({ name, type, price = 1 }: { name: PieceName; type: PieceTypeID; price?: PiecePrice }): TDesign {
     this.pieces[type] = {
       name,
       price
     };
     this.pieceNames[name] = type;
+    return this;
   }
 
   /**
@@ -301,7 +310,7 @@ export class TDesign {
       params: DirectionName[];
       mode: MoveModeID;
     }[]
-  ) {
+  ): TDesign {
     for (const { pieceType, func, params, mode } of movements) {
       this.movements.push({
         pieceType,
@@ -310,6 +319,7 @@ export class TDesign {
         mode
       });
     }
+    return this;
   }
 
   /**
@@ -332,12 +342,12 @@ export class TDesign {
       pieceName: PieceName;
       locations: LocationName[];
     }[]
-  ) {
+  ): TDesign {
     for (const { player, pieceName, locations } of initialPiecePlacementSettings) {
       const piece_type_id = this.getPieceType(pieceName);
       const player_id = this.playerNames.indexOf(player);
       if (piece_type_id === null || player_id < 0) {
-        return;
+        continue;
       }
       const piece = this.createPiece(piece_type_id, player_id);
 
@@ -351,6 +361,7 @@ export class TDesign {
           });
         });
     }
+    return this;
   }
 
   /**
