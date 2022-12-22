@@ -1,4 +1,5 @@
 import { promotePiece } from "../../src/piece";
+
 import type { TBoard } from "../../src/board";
 
 /**

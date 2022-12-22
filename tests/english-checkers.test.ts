@@ -1,7 +1,7 @@
-import { TDesign } from "../../src/design";
-import { moveToString } from "../../src/move";
-import { pieceToString, promotePiece } from "../../src/piece";
-import { buildDesign } from "./english-checkers-dagaz";
+import { buildDesign } from "../games/english-checkers/english-checkers-dagaz";
+import { TDesign } from "../src/design";
+import { moveToString } from "../src/move";
+import { pieceToString, promotePiece } from "../src/piece";
 
 test("Initial Board", function () {
   const design = new TDesign();

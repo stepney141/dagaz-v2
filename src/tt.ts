@@ -35,6 +35,10 @@ export function buildTranspositionTable<Entry>(): TranspositionTable<Entry> {
   return new Map();
 }
 
+export function hashToString(hash: PositionHash): string {
+  return `${hash[0]}${hash[1]}`;
+}
+
 /**
  * Updates a zobrist hash
  * @link https://en.wikipedia.org/wiki/Zobrist_hashing

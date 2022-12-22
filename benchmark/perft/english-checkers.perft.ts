@@ -1,4 +1,5 @@
-import { buildDesign } from "../../tests/english-checkers/english-checkers-dagaz";
+import { buildDesign } from "../../games/english-checkers/english-checkers-dagaz";
+
 import { main } from "./perft";
 
 /**

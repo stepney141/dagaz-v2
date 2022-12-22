@@ -1,27 +1,27 @@
 // bigint利用
 function* xorShift1(initialState: bigint): Iterator<bigint> {
-  let x: bigint = initialState & 0xFFFF_FFFF_FFFF_FFFFn;
+  let x: bigint = initialState & 0xffff_ffff_ffff_ffffn;
   if (x === 0n) {
     throw Error("initialState must not be zero.");
   }
-  for (; ;) {
+  for (;;) {
     x ^= x << 13n;
-    x &= 0xFFFF_FFFF_FFFF_FFFFn;
+    x &= 0xffff_ffff_ffff_ffffn;
     x ^= x >> 7n;
     x ^= x << 17n;
-    x &= 0xFFFF_FFFF_FFFF_FFFFn;
+    x &= 0xffff_ffff_ffff_ffffn;
     yield x;
   }
 }
 
 // numberのペアを利用
 function* xorShift2(initialState: [number, number]): Iterator<[number, number]> {
-  let x0: number = initialState[0] & 0xFFFF_FFFF;
-  let x1: number = initialState[1] & 0xFFFF_FFFF;
+  let x0: number = initialState[0] & 0xffff_ffff;
+  let x1: number = initialState[1] & 0xffff_ffff;
   if (x0 === 0 && x1 === 0) {
     throw Error("initialState must not be zero.");
   }
-  for (; ;) {
+  for (;;) {
     x1 ^= (x0 >>> 19) | (x1 << 13);
     x0 ^= x0 << 13;
     x0 ^= (x0 >>> 7) | (x1 << 25);

@@ -1,11 +1,36 @@
 import _ from "underscore";
-import { getPiecePrice, updatePiecePrice } from "../../src/piece";
+
+import { getPieceAttribute, pieceToString, updatePieceAttribute } from "../../src/piece";
+
 import type { TBoard } from "../../src/board";
 import type { TMove, LocationID, PlayerID } from "../../src/types";
 
 type GameGoalStatus = null | 1 | -1 | 0;
 
 let isRecursive = false;
+
+/**
+ * @link https://www.chess.com/terms/draw-chess#dead-position
+ */
+const isDeadPosition = (board: TBoard): boolean => {
+  const pieceList = board.pieces
+    .filter((piece) => piece !== undefined)
+    .map((piece) => pieceToString(piece, board.design))
+    .sort()
+    .toString();
+
+  if (
+    pieceList == "Black King,White King" ||
+    pieceList == "Black Bishop,Black King,White King" ||
+    pieceList == "Black King,White Bishop,White King" ||
+    pieceList == "Black King,Black Knight,White King" ||
+    pieceList == "Black King,White King,White Knight"
+  ) {
+    return true;
+  } else {
+    return false;
+  }
+};
 
 /**
  * Returns if a player wins, loses, or draws in the given game state.
@@ -19,6 +44,10 @@ export const getGoal = {
     const design = board.design;
 
     board.generateMoves(); // search the next ply
+
+    if (isDeadPosition(board)) {
+      return 0; //draw
+    }
 
     // checks the game result only if the current player cannot make any legal move
     if (board.legalMoves.length == 0) {
@@ -71,6 +100,7 @@ export const getGoal = {
           return 1; // the player wins
         }
       }
+
       return 0; // draw
     }
 
@@ -103,7 +133,7 @@ export const extension = {
 
           for (const action of move.actions) {
             const piece = action.piece;
-            if (getPiecePrice(piece, 0) !== null) {
+            if (getPieceAttribute(piece, 0) !== null) {
               return;
             }
           }
@@ -142,7 +172,7 @@ export const extension = {
           for (const action of move.actions) {
             const piece = action.piece;
             if (piece?.type == rook || piece?.type == king) {
-              action.piece = updatePiecePrice(piece, 0, 1); // updates the pieces' value
+              action.piece = updatePieceAttribute(piece, 0, 1); // updates the pieces' value
             }
           }
         }

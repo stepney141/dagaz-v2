@@ -2,7 +2,8 @@
   "include": [
 		"src",
 		"tests",
-		"benchmark"
+		"benchmark",
+		"games"
 	],
   "exclude": [
 		"node_modules",

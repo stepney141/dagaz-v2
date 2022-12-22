@@ -6,8 +6,9 @@
 import { applyTo } from "./move";
 import { TMoveContext } from "./move_context";
 import { getRandomValue, zUpdate, type PositionHash } from "./tt";
-import type { TPiece, TMove, From, LocationID, PlayerID } from "./types";
+
 import type { TDesign } from "./design";
+import type { TPiece, TMove, From, LocationID, PlayerID } from "./types";
 
 /**
  * A game state.
@@ -23,7 +24,7 @@ export class TBoard {
   pieces: TPiece[];
   player: PlayerID;
   turn: number;
-  z: PositionHash;
+  hash: PositionHash;
 
   /**
    * @param design - a game design object
@@ -52,7 +53,7 @@ export class TBoard {
      * @link https://en.wikipedia.org/wiki/Zobrist_hashing
      * @link https://www.chessprogramming.org/Zobrist_Hashing
      */
-    this.z = getRandomValue.next().value;
+    this.hash = getRandomValue.next().value;
 
     /**
      * A list of legal moves available in the current game state.
@@ -88,7 +89,7 @@ export class TBoard {
     r.turn = this.turn;
     r.player = this.player;
     r.pieces = [...this.pieces]; //shallow copying
-    r.z = this.z;
+    r.hash = this.hash;
     return r;
   }
 
@@ -97,7 +98,7 @@ export class TBoard {
    */
   clear() {
     this.pieces = [];
-    this.z = getRandomValue.next().value;
+    this.hash = getRandomValue.next().value;
     this.legalMoves = null;
   }
 
@@ -139,13 +140,13 @@ export class TBoard {
    */
   setPiece(loc: null | LocationID, piece: null | TPiece) {
     if (this.pieces[loc] !== undefined) {
-      this.z = zUpdate(this.z);
+      this.hash = zUpdate(this.hash);
     }
     if (piece === null) {
       this.pieces[loc] = undefined;
     } else {
       this.pieces[loc] = piece;
-      this.z = zUpdate(this.z);
+      this.hash = zUpdate(this.hash);
     }
   }
 
