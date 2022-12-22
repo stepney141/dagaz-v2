@@ -204,22 +204,22 @@ export class TDesign {
   /**
    * Define a location on the game board.
    * @param name - a location name
-   * @param offsets - location offsets indicated by direction ids
+   * @param locationDelta - displacement vector; numerical difference of adjacent locations
    */
   addLocation(
     ...locationSettings: {
       name: LocationName;
-      offsets: number[];
+      locationDelta: number[];
     }[]
   ) {
-    for (const { name, offsets } of locationSettings) {
+    for (const { name, locationDelta } of locationSettings) {
       if (this.boardConnectionGraph.length == 0 && name != "start") {
         //when the locations list is empty, defines the origin of the coordinates
         this.locationNames.push("start");
-        this.boardConnectionGraph.push(_.range(offsets.length).fill(0));
+        this.boardConnectionGraph.push(_.range(locationDelta.length).fill(0));
       }
       this.locationNames.push(name);
-      this.boardConnectionGraph.push(offsets);
+      this.boardConnectionGraph.push(locationDelta);
     }
   }
 

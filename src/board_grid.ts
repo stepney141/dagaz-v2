@@ -64,7 +64,7 @@ export class TGrid {
    */
   addLocations(grid: TGrid = this, ix: number = this.scales.length - 1, name = "", point: Array<number> = []) {
     if (ix < 0) {
-      const offsets = _.range(grid.dirs.length).fill(0);
+      const locationDelta = _.range(grid.dirs.length).fill(0);
 
       Object.keys(grid.dirs).forEach((dir) => {
         let o = 0;
@@ -82,10 +82,10 @@ export class TGrid {
           }
           o += v;
         }
-        offsets[dir as unknown as DirectionID] = o;
+        locationDelta[dir as unknown as DirectionID] = o;
       });
 
-      grid.design.addLocation({ name, offsets });
+      grid.design.addLocation({ name, locationDelta });
       return;
     }
 
