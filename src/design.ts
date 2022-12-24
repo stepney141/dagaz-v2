@@ -76,11 +76,8 @@ export class TDesign {
   repeat: number | null;
   rotationallySymmetricDirections: DirectionID[][];
   turns: { player: PlayerID; modes: number[] }[] | undefined;
-  zoneNames: {
-    [EachZone in ZoneName]: ZoneID;
-  };
   zones: {
-    [EachZone in ZoneID]: {
+    [key in ZoneName]: {
       [EachPlayerWhoCanUseTheZone in PlayerID]: LocationName[];
     };
   };
@@ -265,16 +262,10 @@ export class TDesign {
     }[]
   ): this {
     for (const { name, player, locations } of zoneSettings) {
-      let zone_id = this.zoneNames[name];
-      if (zone_id === undefined) {
-        //when the zone name is not found in the list
-        zone_id = Object.keys(this.zoneNames).length;
-        this.zoneNames[name] = zone_id;
+      if (name in this.zones === false) {
+        this.zones[name] = {};
       }
-      if (this.zones[zone_id] === undefined) {
-        this.zones[zone_id] = {};
-      }
-      this.zones[zone_id][player] = locations;
+      this.zones[name][player] = locations;
     }
     return this;
   }
