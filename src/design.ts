@@ -42,7 +42,6 @@ type GameBehaviorOptions = Record<GameBehaviorOptionNames, boolean>;
  * Game rule builder that provides internal DSL for describing game rules
  */
 export class TDesign {
-  board: TBoard | undefined;
   boardConnectionGraph: LocationID[][];
   directionNames: DirectionName[];
   gameOptions: GameBehaviorOptions;
@@ -59,7 +58,6 @@ export class TDesign {
     params: DirectionName[];
     mode: MoveModeID;
   }[];
-  groupedMovements: Record<number, Movement[]> | null;
   pieces: {
     [key in PieceTypeID]: {
       name: PieceName;
@@ -67,7 +65,7 @@ export class TDesign {
     };
   };
   pieceNames: {
-    [EachPiece in PieceName]: PieceTypeID;
+    [key in PieceName]: PieceTypeID;
   };
   playerNames: PlayerName[];
   plugins: Plugin[];
@@ -122,7 +120,6 @@ export class TDesign {
      * A list of zones, the special areas composed of specified locations.
      */
     this.zones = {};
-    this.zoneNames = {};
 
     /**
      * A list of pieces' names and prices.
@@ -136,19 +133,12 @@ export class TDesign {
      */
     this.movements = [];
 
-    this.groupedMovements = null;
-
     /**
      * A list of initial piece locations and piece objects.
      */
     this.initialGamePosition = [];
 
     this.turns = undefined;
-
-    /**
-     * An initial game state.
-     */
-    this.board;
 
     this.gameOptions = DEFAULT_GAME_OPTIONS;
 
@@ -285,10 +275,7 @@ export class TDesign {
    * @param price - a piece value
    */
   addPiece({ name, type, price = 1 }: { name: PieceName; type: PieceTypeID; price?: PiecePrice }): this {
-    this.pieces[type] = {
-      name,
-      price
-    };
+    this.pieces[type] = { name, price };
     this.pieceNames[name] = type;
     return this;
   }
@@ -305,12 +292,7 @@ export class TDesign {
     }[]
   ): this {
     for (const { pieceType, func, params, mode } of movements) {
-      this.movements.push({
-        pieceType,
-        func,
-        params,
-        mode
-      });
+      this.movements.push({ pieceType, func, params, mode });
     }
     return this;
   }
@@ -331,10 +313,7 @@ export class TDesign {
     for (const { player, pieceName, locations } of initialPiecePlacementSettings) {
       for (const locName of locations) {
         this.initialGamePosition.push({
-          [locName]: {
-            player,
-            pieceName
-          }
+          [locName]: { player, pieceName }
         });
       }
     }
@@ -342,8 +321,7 @@ export class TDesign {
   }
 }
 
-export class TGameRule {
-  board: TBoard | undefined;
+export class TGameManager {
   boardConnectionGraph: LocationID[][];
   directionNames: DirectionName[];
   gameOptions: GameBehaviorOptions;
@@ -438,11 +416,6 @@ export class TGameRule {
     this.initialGamePosition = [];
 
     this.turns = undefined;
-
-    /**
-     * An initial game state.
-     */
-    this.board;
 
     this.gameOptions = DEFAULT_GAME_OPTIONS;
 
