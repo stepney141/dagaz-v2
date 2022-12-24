@@ -2,11 +2,11 @@
  * management game rules
  * @module design
  */
-
 import _ from "underscore";
 
 import { TBoard } from "./board";
 import { TGrid } from "./board_grid";
+import { range } from "./utils";
 
 import type {
   TPiece,
@@ -213,7 +213,7 @@ export class TDesign {
       if (this.boardConnectionGraph.length == 0 && name != "start") {
         //when the locations list is empty, defines the origin of the coordinates
         this.locationNames.push("start");
-        this.boardConnectionGraph.push(_.range(locationDelta.length).fill(0));
+        this.boardConnectionGraph.push(range({ stop: locationDelta.length }).fill(0));
       }
       this.locationNames.push(name);
       this.boardConnectionGraph.push(locationDelta);
@@ -363,7 +363,7 @@ export class TDesign {
    * @returns a list of all direction ids
    */
   allDirections(): DirectionID[] {
-    return _.range(this.directionNames.length);
+    return range({ stop: this.directionNames.length });
   }
 
   /**
@@ -371,7 +371,7 @@ export class TDesign {
    * @returns a list of all player ids
    */
   allPlayers(): PlayerID[] {
-    return _.range(1, this.playerNames.length);
+    return range({ start: 1, stop: this.playerNames.length });
   }
 
   /**
@@ -379,7 +379,7 @@ export class TDesign {
    * @returns a list of all location ids
    */
   allLocations(): LocationID[] {
-    return _.range(1, this.boardConnectionGraph.length);
+    return range({ start: 1, stop: this.boardConnectionGraph.length });
   }
 
   /**

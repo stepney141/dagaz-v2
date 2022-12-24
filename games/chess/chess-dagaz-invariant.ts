@@ -1,6 +1,5 @@
-import _ from "underscore";
-
 import { getPieceAttribute, pieceToString, updatePieceAttribute } from "../../src/piece";
+import { range } from "../../src/utils";
 
 import type { TBoard } from "../../src/board";
 import type { TMove, LocationID, PlayerID } from "../../src/types";
@@ -129,7 +128,7 @@ export const extension = {
           // castling
           const a = move.actions[0].originSquare;
           const b = move.actions[1].originSquare;
-          safe = _.range(Math.min(a, b), Math.max(a, b) + 1);
+          safe = range({ start: Math.min(a, b), stop: Math.max(a, b) + 1 });
 
           for (const action of move.actions) {
             const piece = action.piece;
