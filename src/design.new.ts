@@ -1,4 +1,3 @@
-import type { TBoard } from "./board";
 import type {
   DirectionID,
   DirectionName,
