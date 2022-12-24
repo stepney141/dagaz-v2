@@ -2,7 +2,7 @@
  * @module board_grid
  */
 
-import _ from "underscore";
+import { range } from "./utils";
 
 import type { TDesign } from "./design";
 import type { DirectionID } from "./types";
@@ -64,7 +64,7 @@ export class TGrid {
    */
   addLocations(grid: TGrid = this, ix: number = this.scales.length - 1, name = "", point: Array<number> = []) {
     if (ix < 0) {
-      const locationDelta = _.range(grid.dirs.length).fill(0);
+      const locationDelta = range({ stop: grid.dirs.length }).fill(0);
 
       Object.keys(grid.dirs).forEach((dir) => {
         let o = 0;

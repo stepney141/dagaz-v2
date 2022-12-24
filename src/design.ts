@@ -2,10 +2,10 @@
  * management game rules
  * @module design
  */
-
 import _ from "underscore";
 
 import { TBoard } from "./board";
+import { range } from "./utils";
 
 import type {
   TPiece,
@@ -429,7 +429,7 @@ export class TGameManager {
    * @returns a list of all direction ids
    */
   allDirections(): DirectionID[] {
-    return _.range(this.directionNames.length);
+    return range({ stop: this.directionNames.length });
   }
 
   /**
@@ -437,7 +437,7 @@ export class TGameManager {
    * @returns a list of all player ids
    */
   allPlayers(): PlayerID[] {
-    return _.range(1, this.playerNames.length);
+    return range({ start: 1, stop: this.playerNames.length });
   }
 
   /**
@@ -445,7 +445,7 @@ export class TGameManager {
    * @returns a list of all location ids
    */
   allLocations(): LocationID[] {
-    return _.range(1, this.boardConnectionGraph.length);
+    return range({ start: 1, stop: this.boardConnectionGraph.length });
   }
 
   /**
