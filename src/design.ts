@@ -6,7 +6,6 @@
 import _ from "underscore";
 
 import { TBoard } from "./board";
-import { TGrid } from "./board_grid";
 
 import type {
   TPiece,
@@ -314,14 +313,6 @@ export class TDesign {
       });
     }
     return this;
-  }
-
-  /**
-   * Create a new grid
-   * @returns a new TGrid instance
-   */
-  addGrid(): TGrid {
-    return new TGrid(this);
   }
 
   /**
