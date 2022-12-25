@@ -42,22 +42,50 @@ type GameBehaviorOptions = Record<GameBehaviorOptionNames, boolean>;
  * Game rule builder that provides internal DSL for describing game rules
  */
 export class TDesign {
+  /**
+   * Board representation: a list of board location offsets represented by direction ids.
+   * Dagaz adopts an extended representation of the Mailbox pattern, an array-based offset board representation system.
+   * @link https://www.chessprogramming.org/Mailbox
+   */
   boardConnectionGraph: LocationID[][];
+
+  /**
+   * A list of direction names.
+   * Each index of this array is a numeric id of each direction.
+   */
   directionNames: DirectionName[];
+
   gameOptions: GameBehaviorOptions;
+
+  /**
+   * A list of initial piece locations and piece objects.
+   */
   initialGamePosition: {
     [key in LocationName]: {
       player: PlayerName;
       pieceName: PieceName;
     };
   }[];
+
+  /**
+   * A list of priorities on the mode of moves.
+   */
   modes: MoveModeID[];
+
+  /**
+   * A list of movements or behavior of pieces
+   */
   movements: {
     pieceType: PieceTypeID;
     func: MovementDefinitionMethod;
     params: DirectionName[];
     mode: MoveModeID;
   }[];
+
+  /**
+   * A list of pieces' names and prices.
+   * Each property is a numeric id of each piece type.
+   */
   pieces: {
     [key in PieceTypeID]: {
       name: PieceName;
@@ -67,12 +95,34 @@ export class TDesign {
   pieceNames: {
     [key in PieceName]: PieceTypeID;
   };
+
+  /**
+   * A list of player names.
+   * Each index of this array is a numeric id of each player.
+   */
   playerNames: PlayerName[];
+
   plugins: Plugin[];
+
+  /**
+   * Board representation: a list of board location names.
+   * Each index of this array is a numeric id of each location.
+   */
   locationNames: LocationName[];
+
   repeat: number | null;
+
+  /**
+   * A list of rotationally symmetric directions of players.
+   * Each index of this array is a numeric id of each player.
+   */
   rotationallySymmetricDirections: DirectionID[][];
+
   turns: { player: PlayerID; modes: number[] }[] | undefined;
+
+  /**
+   * A list of zones, the special areas composed of specified locations.
+   */
   zones: {
     [key in ZoneName]: {
       [EachPlayerWhoCanUseTheZone in PlayerID]: LocationName[];
@@ -80,70 +130,20 @@ export class TDesign {
   };
 
   constructor() {
-    /**
-     * A list of direction names.
-     * Each index of this array is a numeric id of each direction.
-     */
     this.directionNames = [];
-
-    /**
-     * A list of rotationally symmetric directions of players.
-     * Each index of this array is a numeric id of each player.
-     */
     this.rotationallySymmetricDirections = [];
-
-    /**
-     * A list of player names.
-     * Each index of this array is a numeric id of each player.
-     */
     this.playerNames = [];
-
-    /**
-     * Board representation: a list of board location offsets represented by direction ids.
-     * Dagaz adopts an extended representation of the Mailbox pattern, an array-based offset board representation system.
-     * @link https://www.chessprogramming.org/Mailbox
-     */
     this.boardConnectionGraph = [];
-
-    /**
-     * Board representation: a list of board location names.
-     * Each index of this array is a numeric id of each location.
-     */
     this.locationNames = [];
-
-    /**
-     * A list of priorities on the mode of moves.
-     */
     this.modes = [];
-
-    /**
-     * A list of zones, the special areas composed of specified locations.
-     */
     this.zones = {};
-
-    /**
-     * A list of pieces' names and prices.
-     * Each property is a numeric id of each piece type.
-     */
     this.pieces = {};
     this.pieceNames = {};
-
-    /**
-     * A list of movements or behavior of pieces
-     */
     this.movements = [];
-
-    /**
-     * A list of initial piece locations and piece objects.
-     */
     this.initialGamePosition = [];
-
     this.turns = undefined;
-
     this.gameOptions = DEFAULT_GAME_OPTIONS;
-
     this.repeat = null;
-
     this.plugins = [];
   }
 
@@ -354,73 +354,22 @@ export class TGameManager {
   };
 
   constructor(design: TDesign) {
-    /**
-     * A list of direction names.
-     * Each index of this array is a numeric id of each direction.
-     */
     this.directionNames = [];
-
-    /**
-     * A list of rotationally symmetric directions of players.
-     * Each index of this array is a numeric id of each player.
-     */
     this.rotationallySymmetricDirections = [];
-
-    /**
-     * A list of player names.
-     * Each index of this array is a numeric id of each player.
-     */
     this.playerNames = [];
-
-    /**
-     * Board representation: a list of board location offsets represented by direction ids.
-     * Dagaz adopts an extended representation of the Mailbox pattern, an array-based offset board representation system.
-     * @link https://www.chessprogramming.org/Mailbox
-     */
     this.boardConnectionGraph = [];
-
-    /**
-     * Board representation: a list of board location names.
-     * Each index of this array is a numeric id of each location.
-     */
     this.locationNames = [];
-
-    /**
-     * A list of priorities on the mode of moves.
-     */
     this.modes = [];
-
-    /**
-     * A list of zones, the special areas composed of specified locations.
-     */
     this.zones = {};
     this.zoneNames = {};
-
-    /**
-     * A list of pieces' names and prices.
-     * Each property is a numeric id of each piece type.
-     */
     this.pieces = {};
     this.pieceNames = {};
-
-    /**
-     * A list of movements or behavior of pieces
-     */
     this.movements = [];
-
     this.groupedMovements = null;
-
-    /**
-     * A list of initial piece locations and piece objects.
-     */
     this.initialGamePosition = [];
-
     this.turns = undefined;
-
     this.gameOptions = DEFAULT_GAME_OPTIONS;
-
     this.repeat = null;
-
     this.plugins = [];
   }
 
