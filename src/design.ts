@@ -33,7 +33,7 @@ const DEFAULT_GAME_OPTIONS = {
   "deferred-captures": false,
   "maximal-captures": false,
   "smart-moves": false
-} as const satisfies Record<string, boolean>;
+} satisfies Record<string, boolean>;
 
 type GameBehaviorOptionNames = keyof typeof DEFAULT_GAME_OPTIONS;
 type GameBehaviorOptions = Record<GameBehaviorOptionNames, boolean>;
@@ -351,7 +351,16 @@ export class TDesign {
   };
 
   constructor(gameRule: TGameRule) {
-    Object.assign(this, gameRule);
+    const copiedGameRule = new (gameRule.constructor as { new (): TGameRule })();
+    Object.assign(copiedGameRule, gameRule);
+    Object.assign(this, copiedGameRule);
+
+    this.pieceNames = {};
+    this.zoneNames = {};
+    this.movements = [];
+    this.groupedMovements = null;
+    this.initialGamePosition = [];
+    this.zones = {};
 
     this.directionIds = gameRule.directionNames.map((_, index) => index);
     this.locationIds = gameRule.locationNames.map((_, index) => index);
@@ -366,7 +375,7 @@ export class TDesign {
       const zoneId = Object.keys(gameRule.zones).indexOf(zoneName);
       this.zoneNames[zoneName] = zoneId;
 
-      const zoneUser: PlayerID = +Object.keys(zoneConfig);
+      const zoneUser: PlayerID = +Object.keys(zoneConfig)[0];
       const locationNamesInZone: LocationName[] = Object.values(zoneConfig)[0];
       this.zones[zoneId] = {
         [zoneUser]: locationNamesInZone.map((locName) => this.stringToLoc(locName))
@@ -392,6 +401,8 @@ export class TDesign {
     }
 
     this.configureMovement();
+
+    // console.log(this);
   }
 
   /**
