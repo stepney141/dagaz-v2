@@ -41,7 +41,7 @@ type GameBehaviorOptions = Record<GameBehaviorOptionNames, boolean>;
 /**
  * Game rule builder that provides internal DSL for describing game rules
  */
-export class TDesign {
+export class TGameRule {
   /**
    * Board representation: a list of board location offsets represented by direction ids.
    * Dagaz adopts an extended representation of the Mailbox pattern, an array-based offset board representation system.
@@ -321,7 +321,7 @@ export class TDesign {
   }
 }
 
-export class TGameManager {
+export class TDesign {
   boardConnectionGraph: LocationID[][];
   directionNames: DirectionName[];
   gameOptions: GameBehaviorOptions;
@@ -353,24 +353,8 @@ export class TGameManager {
     };
   };
 
-  constructor(design: TDesign) {
-    this.directionNames = [];
-    this.rotationallySymmetricDirections = [];
-    this.playerNames = [];
-    this.boardConnectionGraph = [];
-    this.locationNames = [];
-    this.modes = [];
-    this.zones = {};
-    this.zoneNames = {};
-    this.pieces = {};
-    this.pieceNames = {};
-    this.movements = [];
-    this.groupedMovements = null;
-    this.initialGamePosition = [];
-    this.turns = undefined;
-    this.gameOptions = DEFAULT_GAME_OPTIONS;
-    this.repeat = null;
-    this.plugins = [];
+  constructor(gameRule: TGameRule) {
+    Object.assign(this, gameRule);
   }
 
   /**
