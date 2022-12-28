@@ -92,9 +92,6 @@ export class TGameRule {
       price: PiecePrice;
     };
   };
-  pieceNames: {
-    [key in PieceName]: PieceTypeID;
-  };
 
   /**
    * A list of player names.
@@ -130,27 +127,24 @@ export class TGameRule {
   };
 
   constructor() {
-    this.directionNames = [];
-    this.rotationallySymmetricDirections = [];
-    this.playerNames = [];
     this.boardConnectionGraph = [];
+    this.directionNames = [];
+    this.gameOptions = DEFAULT_GAME_OPTIONS;
+    this.initialGamePosition = [];
     this.locationNames = [];
     this.modes = [];
-    this.zones = {};
-    this.pieces = {};
-    this.pieceNames = {};
     this.movements = [];
-    this.initialGamePosition = [];
-    this.turns = undefined;
-    this.gameOptions = DEFAULT_GAME_OPTIONS;
-    this.repeat = null;
+    this.pieces = {};
+    this.playerNames = [];
     this.plugins = [];
+    this.repeat = null;
+    this.rotationallySymmetricDirections = [];
+    this.turns = undefined;
+    this.zones = {};
   }
 
   /**
    * Define some flags for game rules and store them into the global namespace
-   * @param name - flag name
-   * @param value - flag value
    */
   setGameOption(gameOptions: Partial<GameBehaviorOptions> = {}): this {
     this.gameOptions = {
@@ -177,12 +171,12 @@ export class TGameRule {
    * @param symmetry - a list of direction ids that are rotationally symmetric in each player
    */
   addPlayer(
-    ...playerSettings: {
+    ...playerConfig: {
       name: string;
       symmetry: DirectionID[];
     }[]
   ): this {
-    for (const { name, symmetry } of playerSettings) {
+    for (const { name, symmetry } of playerConfig) {
       const ix = this.playerNames.length;
       if (this.playerNames.length == 0) {
         this.playerNames.push("opposite");
@@ -199,12 +193,12 @@ export class TGameRule {
    * @param locationDelta - displacement vector; numerical difference of adjacent locations
    */
   addLocation(
-    ...locationSettings: {
+    ...locationConfig: {
       name: LocationName;
       locationDelta: number[];
     }[]
   ): this {
-    for (const { name, locationDelta } of locationSettings) {
+    for (const { name, locationDelta } of locationConfig) {
       if (this.boardConnectionGraph.length == 0 && name != "start") {
         //when the locations list is empty, defines the origin of the coordinates
         this.locationNames.push("start");
@@ -244,13 +238,13 @@ export class TGameRule {
    * @param locations - a list of location-names which are in the zone
    */
   addZone(
-    ...zoneSettings: {
+    ...zoneConfig: {
       name: ZoneName;
       player: PlayerID;
       locations: LocationName[];
     }[]
   ): this {
-    for (const { name, player, locations } of zoneSettings) {
+    for (const { name, player, locations } of zoneConfig) {
       if (name in this.zones === false) {
         this.zones[name] = {};
       }
@@ -276,7 +270,6 @@ export class TGameRule {
    */
   addPiece({ name, type, price = 1 }: { name: PieceName; type: PieceTypeID; price?: PiecePrice }): this {
     this.pieces[type] = { name, price };
-    this.pieceNames[name] = type;
     return this;
   }
 
@@ -304,13 +297,13 @@ export class TGameRule {
    * @param locations - names of cells where the piece occupies when the game starts
    */
   setInitialPieces(
-    ...initialPiecePlacementSettings: {
+    ...initialPiecePlacementConfig: {
       player: PlayerName;
       pieceName: PieceName;
       locations: LocationName[];
     }[]
   ): this {
-    for (const { player, pieceName, locations } of initialPiecePlacementSettings) {
+    for (const { player, pieceName, locations } of initialPiecePlacementConfig) {
       for (const locName of locations) {
         this.initialGamePosition.push({
           [locName]: { player, pieceName }
@@ -323,32 +316,34 @@ export class TGameRule {
 
 export class TDesign {
   boardConnectionGraph: LocationID[][];
+  directionIds: DirectionID[];
   directionNames: DirectionName[];
   gameOptions: GameBehaviorOptions;
   initialGamePosition: { location: null | LocationID; piece: TPiece }[];
   modes: MoveModeID[];
   movements: Movement[];
   groupedMovements: Record<number, Movement[]> | null;
+  pieceNames: {
+    [EachPiece in PieceName]: PieceTypeID;
+  };
   pieces: {
     [key in PieceTypeID]: {
       name: PieceName;
       price: PiecePrice;
     };
   };
-  pieceNames: {
-    [EachPiece in PieceName]: PieceTypeID;
-  };
   playerNames: PlayerName[];
   plugins: Plugin[];
+  locationIds: LocationID[];
   locationNames: LocationName[];
   repeat: number | null;
   rotationallySymmetricDirections: DirectionID[][];
   turns: { player: PlayerID; modes: number[] }[] | undefined;
   zoneNames: {
-    [EachZone in ZoneName]: ZoneID;
+    [key in ZoneName]: ZoneID;
   };
   zones: {
-    [EachZone in ZoneID]: {
+    [key in ZoneID]: {
       [EachPlayerWhoCanUseTheZone in PlayerID]: LocationID[];
     };
   };
