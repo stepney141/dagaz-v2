@@ -430,16 +430,42 @@ export class TDesign {
   }
 
   /**
-   * Return a direction id that corresponds to the given direction name
-   * @param name - a direction name
-   * @returns a direction id
+   * Return a piece type id that corresponds to the given piece name
+   * @param name - a piece name
+   * @returns a piece type id
    */
-  getDirection(name: DirectionName): null | DirectionID {
-    const dir = this.directionNames.indexOf(name);
-    if (dir < 0) {
+  getPieceName(pieceType: PieceTypeID): null | PieceName {
+    const name = this.pieces[pieceType]?.name;
+    if (name === undefined) {
       return null;
     }
-    return dir;
+    return name;
+  }
+
+  /**
+   * Return a player name that corresponds to the given player id
+   * @param playerName - a player name
+   * @returns a numerical player ID
+   */
+  getPlayerID(playerName: PlayerName): null | PlayerID {
+    const id = this.playerNames.indexOf(playerName);
+    if (id === -1) {
+      return null;
+    }
+    return id;
+  }
+
+  /**
+   * Return a player id that corresponds to the given player name
+   * @param playerID - a numerical player ID
+   * @returns a player name
+   */
+  getPlayerName(playerID: PlayerID): null | string {
+    const name = this.playerNames[playerID];
+    if (name === undefined) {
+      return null;
+    }
+    return name;
   }
 
   /**
@@ -448,21 +474,8 @@ export class TDesign {
    * @param player
    * @returns
    */
-  getDirectionFromOtherPlayer(dir: DirectionID, player = 0): number {
+  getDirectionFromPlayer(dir: DirectionID, player = 0): number {
     return this.rotationallySymmetricDirections[player][dir];
-  }
-
-  /**
-   * Return a zone that corresponds to the given zone name.
-   * @param name - a zone name
-   * @returns a zone id
-   */
-  getZone(name: string): null | number {
-    const zone = this.zoneNames[name];
-    if (zone === undefined) {
-      return null;
-    }
-    return zone;
   }
 
   /**
@@ -570,6 +583,26 @@ export class TDesign {
       return null;
     }
     return loc;
+  }
+
+  dirToString(dir: DirectionID): null | DirectionName {
+    if (this.directionNames[dir] === undefined) {
+      return "?";
+    }
+    return this.directionNames[dir];
+  }
+
+  /**
+   * Return a direction id that corresponds to the given direction name
+   * @param name - a direction name
+   * @returns a direction id
+   */
+  stringToDir(name: DirectionName): null | DirectionID {
+    const dir = this.directionNames.indexOf(name);
+    if (dir < 0) {
+      return null;
+    }
+    return dir;
   }
 
   private setPlugins(plugins: Plugin[]) {
