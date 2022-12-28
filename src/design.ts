@@ -65,7 +65,7 @@ export class TGameRule {
       player: PlayerName;
       pieceName: PieceName;
     };
-  }[];
+  };
 
   /**
    * A list of priorities on the mode of moves.
@@ -122,7 +122,7 @@ export class TGameRule {
    */
   zones: {
     [key in ZoneName]: {
-      [EachPlayerWhoCanUseTheZone in PlayerID]: LocationName[];
+      [zoneUser in PlayerID]: LocationName[];
     };
   };
 
@@ -130,7 +130,7 @@ export class TGameRule {
     this.boardConnectionGraph = [];
     this.directionNames = [];
     this.gameOptions = DEFAULT_GAME_OPTIONS;
-    this.initialGamePosition = [];
+    this.initialGamePosition = {};
     this.locationNames = [];
     this.modes = [];
     this.movements = [];
@@ -305,9 +305,7 @@ export class TGameRule {
   ): this {
     for (const { player, pieceName, locations } of initialPiecePlacementConfig) {
       for (const locName of locations) {
-        this.initialGamePosition.push({
-          [locName]: { player, pieceName }
-        });
+        this.initialGamePosition[locName] = { player, pieceName };
       }
     }
     return this;
