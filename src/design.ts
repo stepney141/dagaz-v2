@@ -143,6 +143,10 @@ export class TGameRule {
     this.zones = {};
   }
 
+  buildGameDesign() {
+    return new TDesign(this);
+  }
+
   /**
    * Define some flags for game rules and store them into the global namespace
    */
@@ -348,6 +352,46 @@ export class TDesign {
 
   constructor(gameRule: TGameRule) {
     Object.assign(this, gameRule);
+
+    this.directionIds = gameRule.directionNames.map((_, index) => index);
+    this.locationIds = gameRule.locationNames.map((_, index) => index);
+
+    // convert pieces to internal representation
+    for (const [pieceTypeString, pieceConfig] of Object.entries(gameRule.pieces)) {
+      this.pieceNames[pieceConfig.name] = +pieceTypeString;
+    }
+
+    // convert zones to internal representation
+    for (const [zoneName, zoneConfig] of Object.entries(gameRule.zones)) {
+      const zoneId = Object.keys(gameRule.zones).indexOf(zoneName);
+      this.zoneNames[zoneName] = zoneId;
+
+      const zoneUser: PlayerID = +Object.keys(zoneConfig);
+      const locationNamesInZone: LocationName[] = Object.values(zoneConfig)[0];
+      this.zones[zoneId] = {
+        [zoneUser]: locationNamesInZone.map((locName) => this.stringToLoc(locName))
+      };
+    }
+
+    // convert movements to internal representation
+    for (const { pieceType, func, params, mode } of gameRule.movements) {
+      this.movements.push({
+        pieceType,
+        func,
+        params: params.map((dirName) => this.stringToDir(dirName)),
+        mode
+      });
+    }
+
+    // convert initial position to internal representation
+    for (const [locName, pieceOnLoc] of Object.entries(gameRule.initialGamePosition)) {
+      this.initialGamePosition.push({
+        location: this.stringToLoc(locName),
+        piece: this.createPiece(this.getPieceType(pieceOnLoc.pieceName), this.getPlayerID(pieceOnLoc.player))
+      });
+    }
+
+    this.configureMovement();
   }
 
   /**
@@ -399,9 +443,7 @@ export class TDesign {
    * If it doesn't exist, create the initial board from the game design.
    * @returns an initial game state
    */
-  getInitBoard(buildDesign: (design: this) => void, plugins?: Plugin[]): TBoard {
-    buildDesign(this); // load game rules
-    this.configureMovement();
+  getInitBoard(plugins?: Plugin[]): TBoard {
     if (plugins !== undefined) {
       this.setPlugins(plugins);
     }
