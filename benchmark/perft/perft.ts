@@ -1,5 +1,6 @@
-import { TDesign } from "../../src/design";
 import { buildTranspositionTable } from "../../src/tt";
+
+import { TGameRule } from "./../../src/design";
 
 import type { TBoard } from "../../src/board";
 import type { PositionHash } from "../../src/tt";
@@ -72,11 +73,14 @@ const perft = function (depth: DepthToSearch, b: TBoard): NodeCounts {
 export const main = function (
   depth: DepthToSearch,
   PERFT_RESULTS: ExactPerftAnswers,
-  buildDesign: (design: TDesign) => void,
+  buildGameRule: (gameRule: TGameRule) => void,
   plugins?: Plugin[]
 ) {
-  const design = new TDesign();
-  const initialBoard = design.getInitBoard(buildDesign, plugins);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  const initialBoard = design.getInitBoard(plugins);
 
   console.log(`Enumerate Nodes, depth = ${depth}`);
 

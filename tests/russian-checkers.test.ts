@@ -1,11 +1,14 @@
-import { buildDesign } from "../games/russian-checkers/russian-checkers-dagaz";
-import { TDesign } from "../src/design";
+import { buildGameRule } from "../games/russian-checkers/russian-checkers-dagaz";
+import { TGameRule } from "../src/design";
 import { moveToString } from "../src/move";
 import { pieceToString } from "../src/piece";
 
 test("King Moves", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard();
 
   expect(board.player).toEqual(1); // White turn
 
@@ -33,8 +36,11 @@ test("King Moves", function () {
 });
 
 test("King Capturing", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard();
 
   expect(board.player).toEqual(1); // White turn
 
@@ -63,8 +69,11 @@ test("King Capturing", function () {
 });
 
 test("Man Capturing", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard();
 
   expect(board.player).toEqual(1); // White turn
 

@@ -1,12 +1,15 @@
-import { buildDesign } from "../games/chess/chess-dagaz";
+import { buildGameRule } from "../games/chess/chess-dagaz";
 import { getGoal, extension } from "../games/chess/chess-dagaz-invariant";
-import { TDesign } from "../src/design";
+import { TGameRule } from "../src/design";
 import { moveToString } from "../src/move";
 import { pieceToString } from "../src/piece";
 
 test("Initial Board", function () {
-  const design = new TDesign();
-  const board = design.getInitBoard(buildDesign, [getGoal, extension]);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  const board = design.getInitBoard([getGoal, extension]);
 
   expect(board.player).toEqual(1); // White turn
 
@@ -36,8 +39,11 @@ test("Initial Board", function () {
 });
 
 test("En Passant", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign, [getGoal, extension]);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard([getGoal, extension]);
 
   board.clear();
 
@@ -111,8 +117,11 @@ test("En Passant", function () {
 });
 
 test("Castling", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign, [getGoal, extension]);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard([getGoal, extension]);
 
   board.clear();
 
@@ -222,8 +231,11 @@ test("Castling", function () {
 });
 
 test("Stalemate", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign, [getGoal, extension]);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard([getGoal, extension]);
 
   board.clear();
 
@@ -324,8 +336,11 @@ test("Stalemate", function () {
 });
 
 test("Checkmate", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign, [getGoal, extension]);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard([getGoal, extension]);
 
   board.clear();
 

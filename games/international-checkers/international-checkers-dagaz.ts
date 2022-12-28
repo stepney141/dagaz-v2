@@ -47,7 +47,7 @@ const contKing: MovementDefinitionMethod = function (ctx, params) {
   }
 };
 
-export const buildDesign = function (gameRule: TGameRule) {
+export const buildGameRule = function (gameRule: TGameRule) {
   gameRule.setGameOption({ "smart-moves": true, "maximal-captures": true, "deferred-captures": true });
 
   gameRule

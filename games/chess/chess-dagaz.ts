@@ -87,7 +87,7 @@ const O_O_O: MovementDefinitionMethod = function (ctx, params) {
   }
 };
 
-export const buildDesign = function (gameRule: TGameRule) {
+export const buildGameRule = function (gameRule: TGameRule) {
   gameRule.setGameOption({ "smart-moves": false });
 
   gameRule
