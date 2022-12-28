@@ -1,5 +1,5 @@
-import type { TDesign } from "../../src/design";
 import type { MovementDefinitionMethod } from "../../src/types";
+import type { TGameRule } from "./../../src/design";
 
 const shiftMan: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.canGoTo(params, 0) && ctx.isEmpty()) {
@@ -39,10 +39,10 @@ const jumpKing: MovementDefinitionMethod = function (ctx, params) {
   }
 };
 
-export const buildDesign = function (design: TDesign) {
-  design.setGameOption({ "smart-moves": true });
+export const buildDesign = function (gameRule: TGameRule) {
+  gameRule.setGameOption({ "smart-moves": true });
 
-  design
+  gameRule
     .addDirection([
       "ne", // 0
       "se", // 1
@@ -121,12 +121,12 @@ export const buildDesign = function (design: TDesign) {
       { name: "promotion", player: 1, locations: ["b8", "d8", "f8", "h8"] }
     );
 
-  design.addMovePriority([
+  gameRule.addMovePriority([
     1, // jump-type
     0 // normal-type
   ]);
 
-  design
+  gameRule
     .addPiece({ name: "Man", type: 0, price: 20 })
     .addMove(
       { pieceType: 0, func: jumpMan, params: ["nw"], mode: 1 },
@@ -135,7 +135,7 @@ export const buildDesign = function (design: TDesign) {
       { pieceType: 0, func: shiftMan, params: ["ne"], mode: 0 }
     );
 
-  design
+  gameRule
     .addPiece({ name: "King", type: 1, price: 40 })
     .addMove(
       { pieceType: 1, func: jumpKing, params: ["nw"], mode: 1 },
@@ -148,7 +148,7 @@ export const buildDesign = function (design: TDesign) {
       { pieceType: 1, func: shiftKing, params: ["se"], mode: 0 }
     );
 
-  design.setInitialPieces(
+  gameRule.setInitialPieces(
     {
       player: "Black",
       pieceName: "Man",

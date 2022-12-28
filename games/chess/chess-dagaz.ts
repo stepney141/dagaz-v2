@@ -1,5 +1,5 @@
-import type { TDesign } from "../../src/design";
 import type { MovementDefinitionMethod } from "../../src/types";
+import type { TGameRule } from "./../../src/design";
 
 const step: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.canGoTo(params, 0) && !ctx.isFriend()) {
@@ -87,10 +87,10 @@ const O_O_O: MovementDefinitionMethod = function (ctx, params) {
   }
 };
 
-export const buildDesign = function (design: TDesign) {
-  design.setGameOption({ "smart-moves": false });
+export const buildDesign = function (gameRule: TGameRule) {
+  gameRule.setGameOption({ "smart-moves": false });
 
-  design
+  gameRule
     .addDirection([
       "w", // 0
       "e", // 1
@@ -178,7 +178,7 @@ export const buildDesign = function (design: TDesign) {
       { name: "third-rank", player: 2, locations: ["a6", "b6", "c6", "d6", "e6", "f6", "g6", "h6"] }
     );
 
-  design
+  gameRule
     .addPiece({ name: "Pawn", type: 0, price: 2 })
     .addMove(
       { pieceType: 0, func: pawnShift, params: ["n"], mode: 0 },
@@ -189,7 +189,7 @@ export const buildDesign = function (design: TDesign) {
       { pieceType: 0, func: enPassant, params: ["w", "n"], mode: 0 }
     );
 
-  design
+  gameRule
     .addPiece({ name: "Rook", type: 1, price: 10 })
     .addMove(
       { pieceType: 1, func: slide, params: ["n"], mode: 0 },
@@ -198,7 +198,7 @@ export const buildDesign = function (design: TDesign) {
       { pieceType: 1, func: slide, params: ["e"], mode: 0 }
     );
 
-  design
+  gameRule
     .addPiece({ name: "Knight", type: 2, price: 6 })
     .addMove(
       { pieceType: 2, func: jump, params: ["n", "nw"], mode: 0 },
@@ -211,7 +211,7 @@ export const buildDesign = function (design: TDesign) {
       { pieceType: 2, func: jump, params: ["e", "se"], mode: 0 }
     );
 
-  design
+  gameRule
     .addPiece({ name: "Bishop", type: 3, price: 6 })
     .addMove(
       { pieceType: 3, func: slide, params: ["nw"], mode: 0 },
@@ -220,7 +220,7 @@ export const buildDesign = function (design: TDesign) {
       { pieceType: 3, func: slide, params: ["se"], mode: 0 }
     );
 
-  design
+  gameRule
     .addPiece({ name: "Queen", type: 4, price: 18 })
     .addMove(
       { pieceType: 4, func: slide, params: ["n"], mode: 0 },
@@ -233,7 +233,7 @@ export const buildDesign = function (design: TDesign) {
       { pieceType: 4, func: slide, params: ["se"], mode: 0 }
     );
 
-  design
+  gameRule
     .addPiece({ name: "King", type: 5, price: 1000 })
     .addMove(
       { pieceType: 5, func: step, params: ["n"], mode: 0 },
@@ -248,7 +248,7 @@ export const buildDesign = function (design: TDesign) {
       { pieceType: 5, func: O_O_O, params: ["w", "e"], mode: 1 }
     );
 
-  design.setInitialPieces(
+  gameRule.setInitialPieces(
     {
       player: "White",
       pieceName: "Pawn",
