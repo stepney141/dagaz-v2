@@ -1,6 +1,6 @@
 import { buildTranspositionTable } from "../../src/tt";
 
-import { TGameRule } from "./../../src/design";
+import { TGameRule } from "./../../src/game_rule";
 
 import type { TBoard } from "../../src/board";
 import type { PositionHash } from "../../src/tt";

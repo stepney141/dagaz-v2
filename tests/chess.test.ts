@@ -1,6 +1,6 @@
 import { buildGameRule } from "../games/chess/chess-dagaz";
 import { getGoal, extension } from "../games/chess/chess-dagaz-invariant";
-import { TGameRule } from "../src/design";
+import { TGameRule } from "../src/game_rule";
 import { moveToString } from "../src/move";
 import { pieceToString } from "../src/piece";
 

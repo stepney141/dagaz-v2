@@ -1,4 +1,4 @@
-import type { TGameRule } from "../../src/design";
+import type { TGameRule } from "../../src/game_rule";
 import type { MovementDefinitionMethod } from "../../src/types";
 
 const shiftMan: MovementDefinitionMethod = function (ctx, params) {

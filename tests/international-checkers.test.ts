@@ -1,7 +1,7 @@
 import { buildGameRule } from "../games/international-checkers/international-checkers-dagaz";
 import { promotion } from "../games/international-checkers/international-checkers-dagaz-promotion";
 import { maximalCapture } from "../games/international-checkers/maximal-captures-dagaz";
-import { TGameRule } from "../src/design";
+import { TGameRule } from "../src/game_rule";
 import { moveToString } from "../src/move";
 import { pieceToString } from "../src/piece";
 

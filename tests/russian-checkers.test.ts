@@ -1,5 +1,5 @@
 import { buildGameRule } from "../games/russian-checkers/russian-checkers-dagaz";
-import { TGameRule } from "../src/design";
+import { TGameRule } from "../src/game_rule";
 import { moveToString } from "../src/move";
 import { pieceToString } from "../src/piece";
 

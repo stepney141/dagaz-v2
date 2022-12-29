@@ -1,5 +1,5 @@
 import type { MovementDefinitionMethod } from "../../src/types";
-import type { TGameRule } from "./../../src/design";
+import type { TGameRule } from "./../../src/game_rule";
 
 const step: MovementDefinitionMethod = function (ctx, params) {
   if (ctx.canGoTo(params, 0) && !ctx.isFriend()) {
