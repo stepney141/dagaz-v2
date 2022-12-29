@@ -353,24 +353,20 @@ export class TDesign {
   constructor(gameRule: TGameRule) {
     const copiedGameRule = new (gameRule.constructor as { new (): TGameRule })();
     Object.assign(copiedGameRule, gameRule);
-    Object.assign(this, copiedGameRule);
-
-    this.pieceNames = {};
-    this.zoneNames = {};
-    this.movements = [];
-    this.groupedMovements = null;
-    this.initialGamePosition = [];
-    this.zones = {};
+    Object.assign(this, copiedGameRule); // merge TGameRule instance properties to TDesign
 
     this.directionIds = gameRule.directionNames.map((_, index) => index);
     this.locationIds = gameRule.locationNames.map((_, index) => index);
 
     // convert pieces to internal representation
+    this.pieceNames = {};
     for (const [pieceTypeString, pieceConfig] of Object.entries(gameRule.pieces)) {
       this.pieceNames[pieceConfig.name] = +pieceTypeString;
     }
 
     // convert zones to internal representation
+    this.zoneNames = {};
+    this.zones = {};
     for (const [zoneName, zoneConfig] of Object.entries(gameRule.zones)) {
       const zoneId = Object.keys(gameRule.zones).indexOf(zoneName);
       this.zoneNames[zoneName] = zoneId;
@@ -383,6 +379,7 @@ export class TDesign {
     }
 
     // convert movements to internal representation
+    this.movements = [];
     for (const { pieceType, func, params, mode } of gameRule.movements) {
       this.movements.push({
         pieceType,
@@ -393,6 +390,7 @@ export class TDesign {
     }
 
     // convert initial position to internal representation
+    this.initialGamePosition = [];
     for (const [locName, pieceOnLoc] of Object.entries(gameRule.initialGamePosition)) {
       this.initialGamePosition.push({
         location: this.stringToLoc(locName),
@@ -400,9 +398,8 @@ export class TDesign {
       });
     }
 
+    this.groupedMovements = null;
     this.configureMovement();
-
-    // console.log(this);
   }
 
   /**
@@ -611,7 +608,6 @@ export class TDesign {
   }
 
   /**
-   *
    * Return a location name that corresponds to the given location id
    * @param loc - a location id
    * @returns a location name
