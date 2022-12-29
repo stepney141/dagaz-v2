@@ -1,3 +1,4 @@
+import type { DEFAULT_GAME_OPTIONS } from "./game_options";
 import type { TMoveContext } from "./move_context";
 
 export type DirectionName = string;
@@ -76,14 +77,8 @@ export type TMove = {
   mode: null | MoveModeID;
 };
 
-export type GameBehaviorOptions =
-  | "pass-turn"
-  | "pass-partial"
-  | "shared-pieces"
-  | "deferred-captures"
-  | "maximal-captures"
-  | "smart-moves";
-export type GameBehaviorOptionFlags = Record<GameBehaviorOptions, boolean>;
+type GameBehaviorOptionNames = keyof typeof DEFAULT_GAME_OPTIONS;
+export type GameBehaviorOptions = Record<GameBehaviorOptionNames, boolean>;
 
 export type GameRuleTemplate = {
   directions: DirectionName[];
@@ -147,5 +142,5 @@ export type GameRuleTemplate = {
   }[];
 
   movePriority?: number[];
-  gameOptions?: Partial<GameBehaviorOptionFlags>;
+  gameOptions?: Partial<GameBehaviorOptions>;
 };
