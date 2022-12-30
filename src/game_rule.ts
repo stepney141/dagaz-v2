@@ -192,7 +192,7 @@ export class TGameRule {
       if (this.boardConnectionGraph.length == 0 && name != "start") {
         //when the locations list is empty, defines the origin of the coordinates
         this.locationNames.push("start");
-        this.boardConnectionGraph.push(range({ start: 1, stop: locationDelta.length }).fill(0));
+        this.boardConnectionGraph.push(range({ stop: locationDelta.length }).fill(0));
       }
       this.locationNames.push(name);
       this.boardConnectionGraph.push(locationDelta);
