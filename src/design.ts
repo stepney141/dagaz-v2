@@ -81,12 +81,11 @@ export class TDesign {
     for (const [zoneName, zoneConfig] of Object.entries(gameRule.zones)) {
       const zoneId = Object.keys(gameRule.zones).indexOf(zoneName);
       this.zoneNames[zoneName] = zoneId;
+      this.zones[zoneId] = {};
 
-      const zoneUser: PlayerID = +Object.keys(zoneConfig)[0];
-      const locationNamesInZone: LocationName[] = Object.values(zoneConfig)[0];
-      this.zones[zoneId] = {
-        [zoneUser]: locationNamesInZone.map((locName) => this.stringToLoc(locName))
-      };
+      for (const [playerId, locNamesInZone] of Object.entries(zoneConfig)) {
+        this.zones[zoneId][+playerId] = locNamesInZone.map((locName) => this.stringToLoc(locName));
+      }
     }
 
     // convert movements to internal representation
