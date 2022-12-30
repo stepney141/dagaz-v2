@@ -4,24 +4,24 @@
 
 import { range } from "./utils";
 
-import type { TDesign } from "./design";
-import type { DirectionID } from "./types";
+import type { TGameRule } from "./game_rule";
+import type { DirectionID, DirectionName } from "./types";
 
 /**
  * internal DSL manager to easily represent board representation
  */
 export class TGrid {
-  design: TDesign;
-  dirs: Array<Array<number>>;
+  gameRule: TGameRule;
+  dirs: Record<DirectionName, Array<number>>;
   scales: Array<Array<string>>;
 
   /**
    * @param design
    */
-  constructor(design: TDesign) {
-    this.design = design;
+  constructor(gameRule: TGameRule) {
+    this.gameRule = gameRule;
     this.scales = [];
-    this.dirs = [];
+    this.dirs = {};
   }
 
   /**
@@ -48,11 +48,8 @@ export class TGrid {
    * g.addDirection("s", [ 0,  1 ]);
    */
   addDirection(name: string, offsets: Array<number>) {
-    this.design.addDirection([name]);
-    const ix: DirectionID = this.design.getDirection(name);
-    if (ix >= 0) {
-      this.dirs[ix] = offsets;
-    }
+    this.gameRule.addDirection([name]);
+    this.dirs[name] = offsets;
   }
 
   /**
@@ -64,7 +61,7 @@ export class TGrid {
    */
   addLocations(grid: TGrid = this, ix: number = this.scales.length - 1, name = "", point: Array<number> = []) {
     if (ix < 0) {
-      const locationDelta = range({ stop: grid.dirs.length }).fill(0);
+      const locationDelta = range({ stop: Object.keys(grid.dirs).length }).fill(0);
 
       Object.keys(grid.dirs).forEach((dir) => {
         let o = 0;
@@ -85,7 +82,7 @@ export class TGrid {
         locationDelta[dir as unknown as DirectionID] = o;
       });
 
-      grid.design.addLocation({ name, locationDelta });
+      grid.gameRule.addLocation({ name, locationDelta });
       return;
     }
 
