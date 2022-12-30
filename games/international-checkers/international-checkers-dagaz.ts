@@ -1,3 +1,6 @@
+import { promotion } from "./international-checkers-dagaz-promotion";
+import { maximalCapture } from "./maximal-captures-dagaz";
+
 import type { MovementDefinitionMethod } from "../../src/types";
 import type { TGameRule } from "./../../src/game_rule";
 
@@ -48,6 +51,7 @@ const contKing: MovementDefinitionMethod = function (ctx, params) {
 };
 
 export const buildGameRule = function (gameRule: TGameRule) {
+  gameRule.setPlugins([maximalCapture, promotion]);
   gameRule.setGameOption({ "smart-moves": true, "maximal-captures": true, "deferred-captures": true });
 
   gameRule

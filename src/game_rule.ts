@@ -300,4 +300,8 @@ export class TGameRule {
     }
     return this;
   }
+
+  setPlugins(plugins: Plugin[]) {
+    this.plugins = plugins;
+  }
 }

@@ -1,6 +1,4 @@
 import { buildGameRule } from "../games/international-checkers/international-checkers-dagaz";
-import { promotion } from "../games/international-checkers/international-checkers-dagaz-promotion";
-import { maximalCapture } from "../games/international-checkers/maximal-captures-dagaz";
 import { TGameRule } from "../src/game_rule";
 import { moveToString } from "../src/move";
 import { pieceToString } from "../src/piece";
@@ -10,7 +8,7 @@ test("Man promotion", function () {
   buildGameRule(gameRule);
 
   const design = gameRule.buildGameDesign();
-  let board = design.getInitBoard([maximalCapture, promotion]).copy();
+  let board = design.getInitBoard().copy();
 
   expect(board.player).toEqual(1); // White turn
 
@@ -86,7 +84,7 @@ test("Check lastFrom", function () {
   buildGameRule(gameRule);
 
   const design = gameRule.buildGameDesign();
-  let board = design.getInitBoard([maximalCapture, promotion]).copy();
+  let board = design.getInitBoard().copy();
 
   expect(board.player).toEqual(1); // White turn
 
