@@ -1,4 +1,4 @@
-import { validateCastlingRights, getGoal } from "./chess-dagaz-invariant";
+import { filterIllegalMove, getGoal } from "./chess-dagaz-invariant";
 
 import type { MovementDefinitionMethod } from "../../src/types";
 import type { TGameRule } from "./../../src/game_rule";
@@ -90,7 +90,7 @@ const O_O_O: MovementDefinitionMethod = function (ctx, params) {
 };
 
 export const buildGameRule = function (gameRule: TGameRule) {
-  gameRule.setPlugins([getGoal, validateCastlingRights]);
+  gameRule.setPlugins([getGoal, filterIllegalMove]);
   gameRule.setGameOption({ "smart-moves": false });
 
   gameRule
