@@ -110,7 +110,7 @@ export const getGoal = {
 /**
  * @param board - depth 0 (the current game state)
  */
-export const filterIllegalMove: Plugin = {
+export const validateCastlingRights: Plugin = {
   name: "extension",
   func: function (board: TBoard) {
     const design = board.design;
