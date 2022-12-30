@@ -1,6 +1,6 @@
 /**
- * management game rules
- * @module design
+ * internal DSL to define game rules
+ * @module gamerule
  */
 
 import { TDesign } from "./design";

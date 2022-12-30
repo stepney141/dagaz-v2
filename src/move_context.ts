@@ -1,5 +1,5 @@
 /**
- * management internal DSL to describe game rules
+ * internal DSL to describe piece movements
  * @module move_context
  */
 
