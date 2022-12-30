@@ -1,12 +1,13 @@
 import { promotePiece } from "../../src/piece";
 
 import type { TBoard } from "../../src/board";
+import type { Plugin } from "../../src/types";
 
 /**
  * promotion of a man to a king
  * @param board
  */
-export const promotion = {
+export const promotion: Plugin = {
   name: "extension",
   func: function (board: TBoard) {
     const design = board.design;
