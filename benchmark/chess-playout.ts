@@ -1,11 +1,14 @@
-import { buildDesign } from "../games/chess/chess-dagaz";
+import { buildGameRule } from "../games/chess/chess-dagaz";
 import { getGoal, extension } from "../games/chess/chess-dagaz-invariant";
-import { TDesign } from "../src/design";
 import { pieceToString } from "../src/piece";
 
+import { TGameRule } from "./../src/game_rule";
+
 function playout(plyUpperLimit: number, enableLog = true): number {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign, [extension, getGoal]);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard([extension, getGoal]);
   let count = 0;
 
   if (enableLog) console.time("playout");

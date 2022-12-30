@@ -1,11 +1,14 @@
-import { buildDesign } from "../games/english-checkers/english-checkers-dagaz";
-import { TDesign } from "../src/design";
+import { buildGameRule } from "../games/english-checkers/english-checkers-dagaz";
+import { TGameRule } from "../src/game_rule";
 import { moveToString } from "../src/move";
 import { pieceToString, promotePiece } from "../src/piece";
 
 test("Initial Board", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard();
 
   expect(board.player).toEqual(1); // Black turn
   expect(board.turn).toEqual(0);
@@ -187,8 +190,11 @@ test("Initial Board", function () {
 });
 
 test("Man Capturing", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard();
 
   expect(board.player).toEqual(1); // Black turn
 
@@ -226,8 +232,11 @@ test("Man Capturing", function () {
 });
 
 test("King Capturing", function () {
-  const design = new TDesign();
-  let board = design.getInitBoard(buildDesign);
+  const gameRule = new TGameRule();
+  buildGameRule(gameRule);
+
+  const design = gameRule.buildGameDesign();
+  let board = design.getInitBoard();
 
   expect(board.player).toEqual(1); // Black turn
 

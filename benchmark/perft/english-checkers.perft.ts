@@ -1,4 +1,4 @@
-import { buildDesign } from "../../games/english-checkers/english-checkers-dagaz";
+import { buildGameRule } from "../../games/english-checkers/english-checkers-dagaz";
 
 import { main } from "./perft";
 
@@ -7,7 +7,7 @@ import { main } from "./perft";
  */
 const PERFT_RESULTS = [1, 7, 49, 302, 1469, 7361, 36768, 179740, 845931, 3963680, 18391564, 85242128, 388617999];
 for (let i = 1; i <= 11; i++) {
-  main(i, PERFT_RESULTS, buildDesign);
+  main(i, PERFT_RESULTS, buildGameRule);
 }
 
 console.log("==========");

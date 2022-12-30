@@ -1,4 +1,4 @@
-import { buildDesign } from "../../games/russian-checkers/russian-checkers-dagaz";
+import { buildGameRule } from "../../games/russian-checkers/russian-checkers-dagaz";
 
 import { main } from "./perft";
 
@@ -8,7 +8,7 @@ import { main } from "./perft";
 const PERFT_RESULTS = [1, 7, 49, 302, 1469, 7482, 37986, 190146, 929899, 4570586, 22444032, 110917189];
 
 for (let i = 1; i <= 8; i++) {
-  main(i, PERFT_RESULTS, buildDesign);
+  main(i, PERFT_RESULTS, buildGameRule);
 }
 
 console.log("==========");

@@ -200,7 +200,7 @@ export class TMoveContext {
     if (dir === null) {
       return null;
     }
-    return this.design.getDirectionFromOtherPlayer(dir);
+    return this.design.getDirectionFromPlayer(dir);
   }
 
   /**
