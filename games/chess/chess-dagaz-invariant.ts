@@ -2,7 +2,7 @@ import { getPieceAttribute, pieceToString, updatePieceAttribute } from "../../sr
 import { range } from "../../src/utils";
 
 import type { TBoard } from "../../src/board";
-import type { TMove, LocationID, PlayerID, Plugin } from "../../src/types";
+import type { TMove, LocationID, PlayerID } from "../../src/types";
 
 type GameGoalStatus = null | 1 | -1 | 0;
 
@@ -110,7 +110,7 @@ export const getGoal = {
 /**
  * @param board - depth 0 (the current game state)
  */
-export const filterIllegalMove: Plugin = {
+export const extension = {
   name: "extension",
   func: function (board: TBoard) {
     const design = board.design;

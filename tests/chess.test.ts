@@ -1,5 +1,5 @@
 import { buildGameRule } from "../games/chess/chess-dagaz";
-import { getGoal } from "../games/chess/chess-dagaz-invariant";
+import { getGoal, extension } from "../games/chess/chess-dagaz-invariant";
 import { TGameRule } from "../src/game_rule";
 import { moveToString } from "../src/move";
 import { pieceToString } from "../src/piece";
@@ -9,7 +9,7 @@ test("Initial Board", function () {
   buildGameRule(gameRule);
 
   const design = gameRule.buildGameDesign();
-  const board = design.getInitBoard();
+  const board = design.getInitBoard([getGoal, extension]);
 
   expect(board.player).toEqual(1); // White turn
 
@@ -43,7 +43,7 @@ test("En Passant", function () {
   buildGameRule(gameRule);
 
   const design = gameRule.buildGameDesign();
-  let board = design.getInitBoard();
+  let board = design.getInitBoard([getGoal, extension]);
 
   board.clear();
 
@@ -121,7 +121,7 @@ test("Castling", function () {
   buildGameRule(gameRule);
 
   const design = gameRule.buildGameDesign();
-  let board = design.getInitBoard();
+  let board = design.getInitBoard([getGoal, extension]);
 
   board.clear();
 
@@ -235,7 +235,7 @@ test("Stalemate", function () {
   buildGameRule(gameRule);
 
   const design = gameRule.buildGameDesign();
-  let board = design.getInitBoard();
+  let board = design.getInitBoard([getGoal, extension]);
 
   board.clear();
 
@@ -340,7 +340,7 @@ test("Checkmate", function () {
   buildGameRule(gameRule);
 
   const design = gameRule.buildGameDesign();
-  let board = design.getInitBoard();
+  let board = design.getInitBoard([getGoal, extension]);
 
   board.clear();
 

@@ -161,7 +161,11 @@ export class TDesign {
    * If it doesn't exist, create the initial board from the game design.
    * @returns an initial game state
    */
-  getInitBoard(): TBoard {
+  getInitBoard(plugins?: Plugin[]): TBoard {
+    if (plugins !== undefined) {
+      this.setPlugins(plugins);
+    }
+
     const board = new TBoard(this); // create the initial game state
     this.initialGamePosition.forEach((s) => {
       // place pieces on the specified cells
@@ -356,6 +360,10 @@ export class TDesign {
       return null;
     }
     return dir;
+  }
+
+  private setPlugins(plugins: Plugin[]) {
+    plugins.forEach((plugin) => this.plugins.push(plugin));
   }
 
   /**
