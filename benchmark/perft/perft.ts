@@ -4,7 +4,6 @@ import { TGameRule } from "./../../src/game_rule";
 
 import type { TBoard } from "../../src/board";
 import type { PositionHash } from "../../src/tt";
-import type { Plugin } from "./../../src/types";
 
 type ExactPerftAnswers = number[];
 type DepthToSearch = number;
@@ -73,14 +72,13 @@ const perft = function (depth: DepthToSearch, b: TBoard): NodeCounts {
 export const main = function (
   depth: DepthToSearch,
   PERFT_RESULTS: ExactPerftAnswers,
-  buildGameRule: (gameRule: TGameRule) => void,
-  plugins?: Plugin[]
+  buildGameRule: (gameRule: TGameRule) => void
 ) {
   const gameRule = new TGameRule();
   buildGameRule(gameRule);
 
   const design = gameRule.buildGameDesign();
-  const initialBoard = design.getInitBoard(plugins);
+  const initialBoard = design.getInitBoard();
 
   console.log(`Enumerate Nodes, depth = ${depth}`);
 

@@ -1,6 +1,4 @@
 import { buildGameRule } from "../../games/international-checkers/international-checkers-dagaz";
-import { promotion } from "../../games/international-checkers/international-checkers-dagaz-promotion";
-import { maximalCapture } from "../../games/international-checkers/maximal-captures-dagaz";
 
 import { main } from "./perft";
 
@@ -10,7 +8,7 @@ import { main } from "./perft";
 const PERFT_RESULTS = [1, 9, 81, 658, 4265, 27117, 167140, 1049442, 6483961, 41022423, 258895763, 1665861398];
 
 for (let i = 1; i <= 8; i++) {
-  main(i, PERFT_RESULTS, buildGameRule, [promotion, maximalCapture]);
+  main(i, PERFT_RESULTS, buildGameRule);
 }
 
 console.log("==========");
