@@ -41,11 +41,11 @@
     "typescript": "^4.9.4"
   },
   "scripts": {
-    "test": "jest",
+		"type-check": "tsc --pretty --noEmit",
+    "test": "npm run type-check && jest",
     "test-esm": "node --experimental-vm-modules node_modules/.bin/jest",
     "test:coverage": "npm run test -- --coverage",
-    "test:coverage-ci": "npm run test -- --coverage --silent --testLocationInResults --ci --json --outputFile=\"report.json\"",
-    "test:type-check": "tsc --pretty --noEmit",
+    "test:coverage-ci": "jest --coverage --silent --testLocationInResults --ci --json --outputFile=\"report.json\"",
     "lint-fix": "prettier --write ./src ./tests ./benchmark ./games  && eslint ./src ./tests ./benchmark ./games --fix",
     "build": "tsc",
     "exec": "node -r esbuild-register",
