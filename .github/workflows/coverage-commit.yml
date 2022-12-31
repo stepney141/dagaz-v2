@@ -19,5 +19,5 @@ jobs:
         node-version: '16.x'
         cache: 'npm'
     - run: npm install
-    - run: npm run test:type-check
-    - run: npm test
+    - run: npm run type-check
+    - run: npm run test:jest
