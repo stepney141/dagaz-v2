@@ -11,7 +11,6 @@ import type {
   Plugin,
   MoveModeID,
   DirectionName,
-  DirectionID,
   LocationName,
   LocationID,
   PlayerName,
@@ -99,7 +98,7 @@ export class TGameRule {
    * A list of rotationally symmetric directions of players.
    * Each index of this array is a numeric id of each player.
    */
-  rotationallySymmetricDirections: DirectionID[][];
+  rotationallySymmetricDirections: DirectionName[][];
 
   turns: { player: PlayerID; modes: number[] }[] | undefined;
 
@@ -163,7 +162,9 @@ export class TGameRule {
   addPlayer(
     ...playerConfig: {
       name: string;
-      symmetry: DirectionID[];
+      symmetry: {
+        [key in DirectionName]: DirectionName;
+      };
     }[]
   ): this {
     for (const { name, symmetry } of playerConfig) {
@@ -171,7 +172,7 @@ export class TGameRule {
       if (this.playerNames.length == 0) {
         this.playerNames.push("opposite");
       }
-      this.rotationallySymmetricDirections[ix] = symmetry;
+      this.rotationallySymmetricDirections[ix] = Object.values(symmetry);
       this.playerNames.push(name);
     }
     return this;

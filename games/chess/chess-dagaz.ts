@@ -105,8 +105,14 @@ export const buildGameRule = function (gameRule: TGameRule) {
       "nw" // 7
     ])
     .addPlayer(
-      { name: "White", symmetry: [1, 0, 4, 6, 2, 7, 3, 5] }, // [e, w, n, sw, s, nw, ne, se]
-      { name: "Black", symmetry: [0, 1, 4, 5, 2, 3, 7, 6] } // [w, e, n, se, s, ne, nw, sw]
+      {
+        name: "White",
+        symmetry: { w: "e", e: "w", s: "n", ne: "sw", n: "s", se: "nw", sw: "ne", nw: "se" }
+      },
+      {
+        name: "Black",
+        symmetry: { w: "w", e: "e", s: "n", ne: "se", n: "s", se: "ne", sw: "nw", nw: "sw" }
+      }
     )
     .addLocation(
       { name: "a8", locationDelta: [0, 1, 8, 0, 0, 9, 0, 0] },

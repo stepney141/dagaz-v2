@@ -61,7 +61,16 @@ export const buildGameRule = function (gameRule: TGameRule) {
       "ne", // 2
       "nw" // 3
     ])
-    .addPlayer({ name: "White", symmetry: [3, 2, 1, 0] }, { name: "Black", symmetry: [3, 2, 1, 0] })
+    .addPlayer(
+      {
+        name: "White",
+        symmetry: { se: "nw", sw: "ne", ne: "sw", nw: "se" }
+      },
+      {
+        name: "Black",
+        symmetry: { se: "nw", sw: "ne", ne: "sw", nw: "se" }
+      }
+    )
     .addLocation(
       { name: "a10", locationDelta: [11, 0, 0, 0] },
       { name: "b10", locationDelta: [11, 9, 0, 0] },

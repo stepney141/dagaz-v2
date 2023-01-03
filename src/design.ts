@@ -69,6 +69,16 @@ export class TDesign {
     this.directionIds = gameRule.directionNames.map((_, index) => index);
     this.locationIds = gameRule.locationNames.map((_, index) => index);
 
+    // convert direction names to numerical ids
+    this.rotationallySymmetricDirections = [];
+    for (const elem of gameRule.rotationallySymmetricDirections) {
+      let dirNames: DirectionName[] | DirectionID[] = elem;
+      if (Array.isArray(elem)) {
+        dirNames = elem.map((dirName) => this.stringToDir(dirName));
+      }
+      this.rotationallySymmetricDirections.push(dirNames as DirectionID[]);
+    }
+
     // convert pieces to internal representation
     this.pieceNames = {};
     for (const [pieceTypeString, pieceConfig] of Object.entries(gameRule.pieces)) {
