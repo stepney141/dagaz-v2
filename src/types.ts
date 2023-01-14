@@ -1,10 +1,16 @@
 import type { DEFAULT_GAME_OPTIONS } from "./game_options";
 import type { TMoveContext } from "./move_context";
+import type { AtoZ, AAtoBZ, OneToNinetynine } from "./utils";
 
-export type DirectionName = string;
+export type PrimitiveNames = {
+  Directions: "N" | "S" | "W" | "E" | "NW" | "NE" | "SW" | "SE";
+  Locations: `${AtoZ | AAtoBZ}${OneToNinetynine}`;
+};
+
+export type DirectionName = PrimitiveNames["Directions"] | "?";
 export type DirectionID = number;
 
-export type LocationName = string;
+export type LocationName = PrimitiveNames["Locations"] | "start" | "?";
 export type LocationID = number;
 
 export type PlayerName = string;

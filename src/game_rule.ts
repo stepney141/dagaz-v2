@@ -46,7 +46,7 @@ export class TGameRule {
    * A list of initial piece locations and piece objects.
    */
   initialGamePosition: {
-    [key in LocationName]: {
+    [key in LocationName]?: {
       player: PlayerName;
       pieceName: PieceName;
     };
@@ -163,7 +163,7 @@ export class TGameRule {
     ...playerConfig: {
       name: string;
       symmetry: {
-        [key in DirectionName]: DirectionName;
+        [key in DirectionName]?: DirectionName;
       };
     }[]
   ): this {

@@ -113,7 +113,7 @@ export class TDesign {
     this.initialGamePosition = [];
     for (const [locName, pieceOnLoc] of Object.entries(gameRule.initialGamePosition)) {
       this.initialGamePosition.push({
-        location: this.stringToLoc(locName),
+        location: this.stringToLoc(locName as LocationName),
         piece: this.createPiece(this.getPieceType(pieceOnLoc.pieceName), this.getPlayerID(pieceOnLoc.player))
       });
     }
