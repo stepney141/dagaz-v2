@@ -8,6 +8,14 @@ type GameGoalStatus = null | 1 | -1 | 0;
 
 let isRecursive = false;
 
+const deadPositions = [
+  "Black King,White King",
+  "Black Bishop,Black King,White King",
+  "Black King,White Bishop,White King",
+  "Black King,Black Knight,White King",
+  "Black King,White King,White Knight"
+];
+
 /**
  * @link https://www.chess.com/terms/draw-chess#dead-position
  */
@@ -18,13 +26,7 @@ const isDeadPosition = (board: TBoard): boolean => {
     .sort()
     .toString();
 
-  if (
-    pieceList == "Black King,White King" ||
-    pieceList == "Black Bishop,Black King,White King" ||
-    pieceList == "Black King,White Bishop,White King" ||
-    pieceList == "Black King,Black Knight,White King" ||
-    pieceList == "Black King,White King,White Knight"
-  ) {
+  if (deadPositions.includes(pieceList)) {
     return true;
   } else {
     return false;
@@ -40,13 +42,12 @@ const isDeadPosition = (board: TBoard): boolean => {
 export const getGoal = {
   name: "getGoal",
   func: function (board: TBoard, player: PlayerID): GameGoalStatus {
-    const design = board.design;
-
-    board.generateMoves(); // search the next ply
-
     if (isDeadPosition(board)) {
       return 0; //draw
     }
+
+    const design = board.design;
+    board.generateMoves();
 
     // checks the game result only if the current player cannot make any legal move
     if (board.legalMoves.length == 0) {
@@ -57,11 +58,8 @@ export const getGoal = {
 
       design.allLocations().forEach((loc) => {
         const piece = board.getPiece(loc);
-        if (piece === null) {
-          return;
-        }
-        if (piece.type == king && piece.player == board.player) {
-          // checks if there is a current player's king on the board
+        // if the current player's king is on the board
+        if (piece?.type == king && piece?.player == board.player) {
           safe = loc;
         }
       });
@@ -122,7 +120,7 @@ export const validateCastlingRights: Plugin = {
 
       // filter pseudo-legal moves
       board.legalMoves.forEach((move) => {
-        let safe: number[] = [];
+        let safe: LocationID[] = [];
 
         if (move.mode == 1) {
           // castling
@@ -131,8 +129,7 @@ export const validateCastlingRights: Plugin = {
           safe = range({ start: Math.min(a, b), stop: Math.max(a, b) + 1 });
 
           for (const action of move.actions) {
-            const piece = action.piece;
-            if (getPieceAttribute(piece, 0) !== null) {
+            if (getPieceAttribute(action.piece, 0) !== null) {
               return;
             }
           }
@@ -142,11 +139,8 @@ export const validateCastlingRights: Plugin = {
         const b = board.makeMove(move);
         design.allLocations().forEach((loc) => {
           const piece = b.getPiece(loc);
-          if (piece === null) {
-            return;
-          }
-          if (piece.type == king && piece.player == board.player) {
-            safe.push(loc); // get the place where the next player's king occupies
+          if (piece?.type == king && piece?.player == board.player) {
+            safe.push(loc); // get the location of the next player's king
           }
         });
 
