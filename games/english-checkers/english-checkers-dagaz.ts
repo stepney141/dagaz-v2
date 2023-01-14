@@ -44,19 +44,19 @@ export const buildGameRule = function (gameRule: TGameRule) {
 
   gameRule
     .addDirection([
-      "ne", // 0
-      "se", // 1
-      "sw", // 2
-      "nw" // 3
+      "NE", // 0
+      "SE", // 1
+      "SW", // 2
+      "NW" // 3
     ])
     .addPlayer(
       {
         name: "Black",
-        symmetry: { ne: "sw", se: "nw", sw: "ne", nw: "se" }
+        symmetry: { NE: "SW", SE: "NW", SW: "NE", NW: "SE" }
       },
       {
         name: "White",
-        symmetry: { ne: "sw", se: "nw", sw: "ne", nw: "se" }
+        symmetry: { NE: "SW", SE: "NW", SW: "NE", NW: "SE" }
       }
     )
     .addLocation(
@@ -138,23 +138,23 @@ export const buildGameRule = function (gameRule: TGameRule) {
   gameRule
     .addPiece({ name: "Man", type: 0, price: 20 })
     .addMove(
-      { pieceType: 0, func: jumpMan, params: ["nw"], mode: 1 },
-      { pieceType: 0, func: jumpMan, params: ["ne"], mode: 1 },
-      { pieceType: 0, func: shiftMan, params: ["nw"], mode: 0 },
-      { pieceType: 0, func: shiftMan, params: ["ne"], mode: 0 }
+      { pieceType: 0, func: jumpMan, params: ["NW"], mode: 1 },
+      { pieceType: 0, func: jumpMan, params: ["NE"], mode: 1 },
+      { pieceType: 0, func: shiftMan, params: ["NW"], mode: 0 },
+      { pieceType: 0, func: shiftMan, params: ["NE"], mode: 0 }
     );
 
   gameRule
     .addPiece({ name: "King", type: 1, price: 40 })
     .addMove(
-      { pieceType: 1, func: jumpKing, params: ["nw"], mode: 1 },
-      { pieceType: 1, func: jumpKing, params: ["ne"], mode: 1 },
-      { pieceType: 1, func: jumpKing, params: ["sw"], mode: 1 },
-      { pieceType: 1, func: jumpKing, params: ["se"], mode: 1 },
-      { pieceType: 1, func: shiftKing, params: ["nw"], mode: 0 },
-      { pieceType: 1, func: shiftKing, params: ["ne"], mode: 0 },
-      { pieceType: 1, func: shiftKing, params: ["sw"], mode: 0 },
-      { pieceType: 1, func: shiftKing, params: ["se"], mode: 0 }
+      { pieceType: 1, func: jumpKing, params: ["NW"], mode: 1 },
+      { pieceType: 1, func: jumpKing, params: ["NE"], mode: 1 },
+      { pieceType: 1, func: jumpKing, params: ["SW"], mode: 1 },
+      { pieceType: 1, func: jumpKing, params: ["SE"], mode: 1 },
+      { pieceType: 1, func: shiftKing, params: ["NW"], mode: 0 },
+      { pieceType: 1, func: shiftKing, params: ["NE"], mode: 0 },
+      { pieceType: 1, func: shiftKing, params: ["SW"], mode: 0 },
+      { pieceType: 1, func: shiftKing, params: ["SE"], mode: 0 }
     );
 
   gameRule.setInitialPieces(

@@ -95,23 +95,23 @@ export const buildGameRule = function (gameRule: TGameRule) {
 
   gameRule
     .addDirection([
-      "w", // 0
-      "e", // 1
-      "s", // 2
-      "ne", // 3
-      "n", // 4
-      "se", // 5
-      "sw", // 6
-      "nw" // 7
+      "W", // 0
+      "E", // 1
+      "S", // 2
+      "NE", // 3
+      "N", // 4
+      "SE", // 5
+      "SW", // 6
+      "NW" // 7
     ])
     .addPlayer(
       {
         name: "White",
-        symmetry: { w: "e", e: "w", s: "n", ne: "sw", n: "s", se: "nw", sw: "ne", nw: "se" }
+        symmetry: { W: "E", E: "W", S: "N", NE: "SW", N: "S", SE: "NW", SW: "NE", NW: "SE" }
       },
       {
         name: "Black",
-        symmetry: { w: "w", e: "e", s: "n", ne: "se", n: "s", se: "ne", sw: "nw", nw: "sw" }
+        symmetry: { W: "W", E: "E", S: "N", NE: "SE", N: "S", SE: "NE", SW: "NW", NW: "SW" }
       }
     )
     .addLocation(
@@ -190,71 +190,71 @@ export const buildGameRule = function (gameRule: TGameRule) {
   gameRule
     .addPiece({ name: "Pawn", type: 0, price: 2 })
     .addMove(
-      { pieceType: 0, func: pawnShift, params: ["n"], mode: 0 },
-      { pieceType: 0, func: pawnJump, params: ["n"], mode: 0 },
-      { pieceType: 0, func: pawnLeap, params: ["nw"], mode: 0 },
-      { pieceType: 0, func: pawnLeap, params: ["ne"], mode: 0 },
-      { pieceType: 0, func: enPassant, params: ["e", "n"], mode: 0 },
-      { pieceType: 0, func: enPassant, params: ["w", "n"], mode: 0 }
+      { pieceType: 0, func: pawnShift, params: ["N"], mode: 0 },
+      { pieceType: 0, func: pawnJump, params: ["N"], mode: 0 },
+      { pieceType: 0, func: pawnLeap, params: ["NW"], mode: 0 },
+      { pieceType: 0, func: pawnLeap, params: ["NE"], mode: 0 },
+      { pieceType: 0, func: enPassant, params: ["E", "N"], mode: 0 },
+      { pieceType: 0, func: enPassant, params: ["W", "N"], mode: 0 }
     );
 
   gameRule
     .addPiece({ name: "Rook", type: 1, price: 10 })
     .addMove(
-      { pieceType: 1, func: slide, params: ["n"], mode: 0 },
-      { pieceType: 1, func: slide, params: ["s"], mode: 0 },
-      { pieceType: 1, func: slide, params: ["w"], mode: 0 },
-      { pieceType: 1, func: slide, params: ["e"], mode: 0 }
+      { pieceType: 1, func: slide, params: ["N"], mode: 0 },
+      { pieceType: 1, func: slide, params: ["S"], mode: 0 },
+      { pieceType: 1, func: slide, params: ["W"], mode: 0 },
+      { pieceType: 1, func: slide, params: ["E"], mode: 0 }
     );
 
   gameRule
     .addPiece({ name: "Knight", type: 2, price: 6 })
     .addMove(
-      { pieceType: 2, func: jump, params: ["n", "nw"], mode: 0 },
-      { pieceType: 2, func: jump, params: ["n", "ne"], mode: 0 },
-      { pieceType: 2, func: jump, params: ["s", "sw"], mode: 0 },
-      { pieceType: 2, func: jump, params: ["s", "se"], mode: 0 },
-      { pieceType: 2, func: jump, params: ["w", "nw"], mode: 0 },
-      { pieceType: 2, func: jump, params: ["w", "sw"], mode: 0 },
-      { pieceType: 2, func: jump, params: ["e", "ne"], mode: 0 },
-      { pieceType: 2, func: jump, params: ["e", "se"], mode: 0 }
+      { pieceType: 2, func: jump, params: ["N", "NW"], mode: 0 },
+      { pieceType: 2, func: jump, params: ["N", "NE"], mode: 0 },
+      { pieceType: 2, func: jump, params: ["S", "SW"], mode: 0 },
+      { pieceType: 2, func: jump, params: ["S", "SE"], mode: 0 },
+      { pieceType: 2, func: jump, params: ["W", "NW"], mode: 0 },
+      { pieceType: 2, func: jump, params: ["W", "SW"], mode: 0 },
+      { pieceType: 2, func: jump, params: ["E", "NE"], mode: 0 },
+      { pieceType: 2, func: jump, params: ["E", "SE"], mode: 0 }
     );
 
   gameRule
     .addPiece({ name: "Bishop", type: 3, price: 6 })
     .addMove(
-      { pieceType: 3, func: slide, params: ["nw"], mode: 0 },
-      { pieceType: 3, func: slide, params: ["sw"], mode: 0 },
-      { pieceType: 3, func: slide, params: ["ne"], mode: 0 },
-      { pieceType: 3, func: slide, params: ["se"], mode: 0 }
+      { pieceType: 3, func: slide, params: ["NW"], mode: 0 },
+      { pieceType: 3, func: slide, params: ["SW"], mode: 0 },
+      { pieceType: 3, func: slide, params: ["NE"], mode: 0 },
+      { pieceType: 3, func: slide, params: ["SE"], mode: 0 }
     );
 
   gameRule
     .addPiece({ name: "Queen", type: 4, price: 18 })
     .addMove(
-      { pieceType: 4, func: slide, params: ["n"], mode: 0 },
-      { pieceType: 4, func: slide, params: ["s"], mode: 0 },
-      { pieceType: 4, func: slide, params: ["w"], mode: 0 },
-      { pieceType: 4, func: slide, params: ["e"], mode: 0 },
-      { pieceType: 4, func: slide, params: ["nw"], mode: 0 },
-      { pieceType: 4, func: slide, params: ["sw"], mode: 0 },
-      { pieceType: 4, func: slide, params: ["ne"], mode: 0 },
-      { pieceType: 4, func: slide, params: ["se"], mode: 0 }
+      { pieceType: 4, func: slide, params: ["N"], mode: 0 },
+      { pieceType: 4, func: slide, params: ["S"], mode: 0 },
+      { pieceType: 4, func: slide, params: ["W"], mode: 0 },
+      { pieceType: 4, func: slide, params: ["E"], mode: 0 },
+      { pieceType: 4, func: slide, params: ["NW"], mode: 0 },
+      { pieceType: 4, func: slide, params: ["SW"], mode: 0 },
+      { pieceType: 4, func: slide, params: ["NE"], mode: 0 },
+      { pieceType: 4, func: slide, params: ["SE"], mode: 0 }
     );
 
   gameRule
     .addPiece({ name: "King", type: 5, price: 1000 })
     .addMove(
-      { pieceType: 5, func: step, params: ["n"], mode: 0 },
-      { pieceType: 5, func: step, params: ["s"], mode: 0 },
-      { pieceType: 5, func: step, params: ["w"], mode: 0 },
-      { pieceType: 5, func: step, params: ["e"], mode: 0 },
-      { pieceType: 5, func: step, params: ["nw"], mode: 0 },
-      { pieceType: 5, func: step, params: ["sw"], mode: 0 },
-      { pieceType: 5, func: step, params: ["ne"], mode: 0 },
-      { pieceType: 5, func: step, params: ["se"], mode: 0 },
-      { pieceType: 5, func: O_O, params: ["e", "w"], mode: 1 },
-      { pieceType: 5, func: O_O_O, params: ["w", "e"], mode: 1 }
+      { pieceType: 5, func: step, params: ["N"], mode: 0 },
+      { pieceType: 5, func: step, params: ["S"], mode: 0 },
+      { pieceType: 5, func: step, params: ["W"], mode: 0 },
+      { pieceType: 5, func: step, params: ["E"], mode: 0 },
+      { pieceType: 5, func: step, params: ["NW"], mode: 0 },
+      { pieceType: 5, func: step, params: ["SW"], mode: 0 },
+      { pieceType: 5, func: step, params: ["NE"], mode: 0 },
+      { pieceType: 5, func: step, params: ["SE"], mode: 0 },
+      { pieceType: 5, func: O_O, params: ["E", "W"], mode: 1 },
+      { pieceType: 5, func: O_O_O, params: ["W", "E"], mode: 1 }
     );
 
   gameRule.setInitialPieces(
